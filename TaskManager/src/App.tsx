@@ -1,7 +1,9 @@
+import "./App.css";
+
 function App() {
   return (
-    <div className="flex justify-center">
-      <h1 className="text-4xl">Hello React</h1>
+    <div className="flex justify-center bg-saeed">
+      <h1 className="text-red-700">Hello React</h1>
     </div>
   );
 }
