@@ -1,10 +1,12 @@
 import AuthButtons from "./Components/AuthButton";
+import AuthLayout from "./Layouts/AuthLayout";
 
 function App() {
   return (
-    <div className="flex justify-center">
-      <AuthButtons value="ورود"/>
-    </div>
+    <>
+      
+      <AuthLayout />
+    </>
   );
 }
 
