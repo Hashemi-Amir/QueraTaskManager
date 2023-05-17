@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* 
+@font-face {
+  font-family: Vazir;
+  font-weight: normal;
+  font-style: normal;
+  src: local("Vazir"),
+    url("./assets/fonts/Vazirmatn-Regular.woff2") format("woff");
+}
+@font-face {
+  font-family: Vazir;
+  font-weight: 300;
+  font-style: normal;
+  src: local("Vazir"),
+    url("./assets/fonts/Vazirmatn-Light.woff2") format("woff");
+}
+@font-face {
+  font-family: Vazir;
+  font-weight: 500;
+  font-style: normal;
+  src: local("Vazir"),
+    url("./assets/fonts/Vazirmatn-Medium.woff2") format("woff");
+}
+@font-face {
+  font-family: Vazir;
+  font-weight: bold;
+  font-style: normal;
+  src: local("Vazir"), url("./assets/fonts/Vazirmatn-Bold.woff2") format("woff");
+} */
+
+@import url("https://fonts.cdnfonts.com/css/dana");
+#root {
+  font-family: "dana" !important;
+}
