@@ -1,6 +1,6 @@
 import "./App.css";
 import Button from "./components/ui/Button";
-import Card from "./components/ui/Cart";
+import Card from "./components/ui/Card";
 import CheckBoxComponent from "./components/ui/CheckBoxComponent";
 import Input from "./components/ui/Input";
 import AuthLayout from "./layout/AuthLayout";
@@ -8,7 +8,7 @@ import AuthLayout from "./layout/AuthLayout";
 function App() {
   return (
     <AuthLayout>
-      <Card>
+      <Card cardTitle={"ثبت نام در کوئرا تسک منیجر"}>
         <Input
           label="نام"
           type="text"
@@ -17,7 +17,7 @@ function App() {
           autoComplete="name"
           required
         />
-          <Input
+        <Input
           label="ایمیل"
           type="email"
           id="email"
@@ -34,7 +34,7 @@ function App() {
           autoComplete="password"
           required
         />
-      
+
         <CheckBoxComponent
           id={"checkbox"}
           label="قوانین و مقررات را می‌پذیرم."
