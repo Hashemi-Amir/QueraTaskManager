@@ -1,12 +1,11 @@
 import AuthBgSvg from "../assets/rect-bg.png";
 
 
-// type layout = {
-//   children: React.ReactNode;
-// };
+type layout = {
+  children: React.ReactNode;
+};
 
-// props: layout
-const AuthLayout = () => {
+const AuthLayout = (props: layout) => {
 
     const authLayoutWrapper = 'w-screen h-screen flex flex-col justify-center items-center';
     const authLayoutHeader = 'w-5/6 h-13 absolute top-20 flex justify-between items-center';
@@ -20,7 +19,7 @@ const AuthLayout = () => {
 
   return (
     <div className={authLayoutWrapper}  >
-      {/* {props.children} */}
+      {props.children}
       <div className={authLayoutHeader} >
         <div>
           <h2 className={authLayoutHeaderTitle}>
@@ -37,11 +36,10 @@ const AuthLayout = () => {
           </button>
         </div>
       </div>
-
-        <div className="w-screen h-1/2 absolute top-1/2 -z-10" >
-            <img className="w-full h-full" src={AuthBgSvg}  />
-            {/* <div className="w-screen h-[360px]" style={{clipPath : 'polygon(0 42%, 100% 0, 100% 100%, 0 100%)' , background: 'linear-gradient(269.55deg, #06846F 0.35%, #54BEE8 103.4%)'}}></div> */}
-        </div>
+      <div className="w-screen h-1/2 absolute top-1/2 -z-10" >
+          <img className="w-full h-full" src={AuthBgSvg}  />
+          {/* <div className="w-screen h-[360px]" style={{clipPath : 'polygon(0 42%, 100% 0, 100% 100%, 0 100%)' , background: 'linear-gradient(269.55deg, #06846F 0.35%, #54BEE8 103.4%)'}}></div> */}
+      </div>
     </div>
   );
 };
