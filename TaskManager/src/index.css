@@ -2,6 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-.my-custom-bg-class{
-    background-image: url('./assets/rect-bg.svg');
-  }

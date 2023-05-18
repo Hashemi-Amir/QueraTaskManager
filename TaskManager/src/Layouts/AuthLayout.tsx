@@ -1,23 +1,49 @@
-import AuthButtons from "../Components/AuthButton";
-import AuthBgSvg from '../assets/rect-bg.png'
+import AuthBgSvg from "../assets/rect-bg.png";
 
+
+// type layout = {
+//   children: React.ReactNode;
+// };
+
+// props: layout
 const AuthLayout = () => {
-    return (
-        <div className={`w-screen h-screen  flex flex-col items-center bg-custom-image bg-no-repeat bg-cover bg-bottom-1`} style={{backgroundImage : `url(${AuthBgSvg})`}} >
-            <div className="w-[1280px] h-[51px] absolute top-[80px] flex flex-row-reverse justify-between items-center" >
-                <div>
-                    <h2 className="text-[32px] font-extrabold leading-[51px] bg-clip-text text-transparent bg-gradient-to-r from-[#118C80] to-[#4AB7D8]">کوئرا تسک منیجر</h2>
-                </div>
-                <div className="w-[218px] h-[40px] flex justify-end gap-[7px] items-center text-[16px] text-black font-normal leading-[24px]">
-                   
-                    <button className="w-[95px] h-[40px] bg-[#208D8E] p-[10px] flex justify-center rounded-[6px] items-center gap-[10px] font-bold text-[14px] leading-[22px] text-white">ثبت نام</button>
-                    <p>ثبت نام نکرده ای؟</p>
-                </div>
-            </div>
-            <AuthButtons value="ورود" />
 
+    const authLayoutWrapper = 'w-screen h-screen flex flex-col justify-center items-center';
+    const authLayoutHeader = 'w-5/6 h-13 absolute top-20 flex justify-between items-center';
+    const authLayoutHeaderTitle = 'text-3xl font-extrabold leading-10 bg-clip-text text-transparent bg-gradient-to-r from-green-16 to-blue-66';
+    const authLayoutHeaderRegisterOffer = 'w-56 h-10 flex justify-start gap-2 items-center text-base text-black font-normal leading-6';
+    const authLayoutHeaderRegisterOfferBtn = "w-24 h-10 bg-green-15 p-2.5 flex justify-center rounded-md items-center gap-2.5 font-bold text-sm leading-5 text-white";
+
+    
+    
+
+
+  return (
+    <div className={authLayoutWrapper}  >
+      {/* {props.children} */}
+      <div className={authLayoutHeader} >
+        <div>
+          <h2 className={authLayoutHeaderTitle}>
+            کوئرا تسک منیجر
+          </h2>
         </div>
-    );
+
+        <div className={authLayoutHeaderRegisterOffer}>
+
+          <p>ثبت نام نکرده ای؟</p>
+
+          <button className={authLayoutHeaderRegisterOfferBtn}>
+            ثبت نام
+          </button>
+        </div>
+      </div>
+
+        <div className="w-screen h-1/2 absolute top-1/2 -z-10" >
+            <img className="w-full h-full" src={AuthBgSvg}  />
+            {/* <div className="w-screen h-[360px]" style={{clipPath : 'polygon(0 42%, 100% 0, 100% 100%, 0 100%)' , background: 'linear-gradient(269.55deg, #06846F 0.35%, #54BEE8 103.4%)'}}></div> */}
+        </div>
+    </div>
+  );
 };
 
 export default AuthLayout;
