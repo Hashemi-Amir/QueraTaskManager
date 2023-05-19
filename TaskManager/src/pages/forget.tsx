@@ -3,7 +3,7 @@ import Card from "../components/ui/Card";
 import Input from "../components/ui/Input";
 import AuthLayout from "../layout/AuthLayout";
 
-const ForgetPassword = () => {
+const Forget = () => {
   return (
     <AuthLayout BtnValue="ورود">
       <Card cardTitle="فراموشی رمز عبور">
@@ -14,4 +14,4 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default Forget;
