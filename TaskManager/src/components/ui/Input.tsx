@@ -3,7 +3,7 @@ type InputProps = { label: string } & React.ComponentProps<"input">;
 function Input({ label, ...rest }: InputProps) {
   return (
     <div>
-      <label htmlFor={rest.id} className=" text-sm font-normal text-black">
+      <label htmlFor={rest.id} className=" text-sm  font-normal text-black">
         {label}
       </label>
       <div className="mt-2">
