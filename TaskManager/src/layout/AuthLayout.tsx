@@ -1,11 +1,28 @@
 import { ReactNode } from "react";
 import Button from "../components/ui/Button";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type layout = {
   children: ReactNode;
   BtnValue: string;
 };
+
 const AuthLayout = ({ children, BtnValue }: layout) => {
+  const Navigate = useNavigate();
+  const Location = useLocation();
+
+  // Getting the right message to show to the user based on the current route
+  const signUpMessage =
+    Location.pathname === "/login" || Location.pathname === "/"
+      ? "ثبت نام نکرده ای؟"
+      : "قبلا ثبت نام کرده‌ای؟";
+
+  // Getting the right route to navigate based on the current route
+  const NavigateTo =
+    Location.pathname === "/login" || Location.pathname === "/"
+      ? "/register"
+      : "/login";
+
   const centerFlex = "flex items-center";
 
   return (
@@ -21,9 +38,9 @@ const AuthLayout = ({ children, BtnValue }: layout) => {
         </div>
 
         <div className="w-56 h-10 flex justify-start gap-2 items-center text-base text-black font-normal leading-6">
-          <p className="flex-shrink-0">قبلا ثبت نام کرده‌ای؟</p>
+          <p className="flex-shrink-0">{signUpMessage}</p>
 
-          <Button value={BtnValue} />
+          <Button onClick={() => Navigate(NavigateTo)} value={BtnValue} />
         </div>
       </div>
       <div className="w-full h-2/3 absolute  top-1/3 -z-10">
