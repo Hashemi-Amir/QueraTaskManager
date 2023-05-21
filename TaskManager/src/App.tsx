@@ -1,9 +1,7 @@
-function App() {
-  return (
-    <div className="flex justify-center">
-      <h1 className="text-4xl">Hello React</h1>
-    </div>
-  );
-}
+import Register from "./pages/Register";
+
+const App = () => {
+  return <Register />;
+};
 
 export default App;
