@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Card from "../components/ui/Card";
 import Input from "../components/ui/Input";
 import AuthLayout from "../layout/AuthLayout";
@@ -25,15 +26,20 @@ const Login = () => {
             autoComplete="password"
             required
           />
-          <a className="text-green-15 font-semibold text-xs md:text-sm ">
+          <Link
+            to={"/forgot"}
+            className="text-green-15 font-semibold text-xs md:text-sm "
+          >
             رمز عبور را فراموش کرده ای؟
-          </a>
+          </Link>
         </div>
 
         <Button value="ورود" />
         <div className="text-center text-base">
           <span>ثبت نام نکرده ای؟</span>
-          <a className="font-bold text-green-15 mr-2">ثبت نام</a>
+          <Link to={"/register"} className="font-bold text-green-15 mr-2">
+            ثبت نام
+          </Link>
         </div>
       </Card>
     </AuthLayout>
