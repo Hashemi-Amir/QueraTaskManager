@@ -3,7 +3,7 @@ export type FieldValues = Record<string, any>;
 type InputProps = {
   label: string;
   id: string;
-  className: string;
+  className?: string;
   register: UseFormRegister<FieldValues>;
 } & React.ComponentProps<"input">;
 

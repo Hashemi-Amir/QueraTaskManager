@@ -1,12 +1,12 @@
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
-import CheckBox from "../components/ui/CheckBox";
 import Input from "../components/ui/Input";
 import AuthLayout from "../layout/AuthLayout";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-export type FieldValues = Record<string, any>;
+export type FieldValues = Record<string, unknown>;
 import { schema } from "../components/Validation";
+import CheckBox from "../components/ui/CheckBox";
 
 const Register = () => {
 
@@ -35,10 +35,10 @@ const Register = () => {
             id="fullName"
             name="fullName"
             autoComplete="name"
-            className={errors.fullName?.message && errorInputStyle}
+            className={errors.fullName?.message && errorInputStyle }
             register={register}
           />
-          <p className={errorMsgStyle}>{errors.fullName?.message}</p>
+          {errors.fullName &&  (<p className={errorMsgStyle}>{errors.fullName?.message }</p>)}
           <Input
             label="ایمیل"
             type="email"
