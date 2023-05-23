@@ -1,5 +1,5 @@
 import { UseFormRegister } from "react-hook-form";
-export type FieldValues = Record<string, any>;
+export type FieldValues = Record<string, unknown>;
 type checkbox = {
   label: string;
   id: string;

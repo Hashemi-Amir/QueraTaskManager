@@ -27,7 +27,7 @@ const Register = () => {
 
   return (
     <AuthLayout BtnValue="ورود">
-      <Card cardTitle="ثبت‌نام در کوئرا تسک منیجر ">
+      <Card cardTitle="ثبت‌نام در کوئرا تسک منیجر " className="w-full max-w-md">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             label="نام کامل"
