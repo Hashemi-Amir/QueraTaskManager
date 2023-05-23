@@ -5,7 +5,7 @@ import Input from "../components/ui/Input";
 import AuthLayout from "../layout/AuthLayout";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-export type FieldValues = Record<string, any>;
+export type FieldValues = Record<string, unknown>;
 import { schema } from "../components/Validation";
 
 const Register = () => {
@@ -27,7 +27,7 @@ const Register = () => {
 
   return (
     <AuthLayout BtnValue="ورود">
-      <Card cardTitle="ثبت‌نام در کوئرا تسک منیجر ">
+      <Card cardTitle="ثبت‌نام در کوئرا تسک منیجر " className="w-full max-w-md">
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             label="نام کامل"

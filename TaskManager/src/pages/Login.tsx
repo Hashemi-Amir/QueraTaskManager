@@ -6,7 +6,7 @@ import Button from "./../components/ui/Button";
 import { schema } from "../components/Validation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-export type FieldValues = Record<string, any>;
+export type FieldValues = Record<string, unknown>;
 
 const Login = () => {
   const {
