@@ -6,7 +6,7 @@ import Button from "./../components/ui/Button";
 import { schema } from "../components/Validation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-export type FieldValues = Record<string, any>;
+export type FieldValues = Record<string, unknown>;
 
 const Login = () => {
   const {
@@ -39,16 +39,16 @@ const Login = () => {
           />
           <p className={errorMsgStyle}>{errors.email?.message}</p>
 
-            <Input
-              label="رمز عبور"
-              name="password"
-              id="password"
-              type="password"
-              autoComplete="password"
-              className={errors.password?.message && errorInputStyle}
-              register={register}
-            />
-            <p className={errorMsgStyle}>{errors.password?.message}</p>
+          <Input
+            label="رمز عبور"
+            name="password"
+            id="password"
+            type="password"
+            autoComplete="password"
+            className={errors.password?.message && errorInputStyle}
+            register={register}
+          />
+          <p className={errorMsgStyle}>{errors.password?.message}</p>
 
           <div className="mb-7 mt-5">
             <Link
