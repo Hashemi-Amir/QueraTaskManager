@@ -1,9 +1,9 @@
 import { UseFormRegister } from "react-hook-form";
-export type FieldValues = Record<string, any>;
+export type FieldValues = Record<string, unknown>;
 type InputProps = {
   label: string;
   id: string;
-  className: string;
+  className?: string;
   register: UseFormRegister<FieldValues>;
 } & React.ComponentProps<"input">;
 
