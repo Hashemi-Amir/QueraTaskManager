@@ -9,7 +9,6 @@ export type FieldValues = Record<string, unknown>;
 import { schema } from "../components/Validation";
 
 const Register = () => {
-
   const {
     register,
     handleSubmit,
