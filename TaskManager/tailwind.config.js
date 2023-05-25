@@ -20,5 +20,9 @@ export default {
       'dana': ['dana', 'sans-serif']
     },
     plugins: [],
+
+  
   }
+  
 }
+
