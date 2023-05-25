@@ -2,11 +2,13 @@
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  plugins: [require('tailwind-scrollbar')({ nocompatible: true })],
   theme: {
     extend: {
       colors: {
         transparent: 'transparent',
         current: 'currentColor',
+
 
         "EEDFF6": "#EEDFF6", "C3B7F2": "#C3B7F2", "DE88FD": "#DE88FD", "9286EA": "#9286EA", "C074D1": "#C074D1",
         "BFFDE3": "#BFFDE3", "78C6B0": "#78C6B0", "84C6A1": "#84C6A1", "71FDA9": "#71FDA9", "80DC69": "#80DC69", "76BC86": "#76BC86", "80C959": "#80C959", "43BB0B": "#43BB0B", "208D8E": "#208D8E", "118C80": '#118C80',
@@ -19,6 +21,6 @@ export default {
     fontFamily: {
       'dana': ['dana', 'sans-serif']
     },
-    plugins: [],
+
   }
 }
