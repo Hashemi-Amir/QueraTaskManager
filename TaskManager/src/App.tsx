@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Reset from "./pages/Reset";
 import Forgot from "./pages/Forgot";
 import PageNotFound from "./pages/PageNotFound";
+import CalendarComp from "./components/ui/CalendarComp";
 function App() {
   return (
     <Routes>
@@ -12,6 +13,7 @@ function App() {
       <Route path="register" element={<Register />} />
       <Route path="reset" element={<Reset />} />
       <Route path="forgot" element={<Forgot />} />
+      <Route path="calendarcomp" element={<CalendarComp />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
