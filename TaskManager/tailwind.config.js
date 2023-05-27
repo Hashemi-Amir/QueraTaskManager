@@ -3,6 +3,8 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   plugins: [require('tailwind-scrollbar')({ nocompatible: true })],
+  plugins: [require("daisyui")],
+  daisyui: { themes: false, rtl: true },
   theme: {
     extend: {
       colors: {

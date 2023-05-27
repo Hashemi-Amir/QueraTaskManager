@@ -1,40 +1,24 @@
-import { useState } from "react";
+type SpaceMenuProps = {
+  workSpaces: string[];
+};
 
-import { BsChevronDown, BsChevronUp } from "react-icons/bs";
-
-const SpaceMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  console.log(isOpen);
-
+const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
+  // rounded-t-sm rounded-b-none
   return (
-    <div className="relative">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className=" flex justify-between items-center w-full h-9 mt-8 pl-2 font-semibold "
+    <select className="p-2  bg-white outline-none focus:ring-1 focus:ring-208D8E  rounded-md mt-7 w-full  font-semibold  ">
+      <option
+        disabled
+        selected
+        className=" bg-208D8E text-323232 font-semibold"
       >
         ورک اسپیس ها
-        {isOpen ? <BsChevronUp /> : <BsChevronDown />}
-      </button>
-      {isOpen && (
-        <div className="absolute w-full max-h-32 overflow-auto rounded-md border border-D3D3D3  list-none shadow-lg bg-white scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full">
-          <li className="p-1 text-sm hover:bg-F0F1F3 cursor-pointer ">
-            کارهای شخصی
-          </li>
-          <li className="p-1 text-sm hover:bg-F0F1F3 cursor-pointer">
-            درس مدیریت پروژه
-          </li>
-          <li className="p-1 text-sm hover:bg-F0F1F3 cursor-pointer">
-            درس کامپایلر
-          </li>
-          <li className="p-1 text-sm hover:bg-F0F1F3 cursor-pointer">
-            کارهای شخصی
-          </li>
-          <li className="p-1 text-sm hover:bg-F0F1F3 cursor-pointer">
-            کارهای شخصی
-          </li>
-        </div>
-      )}
-    </div>
+      </option>
+      {workSpaces.map((space) => (
+        <option className="font-semibold bg-208D8E hover:text-white ">
+          {space}
+        </option>
+      ))}
+    </select>
   );
 };
 

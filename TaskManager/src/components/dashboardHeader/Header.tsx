@@ -16,10 +16,10 @@ const Header = ({ projectName }: HeaderProps) => {
   let date = false;
 
   return (
-    <div className="h-40 pt-12">
+    <div className="h-[19vh] pt-11">
       <div className="flex items-center justify-between border-b">
-        <div className="flex items-center py-4 ">
-          <span className="text-xl font-semibold pl-4 border-l-2 border-l-999999">
+        <div className="flex items-center py-4 divide-x-2">
+          <span className="text-xl font-semibold pl-4 border-l-2 border-l-999999 ">
             {projectName}
           </span>
 
@@ -35,9 +35,10 @@ const Header = ({ projectName }: HeaderProps) => {
         </div>
         <span>اشتراک</span>
       </div>
-      <div className="flex items-center gap-4 border-b border-b-AAAAAA divide-x-2">
-        <SearchInput placeHolder="جستجو بین تسک ها" />
-
+      <div className="flex items-center py-4 gap-4 border-b ">
+        <span className="border-l-2 border-l-999999 pl-4">
+          <SearchInput placeHolder="جستجو بین تسک ها" />
+        </span>
         {date ? <Date /> : <Filter filter="وضعیت" />}
       </div>
     </div>
