@@ -4,6 +4,10 @@ import Register from "./pages/Register";
 import Reset from "./pages/Reset";
 import Forgot from "./pages/Forgot";
 import PageNotFound from "./pages/PageNotFound";
+import PersonalInfo from "./pages/PersonalInfo";
+import AccountInfo from "./pages/AccountInfo";
+import ProfileSettings from "./pages/ProfileSettings";
+import TaskInfo from "./components/TaskInformation/TaskInfo";
 function App() {
   return (
     <Routes>
@@ -13,6 +17,9 @@ function App() {
       <Route path="reset" element={<Reset />} />
       <Route path="forgot" element={<Forgot />} />
       <Route path="*" element={<PageNotFound />} />
+      <Route path="personalinfo" element={<PersonalInfo />} />
+      <Route path="accountinfo" element={<AccountInfo />} />
+      <Route path="profsettings" element={<ProfileSettings />} />
     </Routes>
   );
 }
