@@ -3,18 +3,24 @@ import {AiOutlineClose} from 'react-icons/ai'
 import {FiLink ,FiFlag ,FiUserPlus , FiEye} from 'react-icons/fi'
 import {BsCalendar3 , BsTags} from 'react-icons/bs'
 import Button from "../../ui/Button";
+import { createPortal } from "react-dom";
+import QuckCalendar from "../Calendar/QuckCalendar";
+import { useState } from "react";
+
 
 
 const AddNewTask = () => {
+    const [calendarModal , setCalendarModal] = useState(false)
     const listOfIcons = 'w-12 h-12 text-xl text-[#C1C1C1] rounded-full border-2 border-dashed flex justify-center items-center cursor-pointer'
+    
     return (
         <>
             {/* The button to open modal */}
-            <label htmlFor="my-modal-5" className="btn">open modal</label>
-            <input type="checkbox" id="my-modal-5" className="modal-toggle" />
+            {/* <label htmlFor="my-modal-5" className="btn">open modal</label>
+            <input type="checkbox" id="my-modal-5" className="modal-toggle" /> */}
 
-            <div className="modal bg-transparent">
-                <div className="modal-box w-11/12 max-w-5xl py-9 px-11 rounded-2xl shadow-xl">
+            <div className="modal opacity-100 visible z-20 pointer-events-auto" >
+                <div className="modal-box opacity-100 z-30 w-11/12 max-w-5xl py-9 px-11 rounded-2xl shadow-xl">
 
                     <form className="flex flex-col">
                         {/* task header */}
@@ -86,15 +92,15 @@ const AddNewTask = () => {
                                     <FiFlag />
                                 </li>
 
-                                <li className={listOfIcons}>
-                                    <BsCalendar3 />
+                                <li className={listOfIcons} onClick={() => setCalendarModal(true)}>
+                                   <BsCalendar3 /> 
                                 </li>
 
                                 <li className={listOfIcons}>
                                     <BsTags />
                                 </li>
 
-                                <li className={`${listOfIcons} border-none relative text-5xl`}>
+                                <li className={`w-12 h-12 text-[#C1C1C1] rounded-full border-2 flex justify-center items-center cursor-pointer border-none relative text-6xl`}>
                                     <FiEye />
                                     <span className="h-6 w-6 rounded-full -top-2 right-0 flex justify-center items-center absolute text-sm bg-4AB7D8 text-black">۲</span>
                                 </li>
@@ -109,6 +115,11 @@ const AddNewTask = () => {
                     </form> 
 
                 </div>
+
+                {calendarModal && createPortal(
+                    <QuckCalendar setCalendarModal={setCalendarModal} />,
+                    document.body
+                )}
             </div>  
         </>
     );
