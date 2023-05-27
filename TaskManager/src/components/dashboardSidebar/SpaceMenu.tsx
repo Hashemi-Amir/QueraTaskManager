@@ -3,7 +3,6 @@ type SpaceMenuProps = {
 };
 
 const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
-  // rounded-t-sm rounded-b-none
   return (
     <select className="p-2  bg-white outline-none focus:ring-1 focus:ring-208D8E  rounded-md mt-7 w-full  font-semibold  ">
       <option
