@@ -18,10 +18,10 @@ const Comment = () => {
     // setCursorPosition(message.length + emoji.length);
   };
 
-  // useEffect(() => {
-  //   // textAreRef.current!.selectionEnd = cursorPosition;
-  //   if (!isCommentOpen) setShowEmojis(false);
-  // }, [isCommentOpen]);
+  useEffect(() => {
+    // textAreRef.current!.selectionEnd = cursorPosition;
+    if (!isCommentOpen) setShowEmojis(false);
+  }, [isCommentOpen]);
 
   const handleShowEmojis = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
@@ -48,7 +48,9 @@ const Comment = () => {
     >
       <form
         onFocus={() => setIsCommentOpen(true)}
-        onBlur={() => setIsCommentOpen(false)}
+        onBlur={() => {
+          if (!showEmojis) setIsCommentOpen(false);
+        }}
         className="h-full"
       >
         <textarea

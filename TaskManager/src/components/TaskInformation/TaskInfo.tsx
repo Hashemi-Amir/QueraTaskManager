@@ -147,7 +147,7 @@ const TaskInfo = () => {
                   name="editTask"
                   id=""
                   placeholder="تسک خود را اینجا ویرایش کنید"
-                  className="w-full outline-none resize-none text-black text-base p-4 min-h-[100px] focus:min-h-[200px] rounded-sm hover:ring-[1px] hover:ring-C1C1C1 focus:ring-[1px] focus:ring-C1C1C1 focus:shadow-inner transition-all  scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white scrollbar-corner-transparent"
+                  className="w-full outline-none resize-none text-black text-base p-4 min-h-[100px] focus:min-h-[200px] rounded-sm hover:ring-[1px] hover:ring-C1C1C1 focus:ring-[1px] focus:ring-C1C1C1 focus:shadow-inner transition-all  scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white scrollbar-corner-transparent "
                 ></textarea>
               </div>
               {/* Attachments */}
