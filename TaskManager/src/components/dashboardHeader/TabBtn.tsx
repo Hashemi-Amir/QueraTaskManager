@@ -4,7 +4,7 @@ type TabBtnProps = {
 };
 const TabBtn = ({ title, icon }: TabBtnProps) => {
   return (
-    <button className="px-4 flex items-center justify-center gap-2 font-medium text-323232 border-l-2 border-l-999999">
+    <button className="px-4 flex items-center justify-center gap-2 font-medium text-323232 ">
       {icon}
       {title}
     </button>

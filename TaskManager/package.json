@@ -20,13 +20,14 @@
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "daisyui": "^2.51.6",
-    "fullcalendar": "^5.11.5",
+    "emoji-picker-react": "^4.4.9",
     "react": "^18.2.0",
     "react-collapse": "^5.1.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.11.1",
+    "tailwind-scrollbar": "^3.0.4",
     "yup": "^1.1.1"
   },
   "devDependencies": {

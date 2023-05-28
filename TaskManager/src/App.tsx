@@ -4,8 +4,11 @@ import Register from "./pages/Register";
 import Reset from "./pages/Reset";
 import Forgot from "./pages/Forgot";
 import PageNotFound from "./pages/PageNotFound";
+import PersonalInfo from "./pages/PersonalInfo";
+import AccountInfo from "./pages/AccountInfo";
+import ProfileSettings from "./pages/ProfileSettings";
+import Dashboard from "./layout/Dashboard";
 import Calendar from "./components/dashboardCalendar/Calendar";
-import Dashboard from "./pages/Dashboard";
 import ListView from "./components/ui/ListView";
 function App() {
   return (
@@ -18,6 +21,9 @@ function App() {
       <Route path="calendar" element={<Calendar />} />
       <Route path="listview" element={<ListView />} />
       <Route path="*" element={<PageNotFound />} />
+      <Route path="personalinfo" element={<PersonalInfo />} />
+      <Route path="accountinfo" element={<AccountInfo />} />
+      <Route path="profsettings" element={<ProfileSettings />} />
     </Routes>
   );
 }
