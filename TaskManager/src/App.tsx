@@ -7,11 +7,11 @@ import PageNotFound from "./pages/PageNotFound";
 import PersonalInfo from "./pages/PersonalInfo";
 import AccountInfo from "./pages/AccountInfo";
 import ProfileSettings from "./pages/ProfileSettings";
-import TaskInfo from "./components/TaskInformation/TaskInfo";
+import Dashboard from "./pages/Dashboard";
 function App() {
   return (
     <Routes>
-      <Route index path="/" element={<Login />} />
+      <Route index path="/" element={<Dashboard />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="reset" element={<Reset />} />

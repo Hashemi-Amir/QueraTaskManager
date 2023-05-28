@@ -39,16 +39,16 @@ const Login = () => {
           />
           <p className={errorMsgStyle}>{errors.email?.message}</p>
 
-            <Input
-              label="رمز عبور"
-              name="password"
-              id="password"
-              type="password"
-              autoComplete="password"
-              className={errors.password?.message && errorInputStyle}
-              register={register}
-            />
-            <p className={errorMsgStyle}>{errors.password?.message}</p>
+          <Input
+            label="رمز عبور"
+            name="password"
+            id="password"
+            type="password"
+            autoComplete="password"
+            className={errors.password?.message && errorInputStyle}
+            register={register}
+          />
+          <p className={errorMsgStyle}>{errors.password?.message}</p>
 
           <div className="mb-7 mt-5">
             <Link
