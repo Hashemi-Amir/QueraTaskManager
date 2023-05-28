@@ -3,6 +3,7 @@ import ProfileButton from "../ProfileButton";
 import SearchInput from "../SearchInput";
 import WorkSpaceList from "./WorkSpaceList";
 import SpaceMenu from "./SpaceMenu";
+import { Link } from "react-router-dom";
 
 import { RxExit } from "react-icons/rx";
 
@@ -41,11 +42,17 @@ const SideBar = () => {
       <SearchInput placeHolder="جستجو کنید" extraClass="my-3" />
       <NewSpace />
       <WorkSpaceList spaceList={data} />
-      <ProfileButton userName="نیلوفر موجودی" abbreviation="NM" />
-      <button className=" flex items-center gap-2 mt-5  text-base text-818181 ">
-        <RxExit className="w-4 h-4" />
-        خروج
-      </button>
+
+      <Link to={"/personalinfo"}>
+        <ProfileButton userName="نیلوفر موجودی" abbreviation="NM" />
+      </Link>
+
+      <Link to={"/login"}>
+        <button className=" flex items-center gap-2 mt-5 w-fit mr-1 text-base text-818181 ">
+          <RxExit className="w-4 h-4" />
+          خروج
+        </button>
+      </Link>
     </div>
   );
 };
