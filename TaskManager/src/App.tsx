@@ -7,7 +7,7 @@ import PageNotFound from "./pages/PageNotFound";
 import PersonalInfo from "./pages/PersonalInfo";
 import AccountInfo from "./pages/AccountInfo";
 import ProfileSettings from "./pages/ProfileSettings";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./layout/Dashboard";
 function App() {
   return (
     <Routes>
