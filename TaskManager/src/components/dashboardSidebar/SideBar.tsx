@@ -34,7 +34,7 @@ const SideBar = () => {
   ];
 
   return (
-    <div className=" flex flex-col w-80 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">
+    <div className=" flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">
       <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-118C80 to-4AB7D8">
         کوئرا تسک منیجر
       </h1>
@@ -43,12 +43,12 @@ const SideBar = () => {
       <NewSpace />
       <WorkSpaceList spaceList={data} />
 
-      <Link to={"/personalinfo"}>
+      <Link className="w-fit" to={"/personalinfo"}>
         <ProfileButton userName="نیلوفر موجودی" abbreviation="NM" />
       </Link>
 
-      <Link to={"/login"}>
-        <button className=" flex items-center gap-2 mt-5 w-fit mr-1 text-base text-818181 ">
+      <Link className="w-fit" to={"/login"}>
+        <button className=" flex items-center gap-2 mt-5 mr-1 text-base text-818181 ">
           <RxExit className="w-4 h-4" />
           خروج
         </button>
