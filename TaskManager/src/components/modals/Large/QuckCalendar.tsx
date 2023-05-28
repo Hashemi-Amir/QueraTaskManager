@@ -11,6 +11,7 @@ type QuckCalendarProps = {
 }
 
 const QuckCalendar = ({setCalendarModal}:QuckCalendarProps) => {
+
     const weekDays = ["شنبه", "یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه"]
     const HeaderFont = 'flex items-center justify-center text-2xl font-medium text-[#1E1E1E]';
     const HeaderDate = 'text-208D8E mr-3'
@@ -38,6 +39,7 @@ const QuckCalendar = ({setCalendarModal}:QuckCalendarProps) => {
                     {/* calendar Content */}
                     <div className="w-full h-4/6" >
                         <Calendar
+                            
                             weekDays={weekDays}
                             headerOrder={["MONTH_YEAR" ,"LEFT_BUTTON", "RIGHT_BUTTON" ,]}
                             monthYearSeparator=" "
