@@ -6,6 +6,7 @@ import Filter from "./Filter";
 import { BsListUl } from "react-icons/bs";
 import { SlCalender } from "react-icons/sl";
 import { BsLayoutThreeColumns } from "react-icons/bs";
+import Share from "../ui/Share";
 
 type HeaderProps = {
   projectName: string;
@@ -16,7 +17,7 @@ const Header = ({ projectName }: HeaderProps) => {
   let date = false;
 
   return (
-    <div className="h-[19vh] pt-11">
+    <div className="h-[19vh] pt-11 pl-8">
       <div className="flex items-center justify-between border-b">
         <div className="flex items-center py-4 divide-x-2">
           <span className="text-xl font-semibold pl-4 border-l-2 border-l-999999 ">
@@ -33,7 +34,7 @@ const Header = ({ projectName }: HeaderProps) => {
           />
           <TabBtn title="تقویم" icon={<SlCalender className={iconStyle} />} />
         </div>
-        <span>اشتراک</span>
+        <Share />
       </div>
       <div className="flex items-center py-4 gap-4 border-b ">
         <span className="border-l-2 border-l-999999 pl-4">
