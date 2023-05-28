@@ -5,16 +5,16 @@ import ListView from "../components/ui/ListView";
 
 const Dashboard = () => {
   return (
-    <div className="flex w-full max-h-screen overflow-hidden">
+    <div className="flex w-full max-h-screen overflow-hidden bg-FAFBFC">
       <SideBar />
-      <div className="w-full px-4">
+      <div className="w-full pr-4 pl-10">
         <Header projectName="پروژه اول" />
-        {/* <div className="pb-52 h-screen overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full">
+        {/* <div className="h-screen overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full">
           <ListView />
         </div> */}
-        {/* <div className="h-screen overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full">
+        <div className="w-full h-screen overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full">
           <Calendar />
-        </div> */}
+        </div>
       </div>
     </div>
   );

@@ -82,6 +82,7 @@ export default {
         ACAEB0: "#ACAEB0",
         C9CBDA: "#C9CBDA",
         AEAEAE: "#AEAEAE",
+        FAFBFC: "#FAFBFC",
       },
     },
     fontFamily: {

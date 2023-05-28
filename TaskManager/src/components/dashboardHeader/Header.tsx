@@ -14,10 +14,10 @@ type HeaderProps = {
 
 const Header = ({ projectName }: HeaderProps) => {
   const iconStyle = "w-5 h-5";
-  const date = true;
+  const date = false;
 
   return (
-    <div className="h-[19vh] pt-11 pl-8">
+    <div className="h-[19vh] sm:pt-1 xl:pt-4">
       <div className="flex items-center justify-between border-b">
         <div className="flex items-center py-4 divide-x-2">
           <span className="text-xl font-semibold pl-4 border-l-2 border-l-999999 ">
@@ -36,7 +36,7 @@ const Header = ({ projectName }: HeaderProps) => {
         </div>
         <Share />
       </div>
-      <div className="flex items-center py-4 gap-4 border-b ">
+      <div className="flex items-center py-1 gap-4 border-b ">
         <span className="border-l-2 border-l-999999 pl-4">
           <SearchInput placeHolder="جستجو بین تسک ها" />
         </span>
