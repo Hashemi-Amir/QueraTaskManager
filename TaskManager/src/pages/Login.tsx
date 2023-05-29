@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import Card from "../components/ui/Card";
 import Input from "../components/ui/Input";
 import AuthLayout from "../layout/AuthLayout";
 import Button from "./../components/ui/Button";
-import { schema } from "../components/Validation";
+import { schema } from "../components/validationRuls/Validation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Card from "../components/auth/Card";
 export type FieldValues = Record<string, unknown>;
 
 const Login = () => {
