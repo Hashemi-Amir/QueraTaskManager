@@ -58,8 +58,8 @@ const TaskCard = () => {
         <span className="bg-EEDFF6 text-[10px] p-1 rounded-l-2xl">پروژه</span>
       </div>
       <div
-        className={`pt-4 justify-between border-t mt-5 transition-colors duration-1000 ease-in-out ${
-          isExpanded ? "flex" : "hidden"
+        className={`pt-4 overflow-hidden justify-between border-t flex  mt-5 transition-all duration-1000 ease-in-out ${
+          isExpanded ? "max-h-screen " : "h-0"
         }`}
       >
         <div className="hover:text-208D8E hover:scale-110">

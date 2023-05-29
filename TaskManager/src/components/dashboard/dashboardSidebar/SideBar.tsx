@@ -42,11 +42,19 @@ const SideBar = () => {
       <SearchInput placeHolder="جستجو کنید" extraClass="my-3" />
       <NewSpace />
       <WorkSpaceList spaceList={data} />
-      <ProfileButton userName="نیلوفر موجودی" abbreviation="NM" className="w-9 h-9 p-2" />
-      <button className=" flex items-center gap-2 mt-5  text-base text-818181 ">
-        <RxExit className="w-4 h-4" />
-        خروج
-      </button>
+      <Link className="w-fit" to={"/personalinfo"}>
+        <ProfileButton
+          userName="نیلوفر موجودی"
+          abbreviation="NM"
+          className="w-9 h-9 p-2"
+        />
+      </Link>
+      <Link className=" w-fit mt-5" to={"/login"}>
+        <button className=" flex items-center gap-2 text-base text-818181 ">
+          <RxExit className="w-4 h-4" />
+          خروج
+        </button>
+      </Link>
     </div>
   );
 };
