@@ -7,14 +7,13 @@ import PageNotFound from "./pages/PageNotFound";
 import PersonalInfo from "./pages/PersonalInfo";
 import AccountInfo from "./pages/AccountInfo";
 import ProfileSettings from "./pages/ProfileSettings";
-import Dashboard from "./layout/Dashboard";
 import Calendar from "./pages/Calendar";
 import ListView from "./pages/ListView";
 import ColumnView from "./pages/ColumnView";
 function App() {
   return (
     <Routes>
-      <Route index path="/" element={<Dashboard />} />
+      <Route index path="/" element={<Login />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="reset" element={<Reset />} />

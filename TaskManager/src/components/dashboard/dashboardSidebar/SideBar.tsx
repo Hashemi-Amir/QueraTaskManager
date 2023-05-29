@@ -11,17 +11,17 @@ const SideBar = () => {
   const data = [
     {
       spaceName: "درس مدیریت پروژه",
-      spaceColor: "92FF07",
+      spaceColor: "bg-F92E8F",
     },
     {
       spaceName: "درس کامپایلر",
       projectName: ["پروژه اول", "پروژه دوم", "پروژه سوم"],
-      spaceColor: "DE88FD",
+      spaceColor: "bg-DE88FD",
     },
     {
       spaceName: "درس ساختمان داده",
       projectName: ["پروژه اول"],
-      spaceColor: "DE88FD",
+      spaceColor: "bg-6CB2F7",
     },
   ];
 

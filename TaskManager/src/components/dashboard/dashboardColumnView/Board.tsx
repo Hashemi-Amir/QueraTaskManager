@@ -1,15 +1,21 @@
-import Header from "../dashboardHeader/Header";
+import Header from "../dashboardColumnView/Header";
 import TaskCard from "./TaskCard";
 
-const Board = () => {
+type BoardProps = {
+  title: string;
+  borderColor: string;
+  number: string;
+};
+const Board = ({title,borderColor,number}:BoardProps) => {
   return (
-    <div className="min-w-[250px] h-fit max-h-[80vh] bg-red-500 overflow-y-auto flex-shrink scrollbar-none pb-5">
+    <div className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-5">
       {/* Sticky Header */}
-      <Header title={'Pending'} borderColor="F98F2E" number={"۰"} />
+
+      <Header title={title} borderColor={borderColor} number={number} />
       {/* Task Cards */}
       <TaskCard />
       <TaskCard />
-      <TaskCard />
+      
     </div>
   );
 };

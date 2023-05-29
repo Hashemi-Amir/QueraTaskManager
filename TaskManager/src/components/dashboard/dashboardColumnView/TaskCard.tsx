@@ -13,7 +13,7 @@ const TaskCard = () => {
 
   return (
     <div
-      className="border w-[250px] rounded p-3 text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3"
+      className="border w-[250px] rounded p-3 bg-white text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3"
       onMouseOver={() => handleCardHover(true)}
       onMouseLeave={() => handleCardHover(false)}
     >
