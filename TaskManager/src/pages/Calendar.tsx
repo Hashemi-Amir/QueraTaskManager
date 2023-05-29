@@ -4,13 +4,13 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import faLocale from "@fullcalendar/core/locales/fa";
-import "./calendar.css";
+import "../components/dashboard/dashboardCalendar/calendar.css";
 import {
   dateClick,
   mouseEnterInfo,
   titleFormat,
   dayCellDidMount,
-} from "./calendarOptions";
+} from "../components/dashboard/dashboardCalendar/calendarOptions";
 
 const Calendar = () => {
   return (

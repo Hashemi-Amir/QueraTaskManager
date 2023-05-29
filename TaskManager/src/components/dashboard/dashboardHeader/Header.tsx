@@ -1,12 +1,12 @@
 import TabBtn from "./TabBtn";
-import SearchInput from "../SearchInput";
+import SearchInput from "../../ui/SearchInput";
 import Date from "./Date";
 import Filter from "./Filter";
 
 import { BsListUl } from "react-icons/bs";
 import { SlCalender } from "react-icons/sl";
 import { BsLayoutThreeColumns } from "react-icons/bs";
-import Share from "../ui/Share";
+import Share from "../../ui/Share";
 
 type HeaderProps = {
   projectName: string;

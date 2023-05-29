@@ -1,4 +1,4 @@
-import Collapsible from "./Collapsible";
+import Collapsible from "../components/dashboard/dashboardListView/Collapsible";
 
 const ListView = () => {
   const projects = [

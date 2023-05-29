@@ -48,6 +48,9 @@ const Collapsible = React.memo(({ projects }: Collapsible) => {
     const newIsOpenTask = { ...isOpenTask };
     newIsOpenTask[id] = !newIsOpenTask[id];
     setIsOpenTask(newIsOpenTask);
+
+    // TODO
+
   };
 
   const handleProjectOpening = (id: number) => {
