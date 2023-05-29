@@ -7,9 +7,6 @@ const Board = () => {
       <div className="bg-green-500 w-full h-36 mt-3">card</div>
       <div className="bg-green-500 w-full h-36 mt-3">card</div>
       <div className="bg-green-500 w-full h-36 mt-3">card</div>
-      <div className="bg-green-500 w-full h-36 mt-3">card</div>
-      <div className="bg-green-500 w-full h-36 mt-3">card</div>
-      <div className="bg-green-500 w-full h-36 mt-3">card</div>
     </div>
   );
 };

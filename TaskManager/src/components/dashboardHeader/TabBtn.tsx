@@ -1,10 +1,13 @@
 type TabBtnProps = {
   title: string;
   icon: React.ReactNode;
+  classes?: string;
 };
-const TabBtn = ({ title, icon }: TabBtnProps) => {
+const TabBtn = ({ title, icon, classes }: TabBtnProps) => {
   return (
-    <button className="px-4 flex items-center justify-center gap-2 font-medium text-323232 ">
+    <button
+      className={`pb-3 px-4 flex items-center justify-center gap-2 ${classes} `}
+    >
       {icon}
       {title}
     </button>

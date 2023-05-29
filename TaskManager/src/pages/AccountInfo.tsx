@@ -1,4 +1,3 @@
-import ProfileLayout from "../layout/ProfileLayout";
 import Input from "../components/ui/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -23,7 +22,7 @@ const AccountInfo = () => {
   const errorInputStyle = "border-FB0606";
 
   return (
-    <ProfileLayout>
+   
       <div className="w-96 mr-14">
         <h3 className="text-1E1E1E text-2xl font-bold mb-9">اطلاعات حساب</h3>
         <div className="flex flex-col">
@@ -78,7 +77,7 @@ const AccountInfo = () => {
           </form>
         </div>
       </div>
-    </ProfileLayout>
+   
   );
 };
 

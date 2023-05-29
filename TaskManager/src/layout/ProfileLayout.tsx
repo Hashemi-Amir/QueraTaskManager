@@ -2,13 +2,9 @@ import { BsArrowRight } from "react-icons/bs";
 import { RiUserReceivedLine, RiUserSettingsLine } from "react-icons/ri";
 import { RiUserFollowLine } from "react-icons/ri";
 import Button from "../components/ui/Button";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
-type ProfileLayoutProps = {
-  children: React.ReactNode;
-};
-
-const ProfileLayout = ({ children }: ProfileLayoutProps) => {
+const ProfileLayout = () => {
   // Styling the active NavLink in the sidebar
   const NavLinkStyle = ({ isActive }: { isActive: boolean }) => {
     return {
@@ -77,7 +73,7 @@ const ProfileLayout = ({ children }: ProfileLayoutProps) => {
       </section>
       {/* pages */}
       <section className="w-4/5 h-screen flex flex-col justify-center">
-        {children}
+        <Outlet />
       </section>
     </div>
   );

@@ -1,9 +1,8 @@
 import Board from "../components/columnViewComponents/Board";
-import DashboardLayout from "../layout/DashboardLayout";
 
 const ColumnView = () => {
   return (
-    <DashboardLayout>
+    <>
       <Board />
       <Board />
       <Board />
@@ -11,34 +10,7 @@ const ColumnView = () => {
       <Board />
       <Board />
       <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-      <Board />
-    </DashboardLayout>
+    </>
   );
 };
 

@@ -120,11 +120,7 @@ const ListView = () => {
     },
   ];
 
-  return (
-    <div className="pb-52">
-      <Collapsible projects={projects} />
-    </div>
-  );
+  return <Collapsible projects={projects} />;
 };
 
 export default ListView;

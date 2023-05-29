@@ -10,8 +10,6 @@ const WorkSpaceList = ({ spaceList }: WorkSpaceProps) => {
   return (
     <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
       {spaceList.map((space) => {
-        console.log(space.spaceColor);
-
         return (
           <>
             <div className="collapse">
