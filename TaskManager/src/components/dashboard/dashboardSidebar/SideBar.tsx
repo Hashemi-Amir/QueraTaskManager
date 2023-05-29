@@ -1,6 +1,6 @@
 import NewSpace from "./NewSpace";
-import ProfileButton from "../ProfileButton";
-import SearchInput from "../SearchInput";
+import ProfileButton from "../../ui/ProfileButton";
+import SearchInput from "../../ui/SearchInput";
 import WorkSpaceList from "./WorkSpaceList";
 import SpaceMenu from "./SpaceMenu";
 import { Link } from "react-router-dom";
@@ -11,17 +11,17 @@ const SideBar = () => {
   const data = [
     {
       spaceName: "درس مدیریت پروژه",
-      spaceColor: "92FF07",
+      spaceColor: "bg-F92E8F",
     },
     {
       spaceName: "درس کامپایلر",
       projectName: ["پروژه اول", "پروژه دوم", "پروژه سوم"],
-      spaceColor: "DE88FD",
+      spaceColor: "bg-DE88FD",
     },
     {
       spaceName: "درس ساختمان داده",
       projectName: ["پروژه اول"],
-      spaceColor: "DE88FD",
+      spaceColor: "bg-6CB2F7",
     },
   ];
 
@@ -42,17 +42,11 @@ const SideBar = () => {
       <SearchInput placeHolder="جستجو کنید" extraClass="my-3" />
       <NewSpace />
       <WorkSpaceList spaceList={data} />
-
-      <Link className="w-fit" to={"/personalinfo"}>
-        <ProfileButton userName="نیلوفر موجودی" abbreviation="NM" />
-      </Link>
-
-      <Link className="w-fit" to={"/login"}>
-        <button className=" flex items-center gap-2 mt-5 mr-1 text-base text-818181 ">
-          <RxExit className="w-4 h-4" />
-          خروج
-        </button>
-      </Link>
+      <ProfileButton userName="نیلوفر موجودی" abbreviation="NM" className="w-9 h-9 p-2" />
+      <button className=" flex items-center gap-2 mt-5  text-base text-818181 ">
+        <RxExit className="w-4 h-4" />
+        خروج
+      </button>
     </div>
   );
 };

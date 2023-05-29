@@ -1,11 +1,11 @@
 import Button from "../components/ui/Button";
-import Card from "../components/ui/Card";
-import CheckBox from "../components/ui/CheckBox";
+import Card from "../components/auth/Card";
 import Input from "../components/ui/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
-import { schema } from "../components/Validation";
+import { schema } from "../components/validationRuls/Validation";
+import CheckBox from "../components/ui/CheckBox";
 
 const Register = () => {
   const {

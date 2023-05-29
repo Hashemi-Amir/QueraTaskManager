@@ -13,7 +13,7 @@ const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
         ورک اسپیس ها
       </option>
       {workSpaces.map((space) => (
-        <option className="font-semibold bg-208D8E hover:text-white ">
+        <option className="font-semibold bg-208D8E hover:text-white" key={space}>
           {space}
         </option>
       ))}

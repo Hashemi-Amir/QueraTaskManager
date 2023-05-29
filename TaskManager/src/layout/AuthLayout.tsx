@@ -1,11 +1,5 @@
-import { ReactNode } from "react";
 import Button from "../components/ui/Button";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-
-type layout = {
-  // children: ReactNode;
-  // BtnValue: string;
-};
 
 const AuthLayout = () => {
   const Navigate = useNavigate();

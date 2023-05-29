@@ -34,8 +34,8 @@
 // export default DashboardLayout;
 
 import { useLocation, Outlet } from "react-router-dom";
-import Header from "../components/dashboardHeader/Header";
-import SideBar from "../components/dashboardSidebar/SideBar";
+import Header from "../components/dashboard/dashboardHeader/Header";
+import SideBar from "../components/dashboard/dashboardSidebar/SideBar";
 
 const DashboardLayout = () => {
   const Location = useLocation();

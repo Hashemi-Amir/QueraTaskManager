@@ -4,7 +4,7 @@ import Input from "../components/ui/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
-import { schema } from "../components/Validation";
+import { schema } from "../components/validationRuls/Validation";
 
 const PersonalInfo = () => {
   const {
