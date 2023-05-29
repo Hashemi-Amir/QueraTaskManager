@@ -1,0 +1,219 @@
+
+
+/* Calendar wrapper */
+.rmdp-wrapper{
+border: none !important;
+border-radius: 0px;
+width: 100%;
+height: 100%;
+
+}
+
+.rmdp-top-class {
+width: 100%;
+}
+
+.rmdp-calendar{
+width: 100%;
+}
+.rmdp-shadow{
+    box-shadow: none;
+    border: none;
+}
+    
+
+/* Calendar Heeader */
+.rmdp-header{
+padding: 14px ;
+}
+
+.rmdp-header > div{
+justify-content: center;
+}
+
+.rmdp-header-values{
+margin: 0;
+color: #2B2E33;
+font-size: 20px;
+font-weight: 500;
+}
+
+.rmdp-arrow{
+color: #3D3D3D;
+}
+
+.rmdp-arrow-container{
+display: block;
+}
+
+
+
+/* Calendar content */
+.rmdp-day-picker{
+width: 100%;
+padding: 14px 30px;
+
+} 
+
+
+
+.rmdp-day-picker > div{
+width: 100%;
+}
+
+/* today day*/
+.teal .rmdp-day.rmdp-today span{
+background-color: transparent;
+color: #2B2E33;
+border: 1px solid #208D8E;
+width: 42px;
+height: 41px;
+border-radius: 100px;
+
+}
+
+
+/* Week names */
+div > .rmdp-week:first-child > .rmdp-week-day{
+color : #CCCFD5;
+font-weight: 500;
+font-family: "dana", sans-serif;
+font-size: 16px;
+line-height: 25px;
+width: 100%;
+
+/* overflow: visible; */
+}
+
+.rmdp-week{
+    width: 100%;
+}
+
+
+
+/* Calendar range */
+.teal .rmdp-range{
+background-color: transparent;
+border: none;
+box-shadow: none;
+color: #2B2E33;
+background-color: #E3FDFB;
+
+}
+
+
+.teal .rmdp-range span{
+    border: none !important;
+}
+
+/* Range start */
+.rmdp-rtl .rmdp-range.start{
+    background-color: white;
+}
+
+.rmdp-rtl .rmdp-range.start span{
+    background-color: #4BECE2 ;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 41px !important;
+    width:  33px !important;
+    border-radius: 4px !important;
+    color: #2B2E33 !important;
+    margin: 0px auto;
+    position: absolute;
+    top: 0;
+    border: none;
+}
+
+/* Range end */
+.rmdp-rtl .rmdp-range.end span{
+background-color: #4BECE2;
+font-size: 20px;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 41px !important;
+width:  33px !important;
+border-radius: 4px !important;
+color: #2B2E33 !important;
+margin: 0px auto;
+position: absolute;
+top: 0;
+}
+.rmdp-rtl .rmdp-range.end {
+border-radius: none;
+background-color: transparent;
+}
+
+
+/* Hovers */
+.teal .rmdp-day:not(.rmdp-day-hidden) span:hover{
+    background-color: transparent !important ;
+    color: #2B2E33;
+}
+
+.rmdp-rtl .rmdp-range.start span:hover{
+background-color: #4BECE2 !important;
+}
+
+.rmdp-rtl .rmdp-range.end span:hover{
+background-color: #4BECE2 !important;
+}
+
+
+/* Days */
+.rmdp-day {
+height: 41px;
+width:  100%;
+margin-top: 5px;
+border-radius: 0px;
+position: relative;
+border: none;
+box-shadow: none;
+}
+
+
+.rmdp-day span{
+font-size: 20px;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 41px;
+width:  33px;
+border-radius: 4px;
+margin: 0px auto;
+position: absolute;
+top: 0;
+}
+
+
+/* deactive Days */
+.rmdp-deactive span{
+color: #CCCFD5;
+}
+
+/* Month and Year */
+
+.teal .rmdp-day.rmdp-selected span:not(.highlight){
+width: 80%;
+transition: background-color .6s;
+color: white;
+}
+
+.teal .rmdp-day.rmdp-selected span:not(.highlight):hover{
+color: #009688;
+border: 1px solid #009688;
+box-shadow: none;
+}
+
+
+.teal .rmdp-day:not(.rmdp-day-hidden) span:hover{
+background-color: #4BECE2;
+}
+
+
+.rmdp-ym .rmdp-today span{
+border: none !important;
+}

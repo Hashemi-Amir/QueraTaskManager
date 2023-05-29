@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
 import { schema } from "../components/validationRuls/Validation";
+import CheckBox from "../components/ui/CheckBox";
 
 const Register = () => {
   const {
@@ -37,7 +38,9 @@ const Register = () => {
             className={errors.fullName?.message && errorInputStyle}
             register={register}
           />
-          <p className={errorMsgStyle}>{errors.fullName?.message}</p>
+          {errors.fullName && (
+            <p className={errorMsgStyle}>{errors.fullName?.message}</p>
+          )}
           <Input
             label="ایمیل"
             type="email"

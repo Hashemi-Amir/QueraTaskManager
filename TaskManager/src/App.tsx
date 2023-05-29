@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Reset from "./pages/Reset";
 import Forgot from "./pages/Forgot";
 import PageNotFound from "./pages/PageNotFound";
+<<<<<<< HEAD
 import PersonalInfo from "./pages/PersonalInfo";
 import AccountInfo from "./pages/AccountInfo";
 import ProfileSettings from "./pages/ProfileSettings";
@@ -15,6 +16,14 @@ function App() {
   return (
     <Routes>
       <Route index path="/" element={<Dashboard />} />
+=======
+import Modals from "./pages/Modals";
+function App() {
+  return (
+    <Routes>
+      <Route path="modal" element={<Modals />} />
+      <Route index path="/" element={<Login />} />
+>>>>>>> ali-hayati
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
       <Route path="reset" element={<Reset />} />

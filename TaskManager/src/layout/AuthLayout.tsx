@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import Button from "../components/ui/Button";
 import { useLocation, useNavigate } from "react-router-dom";
+import Button from '../components/ui/Button'
 
 type layout = {
   children: ReactNode;
