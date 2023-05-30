@@ -2,7 +2,7 @@ type TabBtnProps = {
   title: string;
   icon: React.ReactNode;
   classes?: string;
-};
+} & React.ComponentProps<"button">;
 const TabBtn = ({ title, icon, classes }: TabBtnProps) => {
   return (
     <button
