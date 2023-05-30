@@ -6,16 +6,25 @@ type BoardProps = {
   borderColor: string;
   number: string;
 };
-const Board = ({title,borderColor,number}:BoardProps) => {
+const Board = ({ title, borderColor, number }: BoardProps) => {
   return (
-    <div className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-5">
+    <div className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-8">
       {/* Sticky Header */}
 
       <Header title={title} borderColor={borderColor} number={number} />
       {/* Task Cards */}
       <TaskCard />
       <TaskCard />
-      
+      <TaskCard />
+      <TaskCard />
+      <TaskCard />
+      <TaskCard />
+      <TaskCard />
+      <TaskCard />
+      <TaskCard />
+      <TaskCard />
+      <TaskCard />
+      <TaskCard />
     </div>
   );
 };

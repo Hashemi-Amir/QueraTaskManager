@@ -26,7 +26,7 @@ const Calendar = () => {
       headerToolbar={false}
       initialView="dayGridMonth"
       timeZone={"Asia/Tehran"}
-      height={"80vh"}
+      height={"100%"}
       dayMaxEvents={true}
       selectable={true}
       editable={true}
