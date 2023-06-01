@@ -1,6 +1,7 @@
 import {createPortal} from 'react-dom'
 import Modal from '../layout/Modal';
-import Filter from '../components/modals/Large/Filter';
+import ShareModal from '../components/modals/Medium/ShareModal';
+// import Filter from '../components/modals/Large/Filter';
 
 
 
@@ -12,7 +13,7 @@ const Modals = () => {
             
             {createPortal(
                 <Modal >
-                    <Filter />
+                    <ShareModal ModalTitle='به اشتراک گذاری پروژه' /> 
                 </Modal>
                 ,
                 document.body
