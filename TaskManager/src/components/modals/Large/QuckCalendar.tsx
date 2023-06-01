@@ -1,10 +1,10 @@
-import persian from "react-date-object/calendars/persian"   
+import { Dispatch, SetStateAction } from "react";
+import persian from "react-date-object/calendars/persian" 
 import persian_fa from "react-date-object/locales/persian_fa"
 import { Calendar } from "react-multi-date-picker";
 import 'react-multi-date-picker/styles/colors/teal.css'
-import {BsCalendar4} from 'react-icons/bs'
+import {BsCalendar4} from 'react-icons/bs';
 import './customCalendar.css'
-import { Dispatch, SetStateAction } from "react";
 
 type QuckCalendarProps = {
     setCalendarModal : Dispatch<SetStateAction<boolean> >
@@ -38,15 +38,13 @@ const QuckCalendar = ({setCalendarModal}:QuckCalendarProps) => {
 
                     {/* calendar Content */}
                     <div className="w-full h-4/6" >
-                        <Calendar
-                            
+                        <Calendar     
                             weekDays={weekDays}
                             headerOrder={["MONTH_YEAR" ,"LEFT_BUTTON", "RIGHT_BUTTON" ,]}
                             monthYearSeparator=" "
                             className='multi-locale-days teal'
                             calendar={persian}
                             locale={persian_fa}
-                            showOtherDays
                             range
                         />
                     </div>

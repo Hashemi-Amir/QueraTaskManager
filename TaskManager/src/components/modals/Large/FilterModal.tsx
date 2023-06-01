@@ -1,15 +1,22 @@
+import { Dispatch, SetStateAction } from "react";
+import CloseIcon from "../../ui/Close";
 import FilterOptions from "./FilterOptions";
 
-const Filter = () => {
+type filterModalProps = {
+    setFilterModal : Dispatch<SetStateAction<boolean>>
+}
+
+
+const FilterModal = ({setFilterModal}:filterModalProps) => {
     
     return (
         <>
-            <div className="modal-box h-52 relative overflow-visible w-11/12 max-w-3xl rounded-lg shadow-lg py-4 px-5">
+            <div className="modal-box absolute top-1/4 right-64 h-52 bg-white z-50 overflow-visible w-11/12 max-w-3xl rounded-lg shadow-xl py-4 px-5">
 
                 {/* filter header */}
                 <div className="w-full flex justify-between items-center">
                     <div className="text-2xl font-semibold text-black">فیلترها</div>
-                    <label htmlFor="my-modal-3" className="text-xs text-black cursor-pointer" >✕</label>
+                    <label htmlFor="my-modal-3" className="text-xs text-black cursor-pointer" onClick={()=>setFilterModal(false)} ><CloseIcon /></label>
                 </div>
 
 
@@ -27,4 +34,4 @@ const Filter = () => {
     );
 };
 
-export default Filter;
+export default FilterModal;

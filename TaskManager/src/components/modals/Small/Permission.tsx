@@ -4,7 +4,7 @@ const Permission = () => {
     const spanStyle = "text-xs text-[#1E1E1E] font-semibold"
     const pStyle = "text-[10px] text-[#3D3D3D] mt-1"
     return (
-        <ul className="absolute -top-16  w-72 p-4 bg-white z-40  shadow-lg rounded-lg">
+        <ul className="absolute -top-24  w-72 p-4 bg-white z-40  shadow-lg rounded-lg">
             
             <li className={liStyle}>
                 <span className={spanStyle}>دسترسی کامل</span>

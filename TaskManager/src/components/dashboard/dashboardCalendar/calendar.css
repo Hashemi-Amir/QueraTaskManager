@@ -1,0 +1,16 @@
+
+.fc-scrollgrid-sync-inner{
+    text-align: right;
+}
+.fc-col-header-cell{
+    border-bottom: none !important;
+}
+
+.fc-daygrid-day-frame{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+.fc .fc-daygrid-body-balanced .fc-daygrid-day-events{
+top: 0;
+}

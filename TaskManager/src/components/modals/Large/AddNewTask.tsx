@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import CheckBoxColor from "../../ui/CheckBoxColor";
-import {AiOutlineClose} from 'react-icons/ai'
 import {FiLink ,FiFlag ,FiUserPlus , FiEye} from 'react-icons/fi'
 import {BsCalendar3 , BsTags} from 'react-icons/bs'
 import Button from "../../ui/Button";
@@ -8,13 +7,17 @@ import { createPortal } from "react-dom";
 import Tags from "../Small/Tags";
 import PriorityOptions from "../Small/PriorityOptions";
 import QuckCalendar from "./QuckCalendar";
+import CloseIcon from "../../ui/Close";
 
+type addNewTaskProps = {
+    setNewTaskModal: Dispatch<SetStateAction<boolean>>
+}
 
-
-const AddNewTask = () => {
+const AddNewTask = ({setNewTaskModal}:addNewTaskProps) => {
     const [calendarModal , setCalendarModal] = useState(false)
     const [tagsModal , setTagsModal] = useState(false)
     const [priorityModal , setPriorityModal] = useState(false)
+
     const listOfIcons = 'w-12 h-12 text-xl text-[#C1C1C1] rounded-full border-2 border-dashed flex justify-center items-center cursor-pointer'
     
     return (
@@ -36,7 +39,7 @@ const AddNewTask = () => {
                             />
                         </div>
 
-                        <span className="cursor-pointer text-[#BDBDBD]"><AiOutlineClose /></span>
+                        <span className="cursor-pointer text-[#BDBDBD]" onClick={()=> setNewTaskModal(false)}><CloseIcon /></span>
                     </div>
 
                     {/* task subHeader */}

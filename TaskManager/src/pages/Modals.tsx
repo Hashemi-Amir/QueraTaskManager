@@ -1,28 +1,18 @@
-import {createPortal} from 'react-dom'
-import Modal from '../layout/Modal';
-import ShareModal from '../components/modals/Medium/ShareModal';
-// import Filter from '../components/modals/Large/Filter';
+//   import { createPortal } from "react-dom";
+//   import Modal from "../layout/Modal";
+// import AddNewTask from "../components/modals/Large/AddNewTask";
+// import QuckCalendar from "../components/modals/Large/QuckCalendar";
 
+//   const Modals = () => {
+//     return (
+//       <div>
+//         <h2>this is Modal page</h2>
+//         {createPortal(
+//           <QuckCalendar />,
+//           document.body
+//         )}
+//       </div>
+//     );
+//   };
 
-
-
-const Modals = () => {
-    return (
-        <div>
-            <h2>this is Modal page</h2>
-            
-            {createPortal(
-                <Modal >
-                    <ShareModal ModalTitle='به اشتراک گذاری پروژه' /> 
-                </Modal>
-                ,
-                document.body
-            )}
-
-        </div>
-    );
-};
-
-export default Modals;
-
-
+//   export default Modals;

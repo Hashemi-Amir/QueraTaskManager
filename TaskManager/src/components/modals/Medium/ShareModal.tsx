@@ -2,16 +2,20 @@ import Button from "../../ui/Button";
 import {FiLink} from 'react-icons/fi'
 import avatar from '../../../assets/avatar.png'
 import {IoIosArrowDown} from 'react-icons/io'
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Permission from "../Small/Permission";
+import CloseIcon from "../../ui/Close";
 
 
 type ShareModalProps = {
     ModalTitle : string,
+    setShareModal : Dispatch<SetStateAction<boolean>>,
 }
 
-const ShareModal = ({ModalTitle}:ShareModalProps) => {
+const ShareModal = ({ModalTitle , setShareModal}:ShareModalProps) => {
     const [permissionModal , setPermissionModal] = useState(false)
+
+
     return (
         <div className="modal-box overflow-visible w-3/4 max-w-lgl">
             {/* modal content */}
@@ -19,7 +23,7 @@ const ShareModal = ({ModalTitle}:ShareModalProps) => {
 
                 {/* card header */}
                 <div className="w-full flex justify-between items-center">             
-                    <label htmlFor="my-modal-3" className="text-323232 cursor-pointer">✕</label>
+                    <label htmlFor="my-modal-3" className="text-323232 cursor-pointer" onClick={() => setShareModal(false)} ><CloseIcon /></label>
                     
                     <div className="font-semibold text-2xl text-black">
                         {ModalTitle}
@@ -56,7 +60,7 @@ const ShareModal = ({ModalTitle}:ShareModalProps) => {
                                 <span className="mr-3 text-sm font-normal text-[#1E1E1E]">لینک خصوصی</span>
                             </div>
 
-                            <div className="w-20 h-6 px-3 py-1 text-xs flex items-center justify-center font-normal text-[#1E1E1E] rounded-md border border-[#E9EBF0]">
+                            <div className="w-20 h-6 px-3 py-1 text-xs flex items-center justify-center font-normal text-[#1E1E1E] rounded-md border border-[#E9EBF0] cursor-pointer" >
                                 کپی لینک
                             </div>
                         </div>
