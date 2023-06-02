@@ -18,6 +18,7 @@ const AddNewTask = ({handleNewTaskModal}:addNewTaskProps) => {
     const [tagsModal , setTagsModal] = useState(false)
     const [priorityModal , setPriorityModal] = useState(false)
 
+
     const listOfIcons = 'w-12 h-12 text-xl text-[#C1C1C1] rounded-full border-2 border-dashed flex justify-center items-center cursor-pointer'
     
     return (
@@ -29,7 +30,7 @@ const AddNewTask = ({handleNewTaskModal}:addNewTaskProps) => {
                     {/* task header */}
                     <div className="w-full flex justify-between items-center">
                         <div className="flex items-center">
-                            <CheckBoxColor id='2' className="bg-D3D3D3" />
+                            <div className={`h-4 w-4 mr-3 rounded-sm bg-D3D3D3`}></div>
                             <input 
                                 type="text" 
                                 id="taskTitle" 

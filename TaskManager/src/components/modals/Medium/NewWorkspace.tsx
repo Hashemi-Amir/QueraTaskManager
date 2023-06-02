@@ -1,6 +1,6 @@
 import Input from "../../ui/Input";
 import Button from "../../ui/Button";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import CheckBoxColor from "../../ui/CheckBoxColor";
 import { BiBlock } from "react-icons/bi";
 import avatar from '../../../assets/avatar.png'
@@ -18,6 +18,11 @@ type workspaceProps = {
 
 const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}:workspaceProps) => {
 
+    const [selectedColor , setSelectedColor] = useState({
+        color : 'bg-[#7D828C]',
+        id : 0
+    })
+    const [workspaceName , setWorkSpaceName] = useState('')
     const fontList = 'text-sm font-semibold text-black'
     const liStyle = 'w-full flex justify-between items-center'
     const dataColor = [
@@ -43,6 +48,19 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
         
     ]
 
+
+    const handleCheckBoxColor = (data:any):any => {
+        setSelectedColor({...selectedColor, color : data.color , id : data.id})
+    }
+
+    const handleWorkSpaceStep = () => {
+        if(workSpaceStep === 'ساختن ورک اسپیس جدید'){       
+            setWorkSpaceName(workspaceName)
+            setWorkSpaceStepe('انتخاب رنگ ورک اسپیس')
+        }else if(workSpaceStep === 'انتخاب رنگ ورک اسپیس'){
+            setWorkSpaceStepe('مرور اطلاعات')
+        }
+    }
     return (
         
         <div className="modal-box w-3/4 max-w-lgl">
@@ -85,6 +103,7 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
                                     label='نام ورک اسپیس'
                                     type='text'
                                     id='newWork'
+                                    onChange={(e)=> setWorkSpaceName(e.target.value)}
                                 />
                             )
                         : workSpaceStep === 'انتخاب رنگ ورک اسپیس' ?
@@ -93,7 +112,7 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
                                     {/* select color */}
                                     <div className="w-full flex">
                                         {/* avatar */}
-                                        <div className="w-24 h-16 bg-[#7D828C] rounded-lg text-2xl font-semibold text-white flex justify-center items-center">
+                                        <div className={`w-24 h-16 rounded-lg text-2xl font-semibold text-white flex justify-center items-center ${selectedColor.color}`}>
                                             ت ط
                                         </div>
 
@@ -102,8 +121,10 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
                                             <span className="text-sm text-black">رنگ ورک اسپیس</span>
                                             <ul className="mt-5  h-10 flex justify-start content-between flex-wrap">
 
-                                                <li className="h-4 w-4 mr-3 rounded-sm hover:cursor-pointer text-black"><BiBlock /></li>
-                                                {dataColor.map(li => <CheckBoxColor key={li.id} id={li.id} className={li.color} />)}
+                                                <li className="h-4 w-4 mr-3 rounded-sm hover:cursor-pointer text-black" onClick={() => {
+                                                    setSelectedColor({...selectedColor , color : 'bg-[#7D828C]' , id : 0})
+                                                }}><BiBlock /></li>
+                                                {dataColor.map(li => <CheckBoxColor key={li.id} data={li} selectedColor={selectedColor} handleCheckBoxColor={handleCheckBoxColor} />)}
                                             </ul>
                                         </div>
 
@@ -119,14 +140,16 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
                                         {/* workspace name */}
                                         <li className={liStyle}>
                                             <span className={fontList}>نام ورک اسپیس</span>
-                                            <span className={fontList}>تیم طراحی</span>
+                                            <span className={fontList}>{workspaceName}</span>
                                         </li>
                         
                                         {/* workspace color*/}
                         
                                         <li className={`mt-6 ${liStyle}`} >
                                             <span className={fontList}>رنگ ورک اسپیس</span>
-                                            <span className={fontList}><CheckBoxColor id={2} className="bg-[#80DC69]"/></span>
+                                            <span className={fontList}>
+                                                <div className={`h-4 w-4 mr-3 rounded-sm ${selectedColor.color}`}></div>
+                                            </span>
                                         </li>
                                         {/* workspace members */}
                         
@@ -149,11 +172,7 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
                         <Button 
                             value={workSpaceStep === 'مرور اطلاعات' ? 'ساختن ورک اسپیس' : 'ادامه'} 
 
-                            onClick={()=> 
-                                workSpaceStep === 'ساختن ورک اسپیس جدید' ?
-                                setWorkSpaceStepe('انتخاب رنگ ورک اسپیس') : 
-                                setWorkSpaceStepe('مرور اطلاعات') 
-                            }
+                            onClick={handleWorkSpaceStep}
                         /> 
                     </div>  
 
