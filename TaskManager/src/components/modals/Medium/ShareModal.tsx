@@ -13,7 +13,14 @@ type ShareModalProps = {
 }
 
 const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
-    const [permissionModal , setPermissionModal] = useState(false)
+    const [permission , setPermission] = useState({
+        value : 'دسترسی کامل',
+        modal : false
+    })
+
+    const handlePermission = (event:any) => {
+        setPermission({...permission,value : event.target.innerHTML , modal : false})
+    }
     
     return (
         <div className="modal-box overflow-visible w-3/4 z-50 max-w-lgl">
@@ -47,7 +54,7 @@ const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
                             />
 
                             <div className="w-24">
-                                <Button value='ارسال' className="rounded-tr-none rounded-br-none" />
+                                <Button value='ارسال' className="rounded-tr-none rounded-br-none focus:outline-none" />
                             </div>
                         </div>
 
@@ -92,16 +99,16 @@ const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
 
                                         <div 
                                             className="relative w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer"
-                                            onClick={()=> setPermissionModal(!permissionModal)} 
+                                            onClick={()=> setPermission({...permission,modal:true})} 
                                         >
-                                            <span className="ml-4" >دسترسی کامل</span>
+                                            <span className="ml-4" >{permission.value}</span>
                                             <IoIosArrowDown />
-                                            {permissionModal && 
-                                                <Permission />
-                                            }
+
                                         </div>
 
-
+                                        {permission.modal && 
+                                            <Permission handlePermission={handlePermission} />
+                                        }
                                     </div>
                                 </li>
                             </ul>

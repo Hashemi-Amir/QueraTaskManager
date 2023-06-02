@@ -45,16 +45,16 @@ const Header = ({ title, borderColor, number }: HeaderProps) => {
             onClick={handleNewTaskModal}
           >
             <BsPlus />
-            
-            {newTaskModal && createPortal(
-              <Modal>
-                <AddNewTask handleNewTaskModal={handleNewTaskModal}/>
-              </Modal>,
-              document.body
-            )}
           </span>
         </div>
       )}
+
+      {newTaskModal && createPortal(
+          <Modal>
+            <AddNewTask handleNewTaskModal={handleNewTaskModal}/>
+          </Modal>,
+          document.body
+        )}
     </div>
   );
 };
