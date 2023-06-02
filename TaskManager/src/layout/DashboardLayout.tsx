@@ -3,8 +3,15 @@ import Header from "../components/dashboard/dashboardHeader/Header";
 import SideBar from "../components/dashboard/dashboardSidebar/SideBar";
 import Button from "../components/ui/Button";
 import { CgAddR } from "react-icons/cg";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import Modal from "./Modal";
+import AddNewTask from "../components/modals/Large/AddNewTask";
 
 const DashboardLayout = () => {
+  const [newTaskModal , setNewTaskModal] = useState(false)
+
+  const handleNewTaskModal = () => setNewTaskModal(!newTaskModal)
   const Location = useLocation();
   let WraperClasses = "";
 
@@ -31,7 +38,7 @@ const DashboardLayout = () => {
         </div>
       </div>
       <div className="fixed left-5 bottom-3 cur z-50">
-        <Button className="text-l px-2 py rounded-lg" value={"تسک جدید"}>
+        <Button className="text-l px-2 py rounded-lg" value={"تسک جدید"} onClick={handleNewTaskModal}>
           <CgAddR
             size={20}
             color="white"
@@ -39,6 +46,13 @@ const DashboardLayout = () => {
           />
         </Button>
       </div>
+
+      {newTaskModal && createPortal(
+        <Modal>
+          <AddNewTask handleNewTaskModal={handleNewTaskModal}/>
+        </Modal>,
+        document.body
+      )}
     </div>
   );
 };

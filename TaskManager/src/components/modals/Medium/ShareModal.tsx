@@ -2,28 +2,27 @@ import Button from "../../ui/Button";
 import {FiLink} from 'react-icons/fi'
 import avatar from '../../../assets/avatar.png'
 import {IoIosArrowDown} from 'react-icons/io'
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import Permission from "../Small/Permission";
 import CloseIcon from "../../ui/Close";
 
 
 type ShareModalProps = {
     ModalTitle : string,
-    setShareModal : Dispatch<SetStateAction<boolean>>,
+    shareModalHandler : () => void,
 }
 
-const ShareModal = ({ModalTitle , setShareModal}:ShareModalProps) => {
+const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
     const [permissionModal , setPermissionModal] = useState(false)
-
-
+    
     return (
-        <div className="modal-box overflow-visible w-3/4 max-w-lgl">
+        <div className="modal-box overflow-visible w-3/4 z-50 max-w-lgl">
             {/* modal content */}
             <div className="p-5 bg-white rounded-lg">
 
                 {/* card header */}
                 <div className="w-full flex justify-between items-center">             
-                    <label htmlFor="my-modal-3" className="text-323232 cursor-pointer" onClick={() => setShareModal(false)} ><CloseIcon /></label>
+                    <label htmlFor="my-modal-3" className="text-323232 cursor-pointer" onClick={shareModalHandler} ><CloseIcon /></label>
                     
                     <div className="font-semibold text-2xl text-black">
                         {ModalTitle}

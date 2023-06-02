@@ -9,9 +9,10 @@ type FilterProps = {
 const Filter = ({ filter }: FilterProps) => {
   const [filterModal , setFilterModal] = useState(false)
 
+  const handleFilterModal = () => setFilterModal(!filterModal)
   return (
     <div className="flex gap-4 text-xs p-2">
-      <button className="flex gap-2" onClick={()=>setFilterModal(true)}>
+      <button className="flex gap-2" onClick={handleFilterModal}>
         <BsSliders />
         <span>فیلترها</span>
       </button>
@@ -19,7 +20,7 @@ const Filter = ({ filter }: FilterProps) => {
 
       {filterModal && createPortal(
         <Modal className='bg-transparent'>
-          <FilterModal setFilterModal={setFilterModal} />
+          <FilterModal handleFilterModal={handleFilterModal} />
         </Modal>,
         document.body
       )}

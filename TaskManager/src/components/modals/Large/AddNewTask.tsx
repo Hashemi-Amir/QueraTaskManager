@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import {useState } from "react";
 import CheckBoxColor from "../../ui/CheckBoxColor";
 import {FiLink ,FiFlag ,FiUserPlus , FiEye} from 'react-icons/fi'
 import {BsCalendar3 , BsTags} from 'react-icons/bs'
@@ -10,10 +10,10 @@ import QuckCalendar from "./QuckCalendar";
 import CloseIcon from "../../ui/Close";
 
 type addNewTaskProps = {
-    setNewTaskModal: Dispatch<SetStateAction<boolean>>
+    handleNewTaskModal: () => void
 }
 
-const AddNewTask = ({setNewTaskModal}:addNewTaskProps) => {
+const AddNewTask = ({handleNewTaskModal}:addNewTaskProps) => {
     const [calendarModal , setCalendarModal] = useState(false)
     const [tagsModal , setTagsModal] = useState(false)
     const [priorityModal , setPriorityModal] = useState(false)
@@ -39,7 +39,7 @@ const AddNewTask = ({setNewTaskModal}:addNewTaskProps) => {
                             />
                         </div>
 
-                        <span className="cursor-pointer text-[#BDBDBD]" onClick={()=> setNewTaskModal(false)}><CloseIcon /></span>
+                        <span className="cursor-pointer text-[#BDBDBD]" onClick={handleNewTaskModal}><CloseIcon /></span>
                     </div>
 
                     {/* task subHeader */}

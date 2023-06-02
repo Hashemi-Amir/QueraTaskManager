@@ -11,12 +11,12 @@ import CloseIcon from "../../ui/Close";
 type workspaceProps = {
     workSpaceStep : string,
     setWorkSpaceStepe : Dispatch<SetStateAction<string>>,
-    setOpenModal : Dispatch<SetStateAction<boolean>>
+    handleModalWorkSpace : () => void
 }
 
 
 
-const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , setOpenModal}:workspaceProps) => {
+const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}:workspaceProps) => {
 
     const fontList = 'text-sm font-semibold text-black'
     const liStyle = 'w-full flex justify-between items-center'
@@ -51,7 +51,7 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , setOpenModal}:workspa
 
                 {/* card header */}
                 <div className="w-full flex justify-between items-center">             
-                    <label htmlFor="my-modal-3" className="text-323232 cursor-pointer" onClick={()=> setOpenModal(false)}><CloseIcon /></label>
+                    <label htmlFor="my-modal-3" className="text-323232 cursor-pointer" onClick={handleModalWorkSpace}><CloseIcon /></label>
                     
                     <div className="font-semibold text-2xl text-black">
                         {workSpaceStep}
