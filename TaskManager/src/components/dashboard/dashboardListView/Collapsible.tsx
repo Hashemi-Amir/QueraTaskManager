@@ -50,7 +50,6 @@ const Collapsible = React.memo(({ projects }: Collapsible) => {
     setIsOpenTask(newIsOpenTask);
 
     // TODO
-
   };
 
   const handleProjectOpening = (id: number) => {
@@ -136,7 +135,6 @@ const Collapsible = React.memo(({ projects }: Collapsible) => {
                   </table>
                 </div>
               </div>
-         
               {/* SubCollapse */}
               <div className="collapse">
                 <input
