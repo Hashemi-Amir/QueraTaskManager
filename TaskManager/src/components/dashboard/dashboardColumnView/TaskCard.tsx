@@ -5,6 +5,7 @@ import { FiCheckCircle, FiFlag } from "react-icons/fi";
 import { BsThreeDots } from "react-icons/bs";
 const TaskCard = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  // const [colMoreModal , setColMoreModal] = useState(false)
 
   const handleCardHover = (isHovering: boolean) => {
     setIsExpanded(isHovering);
@@ -63,11 +64,13 @@ const TaskCard = () => {
         ${isExpanded ? "h-9 mt-5 pt-4" : "h-[0px] opacity-0 mt-0 pt-0"}
         `}
       >
-        <div className="hover:text-208D8E hover:scale-110">
+        <div className="hover:text-208D8E hover:scale-110" >
           <FiCheckCircle />
         </div>
-        <div className="hover:scale-110">
+        <div className="hover:scale-110" >
           <BsThreeDots />
+
+          {/* {colMoreModal && <ColMore />} */}
         </div>
       </div>
     </div>

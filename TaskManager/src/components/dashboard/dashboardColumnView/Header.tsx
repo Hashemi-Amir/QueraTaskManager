@@ -1,5 +1,9 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { BsThreeDots, BsPlus } from "react-icons/bs";
+import Modal from "../../../layout/Modal";
+import AddNewTask from "../../modals/Large/AddNewTask";
+import ColMore from "../../modals/Small/ColMore";
 
 type HeaderProps = {
   title: string;
@@ -8,10 +12,14 @@ type HeaderProps = {
 };
 const Header = ({ title, borderColor, number }: HeaderProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [newTaskModal , setNewTaskModal] = useState(false)
+  const [colMoreModal , setColMoreModal] = useState(false)
 
   const handleCardHover = (isHovering: boolean) => {
     setIsHovered(isHovering);
   };
+
+  const handleNewTaskModal = () => setNewTaskModal(!newTaskModal)
 
   return (
     <div
@@ -27,17 +35,26 @@ const Header = ({ title, borderColor, number }: HeaderProps) => {
       </div>
       {isHovered && (
         <div className="flex items-center gap-1">
-          <span className="hover:scale-110">
+          <span className="relative hover:scale-110" onClick={()=>setColMoreModal(!colMoreModal)}>
             <BsThreeDots />
+            {colMoreModal && <ColMore />}
           </span>
           <span
             className="hover:scale-110 text-xl data-[title]:text-red-500"
             title="افزودن تسک"
+            onClick={handleNewTaskModal}
           >
             <BsPlus />
           </span>
         </div>
       )}
+
+      {newTaskModal && createPortal(
+          <Modal>
+            <AddNewTask handleNewTaskModal={handleNewTaskModal}/>
+          </Modal>,
+          document.body
+        )}
     </div>
   );
 };

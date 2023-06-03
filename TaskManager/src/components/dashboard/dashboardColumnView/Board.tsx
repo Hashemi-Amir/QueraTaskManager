@@ -8,7 +8,7 @@ type BoardProps = {
 };
 const Board = ({ title, borderColor, number }: BoardProps) => {
   return (
-    <div className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-8">
+    <div className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-16">
       {/* Sticky Header */}
 
       <Header title={title} borderColor={borderColor} number={number} />

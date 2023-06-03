@@ -3,7 +3,6 @@ import { SlCalender } from "react-icons/sl";
 import { BsLayoutThreeColumns } from "react-icons/bs";
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
-
 import TabBtn from "./TabBtn";
 import SearchInput from "../../ui/SearchInput";
 import Date from "./Date";

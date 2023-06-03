@@ -1,7 +1,7 @@
 import { CgClose } from "react-icons/cg";
 
 interface CloseIconProps {
-  classes: string;
+  classes?: string;
 }
 
 const CloseIcon = ({ classes }: CloseIconProps) => {

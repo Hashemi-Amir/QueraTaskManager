@@ -5,7 +5,7 @@ const PriorityOptions = () => {
 
     const liStyle = "w-full flex items-center mt-4 text-sm font-normal text-[#1E1E1E] cursor-pointer"
     return (
-        <ul className="absolute -right-44 -top-5 w-44 p-3 bg-white z-40 rounded-lg shadow-lg">
+        <ul className="absolute -right-44 -top-20 w-44 p-3 bg-white z-40 rounded-lg shadow-lg">
             <li className={liStyle} >
                 <span className="text-xl ml-3 text-FB0606"><FiFlag /></span>
                 <p>فوری</p>

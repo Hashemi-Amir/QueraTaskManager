@@ -6,6 +6,13 @@ import { useState } from 'react';
 
 
 const TagMore = () => {
+    const [selectedColor , setSelectedColor] = useState({
+        color : 'bg-[#7D828C]',
+        id : 0
+    })
+    const handleCheckBoxColor = (data:any):any => {
+        setSelectedColor({...selectedColor, color : data.color , id : data.id})
+    }
     const [colorModal , setColorModal] = useState(false)
     const liStyle = 'w-full flex mt-3 items-center cursor-pointer'
     const dataColor = [
@@ -31,6 +38,7 @@ const TagMore = () => {
         {id : 20, color : 'bg-[#486774]'},
         
     ]
+
     return (
         <ul className="w-28 bg-white relative border p-2 rounded-lg shadow-md">
             <li className={liStyle}>
@@ -48,11 +56,13 @@ const TagMore = () => {
                 <p className='relative text-xs'>ویرایش رنگ</p>
                 {colorModal && 
                     <ul className='absolute -top-4 mr-28 border w-40 h-32 flex content-between flex-wrap z-50 bg-white rounded-lg py-2 px-1 shadow-xl'>
-                        {dataColor.map(li => <CheckBoxColor key={li.id} id={li.id} className={li.color} />)}
+                        {dataColor.map(li => <CheckBoxColor key={li.id} data={li} selectedColor={selectedColor} handleCheckBoxColor={handleCheckBoxColor}/>)}
                     </ul>
                 }
 
             </li>
+
+            
         </ul>
     );
 };

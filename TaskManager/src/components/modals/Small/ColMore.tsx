@@ -7,7 +7,7 @@ import {SlNote} from 'react-icons/sl'
 const ColMore = () => {
     const liStyle = 'flex items-center cursor-pointer mt-3 text-sm text-[#1E1E1E] font-normal'
     return (
-        <ul className="w-fit rounded-lg p-3 z-40 shadow-lg">
+        <ul className="absolute w-40 left-0 rounded-lg p-3 z-50 bg-white shadow-lg">
             <li className={liStyle}> 
                 <span className='text-sm'><SlNote /></span>
                 <p className="mr-2">ویرایش نام ستون</p>

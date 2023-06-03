@@ -31,6 +31,7 @@ function App() {
         <Route path="/accountinfo" element={<AccountInfo />} />
         <Route path="/profsettings" element={<ProfileSettings />} />
       </Route>
+
     </Routes>
   );
 }
