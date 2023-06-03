@@ -1,6 +1,6 @@
 import FilterOptions from "./FilterOptions";
 
-const Filter = () => {
+const FilterModal = () => {
     
     return (
         <>
@@ -27,4 +27,4 @@ const Filter = () => {
     );
 };
 
-export default Filter;
+export default FilterModal;

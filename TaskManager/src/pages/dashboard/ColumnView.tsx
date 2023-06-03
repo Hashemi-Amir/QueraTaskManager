@@ -1,4 +1,4 @@
-import Board from "../components/dashboard/dashboardColumnView/Board";
+import Board from "../../components/dashboard/dashboardColumnView/Board";
 
 const ColumnView = () => {
   return (

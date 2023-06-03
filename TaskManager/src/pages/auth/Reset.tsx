@@ -1,4 +1,4 @@
-import Card from "../components/auth/Card";
+import Card from "../../components/auth/Card";
 
 const Reset = () => {
   return (

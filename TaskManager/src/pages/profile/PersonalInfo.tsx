@@ -1,10 +1,10 @@
-import Button from "../components/ui/Button";
-import avatar from "../assets/avatar.jpg";
-import Input from "../components/ui/Input";
+import Button from "../../components/ui/Button";
+import avatar from "../../assets/avatar.jpg";
+import Input from "../../components/ui/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
-import { schema } from "../components/validationRuls/Validation";
+import { schema } from "../../components/validationRuls/Validation";
 
 const PersonalInfo = () => {
   const {

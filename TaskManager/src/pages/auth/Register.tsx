@@ -1,12 +1,12 @@
-import Button from "../components/ui/Button";
-import Card from "../components/auth/Card";
-import Input from "../components/ui/Input";
+import Button from "../../components/ui/Button";
+import Card from "../../components/auth/Card";
+import Input from "../../components/ui/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
-import { schema } from "../components/validationRuls/Validation";
-import CheckBox from "../components/ui/CheckBox";
-
+import { schema } from "../../components/validationRuls/Validation";
+import CheckBox from "../../components/ui/CheckBox";
+import axios from "axios";
 const Register = () => {
   const {
     register,
@@ -23,6 +23,21 @@ const Register = () => {
   const errorMsgStyle = "text-FC0733 text-xs absolute py-1";
   const errorInputStyle = "border-FB0606";
 
+  //////////////////////////////////////////////////////////////////////////
+
+  const article = {
+    "emailOrUsername": "amir.nili0972@gmail.com",
+    "password": "password123"
+  };
+
+  axios
+    .post("http://localhost:3000/api/auth/login", article)
+    .then((response) => console.log(response))
+    .catch((error) => {
+      console.error("There was an error!", error.message);
+    });
+
+  //////////////////////////////////////////////////////////////////////////
   return (
     <Card cardTitle="ثبت‌نام در کوئرا تسک منیجر " className="w-full max-w-md">
       <form onSubmit={handleSubmit(onSubmit)}>

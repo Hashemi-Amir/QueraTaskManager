@@ -1,4 +1,5 @@
-import Collapsible from "../components/dashboard/dashboardListView/Collapsible";
+import Collapsible from "../../components/dashboard/dashboardListView/Collapsible";
+import CollapseTable from "../../components/dashboard/dashboardListView/CollapseTable";
 
 const ListView = () => {
   const projects = [
@@ -120,7 +121,46 @@ const ListView = () => {
     },
   ];
 
-  return <Collapsible projects={projects} />;
+  const titleClass = "px-3 py-1 rounded text-base text-white";
+  const chevronClass = "text-lg mr-10";
+
+  return (
+    <div className="pb-8">
+      {projects.map((project) => (
+        <Collapsible
+          title={project.name}
+          titleClass="font-bold"
+          chevronClass={"text-xl mr-1"}
+          key={project.id}
+        >
+          <Collapsible
+            title={"Pending"}
+            numberTask={project.pending.length}
+            titleClass={`bg-F92E8F ${titleClass}`}
+            chevronClass={chevronClass}
+          >
+            <CollapseTable tasks={project.pending} />
+          </Collapsible>
+          <Collapsible
+            title={"inProgress"}
+            numberTask={project.inProgress.length}
+            titleClass={`bg-F98F2E ${titleClass}`}
+            chevronClass={chevronClass}
+          >
+            <CollapseTable tasks={project.inProgress} />
+          </Collapsible>
+          <Collapsible
+            title={"Done"}
+            numberTask={project.done.length}
+            titleClass={`bg-43BB0B ${titleClass}`}
+            chevronClass={chevronClass}
+          >
+            <CollapseTable tasks={project.done} />
+          </Collapsible>
+        </Collapsible>
+      ))}
+    </div>
+  );
 };
 
 export default ListView;
