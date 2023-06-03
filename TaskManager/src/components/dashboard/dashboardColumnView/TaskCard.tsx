@@ -3,8 +3,6 @@ import { CiTextAlignRight } from "react-icons/ci";
 import ProfileButton from "../../ui/ProfileButton";
 import { FiCheckCircle, FiFlag } from "react-icons/fi";
 import { BsThreeDots } from "react-icons/bs";
-// import ColMore from "../../modals/Small/ColMore";
-
 const TaskCard = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   // const [colMoreModal , setColMoreModal] = useState(false)
@@ -23,12 +21,14 @@ const TaskCard = () => {
         <div className="h-4 font-medium leading-4 text-right text-534D60 text-[10px]">
           پروژه اول
         </div>
-        {isExpanded && (
-          <ProfileButton
-            abbreviation="NM"
-            className="w-6 h-6 pt-[3px] text-[10px]"
-          />
-        )}
+
+        <ProfileButton
+          abbreviation="NM"
+          className={`w-6 h-6 pt-[3px] text-[10px] ${
+            isExpanded ? "visible" : "invisible"
+          }
+            `}
+        />
       </div>
       <div className="flex items-center justify-start mb-5 gap-1">
         <div className="font-medium text-xs text-0E0E0E leading-4 text-right">
@@ -60,9 +60,9 @@ const TaskCard = () => {
         <span className="bg-EEDFF6 text-[10px] p-1 rounded-l-2xl">پروژه</span>
       </div>
       <div
-        className={`pt-4  overflow-hidden justify-between border-t flex  mt-5 transition-all duration-1000 ease-in-out ${
-          isExpanded ? "max-h-screen " : "h-0"
-        }`}
+        className={` overflow-hidden justify-between flex border-t  transition-all duration-500 
+        ${isExpanded ? "h-9 mt-5 pt-4" : "h-[0px] opacity-0 mt-0 pt-0"}
+        `}
       >
         <div className="hover:text-208D8E hover:scale-110" >
           <FiCheckCircle />

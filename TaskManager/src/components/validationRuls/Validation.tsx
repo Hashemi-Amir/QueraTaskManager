@@ -32,7 +32,7 @@ const schema = yup.object().shape({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
       errorMessage.complexPass
     )
-    .required(),
+    .required(errorMessage.required),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password")], errorMessage.match)

@@ -12,11 +12,15 @@ const Share = () => {
   
   
   return (
-    <div className="flex items-center justify-center gap-1 " role="button" onClick={shareModalHandler}>
-      <HiOutlineShare size="24" color="#BDBDBD" />
-      <span className="text-base font-dana font-medium text-1E1E1E">
-        اشتراک گذاری
-      </span>
+    <>
+      <div className="flex items-center justify-center gap-1 " role="button" onClick={shareModalHandler}>
+        <HiOutlineShare size="24" color="#BDBDBD" />
+        <span className="text-base font-dana font-medium text-1E1E1E">
+          اشتراک گذاری
+        </span>
+
+
+      </div>
 
       {shareModal && createPortal(
           <Modal >
@@ -25,7 +29,8 @@ const Share = () => {
           document.body
         )
       }
-    </div>
+    </>
+
 
 
   );

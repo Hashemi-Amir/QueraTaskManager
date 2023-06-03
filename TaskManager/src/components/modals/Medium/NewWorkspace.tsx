@@ -171,7 +171,6 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
                     <div className='mt-16'>
                         <Button 
                             value={workSpaceStep === 'مرور اطلاعات' ? 'ساختن ورک اسپیس' : 'ادامه'} 
-
                             onClick={handleWorkSpaceStep}
                         /> 
                     </div>  

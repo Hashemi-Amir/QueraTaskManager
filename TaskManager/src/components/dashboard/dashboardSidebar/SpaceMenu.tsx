@@ -4,7 +4,8 @@ type SpaceMenuProps = {
 
 const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
   return (
-    <select className="p-2  bg-white outline-none focus:ring-1 focus:ring-208D8E  rounded-md mt-7 w-full  font-semibold  ">
+    <select className="p-2 bg-white outline-none focus:ring-1 focus:ring-208D8E  rounded-md mt-7 w-full  font-semibold  "
+    >
       <option
         disabled
         selected

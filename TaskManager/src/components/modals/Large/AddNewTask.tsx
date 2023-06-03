@@ -1,5 +1,4 @@
 import {useState } from "react";
-import CheckBoxColor from "../../ui/CheckBoxColor";
 import {FiLink ,FiFlag ,FiUserPlus , FiEye} from 'react-icons/fi'
 import {BsCalendar3 , BsTags} from 'react-icons/bs'
 import Button from "../../ui/Button";

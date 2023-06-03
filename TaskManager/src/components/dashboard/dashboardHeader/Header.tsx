@@ -14,15 +14,15 @@ type HeaderProps = {
 };
 
 const Header = ({ projectName }: HeaderProps) => {
+  const Location = useLocation();
+  let date = false;
   const iconStyle = "w-5 h-5";
-  const date = false;
-
   const columnRef = useRef<HTMLAnchorElement>(null);
   const listRef = useRef<HTMLAnchorElement>(null);
   const calendarRef = useRef<HTMLAnchorElement>(null);
   const marker = useRef<HTMLDivElement>(null);
 
-  const Location = useLocation();
+  if (Location.pathname === "/calendarview") date = true;
 
   function indicator(e: EventTarget) {
     const parent = (e as HTMLElement).closest("a");
