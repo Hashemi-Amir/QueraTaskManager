@@ -14,7 +14,7 @@ type addNewTaskProps = {
 
 const AddNewTask = ({handleNewTaskModal}:addNewTaskProps) => {
     const [calendar , setCalendar] = useState(false)
-    const [tagsModal , setTagsModal] = useState(false)
+    const [tags , setTags] = useState(false)
     const [priority , setPriority] = useState({
         modal : false,
         style : 'text-C1C1C1 border-C1C1C1',
@@ -32,6 +32,9 @@ const AddNewTask = ({handleNewTaskModal}:addNewTaskProps) => {
         setCalendar(false)
     }
 
+    const handleTagsModal = ()=> {
+        setTags(!tags)
+    }
 
     
     const listOfIcons = `w-12 h-12 text-xl rounded-full text-C1C1C1 border-C1C1C1 border-2 border-dashed flex justify-center items-center cursor-pointer`
@@ -125,10 +128,10 @@ const AddNewTask = ({handleNewTaskModal}:addNewTaskProps) => {
                             </li>
 
                             <li className={listOfIcons} >
-                                <BsTags onClick={()=> setTagsModal(!tagsModal)} />
+                                <BsTags onClick={handleTagsModal} />
                                 <div className="relative">
-                                    {tagsModal && 
-                                        <Tags />
+                                    {tags && 
+                                        <Tags handleTagsModal={handleTagsModal}/>
                                     }
                                 </div>
  
