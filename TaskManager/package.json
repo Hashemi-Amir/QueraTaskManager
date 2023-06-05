@@ -2,10 +2,9 @@
   "name": "taskmanager",
   "private": true,
   "version": "0.0.0",
-  "proxy": "http://localhost:3000",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 4000",
+    "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"

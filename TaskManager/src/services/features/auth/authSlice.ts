@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import authServie from "./authService";
+import { FieldValues } from "../../../pages/auth/Register";
 
 // Get user from localStorage
 const user = JSON.parse(localStorage.getItem("user")!);
@@ -41,26 +42,15 @@ const initialState: initialStateType = {
   message: "",
 };
 
-export interface RegisterData {
-  username: string;
-  password: string;
-  email: string;
-}
-
 // Register user
-
 export const register = createAsyncThunk(
   "auth/register",
-  async (userData: RegisterData, thunkAPI) => {
+  async (userData: FieldValues, thunkAPI) => {
     try {
       return await authServie.register(userData);
     } catch (error: any) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+        error?.response?.data?.message || error.message || error.toString();
 
       return thunkAPI.rejectWithValue(message);
     }

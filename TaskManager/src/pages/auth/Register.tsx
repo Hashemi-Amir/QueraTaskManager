@@ -8,10 +8,7 @@ import Schema from "../../components/validationRuls/Schema";
 import CheckBox from "../../components/ui/CheckBox";
 // import { useEffect } from "react";
 import { useAppDispatch } from "../../services/app/hook";
-import {
-  RegisterData,
-  register as registerUser,
-} from "../../services/features/auth/authSlice";
+import { register as registerUser } from "../../services/features/auth/authSlice";
 
 const Register = () => {
   const {
@@ -27,7 +24,7 @@ const Register = () => {
 
   // Redux Toolkit codes
   const dispatch = useAppDispatch();
-  const onSubmit = (data: RegisterData) => {
+  const onSubmit = (data: FieldValues) => {
     dispatch(
       registerUser({
         username: data.username,
@@ -37,16 +34,6 @@ const Register = () => {
     );
     console.log(data);
   };
-
-  // useEffect(() => {
-  //   const data: FieldValues = {
-  //     username: "awdsawds",
-  //     password: "1234567",
-  //     email: "ami12@gmail.com",
-  //   };
-
-  //   // dispatch(register(data));
-  // }, []);
 
   return (
     <Card cardTitle="ثبت‌نام در کوئرا تسک منیجر " className="w-full max-w-md">

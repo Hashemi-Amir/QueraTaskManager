@@ -1,14 +1,14 @@
 import axios from "axios";
 const API_URL = "/api/auth/";
-import { RegisterData } from "../auth/authSlice";
+import { FieldValues } from "../../../pages/auth/Register";
 
-const register = async (userData: RegisterData) => {
+// Regiter user
+const register = async (userData: FieldValues) => {
   const response = await axios.post(API_URL + "register", userData);
 
   if (response.data) {
     localStorage.setItem("user", JSON.stringify(response.data));
   }
-
   return response.data;
 };
 
@@ -17,10 +17,3 @@ const authServie = {
 };
 
 export default authServie;
-
-// const response = await axios.post("http://localhost:3000register", userData);
-// if (response.status === 201) {
-//   return response.data;
-// } else {
-//   throw new Error(response.data.message);
-// }
