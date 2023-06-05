@@ -6,51 +6,61 @@ import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
 import { schema } from "../../components/validationRuls/Validation";
 import CheckBox from "../../components/ui/CheckBox";
-import axios from "axios";
+// import { useEffect } from "react";
+import { useAppDispatch } from "../../services/app/hook";
+import {
+  RegisterData,
+  register as registerUser,
+} from "../../services/features/auth/authSlice";
+
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FieldValues>({
+  } = useForm<RegisterData | FieldValues>({
     resolver: yupResolver(schema),
   });
-
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
-  };
 
   const errorMsgStyle = "text-FC0733 text-xs absolute py-1";
   const errorInputStyle = "border-FB0606";
 
-  //////////////////////////////////////////////////////////////////////////
-
-  const article = {
-    "emailOrUsername": "amir.nili0972@gmail.com",
-    "password": "password123"
+  // Redux Toolkit codes
+  const dispatch = useAppDispatch();
+  const onSubmit = (data: RegisterData) => {
+    dispatch(
+      registerUser({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      })
+    );
+    console.log(data);
   };
 
-  axios
-    .post("http://localhost:3000/api/auth/login", article)
-    .then((response) => console.log(response))
-    .catch((error) => {
-      console.error("There was an error!", error.message);
-    });
+  // useEffect(() => {
+  //   const data: FieldValues = {
+  //     username: "awdsawds",
+  //     password: "1234567",
+  //     email: "ami12@gmail.com",
+  //   };
 
-  //////////////////////////////////////////////////////////////////////////
+  //   // dispatch(register(data));
+  // }, []);
+
   return (
     <Card cardTitle="ثبت‌نام در کوئرا تسک منیجر " className="w-full max-w-md">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
-          label="نام کامل"
+          label="نام کاربری"
           type="text"
-          id="fullName"
-          name="fullName"
+          id="username"
+          name="username"
           autoComplete="name"
-          className={errors.fullName?.message && errorInputStyle}
+          className={errors.username?.message && errorInputStyle}
           register={register}
         />
-        <p className={errorMsgStyle}>{errors.fullName?.message}</p>
+        <p className={errorMsgStyle}>{errors.username?.message}</p>
         <Input
           label="ایمیل"
           type="email"
