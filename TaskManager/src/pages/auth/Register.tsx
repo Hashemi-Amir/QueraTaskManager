@@ -6,6 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
 import Schema from "../../components/validationRuls/Schema";
 import CheckBox from "../../components/ui/CheckBox";
+// import { useEffect } from "react";
+import { useAppDispatch } from "../../services/app/hook";
+import { register as registerUser } from "../../services/features/auth/authSlice";
+
 const Register = () => {
   const {
     register,
@@ -15,12 +19,22 @@ const Register = () => {
     resolver: yupResolver(Schema.register),
   });
 
+  const errorMsgStyle = "text-FC0733 text-xs absolute py-1";
+  const errorInputStyle = "border-FB0606";
+
+  // Redux Toolkit codes
+  const dispatch = useAppDispatch();
   const onSubmit = (data: FieldValues) => {
+    dispatch(
+      registerUser({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      })
+    );
     console.log(data);
   };
 
-  const errorMsgStyle = "text-FC0733 text-xs absolute py-1";
-  const errorInputStyle = "border-FB0606";
   return (
     <Card cardTitle="ثبت‌نام در کوئرا تسک منیجر " className="w-full max-w-md">
       <form onSubmit={handleSubmit(onSubmit)}>

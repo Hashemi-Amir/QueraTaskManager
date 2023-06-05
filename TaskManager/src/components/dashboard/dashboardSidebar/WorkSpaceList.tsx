@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import SideMore from "../../modals/Small/SideMore";
 import ProjectList from "./ProjectList";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchWorkSpace, selectWorkSpace } from "../../../services/features/workSpaceList/workSpaceSlice";
+
 
 type WorkSpaceProps = {
   spaceList: {
@@ -15,13 +14,7 @@ type WorkSpaceProps = {
 
 const WorkSpaceList = ({ spaceList }: WorkSpaceProps) => {
   const [workspaceMore, setWorkspaceMore] = useState(false);
-  const workSpace = useSelector(selectWorkSpace);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchWorkSpace());
-  }, []);
-  console.log(workSpace);
 
   return (
     <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">

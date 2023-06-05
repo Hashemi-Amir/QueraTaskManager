@@ -1,7 +1,6 @@
 import Header from "../dashboardColumnView/Header";
 import TaskCard from "./TaskCard";
 
-
 import { Task } from "../../../pages/dashboard/ColumnView";
 
 type BoardProps = {
@@ -19,9 +18,9 @@ const Board = ({ title, borderColor, number, tasks }: BoardProps) => {
       <Header title={title} borderColor={borderColor} number={number} />
 
       {/* Task Cards */}
-        {tasks.map((task) => (
-          <TaskCard key={task._id} task={task} />
-        ))}
+      {tasks.map((task) => (
+        <TaskCard key={task._id} task={task} />
+      ))}
     </div>
   );
 };

@@ -1,11 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TypeStore } from "../../app/store";
-import axios from 'axios'
+import axios from "axios";
 // type WorkSpace = {
 
 // };
-const API_URL = "http://localhost:3000/api/workspace/get-all/";
-
+const auth = {
+  headers: {
+    "x-auth-token":
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzhkNzgwOWM4ZDk4NGUxNWNjN2U3NiIsInVzZXJuYW1lIjoic2luYTIiLCJlbWFpbCI6InNpbmEubmlsaTA5NzJAZ21haWwuY29tIiwiaWF0IjoxNjg1OTcwNTU3LCJleHAiOjE2ODYwNTY5NTd9.nxS85uBtKIBh0zjiGFt9XcQQP8OuGo9s0TbPKbs1bD4",
+  },
+};
 type initialStateType = {
   isLoading: boolean;
   workSpace: object;
@@ -22,11 +26,7 @@ const fetchWorkSpace = createAsyncThunk(
   "workspace/fetchWorkSpace",
   async () => {
     try {
-      const response = await axios.get(API_URL,{
-        headers: {
-          'Authorization': `token ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzhkNzgwOWM4ZDk4NGUxNWNjN2U3NiIsInVzZXJuYW1lIjoic2luYTIiLCJlbWFpbCI6InNpbmEubmlsaTA5NzJAZ21haWwuY29tIiwiaWF0IjoxNjg1OTcwNTU3LCJleHAiOjE2ODYwNTY5NTd9.nxS85uBtKIBh0zjiGFt9XcQQP8OuGo9s0TbPKbs1bD4'}`
-        }
-      });
+      const response = await axios.get("http://localhost:3000/api/workspace/get-all",auth);
       const data = await response.data;
       return data;
     } catch (error) {

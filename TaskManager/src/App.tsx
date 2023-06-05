@@ -16,22 +16,21 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<DashboardLayout />}>
-        <Route path="columnview" element={<ColumnView />} />
-        <Route path="calendarview" element={<Calendar />} />
-        <Route path="listview" element={<ListView />} />
+        <Route path="/columnview" element={<ColumnView />} />
+        <Route path="/calendarview" element={<Calendar />} />
+        <Route path="/listview" element={<ListView />} />
       </Route>
       <Route path="/" element={<AuthLayout />}>
-        <Route path="login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reset" element={<Reset />} />
         <Route path="/Forgot" element={<Forgot />} />
       </Route>
       <Route path="/" element={<ProfileLayout />}>
-        <Route path="personalinfo" element={<PersonalInfo />} />
+        <Route path="/personalinfo" element={<PersonalInfo />} />
         <Route path="/accountinfo" element={<AccountInfo />} />
         <Route path="/profsettings" element={<ProfileSettings />} />
       </Route>
-
     </Routes>
   );
 }
