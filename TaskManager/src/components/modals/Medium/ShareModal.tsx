@@ -47,8 +47,8 @@ const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
                         {/* Send invite Link  */}
                         <div className="flex">
                             <input 
-                                type='email'
-                                placeholder="دعوت با ایمیل"
+                                type='text'
+                                placeholder="دعوت با شناسه کاربری"
                                 name="invite"
                                 className="w-4/5 h-10 p-3 bg-F0F1F3 rounded-tr-lg rounded-br-lg text-sm font-normal focus:outline-none "
                             />

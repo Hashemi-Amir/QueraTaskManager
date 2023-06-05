@@ -27,8 +27,7 @@ const Permission = ({handlePermission}:PermissionProps) => {
 
 
             <li className={liStyle}>
-                <span className={spanStyle} onClick={(e) => handlePermission(e)}>فقط دسترسی مشاهده</span>
-                <p className={pStyle}>توانایی گذاشتن کامنت یا ویرایش تسک‌ها را ندارد.</p>
+                <span className={spanStyle} onClick={(e) => handlePermission(e)}>حذف مشترک</span>
             </li>
 
 
