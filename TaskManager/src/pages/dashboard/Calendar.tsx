@@ -12,20 +12,19 @@ import {
   setDate,
   setRef,
 } from "../../services/features/calendar/calendarSlice";
+import moment from "moment";
 
 const Calendar = () => {
   const [todayDate, setTodayDate] = useState("");
   const dispatch = useDispatch();
   const calendarEl = useRef<any | null>(null);
 
-console.log();
-
 
   useEffect(() => {
     dispatch(setDate(todayDate));
     dispatch(setRef(calendarEl.current.getApi()));
-  });
-  
+  }, [todayDate]);
+
   const dayCellContent = (props: any) => {
     return (
       <div className="w-full h-full px-1">
@@ -49,14 +48,19 @@ console.log();
       dateStyle: "medium",
     });
   };
-
   return (
     <FullCalendar
-      plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
+      plugins={[dayGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
       locale={faLocale}
       dayCellContent={dayCellContent}
-      datesSet={(args) => setTodayDate(args.view.calendar.getDate().toLocaleDateString("fa-IR",{dateStyle:"medium"}))}
+      datesSet={(args) =>
+        setTodayDate(
+          args.view.calendar
+            .getDate()
+            .toLocaleDateString("fa-IR", { dateStyle: "medium" })
+        )
+      }
       dayCellClassNames={"group"}
       viewClassNames={"bg-white"}
       dayHeaderClassNames={"!border-b-0 !text-right"}

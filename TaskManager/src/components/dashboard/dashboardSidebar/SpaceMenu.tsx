@@ -10,11 +10,11 @@ const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
         disabled
         selected
         className=" bg-208D8E text-323232 font-semibold"
-      >
+        >
         ورک اسپیس ها
       </option>
       {workSpaces.map((space) => (
-        <option className="font-semibold bg-208D8E hover:text-white" key={space}>
+        <option className="font-semibold bg-208D8E hover:text-white" key={space} value={space}>
           {space}
         </option>
       ))}

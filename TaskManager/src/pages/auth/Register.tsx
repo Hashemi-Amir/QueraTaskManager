@@ -4,16 +4,15 @@ import Input from "../../components/ui/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
-import { schema } from "../../components/validationRuls/Validation";
+import Schema from "../../components/validationRuls/Schema";
 import CheckBox from "../../components/ui/CheckBox";
-import axios from "axios";
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FieldValues>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(Schema.register),
   });
 
   const onSubmit = (data: FieldValues) => {
@@ -22,35 +21,19 @@ const Register = () => {
 
   const errorMsgStyle = "text-FC0733 text-xs absolute py-1";
   const errorInputStyle = "border-FB0606";
-
-  //////////////////////////////////////////////////////////////////////////
-
-  const article = {
-    "emailOrUsername": "amir.nili0972@gmail.com",
-    "password": "password123"
-  };
-
-  axios
-    .post("http://localhost:3000/api/auth/login", article)
-    .then((response) => console.log(response))
-    .catch((error) => {
-      console.error("There was an error!", error.message);
-    });
-
-  //////////////////////////////////////////////////////////////////////////
   return (
     <Card cardTitle="ثبت‌نام در کوئرا تسک منیجر " className="w-full max-w-md">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
-          label="نام کامل"
+          label="نام کاربری"
           type="text"
-          id="fullName"
-          name="fullName"
+          id="username"
+          name="username"
           autoComplete="name"
-          className={errors.fullName?.message && errorInputStyle}
+          className={errors.username?.message && errorInputStyle}
           register={register}
         />
-        <p className={errorMsgStyle}>{errors.fullName?.message}</p>
+        <p className={errorMsgStyle}>{errors.username?.message}</p>
         <Input
           label="ایمیل"
           type="email"
@@ -77,7 +60,7 @@ const Register = () => {
 
         <Input
           label="تایید کلمه عبور"
-          type="Password"
+          type="password"
           id="confirmPassword"
           name="confirmPassword"
           autoComplete="password"

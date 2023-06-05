@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
-import { schema } from "../../components/validationRuls/Validation";
+import Schema from "../../components/validationRuls/Schema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Card from "../../components/auth/Card";
@@ -13,7 +13,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FieldValues>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(Schema.login),
   });
 
   const onSubmit = (data: FieldValues) => {
@@ -36,7 +36,6 @@ const Login = () => {
           register={register}
         />
         <p className={errorMsgStyle}>{errors.email?.message}</p>
-
         <Input
           label="رمز عبور"
           name="password"
@@ -57,7 +56,8 @@ const Login = () => {
           </Link>
         </div>
 
-        <Button value="ورود" />
+        <Button type="submit" value="ورود"  onClick={()=>{console.log('Clicked');
+        }}/>
         <div className="text-center text-base mt-5">
           <span>ثبت نام نکرده‌ای؟</span>
           <Link to={"/register"} className="font-bold text-208D8E mr-2">

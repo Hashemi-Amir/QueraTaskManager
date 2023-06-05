@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import Card from "../../components/auth/Card";
 import Input from "../../components/ui/Input";
-import { schema } from "../../components/validationRuls/Validation";
+import Schema from "../../components/validationRuls/Schema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
@@ -13,7 +13,7 @@ const Forget = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FieldValues>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(Schema.forgot),
   });
 
   const onSubmit = (data: FieldValues) => {

@@ -3,7 +3,25 @@ import { CiTextAlignRight } from "react-icons/ci";
 import ProfileButton from "../../ui/ProfileButton";
 import { FiCheckCircle, FiFlag } from "react-icons/fi";
 import { BsThreeDots } from "react-icons/bs";
-const TaskCard = () => {
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+type Task = {
+  task: {
+    _id: string;
+    name: string;
+    description: string;
+    label: [];
+    board: string;
+    taskTags: string[];
+    taskAssigns: string[];
+    comments: string[];
+    position: number;
+    deadline?: string;
+  };
+};
+
+const TaskCard = ({ task }: Task) => {
   const [isExpanded, setIsExpanded] = useState(false);
   // const [colMoreModal , setColMoreModal] = useState(false)
 
@@ -11,15 +29,34 @@ const TaskCard = () => {
     setIsExpanded(isHovering);
   };
 
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: task._id });
+
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    cursor: isDragging ? "grabbing" : "pointer",
+  } as React.CSSProperties;
+
   return (
     <div
-      className="border w-[250px] rounded p-3 bg-white text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3"
+      className={`border w-[250px] rounded p-3 bg-white text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3`}
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
       onMouseOver={() => handleCardHover(true)}
       onMouseLeave={() => handleCardHover(false)}
     >
       <div className="flex justify-between items-baseline mb-2">
         <div className="h-4 font-medium leading-4 text-right text-534D60 text-[10px]">
-          پروژه اول
+          {task.name}
         </div>
 
         <ProfileButton
@@ -32,7 +69,7 @@ const TaskCard = () => {
       </div>
       <div className="flex items-center justify-start mb-5 gap-1">
         <div className="font-medium text-xs text-0E0E0E leading-4 text-right">
-          این یک تیتر برای این تسک است
+          {task.description}
         </div>
         <div className="text-xs text-BDC0C6 ">
           <CiTextAlignRight />
@@ -64,10 +101,10 @@ const TaskCard = () => {
         ${isExpanded ? "h-9 mt-5 pt-4" : "h-[0px] opacity-0 mt-0 pt-0"}
         `}
       >
-        <div className="hover:text-208D8E hover:scale-110" >
+        <div className="hover:text-208D8E hover:scale-110">
           <FiCheckCircle />
         </div>
-        <div className="hover:scale-110" >
+        <div className="hover:scale-110">
           <BsThreeDots />
 
           {/* {colMoreModal && <ColMore />} */}
