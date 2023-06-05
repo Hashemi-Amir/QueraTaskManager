@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import SideMore from "../../modals/Small/SideMore";
+import ProjectList from "./ProjectList";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWorkSpace, selectWorkSpace } from "../../../services/features/workSpaceList/workSpaceSlice";
 
 type WorkSpaceProps = {
   spaceList: {
@@ -12,6 +15,14 @@ type WorkSpaceProps = {
 
 const WorkSpaceList = ({ spaceList }: WorkSpaceProps) => {
   const [workspaceMore, setWorkspaceMore] = useState(false);
+  const workSpace = useSelector(selectWorkSpace);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchWorkSpace());
+  }, []);
+  console.log(workSpace);
+
   return (
     <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
       {spaceList.map((space) => {
@@ -32,21 +43,7 @@ const WorkSpaceList = ({ spaceList }: WorkSpaceProps) => {
               </div>
               {workspaceMore && <SideMore sideMoreState="ورک اسپیس" />}
             </div>
-            {space.projectName && (
-              <div className="collapse-content ">
-                {space.projectName.map((project) => (
-                  <div
-                    className="pb-3 font-medium flex justify-between items-center group/content"
-                    key={project}
-                  >
-                    {project}
-                    <span className="cursor-pointer hidden group-hover/content:block z-10">
-                      <BsThreeDots />
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
+            <ProjectList space={space} />
           </div>
         );
       })}
