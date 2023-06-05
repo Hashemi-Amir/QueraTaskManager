@@ -12,7 +12,7 @@ type SideMoreProps = {
 const SideMore = ({sideMoreState} : SideMoreProps) => {
     const liStyle = "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer"
     return (
-        <ul className='absolute w-52 bg-white shadow-lg p-3 rounded-lg'>
+        <ul className='absolute w-52 bg-white shadow-lg p-3 rounded-lg z-50'>
             <li className="w-full flex items-center text-sm font-normal  mt-3 cursor-pointer">
                 <span className="ml-4 text-xl"><AiOutlinePlus /></span>
                <span>ساختن {sideMoreState === 'تسک' ? 'تسک' : 'پروژه'} جدید</span>

@@ -4,7 +4,7 @@ import Input from "../../components/ui/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
-import { schema } from "../../components/validationRuls/Validation";
+import Schema from "../../components/validationRuls/Schema";
 import CheckBox from "../../components/ui/CheckBox";
 // import { useEffect } from "react";
 import { useAppDispatch } from "../../services/app/hook";
@@ -18,8 +18,8 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterData | FieldValues>({
-    resolver: yupResolver(schema),
+  } = useForm<FieldValues>({
+    resolver: yupResolver(Schema.register),
   });
 
   const errorMsgStyle = "text-FC0733 text-xs absolute py-1";
@@ -87,7 +87,7 @@ const Register = () => {
 
         <Input
           label="تایید کلمه عبور"
-          type="Password"
+          type="password"
           id="confirmPassword"
           name="confirmPassword"
           autoComplete="password"

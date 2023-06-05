@@ -11,6 +11,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.0.8",
+    "@dnd-kit/sortable": "^7.0.2",
+    "@dnd-kit/utilities": "^3.2.1",
     "@fullcalendar/core": "^6.1.7",
     "@fullcalendar/daygrid": "^6.1.7",
     "@fullcalendar/interaction": "^6.1.7",
@@ -23,7 +26,6 @@
     "daisyui": "^2.51.6",
     "emoji-picker-react": "^4.4.9",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
     "react-multi-date-picker": "^4.0.0",

@@ -4,7 +4,7 @@ import Input from "../../components/ui/Input";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
-import { schema } from "../../components/validationRuls/Validation";
+import Schema from "../../components/validationRuls/Schema";
 
 const PersonalInfo = () => {
   const {
@@ -12,7 +12,7 @@ const PersonalInfo = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FieldValues>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(Schema.personalInfo),
   });
 
   const onSubmit = (data: FieldValues) => {

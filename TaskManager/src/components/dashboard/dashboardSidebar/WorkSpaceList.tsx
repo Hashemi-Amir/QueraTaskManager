@@ -11,29 +11,39 @@ type WorkSpaceProps = {
 };
 
 const WorkSpaceList = ({ spaceList }: WorkSpaceProps) => {
-  const [workspaceMore , setWorkspaceMore] = useState(false)
+  const [workspaceMore, setWorkspaceMore] = useState(false);
   return (
     <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
       {spaceList.map((space) => {
         return (
-          <div className="collapse" key={space.spaceName}>
+          <div className="collapse group/title" key={space.spaceName}>
             <input type="checkbox" className="p-0 m-0" />
             <div className="relative collapse-title font-medium flex justify-between items-center gap-2 p-0 m-0">
-              <div>
-                <span className={`w-5 h-5 rounded ${space.spaceColor}`} />
-                {space.spaceName}
+              <div className="flex gap-2 group">
+                <div className={`w-5 h-5 rounded bg-${space.spaceColor}`}></div>
+                <div>{space.spaceName}</div>
               </div>
 
-              <span className="absolute left-0 cursor-pointer" onClick={()=> setWorkspaceMore(true)}><BsThreeDots /></span>
-              {workspaceMore && <SideMore sideMoreState="ورک اسپیس"/>}
+              <div
+                className="absolute left-0 cursor-pointer hidden group-hover/title:block z-10"
+                onClick={() => setWorkspaceMore(true)}
+              >
+                <BsThreeDots />
+              </div>
+              {workspaceMore && <SideMore sideMoreState="ورک اسپیس" />}
             </div>
             {space.projectName && (
-              <div className="collapse-content  ">
+              <div className="collapse-content ">
                 {space.projectName.map((project) => (
-                  <p className="pb-3  font-medium flex justify-between items-center" key={project}>
+                  <div
+                    className="pb-3 font-medium flex justify-between items-center group/content"
+                    key={project}
+                  >
                     {project}
-                    <span className="cursor-pointer" ><BsThreeDots /></span>
-                  </p>
+                    <span className="cursor-pointer hidden group-hover/content:block z-10">
+                      <BsThreeDots />
+                    </span>
+                  </div>
                 ))}
               </div>
             )}
