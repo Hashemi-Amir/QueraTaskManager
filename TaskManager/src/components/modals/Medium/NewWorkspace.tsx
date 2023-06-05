@@ -6,6 +6,7 @@ import { BiBlock } from "react-icons/bi";
 import avatar from '../../../assets/avatar.png'
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import CloseIcon from "../../ui/Close";
+import axios from "axios";
 
 
 type workspaceProps = {
@@ -45,20 +46,43 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
         {id : 17, color : 'bg-[#6CB2F7]'},
         {id : 18, color : 'bg-[#9286EA]'},
         {id : 19, color : 'bg-[#C074D1]'},
+        {id : 20, color : 'bg-[#486774]'},
+        {id : 21, color : 'bg-[#46494D]'},
         
     ]
 
+    
+    const submitNewWorkSpace = () => {
+        const config ={
+            headers : {
+                'x-auth-token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzhkNzgwOWM4ZDk4NGUxNWNjN2U3NiIsInVzZXJuYW1lIjoic2luYTIiLCJlbWFpbCI6InNpbmEubmlsaTA5NzJAZ21haWwuY29tIiwiaWF0IjoxNjg1ODEyODQwLCJleHAiOjE2ODU4OTkyNDB9.xbs9R-gbbfoMOiLjh6rRMIBSeug8eYLjUaLXyEJalGw' 
+            }
+        }
+        const formdata = {name : workspaceName}
+        
+        axios.post('http://localhost:3000/api/workspace/create',formdata , config).then(res=> {
+            console.log(res);
+            handleModalWorkSpace()
+        }).catch(err => {
+            console.log(err); 
+        })
+    }
 
     const handleCheckBoxColor = (data:any):any => {
         setSelectedColor({...selectedColor, color : data.color , id : data.id})
     }
 
+
+
     const handleWorkSpaceStep = () => {
-        if(workSpaceStep === 'ساختن ورک اسپیس جدید'){       
+        const regex = /\S/g
+        if(workSpaceStep === 'ساختن ورک اسپیس جدید' && regex.test(workspaceName)){       
             setWorkSpaceName(workspaceName)
             setWorkSpaceStepe('انتخاب رنگ ورک اسپیس')
         }else if(workSpaceStep === 'انتخاب رنگ ورک اسپیس'){
             setWorkSpaceStepe('مرور اطلاعات')
+        }else if(workSpaceStep === 'مرور اطلاعات'){
+            submitNewWorkSpace()
         }
     }
     return (

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import SideMore from "../../modals/Small/SideMore";
+import SideMore from '../../modals/Small/SideMore'
 
 type WorkSpaceProps = {
   spaceList: {
@@ -11,27 +11,37 @@ type WorkSpaceProps = {
 };
 
 const WorkSpaceList = ({ spaceList }: WorkSpaceProps) => {
-  const [workspaceMore, setWorkspaceMore] = useState(false);
+  const [workspaceMore , setWorkspaceMore] = useState(null)
+
+  const handleItemClick = (item:any) => {
+    setWorkspaceMore(item)
+  }
+  const closeWorkSpace = () => {
+    setWorkspaceMore(null)
+  }
+  // const handleWorkSpaceMore = () => {
+  //   console.log('wop');
+    
+  //   setWorkspaceMore(!workspaceMore)
+  // }
   return (
-    <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
+    <div className="my-5 relative flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
       {spaceList.map((space) => {
         return (
           <div className="collapse group/title" key={space.spaceName}>
             <input type="checkbox" className="p-0 m-0" />
             <div className="relative collapse-title font-medium flex justify-between items-center gap-2 p-0 m-0">
-              <div className="flex gap-2 group">
-                <div className={`w-5 h-5 rounded bg-${space.spaceColor}`}></div>
-                <div>{space.spaceName}</div>
+              <div className="flex items-center">
+                <span className={`block w-5 h-5 ml-2 rounded ${space.spaceColor}`} />
+                {space.spaceName}
               </div>
 
-              <div
-                className="absolute left-0 cursor-pointer hidden group-hover/title:block z-10"
-                onClick={() => setWorkspaceMore(true)}
-              >
-                <BsThreeDots />
-              </div>
-              {workspaceMore && <SideMore sideMoreState="ورک اسپیس" />}
+              <span className="absolute z-50 left-0 block cursor-pointer" onClick={()=> handleItemClick(space.spaceName)}><BsThreeDots /></span>
+             
+              
             </div>
+           
+
             {space.projectName && (
               <div className="collapse-content ">
                 {space.projectName.map((project) => (
@@ -47,9 +57,13 @@ const WorkSpaceList = ({ spaceList }: WorkSpaceProps) => {
                 ))}
               </div>
             )}
+            
+
           </div>
         );
       })}
+       {workspaceMore && <SideMore sideMoreState="ورک اسپیس"/>}
+
     </div>
   );
 };
