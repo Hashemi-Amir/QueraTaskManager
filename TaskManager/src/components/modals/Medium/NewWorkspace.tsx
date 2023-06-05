@@ -55,7 +55,7 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
     const submitNewWorkSpace = () => {
         const config ={
             headers : {
-                'x-auth-token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzhkNzgwOWM4ZDk4NGUxNWNjN2U3NiIsInVzZXJuYW1lIjoic2luYTIiLCJlbWFpbCI6InNpbmEubmlsaTA5NzJAZ21haWwuY29tIiwiaWF0IjoxNjg1ODEyODQwLCJleHAiOjE2ODU4OTkyNDB9.xbs9R-gbbfoMOiLjh6rRMIBSeug8eYLjUaLXyEJalGw' 
+                'x-auth-token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzhkNzgwOWM4ZDk4NGUxNWNjN2U3NiIsInVzZXJuYW1lIjoic2luYTIiLCJlbWFpbCI6InNpbmEubmlsaTA5NzJAZ21haWwuY29tIiwiaWF0IjoxNjg1OTgzNjQzLCJleHAiOjE2ODYwNzAwNDN9.QQeYnSplou1pWbZMPSclT1HDA2Gw901QhFCsirYk2iQ' 
             }
         }
         const formdata = {name : workspaceName}

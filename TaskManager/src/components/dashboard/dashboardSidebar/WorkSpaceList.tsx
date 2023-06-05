@@ -36,7 +36,7 @@ const WorkSpaceList = ({ spaceList }: WorkSpaceProps) => {
                 {space.spaceName}
               </div>
 
-              <span className="absolute z-50 left-0 block cursor-pointer" onClick={()=> handleItemClick(space.spaceName)}><BsThreeDots /></span>
+              <div className="absolute left-0 cursor-pointer hidden group-hover/title:block z-10" onClick={()=> handleItemClick(space.spaceName)}><BsThreeDots /></div>
              
               
             </div>
