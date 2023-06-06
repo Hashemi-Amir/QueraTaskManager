@@ -4,8 +4,10 @@ import SearchInput from "../../ui/SearchInput";
 import WorkSpaceList from "./WorkSpaceList";
 import SpaceMenu from "./SpaceMenu";
 import { Link } from "react-router-dom";
-
 import { RxExit } from "react-icons/rx";
+import { fetchWorkSpace, selectWorkSpace } from "../../../services/features/workSpaceList/workSpaceSlice";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { useEffect } from "react";
 
 const SideBar = () => {
   const data = [
@@ -32,6 +34,11 @@ const SideBar = () => {
     "درس ساختمان داده",
     "درس داده کاوی",
   ];
+
+
+
+  // console.log(workSpace.workSpace.data);
+
 
   return (
     <div className=" flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">

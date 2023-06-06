@@ -1,16 +1,23 @@
 import { configureStore } from "@reduxjs/toolkit";
 import calendarReducer from "../features/calendar/calendarSlice";
+import workSpaceReducer from "../features/workSpaceList/workSpaceSlice";
 import authReducer from "../features/auth/authSlice";
 
 export type TypeStore = {
   calendar: {
     calendarState: { date: string; ref: any };
   };
+  workSpace: {
+    isLoading: boolean;
+    workSpace: object;
+    isError: string | undefined;
+  };
 };
 
 const store = configureStore({
   reducer: {
     calendar: calendarReducer,
+    workSpace: workSpaceReducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
