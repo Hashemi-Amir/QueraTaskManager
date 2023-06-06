@@ -23,7 +23,7 @@ const SideBar = () => {
     {
       spaceName: "درس ساختمان داده",
       projectName: ["پروژه اول"],
-      spaceColor: "6CB2F7",
+      spaceColor: "4AB7D8",
     },
   ];
 
@@ -41,7 +41,7 @@ const SideBar = () => {
 
 
   return (
-    <div className=" flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">
+    <div className="relative flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">
       <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-118C80 to-4AB7D8">
         کوئرا تسک منیجر
       </h1>

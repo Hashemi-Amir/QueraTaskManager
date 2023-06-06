@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TypeStore } from "../../app/store";
 import axios from "axios";
+import WorkspaceService from "./workSpaceService";
 // type WorkSpace = {
 
 // };
@@ -35,6 +36,20 @@ const fetchWorkSpace = createAsyncThunk(
   }
 );
 
+
+const createWorkSpace = createAsyncThunk(
+  "workspace/createWorkSpace",
+  async (nameWorkspace:string) => {
+    try{
+      return await WorkspaceService.createWorkSpace(nameWorkspace);
+    }catch (error){
+      return error
+    }
+  }
+)
+
+
+
 const workSpaceSlice = createSlice({
   name: "workSpace",
   initialState,
@@ -53,10 +68,23 @@ const workSpaceSlice = createSlice({
         state.isLoading = false;
         state.isError = action.error.message;
         state.workSpace = [];
+      })
+      .addCase(createWorkSpace.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createWorkSpace.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.workSpace = action.payload
+        state.isError = "";
+      })
+      .addCase(createWorkSpace.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.error.message;
+        state.workSpace = [];
       });
   },
 });
 
 export default workSpaceSlice.reducer;
-export { fetchWorkSpace };
+export { fetchWorkSpace , createWorkSpace};
 export const selectWorkSpace = (state: TypeStore) => state.workSpace;

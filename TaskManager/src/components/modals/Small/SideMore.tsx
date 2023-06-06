@@ -6,13 +6,18 @@ import Button from "../../ui/Button";
 import { BiShareAlt } from "react-icons/bi";
 
 type SideMoreProps = {
-    sideMoreState : string
+    sideMoreState : string,
+    morePosition : any
 }
 
-const SideMore = ({sideMoreState} : SideMoreProps) => {
+const SideMore = ({sideMoreState , morePosition} : SideMoreProps) => {
     const liStyle = "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer"
+    // -left-2/3
     return (
-        <ul className='absolute top-0 -left-1/4  z-50 w-52 bg-white shadow-lg p-3 rounded-lg'>
+        <ul 
+            style={{top : morePosition.top , left : morePosition.left}}
+            className='absolute mt-3 z-50 w-52 bg-white shadow-lg p-3 rounded-lg' 
+        >
             <li className="w-full flex items-center text-sm font-normal  mt-3 cursor-pointer">
                 <span className="ml-4 text-xl"><AiOutlinePlus /></span>
                <span>ساختن {sideMoreState === 'تسک' ? 'تسک' : 'پروژه'} جدید</span>

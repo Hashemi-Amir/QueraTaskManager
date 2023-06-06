@@ -2,15 +2,16 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FiFlag } from "react-icons/fi";
 
 type PriorityOptionsProps = {
-    handlePriority : (e:any) => void
+    handlePriority : (e:any) => void,
+    className? : string
 }
 
-const PriorityOptions = ({handlePriority}:PriorityOptionsProps) => {
+const PriorityOptions = ({handlePriority , className}:PriorityOptionsProps) => {
 
     const liStyle = "w-full flex items-center px-3 mt-4 text-sm font-normal text-[#1E1E1E] cursor-pointer"
     const spanStyle = 'text-xl ml-3 pointer-events-none'
     return (
-        <ul className="absolute  -right-44 -top-20 pb-3 w-44  bg-white z-40 rounded-lg shadow-lg">
+        <ul className={`absolute  -right-44 -top-20 pb-3 w-44  bg-white z-50 rounded-lg shadow-lg ${className}`}>
             <li 
                 className={liStyle} 
                 data-style='text-FB0606 border-FB0606' 

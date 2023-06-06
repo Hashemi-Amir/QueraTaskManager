@@ -6,7 +6,9 @@ import { BiBlock } from "react-icons/bi";
 import avatar from '../../../assets/avatar.png'
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import CloseIcon from "../../ui/Close";
-import axios from "axios";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { createWorkSpace } from "../../../services/features/workSpaceList/workSpaceSlice";
+import { RootState } from "../../../services/app/store";
 
 
 type workspaceProps = {
@@ -51,22 +53,8 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
         
     ]
 
-    
-    const submitNewWorkSpace = () => {
-        const config ={
-            headers : {
-                'x-auth-token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzhkNzgwOWM4ZDk4NGUxNWNjN2U3NiIsInVzZXJuYW1lIjoic2luYTIiLCJlbWFpbCI6InNpbmEubmlsaTA5NzJAZ21haWwuY29tIiwiaWF0IjoxNjg1OTgzNjQzLCJleHAiOjE2ODYwNzAwNDN9.QQeYnSplou1pWbZMPSclT1HDA2Gw901QhFCsirYk2iQ' 
-            }
-        }
-        const formdata = {name : workspaceName}
-        
-        axios.post('http://localhost:3000/api/workspace/create',formdata , config).then(res=> {
-            console.log(res);
-            handleModalWorkSpace()
-        }).catch(err => {
-            console.log(err); 
-        })
-    }
+
+    const dispatch = useAppDispatch();    
 
     const handleCheckBoxColor = (data:any):any => {
         setSelectedColor({...selectedColor, color : data.color , id : data.id})
@@ -79,10 +67,14 @@ const NewWorkspace = ({workSpaceStep , setWorkSpaceStepe , handleModalWorkSpace}
         if(workSpaceStep === 'ساختن ورک اسپیس جدید' && regex.test(workspaceName)){       
             setWorkSpaceName(workspaceName)
             setWorkSpaceStepe('انتخاب رنگ ورک اسپیس')
-        }else if(workSpaceStep === 'انتخاب رنگ ورک اسپیس'){
+        }
+        
+        else if(workSpaceStep === 'انتخاب رنگ ورک اسپیس'){
             setWorkSpaceStepe('مرور اطلاعات')
-        }else if(workSpaceStep === 'مرور اطلاعات'){
-            submitNewWorkSpace()
+        }
+        
+        else if(workSpaceStep === 'مرور اطلاعات'){
+            dispatch(createWorkSpace(workspaceName))
         }
     }
     return (
