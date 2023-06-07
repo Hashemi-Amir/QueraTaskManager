@@ -19,6 +19,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "DashedBorderCard.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

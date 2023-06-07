@@ -1,31 +1,57 @@
+import { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import {
+  fetchProjects,
+  selectProjects,
+} from "../../../services/features/projects/projectSlice";
+import { selectWorkSpaces } from "../../../services/features/workSpaceList/workSpacesSlice";
+import WorkSpaceList from "./WorkSpaceList";
 
-type Space = {
-  space: {
-    spaceName: string;
-    projectName?: string[] | undefined;
-    spaceColor: string;
-  };
+type Project = {
+  _id: string;
+  name: string;
+  workspace: string;
+  members: [];
+  boards: [];
 };
 
-function ProjectList({ space }: Space) {
+function ProjectList({ workSpaceId }) {
+  // const [ids,setIds] = useState(workspaceId)
+  const { isError, isSuccess, projects } = useAppSelector(selectProjects);
+  // const { workSpace } = useAppSelector(selectWorkSpace);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProjects(workSpaceId));
+  }, [dispatch]);
+
+  // if (isSuccess) {
+  //   console.log(workspaceId);
+  // } else if (isError) {
+  //   console.log(isError);
+  // }
+  const findProject = projects.filter((project) => {
+    if(project.workspace === workSpaceId){
+      return project
+    }
+  });
+  console.log(projects);
+
   return (
     <>
-      {space.projectName && (
-        <div className="collapse-content ">
-          {space.projectName.map((project: any) => (
-            <div
-              className="pb-3 font-medium flex justify-between items-center group/content"
-              key={project}
-            >
-              {project}
-              <span className="cursor-pointer hidden group-hover/content:block z-10">
-                <BsThreeDots />
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
+      {isSuccess &&
+        findProject.map(({ _id, name }) => (
+          <div
+            className="pb-3 font-medium flex justify-between items-center group/content"
+            key={_id}
+          >
+            {name}
+            <span className="cursor-pointer hidden group-hover/content:block z-10">
+              <BsThreeDots />
+            </span>
+          </div>
+        ))}
     </>
   );
 }

@@ -5,54 +5,44 @@ import WorkSpaceList from "./WorkSpaceList";
 import SpaceMenu from "./SpaceMenu";
 import { Link } from "react-router-dom";
 import { RxExit } from "react-icons/rx";
-import { fetchWorkSpace, selectWorkSpace } from "../../../services/features/workSpaceList/workSpaceSlice";
+import {
+  fetchWorkSpaces,
+  selectWorkSpaces,
+} from "../../../services/features/workSpaceList/workSpacesSlice";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { useEffect } from "react";
+import ProjectList from "./ProjectList";
 
 const SideBar = () => {
-  const data = [
-    {
-      spaceName: "درس مدیریت پروژه",
-      spaceColor: "118C80",
-    },
-    {
-      spaceName: "درس کامپایلر",
-      projectName: ["پروژه اول", "پروژه دوم", "پروژه سوم"],
-      spaceColor: "DE88FD",
-    },
-    {
-      spaceName: "درس ساختمان داده",
-      projectName: ["پروژه اول"],
-      spaceColor: "6CB2F7",
-    },
-  ];
-
-  const workSpaces = [
-    "کارهای شخصی",
-    "درس مدیریت پروژه",
-    "درس کامپایلر",
-    "درس ساختمان داده",
-    "درس داده کاوی",
-  ];
-
-  const workSpace = useAppSelector(selectWorkSpace);
+  const { isError, isSuccess, workSpaces } = useAppSelector(selectWorkSpaces);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchWorkSpace());
+    dispatch(fetchWorkSpaces());
   }, []);
-  console.log(workSpace.workSpace.data);
 
+  // if (isSuccess) {
+  //   console.log(workSpace);
+  // } else if (isError) {
+  //   console.log(isError);
+  // }
 
   return (
     <div className=" flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">
       <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-118C80 to-4AB7D8">
         کوئرا تسک منیجر
       </h1>
-      <SpaceMenu workSpaces={workSpaces} />
+      <SpaceMenu workSpaces={(isSuccess && workSpaces) || []} />
       <SearchInput placeHolder="جستجو کنید" extraClass="my-3" />
       <NewSpace />
-      <WorkSpaceList spaceList={workSpace.workSpace.data} />
+      <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
+        {(isSuccess &&
+          workSpaces.map(({ name, _id }) => (
+            <WorkSpaceList name={name} id={_id} key={_id}>
+            </WorkSpaceList>
+          ))) ||
+          []}
+      </div>
       <Link className="w-fit" to={"/personalinfo"}>
         <ProfileButton
           userName="نیلوفر موجودی"
