@@ -9,7 +9,13 @@ export type TypeStore = {
   };
   workSpace: {
     isLoading: boolean;
-    workSpace: object;
+    workSpaces: {
+      _id: string;
+      name: string;
+      user: string;
+      members: [];
+      projects: [];
+    }[];
     isError: string | undefined;
   };
 };

@@ -8,18 +8,24 @@ import WorkspaceService from "./workSpaceService";
 const auth = {
   headers: {
     "x-auth-token":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzhkNzgwOWM4ZDk4NGUxNWNjN2U3NiIsInVzZXJuYW1lIjoic2luYTIiLCJlbWFpbCI6InNpbmEubmlsaTA5NzJAZ21haWwuY29tIiwiaWF0IjoxNjg1OTcwNTU3LCJleHAiOjE2ODYwNTY5NTd9.nxS85uBtKIBh0zjiGFt9XcQQP8OuGo9s0TbPKbs1bD4",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA1NzljYTczZmUzMmVjYWQxNjExNSIsInVzZXJuYW1lIjoic2luYTMiLCJlbWFpbCI6InNpbmFhLm5pbGkwOTcyQGdtYWlsLmNvbSIsImlhdCI6MTY4NjEzNTM3MywiZXhwIjoxNjg2MjIxNzczfQ.DX-dqah_2WyQCqu-O48QCWpy_b6wz03SrHkf6yiMf_s",
   },
 };
 type initialStateType = {
   isLoading: boolean;
-  workSpace: object;
+  workSpaces: {
+    _id: string;
+    name: string;
+    user: string;
+    members: [];
+    projects: [];
+  }[];
   isError: string | undefined;
 };
 
 const initialState: initialStateType = {
   isLoading: false,
-  workSpace: {},
+  workSpaces: [],
   isError: "",
 };
 
@@ -41,7 +47,7 @@ const createWorkSpace = createAsyncThunk(
   "workspace/createWorkSpace",
   async (nameWorkspace:string) => {
     try{
-      return await WorkspaceService.createWorkSpace(nameWorkspace);
+      return await WorkspaceService.createWorkSpace(nameWorkspace,auth);
     }catch (error){
       return error
     }
@@ -49,6 +55,52 @@ const createWorkSpace = createAsyncThunk(
 )
 
 
+const deleteWorkSpace = createAsyncThunk(
+  "workspace/deleteWorkSpace" ,
+  async () => {
+    try{
+      return await WorkspaceService.deleteWorkSpace(auth)
+    }catch (error){
+      return error
+    }
+  }
+)
+
+const updateWorkSpace = createAsyncThunk(
+  "workspace/updateWorkSpace" ,
+  async (formData:any) => {
+    try{
+      return await WorkspaceService.updateWorkSpace(formData,auth)
+    }catch (error){
+      return error
+    }
+  }
+)
+
+
+const addWorkSpaceMember = createAsyncThunk(
+  "workspace/addWorkSpaceMember" ,
+  async (workID:any) => {
+    try{
+      return await WorkspaceService.addWorkSpaceMember(workID,auth)
+    }catch (error){
+      return error
+    }
+  }
+)
+
+
+
+const removeWorkSpaceMember = createAsyncThunk(
+  "workspace/removeWorkSpaceMember" ,
+  async (workID:any) => {
+    try{
+      return await WorkspaceService.removeWorkSpaceMember(workID,auth)
+    }catch (error){
+      return error
+    }
+  }
+)
 
 const workSpaceSlice = createSlice({
   name: "workSpace",
@@ -61,30 +113,34 @@ const workSpaceSlice = createSlice({
       })
       .addCase(fetchWorkSpace.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.workSpace = action.payload;
+        state.workSpaces = action.payload;
         state.isError = "";
       })
       .addCase(fetchWorkSpace.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.error.message;
-        state.workSpace = [];
+        state.workSpaces = [];
       })
+
+      // create workSpace 
       .addCase(createWorkSpace.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(createWorkSpace.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.workSpace = action.payload
+        state.workSpaces = [...state.workSpaces, action.payload];
         state.isError = "";
       })
       .addCase(createWorkSpace.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.error.message;
-        state.workSpace = [];
+        state.workSpaces = [];
       });
+
+
   },
 });
 
 export default workSpaceSlice.reducer;
-export { fetchWorkSpace , createWorkSpace};
+export { fetchWorkSpace , createWorkSpace , deleteWorkSpace ,updateWorkSpace,addWorkSpaceMember , removeWorkSpaceMember};
 export const selectWorkSpace = (state: TypeStore) => state.workSpace;

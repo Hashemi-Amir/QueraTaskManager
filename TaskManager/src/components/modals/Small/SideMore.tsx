@@ -1,56 +1,194 @@
-import { AiOutlinePlus ,AiOutlineLink } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineLink } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
-import {SlNote} from 'react-icons/sl'
-import {VscSymbolColor} from 'react-icons/vsc'
+import { SlNote } from "react-icons/sl";
+import { VscSymbolColor } from "react-icons/vsc";
 import Button from "../../ui/Button";
 import { BiShareAlt } from "react-icons/bi";
+import { Dispatch } from "redux";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import Modal from "../../../layout/Modal";
+import NewProject from "../Medium/NewProject";
+import EditBox from "../../ui/EditBox";
+import CheckBoxColor from "../../ui/CheckBoxColor";
+import ShareModal from "../Medium/ShareModal";
 
 type SideMoreProps = {
-    sideMoreState : string,
-    morePosition : any
-}
+  sideMoreState: string;
+  morePosition: any;
+  handleDeleteWorkSpace: () => void;
+};
 
-const SideMore = ({sideMoreState , morePosition} : SideMoreProps) => {
-    const liStyle = "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer"
-    // -left-2/3
-    return (
-        <ul 
-            style={{top : morePosition.top , left : morePosition.left}}
-            className='absolute mt-3 z-50 w-52 bg-white shadow-lg p-3 rounded-lg' 
-        >
-            <li className="w-full flex items-center text-sm font-normal  mt-3 cursor-pointer">
-                <span className="ml-4 text-xl"><AiOutlinePlus /></span>
-               <span>ساختن {sideMoreState === 'تسک' ? 'تسک' : 'پروژه'} جدید</span>
-            </li>
-            <li className={liStyle}>
-                <span className="ml-4 text-xl"><SlNote /></span>
-                <span>ویرایش نام {sideMoreState === 'تسک' ? 'پروژه' : 'ورک اسپیس'}</span>
-            </li>
+const SideMore = ({
+  sideMoreState,
+  morePosition,
+  handleDeleteWorkSpace,
+}: SideMoreProps) => {
+  const liStyle =
+    "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer";
+  const dataColor = [
+    { id: 1, color: "bg-[#84C6A1]" },
+    { id: 2, color: "bg-[#78C6B0]" },
+    { id: 3, color: "bg-[#76BC86]" },
+    { id: 4, color: "bg-[#80DC69]" },
+    { id: 5, color: "bg-[#E46161]" },
+    { id: 6, color: "bg-[#E17E80]" },
+    { id: 7, color: "bg-[#EC8182]" },
+    { id: 8, color: "bg-[#F3C567]" },
+    { id: 9, color: "bg-[#B9995E]" },
+    { id: 10, color: "bg-[#E57A57]" },
+    { id: 11, color: "bg-[#F1A25C]" },
+    { id: 12, color: "bg-[#E28A60]" },
+    { id: 13, color: "bg-[#6897C2]" },
+    { id: 14, color: "bg-[#74AADD]" },
+    { id: 15, color: "bg-[#3C45E7]" },
+    { id: 16, color: "bg-[#6DAFCE]" },
+    { id: 17, color: "bg-[#6CB2F7]" },
+    { id: 18, color: "bg-[#9286EA]" },
+    { id: 19, color: "bg-[#C074D1]" },
+    { id: 20, color: "bg-[#486774]" },
+  ];
 
-            {
-                sideMoreState === 'ورک اسپیس' &&
-                <li className={liStyle}>
-                    <span className="ml-4 text-xl"><VscSymbolColor /></span>
-                    <span>ویرایش رنگ</span>
-                </li>
-            }
+  const [newModal, setNewModal] = useState({
+    project: false,
+    task: false,
+    edit: false,
+    color: false,
+    shareWorkSpace: false,
+    shareProject: false,
+  });
 
-            <li className={liStyle}>
-                <span className="ml-4 text-xl"><AiOutlineLink /></span>
-                <span>کپی لینک</span>
-            </li>  
-            <li className={`${liStyle} text-9F0000`}>
-                <span className="ml-4 text-xl"><BsTrash /></span>
-                <span >حذف</span>
-            </li>
+  const [editPosition, setEditPosition] = useState({
+    top: null,
+    left: null,
+  });
 
-            <li className="w-full relative flex  items-center mt-4">
-                <span className="absolute right-5 text-2xl text-white "><BiShareAlt /></span>
-                <Button value='اشتراک گذاری' className="hover:bg-208D8E hover:text-white" />
-            </li>
-              
+  const [selectedColor, setSelectedColor] = useState({
+    color: "bg-[#7D828C]",
+    id: 0,
+  });
+
+  const handleModalProject = () => {
+    if (sideMoreState === "ورک اسپیس") {
+      setNewModal({ ...newModal, project: !newModal.project });
+    }
+  };
+
+  const handleEdit = (e: any) => {
+    const top = e.clientY;
+    const left = e.clientX - 200;
+    if (sideMoreState === "ورک اسپیس") {
+      setNewModal({ ...newModal, edit: !newModal.edit });
+      setEditPosition({ ...editPosition, top: top, left: left });
+    }
+  };
+
+  const handleColor = () => {
+    setNewModal({ ...newModal, color: !newModal.color });
+  };
+  const handleCheckBoxColor = (data: any): any => {
+    setSelectedColor({ ...selectedColor, color: data.color, id: data.id });
+    handleColor();
+  };
+
+  const handleShare = () => {
+    if (sideMoreState === "ورک اسپیس") {
+      setNewModal({ ...newModal, shareWorkSpace: !newModal.shareWorkSpace });
+    }
+  };
+
+  return (
+    <ul
+      style={{ top: morePosition.top, left: morePosition.left }}
+      className="absolute mt-3 z-50 w-52 bg-white shadow-lg p-3 rounded-lg"
+    >
+      <li className="w-full flex items-center text-sm font-normal  mt-3 cursor-pointer">
+        <span className="ml-4 text-xl">
+          <AiOutlinePlus />
+        </span>
+        <span onClick={handleModalProject}>
+          ساختن {sideMoreState === "تسک" ? "تسک" : "پروژه"} جدید
+        </span>
+        {newModal.project &&
+          createPortal(
+            <Modal>
+              <NewProject handleModalProject={handleModalProject} />
+            </Modal>,
+            document.body
+          )}
+      </li>
+      <li className={liStyle} onClick={handleEdit}>
+        <span className="ml-4 text-xl">
+          <SlNote />
+        </span>
+        <span>
+          ویرایش نام {sideMoreState === "تسک" ? "پروژه" : "ورک اسپیس"}
+        </span>
+      </li>
+      {newModal.edit &&
+        createPortal(
+          <EditBox status={"workspace"} editPosition={editPosition} />,
+          document.body
+        )}
+
+      {sideMoreState === "ورک اسپیس" && (
+        <li className={liStyle} onClick={handleColor}>
+          <span className="ml-4 text-xl">
+            <VscSymbolColor />
+          </span>
+          <span>ویرایش رنگ</span>
+        </li>
+      )}
+
+      {newModal.color && (
+        <ul className="absolute top-14 mr-28 border w-40 h-32 flex content-between flex-wrap z-50 bg-white rounded-lg py-2 px-1 shadow-xl">
+          {dataColor.map((li) => (
+            <CheckBoxColor
+              key={li.id}
+              data={li}
+              selectedColor={selectedColor}
+              handleCheckBoxColor={handleCheckBoxColor}
+            />
+          ))}
         </ul>
-    );
+      )}
+      <li className={liStyle}>
+        <span className="ml-4 text-xl">
+          <AiOutlineLink />
+        </span>
+        <span>کپی لینک</span>
+      </li>
+      <li className={`${liStyle} text-9F0000`} onClick={handleDeleteWorkSpace}>
+        <span className="ml-4 text-xl">
+          <BsTrash />
+        </span>
+        <span>حذف</span>
+      </li>
+
+      <li
+        className="w-full relative flex  items-center mt-4"
+        onClick={handleShare}
+      >
+        <span className="absolute right-5 text-2xl text-white ">
+          <BiShareAlt />
+        </span>
+        <Button
+          value="اشتراک گذاری"
+          className="hover:bg-208D8E hover:text-white"
+        />
+      </li>
+      {newModal.shareWorkSpace &&
+        createPortal(
+          <Modal>
+            <ShareModal
+              ModalTitle="به اشتراک گذاری ورک اسپیس"
+              shareModalHandler={handleShare}
+            />
+          </Modal>,
+          document.body
+        )}
+    </ul>
+  );
 };
 
 export default SideMore;

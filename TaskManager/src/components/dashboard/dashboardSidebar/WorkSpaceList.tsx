@@ -3,6 +3,8 @@ import { BsThreeDots } from "react-icons/bs";
 import SideMore from "../../modals/Small/SideMore";
 import ProjectList from "./ProjectList";
 import { createPortal } from "react-dom";
+import { useAppDispatch } from "../../../services/app/hook";
+import { deleteWorkSpace } from "../../../services/features/workSpaceList/workSpaceSlice";
 
 
 type WorkSpaceProps = {
@@ -31,21 +33,24 @@ const WorkSpaceList = ({ spaceList }: WorkSpaceProps) => {
       setWorkspaceMore(null)
     }
   }
- 
+  const dispatch = useAppDispatch()
+
+  const handleDeleteWorkSpace = () => {
+    dispatch(deleteWorkSpace())
+  } 
 
   return (
     <>
-    <div className="my-5  flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
+    <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
 
       {spaceList.map((space) => {
         return (
           <div className="collapse group/title" key={space.spaceName}>
             <input type="checkbox" className="p-0 m-0" />
             <div className=" collapse-title font-medium flex justify-between items-center gap-2 p-0 m-0">
-              <div className=" flex items-center">
-                <span className={`block w-5 h-5 ml-2 rounded bg-${space.spaceColor}`} />
+              <div className="flex items-center" >
+                <div  className={`w-5 h-5 ml-2 rounded bg-${space.spaceColor}`} ></div>
                 {space.spaceName}
-
               </div>
 
               <div 
@@ -67,7 +72,7 @@ const WorkSpaceList = ({ spaceList }: WorkSpaceProps) => {
     </div>
     {workspaceMore && 
       createPortal(
-        <SideMore sideMoreState="ورک اسپیس" morePosition={morePosition}/>,
+        <SideMore sideMoreState="ورک اسپیس" morePosition={morePosition} handleDeleteWorkSpace={handleDeleteWorkSpace}  />,
         document.body
       )
     }
