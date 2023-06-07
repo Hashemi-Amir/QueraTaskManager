@@ -38,7 +38,7 @@ const SideBar = () => {
       <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
         {(isSuccess &&
           workSpaces.map(({ name, _id }) => (
-            <WorkSpaceList name={name} id={_id} key={_id}>
+            <WorkSpaceList name={name} id={_id} key={_id} workSpaces={workSpaces}>
             </WorkSpaceList>
           ))) ||
           []}

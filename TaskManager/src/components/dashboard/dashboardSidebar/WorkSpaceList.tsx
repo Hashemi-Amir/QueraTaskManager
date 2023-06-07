@@ -74,17 +74,23 @@
 /**************************************************** */
 import { useState } from "react";
 import ProjectList from "./ProjectList";
+import { selectProjects } from "../../../services/features/projects/projectSlice";
+import { useAppSelector } from "../../../services/app/hook";
 
 type WorkSpaceListProps = {
   children: any;
   name: string;
   id: string;
+  workSpaces : any
 };
-const WorkSpaceList = ({ name, id }: WorkSpaceListProps) => {
+const WorkSpaceList = ({ name, id ,workSpaces}: WorkSpaceListProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   // const transition = "transition-all delay-75 ease-in-out";
   // const [workSpaceId, setWorkSpaceID] = useState("");
+  // const { isError, isSuccess, projects } = useAppSelector(selectProjects);
 
+    console.log(workSpaces[0].projects);
+    
   return (
     <div className="mt-8">
       <div

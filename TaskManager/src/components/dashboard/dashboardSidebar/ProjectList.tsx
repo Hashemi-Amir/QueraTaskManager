@@ -18,7 +18,6 @@ type Project = {
 
 function ProjectList({ workSpaceId }) {
   // const [ids,setIds] = useState(workspaceId)
-  const { isError, isSuccess, projects } = useAppSelector(selectProjects);
   // const { workSpace } = useAppSelector(selectWorkSpace);
   const dispatch = useAppDispatch();
 
