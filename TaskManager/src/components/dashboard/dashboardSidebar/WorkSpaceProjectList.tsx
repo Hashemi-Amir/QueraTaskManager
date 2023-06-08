@@ -11,7 +11,7 @@ type Props = {
 
 const WorkSpaceProjectList: React.FC<Props> = ({ workspaceId }) => {
   const workspaces = useAppSelector(selectWorkSpaces);
-  const projects = useAppSelector(selectProjectsByWorkspaceId(workspaceId));
+//   const projects = useAppSelector(selectProjectsByWorkspaceId(workspaceId));
 
   const workspace = workspaces.workSpaces.find((w) => w._id === workspaceId);
 

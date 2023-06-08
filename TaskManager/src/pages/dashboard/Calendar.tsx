@@ -1,29 +1,25 @@
 import FullCalendar from "@fullcalendar/react";
-import listPlugin from "@fullcalendar/list";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import faLocale from "@fullcalendar/core/locales/fa";
 import "../../components/dashboard/dashboardCalendar/calendar.css";
 import { SiAddthis } from "react-icons/si";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 import {
   setDate,
   setRef,
 } from "../../services/features/calendar/calendarSlice";
-import moment from "moment";
+import { useAppDispatch } from "../../services/app/hook";
 
 const Calendar = () => {
   const [todayDate, setTodayDate] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const calendarEl = useRef<any | null>(null);
-
 
   useEffect(() => {
     dispatch(setDate(todayDate));
     dispatch(setRef(calendarEl.current.getApi()));
-  }, [todayDate]);
+  }, [todayDate, dispatch]);
 
   const dayCellContent = (props: any) => {
     return (
@@ -48,6 +44,7 @@ const Calendar = () => {
       dateStyle: "medium",
     });
   };
+
   return (
     <FullCalendar
       plugins={[dayGridPlugin, interactionPlugin]}

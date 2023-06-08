@@ -6,20 +6,22 @@ import axios from "axios";
 const auth = {
   headers: {
     "x-auth-token":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA3ZjlkNjM3M2NlZmM0Mjg2YTE1MiIsInVzZXJuYW1lIjoic2FlZWRhYmVkaW5pIiwiZW1haWwiOiJzYWVlZGFiZWRpbmlAZ21haWwuY29tIiwiaWF0IjoxNjg2MTQyODg5LCJleHAiOjE2ODYyMjkyODl9._TobVQGMBy5BrXxUyClcbKkR34LUBBt9sq715Q0yMic",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA3ZjlkNjM3M2NlZmM0Mjg2YTE1MiIsInVzZXJuYW1lIjoic2FlZWRhYmVkaW5pIiwiZW1haWwiOiJzYWVlZGFiZWRpbmlAZ21haWwuY29tIiwiaWF0IjoxNjg2MTgwODY3LCJleHAiOjE2ODYyNjcyNjd9.hEm4QwXM8XclYxL8LCl0KqDOAn7nLWLhpCNz1hCe1_w",
   },
 };
+export type WorkSpacesProps = {
+  _id: string;
+  name: string;
+  user: string;
+  members: [];
+  projects: [];
+}
+
 type initialStateType = {
   isLoading: boolean;
   isSuccess: boolean;
-  workSpaces: {
-    _id: string;
-    name: string;
-    user: string;
-    members: [];
-    projects: [];
-  }[];
   isError: string | undefined;
+  workSpaces: WorkSpacesProps[];
 };
 
 const initialState: initialStateType = {

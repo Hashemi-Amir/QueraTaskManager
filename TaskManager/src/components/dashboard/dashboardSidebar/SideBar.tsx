@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import ProjectList from "./ProjectList";
 
 const SideBar = () => {
-  const { isError, isSuccess, workSpaces } = useAppSelector(selectWorkSpaces);
+  const {isSuccess, workSpaces } = useAppSelector(selectWorkSpaces);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -35,14 +35,8 @@ const SideBar = () => {
       <SpaceMenu workSpaces={(isSuccess && workSpaces) || []} />
       <SearchInput placeHolder="جستجو کنید" extraClass="my-3" />
       <NewSpace />
-      <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
-        {(isSuccess &&
-          workSpaces.map(({ name, _id }) => (
-            <WorkSpaceList name={name} id={_id} key={_id}>
-            </WorkSpaceList>
-          ))) ||
-          []}
-      </div>
+      <WorkSpaceList workSpaces={(isSuccess && workSpaces) || []} />
+
       <Link className="w-fit" to={"/personalinfo"}>
         <ProfileButton
           userName="نیلوفر موجودی"

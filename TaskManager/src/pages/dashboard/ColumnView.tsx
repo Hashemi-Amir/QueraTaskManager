@@ -1,16 +1,20 @@
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import Board from "../../components/dashboard/dashboardColumnView/Board";
-import { useState } from "react";
-import {
-  arrayMove, sortableKeyboardCoordinates,
-} from "@dnd-kit/sortable";
+import { useEffect, useState } from "react";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import {
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
+import { useSelector } from "react-redux";
+import {
+  fetchBoards,
+  selectBoards,
+} from "../../services/features/boards/boardSlice";
+import { useAppDispatch } from "../../services/app/hook";
 export type Task = {
   _id: string;
   name: string;
@@ -110,8 +114,15 @@ const initialTasks: Task[] = [
 ];
 
 const ColumnView = () => {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const { isSuccess, boards } = useSelector(selectBoards);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchBoards("648080c6879ad2c228e994b4"));
+  }, []);
+  console.log(boards);
 
+  //  dnd-kit Options
+  const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const handleDragEnd = (event: any) => {
     console.log("Drag end Called");
     const { active, over } = event;
@@ -142,33 +153,34 @@ const ColumnView = () => {
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    }),
+    })
   );
-  
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} sensors={sensors}>
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+    >
       <Board
-        title={"Open"}
-        borderColor={"border-t-208D8E"}
-        number={"۰"}
-        id={1}
-        tasks={tasks}
-      />
-        <Board
-        title={"Open"}
-        borderColor={"border-t-208D8E"}
-        number={"۰"}
-        id={1}
-        tasks={tasks}
-      />
-        <Board
-        title={"Open"}
-        borderColor={"border-t-208D8E"}
-        number={"۰"}
-        id={1}
-        tasks={tasks}
-      />
+            
+            title={'open'}
+            borderColor={"border-t-208D8E"}
+            number={"۰"}
+            id={'test'}
+            tasks={tasks}
+          />;
+      {isSuccess &&
+        boards.map((board) => {
+          <Board
+            key={board._id}
+            title={board.name}
+            borderColor={"border-t-208D8E"}
+            number={"۰"}
+            id={board._id}
+            tasks={tasks}
+          />;
+        })}
     </DndContext>
   );
 };
