@@ -39,10 +39,17 @@ const updateWorkSpace = async (val:any,auth:any) => {
 
 const addWorkSpaceMember = async (workID:any ,auth:any) => {
     console.log(auth);
+    console.log(workID);
+    const config = {
+        headers: {
+          "x-auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA1NzljYTczZmUzMmVjYWQxNjExNSIsInVzZXJuYW1lIjoic2luYTMiLCJlbWFpbCI6InNpbmFhLm5pbGkwOTcyQGdtYWlsLmNvbSIsImlhdCI6MTY4NjE2NTU2MSwiZXhwIjoxNjg2MjUxOTYxfQ.9s0dJrHF9CIPhdnmaVa1d7StO5-xJnTfFc0YMvDyQ9o",
+        },
+      };
     const [workSpaceId , userNameOrId] = [...workID]
     
     const us = `${workSpaceId}/members/${userNameOrId}`
-    const response = await axios.put(API_URL + us ,auth)
+    const response = await axios.put(API_URL + us ,config)
     console.log(response);
     return response.data
 }
