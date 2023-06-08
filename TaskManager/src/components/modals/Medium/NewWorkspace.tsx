@@ -6,8 +6,8 @@ import { BiBlock } from "react-icons/bi";
 import avatar from "../../../assets/avatar.png";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import CloseIcon from "../../ui/Close";
-import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
-import { createWorkSpace } from "../../../services/features/workSpaceList/workSpaceSlice";
+import { useAppDispatch } from "../../../services/app/hook";
+import { createWorkSpace } from "../../../services/features/workSpaceList/workSpacesSlice";
 import { RootState } from "../../../services/app/store";
 
 type workspaceProps = {

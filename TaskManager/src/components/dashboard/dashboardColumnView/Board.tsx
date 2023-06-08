@@ -7,7 +7,7 @@ type BoardProps = {
   title: string;
   borderColor: string;
   number: string;
-  id: number;
+  id: string;
   tasks: Task[];
 };
 

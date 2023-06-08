@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import SideMore from "../../modals/Small/SideMore";
 import ProjectList from "./ProjectList";
+import { createPortal } from "react-dom";
+import { useAppDispatch } from "../../../services/app/hook";
+import { deleteWorkSpace } from "../../../services/features/workSpaceList/workSpacesSlice";
 
 type WorkSpaceProps = {
   workSpaces: {
@@ -14,7 +17,28 @@ type WorkSpaceProps = {
 };
 
 const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
-  const [workspaceMore, setWorkspaceMore] = useState(false);
+  const [workspaceMore, setWorkspaceMore] = useState(null);
+  const [morePosition, setMorePosition] = useState<SetStateAction<any>>({
+    top: null,
+    left: null,
+  });
+
+  const dispatch = useAppDispatch()
+
+  const handleItemClick = (e: any, item: any) => {
+    if (workspaceMore === null) {
+      const top = `${e.clientY}px`;
+      const left = `${e.clientX}px`;
+      setMorePosition({ ...morePosition, top: top, left: left });
+      setWorkspaceMore(item);
+    } else {
+      setWorkspaceMore(null);
+    }
+  };
+
+  const handleDeleteWorkSpace = () => {
+    dispatch(deleteWorkSpace())
+  }
   const colors = [
     "118C80",
     "F1A25C",
@@ -43,12 +67,19 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
 
               <div
                 className="absolute left-0 cursor-pointer hidden group-hover/title:block z-10"
-                onClick={() => setWorkspaceMore(true)}
+                onClick={(event) => handleItemClick(event,name)}
               >
                 <BsThreeDots />
               </div>
-              {workspaceMore && <SideMore sideMoreState="ورک اسپیس"  />}
             </div>
+
+            {workspaceMore && createPortal(
+              <SideMore sideMoreState="ورک اسپیس" morePosition={morePosition} handleDeleteWorkSpace={handleDeleteWorkSpace} /> 
+              ,
+              document.body
+            ) 
+            }
+
             <div className="collapse-content">
               <ProjectList projects={projects} />
             </div>

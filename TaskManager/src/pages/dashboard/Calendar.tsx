@@ -1,37 +1,33 @@
 import FullCalendar from "@fullcalendar/react";
-import listPlugin from "@fullcalendar/list";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import faLocale from "@fullcalendar/core/locales/fa";
 import "../../components/dashboard/dashboardCalendar/calendar.css";
 import { SiAddthis } from "react-icons/si";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 import {
   setDate,
   setRef,
 } from "../../services/features/calendar/calendarSlice";
-import moment from "moment";
-import { createPortal } from "react-dom";
+import { useAppDispatch } from "../../services/app/hook";
 import Modal from "../../layout/Modal";
 import AddTaskOnCalendar from "../../components/modals/Medium/AddTaskOnCalendar";
+import { createPortal } from "react-dom";
 
 const Calendar = () => {
   const [todayDate, setTodayDate] = useState("");
-  const [openModal , setOpenModal] = useState(false) 
-
-  const dispatch = useDispatch();
+  const [openModal , setOpenModal] = useState(false)
+  const dispatch = useAppDispatch();
   const calendarEl = useRef<any | null>(null);
+
+  useEffect(() => {
+    dispatch(setDate(todayDate));
+    dispatch(setRef(calendarEl.current.getApi()));
+  }, [todayDate, dispatch]);
 
   const handleNewTask = () => {
     setOpenModal(!openModal)
   }
-  useEffect(() => {
-    dispatch(setDate(todayDate));
-    dispatch(setRef(calendarEl.current.getApi()));
-  }, [todayDate]);
-
   const dayCellContent = (props: any) => {
     return (
       <div className="w-full h-full px-1">
@@ -57,6 +53,7 @@ const Calendar = () => {
       dateStyle: "medium",
     });
   };
+
   return (
     <>
       <FullCalendar

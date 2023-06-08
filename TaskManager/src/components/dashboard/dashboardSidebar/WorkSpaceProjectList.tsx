@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useAppSelector } from "../../../services/app/hook";
-import { selectWorkSpaces } from "../../../services/features/workSpaceList/workSpacesSlice";
+import { selectWorkSpaces } from "../../../services/features/workSpaceList/workSpaceSlice";
 import ProjectList from "./ProjectList";
 
 
@@ -11,7 +11,7 @@ type Props = {
 
 const WorkSpaceProjectList: React.FC<Props> = ({ workspaceId }) => {
   const workspaces = useAppSelector(selectWorkSpaces);
-  const projects = useAppSelector(selectProjectsByWorkspaceId(workspaceId));
+//   const projects = useAppSelector(selectProjectsByWorkspaceId(workspaceId));
 
   const workspace = workspaces.workSpaces.find((w) => w._id === workspaceId);
 

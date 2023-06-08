@@ -1,40 +1,37 @@
 import { configureStore } from "@reduxjs/toolkit";
 import calendarReducer from "../features/calendar/calendarSlice";
-import workSpacesReducer from "../features/workSpaceList/workSpacesSlice";
+import workSpacesReducer, {
+  WorkSpacesProps,
+} from "../features/workSpaceList/workSpacesSlice";
 import authReducer from "../features/auth/authSlice";
-import projectReducer from "../features/projects/projectSlice";
+import projectReducer, {
+  ProjectsProps,
+} from "../features/projects/projectSlice";
+import boardReducer, { BoardsProps } from "../features/boards/boardSlice";
 
 export type TypeStore = {
   calendar: {
-    calendarState: { date: string; ref: any };
+    date: string;
+    ref: any;
   };
   workSpaces: {
     isLoading: boolean;
-<<<<<<< HEAD
     isSuccess: boolean;
-=======
->>>>>>> ali-hayati
-    workSpaces: {
-      _id: string;
-      name: string;
-      user: string;
-      members: [];
-      projects: [];
-    }[];
     isError: string | undefined;
+    workSpaces: WorkSpacesProps[];
   };
   projects: {
     isLoading: boolean;
     isSuccess: boolean;
-    projects: {
-      _id: string;
-      name: string;
-      workspace: string;
-      members: [];
-      boards: [];
-    }[];
+    projects: ProjectsProps[];
     isError: string | undefined;
-    id: string
+    id: string;
+  };
+  boards: {
+    isLoading: false;
+    isSuccess: false;
+    isError: "";
+    boards: BoardsProps[];
   };
 };
 
@@ -43,7 +40,8 @@ const store = configureStore({
     calendar: calendarReducer,
     workSpaces: workSpacesReducer,
     auth: authReducer,
-    projects: projectReducer
+    projects: projectReducer,
+    boards: boardReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

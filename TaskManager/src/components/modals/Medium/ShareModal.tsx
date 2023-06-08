@@ -6,7 +6,7 @@ import { useState } from "react";
 import Permission from "../Small/Permission";
 import CloseIcon from "../../ui/Close";
 import { useAppDispatch } from "../../../services/app/hook";
-import { addWorkSpaceMember, removeWorkSpaceMember } from "../../../services/features/workSpaceList/workSpaceSlice";
+import { addWorkSpaceMember, removeWorkSpaceMember } from "../../../services/features/workSpaceList/workSpacesSlice";
 
 
 type ShareModalProps = {

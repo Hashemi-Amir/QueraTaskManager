@@ -15,7 +15,7 @@ const createWorkSpace = async (nameWorkspace:string,auth:any) => {
 const deleteWorkSpace = async (auth:any) => {
     console.log('delete');
     
-    const id = '647f521255915239fec5eab8' 
+    const id = '6481cde7a51e3fc98e533201' 
     const response = await axios.delete(API_URL + id ,auth )
     console.log(response);
     return response.data

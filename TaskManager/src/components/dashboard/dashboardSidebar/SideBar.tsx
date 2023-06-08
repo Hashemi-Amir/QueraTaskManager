@@ -11,7 +11,6 @@ import {
 } from "../../../services/features/workSpaceList/workSpacesSlice";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { useEffect } from "react";
-import ProjectList from "./ProjectList";
 
 const SideBar = () => {
   const {isSuccess, workSpaces } = useAppSelector(selectWorkSpaces);
