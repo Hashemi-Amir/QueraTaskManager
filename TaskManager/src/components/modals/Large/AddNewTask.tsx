@@ -13,12 +13,32 @@ type addNewTaskProps = {
 }
 
 const AddNewTask = ({handleNewTaskModal}:addNewTaskProps) => {
-    const [calendarModal , setCalendarModal] = useState(false)
-    const [tagsModal , setTagsModal] = useState(false)
-    const [priorityModal , setPriorityModal] = useState(false)
+    const [calendar , setCalendar] = useState(false)
+    const [tags , setTags] = useState(false)
+    const [priority , setPriority] = useState({
+        modal : false,
+        style : 'text-C1C1C1 border-C1C1C1',
+        status : ''
+    })
 
 
-    const listOfIcons = 'w-12 h-12 text-xl text-[#C1C1C1] rounded-full border-2 border-dashed flex justify-center items-center cursor-pointer'
+    const handlePriority = (e:any) => {
+        const style = e.target.getAttribute('data-style');
+        const status = e.target.innerText != 'حذف اولویت' ? e.target.innerText : '';        
+        setPriority({...priority, style : style ,modal:false , status : status});
+    }
+
+    const handleCalendar = (date:any) => {
+        setCalendar(false)
+    }
+
+    const handleTagsModal = ()=> {
+        setTags(!tags)
+    }
+
+    
+    const listOfIcons = `w-12 h-12 text-xl rounded-full text-C1C1C1 border-C1C1C1 border-2 border-dashed flex justify-center items-center cursor-pointer`
+    
     
     return (
         
@@ -90,24 +110,28 @@ const AddNewTask = ({handleNewTaskModal}:addNewTaskProps) => {
                     <div className="w-full mt-11 flex justify-between items-center">
                         {/* list of icons */}
                         <ul className="w-72 relative flex items-center justify-between">
-                            <li className={listOfIcons} onClick={()=> setPriorityModal(!priorityModal)}>
-                                <FiFlag />
-                                
-                                {priorityModal &&
-                                    <PriorityOptions />
-                                }
-                                
-                            </li>
 
-                            <li className={listOfIcons} onClick={() => setCalendarModal(true)}>
+                            {/* priority */}
+                            <li 
+                                className={` w-12 h-12 text-xl rounded-full border-2 border-dashed flex justify-center items-center cursor-pointer ${priority.style}`} 
+                                onClick={()=> setPriority({...priority,modal : true})}
+                            >
+                                <span><FiFlag /></span>
+                            </li>
+                            {priority.modal &&
+                                <PriorityOptions handlePriority={handlePriority}/>
+                            }
+
+                            {/* calendar */}
+                            <li className={listOfIcons} onClick={() => setCalendar(true)}>
                                 <BsCalendar3 /> 
                             </li>
 
                             <li className={listOfIcons} >
-                                <BsTags onClick={()=> setTagsModal(!tagsModal)} />
+                                <BsTags onClick={handleTagsModal} />
                                 <div className="relative">
-                                    {tagsModal && 
-                                        <Tags />
+                                    {tags && 
+                                        <Tags handleTagsModal={handleTagsModal}/>
                                     }
                                 </div>
  
@@ -129,8 +153,8 @@ const AddNewTask = ({handleNewTaskModal}:addNewTaskProps) => {
 
 
             {/* modals on modals */}
-            {calendarModal && createPortal(
-                <QuckCalendar setCalendarModal={setCalendarModal} />,
+            {calendar && createPortal(
+                <QuckCalendar handleCalendar={handleCalendar} />,
                 document.body
             )}
         </div>

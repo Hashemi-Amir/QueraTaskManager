@@ -10,7 +10,10 @@ export type TypeStore = {
   };
   workSpaces: {
     isLoading: boolean;
+<<<<<<< HEAD
     isSuccess: boolean;
+=======
+>>>>>>> ali-hayati
     workSpaces: {
       _id: string;
       name: string;

@@ -5,6 +5,8 @@ import {IoIosArrowDown} from 'react-icons/io'
 import { useState } from "react";
 import Permission from "../Small/Permission";
 import CloseIcon from "../../ui/Close";
+import { useAppDispatch } from "../../../services/app/hook";
+import { addWorkSpaceMember, removeWorkSpaceMember } from "../../../services/features/workSpaceList/workSpaceSlice";
 
 
 type ShareModalProps = {
@@ -18,9 +20,35 @@ const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
         modal : false
     })
 
+    const [inviteValue , setInviteValue] = useState('')
+
+    const dispatch = useAppDispatch()
+
+    // handle Permission modal
     const handlePermission = (event:any) => {
         setPermission({...permission,value : event.target.innerHTML , modal : false})
     }
+    
+
+    // Add member with called dispatch redux toolkit
+    const handleAddMember = () => {
+        if(ModalTitle === "به اشتراک گذاری ورک اسپیس"){
+            const workspaceIds = ['64805c61a73fe32ecad1611e' ,  inviteValue]
+            dispatch(addWorkSpaceMember(workspaceIds))
+        }
+    }
+
+
+    // Remove member with called dispatch redux toolkit
+    const handleRemoveMember = () => {
+        if(ModalTitle === "به اشتراک گذاری ورک اسپیس"){
+            const workspaceIds = ['64805c61a73fe32ecad1611e' ,  inviteValue]
+            dispatch(removeWorkSpaceMember(workspaceIds))
+            setPermission({...permission,modal : false})
+        }
+    }
+
+
     
     return (
         <div className="modal-box overflow-visible w-3/4 z-50 max-w-lgl">
@@ -47,14 +75,19 @@ const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
                         {/* Send invite Link  */}
                         <div className="flex">
                             <input 
-                                type='email'
-                                placeholder="دعوت با ایمیل"
+                                type='text'
+                                placeholder="دعوت با نام کاربری"
                                 name="invite"
-                                className="w-4/5 h-10 p-3 bg-F0F1F3 rounded-tr-lg rounded-br-lg text-sm font-normal focus:outline-none "
+                                className="w-4/5 h-10 p-3 bg-F0F1F3 rounded-tr-lg rounded-br-lg text-sm font-normal focus:outline-none"
+                                onChange={(event) => setInviteValue(event.target.value)}
                             />
 
                             <div className="w-24">
-                                <Button value='ارسال' className="rounded-tr-none rounded-br-none focus:outline-none" />
+                                <Button 
+                                    value='ارسال' 
+                                    className="rounded-tr-none rounded-br-none focus:outline-none"
+                                    onClick={handleAddMember} 
+                                />
                             </div>
                         </div>
 
@@ -107,7 +140,7 @@ const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
                                         </div>
 
                                         {permission.modal && 
-                                            <Permission handlePermission={handlePermission} />
+                                            <Permission handlePermission={handlePermission} handleRemoveMember={handleRemoveMember}/>
                                         }
                                     </div>
                                 </li>
