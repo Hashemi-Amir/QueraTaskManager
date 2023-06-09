@@ -6,9 +6,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
 import Schema from "../../components/validationRuls/Schema";
 import CheckBox from "../../components/ui/CheckBox";
-// import { useEffect } from "react";
-import { useAppDispatch } from "../../services/app/hook";
-import { register as registerUser } from "../../services/features/auth/authSlice";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../services/app/hook";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import {
+  register as registerUser,
+  reset,
+} from "../../services/features/auth/authSlice";
 
 const Register = () => {
   const {
@@ -22,8 +27,29 @@ const Register = () => {
   const errorMsgStyle = "text-FC0733 text-xs absolute py-1";
   const errorInputStyle = "border-FB0606";
 
+  const Navigate = useNavigate();
+
   // Redux Toolkit codes
   const dispatch = useAppDispatch();
+  const { isSuccess, isLoading, isError, message } = useAppSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.dismiss();
+      toast.error(`${message} ❗`);
+      dispatch(reset());
+    }
+    if (isSuccess) {
+      toast.dismiss();
+      toast(`${message} 🎉`, { autoClose: 1000 });
+      Navigate("/login");
+      dispatch(reset());
+    }
+    isLoading && toast("Registering ⏳");
+  }, [isSuccess, isError, message, isLoading, Navigate, dispatch]);
+
   const onSubmit = (data: FieldValues) => {
     dispatch(
       registerUser({
@@ -92,7 +118,7 @@ const Register = () => {
           register={register}
           className={errors.checkbox && "text-FC0733"}
         />
-        <Button value="ثبت نام" />
+        <Button disabled={isLoading} value="ثبت نام" />
       </form>
     </Card>
   );
