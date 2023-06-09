@@ -3,23 +3,26 @@ import ProfileButton from "../../ui/ProfileButton";
 import SearchInput from "../../ui/SearchInput";
 import WorkSpaceList from "./WorkSpaceList";
 import SpaceMenu from "./SpaceMenu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logOut } from "../../../services/features/auth/authSlice";
 import { RxExit } from "react-icons/rx";
 import {
-  fetchWorkSpaces,
-  selectWorkSpaces,
-} from "../../../services/features/workSpaceList/workSpacesSlice";
+  fetchAllWorkSpaces,
+} from "../../../services/app/store";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { useEffect } from "react";
 
 const SideBar = () => {
-  const {isSuccess, workSpaces } = useAppSelector(selectWorkSpaces);
+  const { isSuccess, workSpaces } = useAppSelector((state) => state.workSpaces);
+  const Navigate = useNavigate();
   const dispatch = useAppDispatch();
+console.log(workSpaces);
+
 
   useEffect(() => {
-    dispatch(fetchWorkSpaces());
-  }, []);
-
+    dispatch(fetchAllWorkSpaces());
+  }, [dispatch]);
+console.log('SideBar');
 
   return (
     <div className=" flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">
@@ -38,12 +41,18 @@ const SideBar = () => {
           className="w-9 h-9 p-2"
         />
       </Link>
-      <Link className=" w-fit mt-5" to={"/login"}>
+      <a
+        className=" w-fit mt-5"
+        onClick={() => {
+          dispatch(logOut());
+          Navigate("/login");
+        }}
+      >
         <button className=" flex items-center gap-2 text-base text-818181 ">
           <RxExit className="w-4 h-4" />
           خروج
         </button>
-      </Link>
+      </a>
     </div>
   );
 };

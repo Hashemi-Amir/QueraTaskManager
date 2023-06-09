@@ -25,7 +25,7 @@ const ProfileLayout = () => {
           {/* Back Button */}
           <div className="self-start mt-20">
             <Button
-              onClick={() => Navigate("/")}
+              onClick={() => Navigate("/listview")}
               className="text-l px-2 py rounded-lg"
               value={"بازگشت"}
             >

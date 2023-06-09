@@ -1,25 +1,47 @@
 import Header from "../dashboardColumnView/Header";
 import TaskCard from "./TaskCard";
 
-import { Task } from "../../../pages/dashboard/ColumnView";
-
+type Task = {
+  _id: string;
+  name: string;
+  description: string;
+  label: [];
+  board: string;
+  taskTags: string[];
+  taskAssigns: string[];
+  comments: string[];
+  position: number;
+  deadline?: string;
+};
 type BoardProps = {
   title: string;
-  borderColor: string;
-  number: string;
+  number: number;
   id: string;
+  borderColor: string;
   tasks: Task[];
 };
 
-const Board = ({ title, borderColor, number, tasks }: BoardProps) => {
+const Board = ({ title, number, tasks, borderColor }: BoardProps) => {
+console.log(borderColor);
+
   return (
     <div className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-16">
       {/* Sticky Header */}
-      <Header title={title} borderColor={borderColor} number={number} />
+      <Header title={title} number={number} borderColor={borderColor} />
 
       {/* Task Cards */}
-      {tasks.map((task) => (
-        <TaskCard key={task._id} task={task} />
+      {tasks.map(({ name, description, _id }) => (
+        <TaskCard
+          key={_id}
+          name={name}
+          description={description}
+          _id={_id}
+          label={[]}
+          board={""}
+          taskAssigns={[]}
+          comments={[]}
+          position={0}
+        />
       ))}
     </div>
   );

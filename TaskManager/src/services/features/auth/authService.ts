@@ -1,19 +1,46 @@
 import axios from "axios";
-const API_URL = "/api/auth/";
 import { FieldValues } from "../../../pages/auth/Register";
+
+const API_URL = "http://localhost:3000/api/auth/";
 
 // Regiter user
 const register = async (userData: FieldValues) => {
   const response = await axios.post(API_URL + "register", userData);
+  return response.data;
+};
+
+// Login user
+const login = async (userData: FieldValues) => {
+  const response = await axios.post(API_URL + "login", userData);
 
   if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
+    localStorage.setItem(
+      "authToken",
+      JSON.stringify({
+        accessToken: response.data.data.accessToken,
+        refreshToken: response.data.data.refreshToken,
+      })
+    );
+    localStorage.setItem(
+      "user",
+      JSON.stringify(response.data.data.toBeSendUserData)
+    );
+    console.log(response.data.data.toBeSendUserData);
   }
+  return response.data;
+};
+
+// Forgot password
+const forgot = async (userEmail: FieldValues) => {
+  const response = await axios.post(API_URL + "forget-password", userEmail);
+
   return response.data;
 };
 
 const authServie = {
   register,
+  login,
+  forgot,
 };
 
 export default authServie;

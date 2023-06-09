@@ -17,8 +17,8 @@ type SideMoreProps = {
   sideMoreState: string;
   morePosition: any;
   handleDeleteWorkSpace?: () => void;
-  workId? : any;
-  handleItemClick?: any
+  workId?: any;
+  handleItemClick?: any;
 };
 
 const SideMore = ({
@@ -26,7 +26,7 @@ const SideMore = ({
   morePosition,
   handleDeleteWorkSpace,
   workId,
-  handleItemClick
+  handleItemClick,
 }: SideMoreProps) => {
   const liStyle =
     "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer";
@@ -64,8 +64,8 @@ const SideMore = ({
   });
 
   const [editPosition, setEditPosition] = useState({
-    top: null,
-    left: null,
+    top: 0,
+    left: 0,
   });
 
   const [selectedColor, setSelectedColor] = useState({
@@ -149,22 +149,22 @@ const SideMore = ({
         </li>
         {newModal.editWorkSpace &&
           createPortal(
-            <EditBox 
-              status={"workspace"} 
-              editPosition={editPosition} 
-              workId={workId} 
+            <EditBox
+              status={"workspace"}
+              editPosition={editPosition}
+              workId={workId}
               handleItemClick={handleItemClick}
             />,
             document.body
           )}
         {newModal.editProject &&
           createPortal(
-            <EditBox 
-              status={"project"} 
+            <EditBox
+              status={"project"}
               editPosition={editPosition}
               workId={workId}
               handleItemClick={handleItemClick}
-             />,
+            />,
             document.body
           )}
         {sideMoreState === "ورک اسپیس" && (

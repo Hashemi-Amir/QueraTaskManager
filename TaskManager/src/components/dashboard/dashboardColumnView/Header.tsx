@@ -7,19 +7,18 @@ import ColMore from "../../modals/Small/ColMore";
 
 type HeaderProps = {
   title: string;
+  number: number;
   borderColor: string;
-  number: string;
 };
-const Header = ({ title, borderColor, number }: HeaderProps) => {
+const Header = ({ title, number, borderColor }: HeaderProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [newTaskModal , setNewTaskModal] = useState(false)
-  const [colMoreModal , setColMoreModal] = useState(false)
-
+  const [newTaskModal, setNewTaskModal] = useState(false);
+  const [colMoreModal, setColMoreModal] = useState(false);
   const handleCardHover = (isHovering: boolean) => {
     setIsHovered(isHovering);
   };
-
-  const handleNewTaskModal = () => setNewTaskModal(!newTaskModal)
+  const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
+  console.log(borderColor);
 
   return (
     <div
@@ -35,7 +34,10 @@ const Header = ({ title, borderColor, number }: HeaderProps) => {
       </div>
       {isHovered && (
         <div className="flex items-center gap-1">
-          <span className="relative hover:scale-110" onClick={()=>setColMoreModal(!colMoreModal)}>
+          <span
+            className="relative hover:scale-110"
+            onClick={() => setColMoreModal(!colMoreModal)}
+          >
             <BsThreeDots />
           </span>
           <span
@@ -52,7 +54,7 @@ const Header = ({ title, borderColor, number }: HeaderProps) => {
 
       {newTaskModal && createPortal(
           <Modal>
-            <AddNewTask handleNewTaskModal={handleNewTaskModal}/>
+            <AddNewTask handleNewTaskModal={handleNewTaskModal} />
           </Modal>,
           document.body
         )}

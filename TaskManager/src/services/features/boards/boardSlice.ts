@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TypeStore } from "../../app/store";
 import axios, { AxiosResponse } from "axios";
 
 const auth = {
   headers: {
     "x-auth-token":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA3ZjlkNjM3M2NlZmM0Mjg2YTE1MiIsInVzZXJuYW1lIjoic2FlZWRhYmVkaW5pIiwiZW1haWwiOiJzYWVlZGFiZWRpbmlAZ21haWwuY29tIiwiaWF0IjoxNjg2MTgwODY3LCJleHAiOjE2ODYyNjcyNjd9.hEm4QwXM8XclYxL8LCl0KqDOAn7nLWLhpCNz1hCe1_w",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA3ZjlkNjM3M2NlZmM0Mjg2YTE1MiIsInVzZXJuYW1lIjoic2FlZWRhYmVkaW5pIiwiZW1haWwiOiJzYWVlZGFiZWRpbmlAZ21haWwuY29tIiwiaWF0IjoxNjg2MjY4MjEyLCJleHAiOjE2ODYzNTQ2MTJ9.dzApLHZahLQ_1croR29qZ58xXuykyBJUEVZOU7SBFLg",
   },
 };
 export type BoardsProps = {
@@ -19,14 +18,16 @@ export type BoardsProps = {
 type initialStateType = {
   isLoading: boolean;
   isSuccess: boolean;
-  isError: string;
+  isError: boolean;
+  errorMessage: unknown ;
   boards: BoardsProps[];
 };
 
 const initialState: initialStateType = {
   isLoading: false,
   isSuccess: false,
-  isError: "",
+  isError: false,
+  errorMessage: "",
   boards: [],
 };
 
@@ -35,16 +36,14 @@ const fetchBoards = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/board/${id}`,
+        `http://localhost:3000/api/boards/${id}`,
         auth
       );
       return await response.data;
     } catch (error: any) {
       const message =
         error?.response?.data?.message || error.message || error.toString();
-
       return thunkAPI.rejectWithValue(message);
-      // return error;
     }
   }
 );
@@ -52,11 +51,7 @@ const fetchBoards = createAsyncThunk(
 const boardsSlice = createSlice({
   name: "Boards",
   initialState,
-  reducers: {
-    // setId: (state, action) => {
-    //   state.id = action.payload;
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchBoards.pending, (state) => {
@@ -72,14 +67,14 @@ const boardsSlice = createSlice({
           if (fetchedBoards && Array.isArray(fetchedBoards)) {
             state.boards = fetchedBoards;
           }
-          state.isError = "";
         }
       )
       .addCase(fetchBoards.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.boards = [];
-        state.isError = action.error.message || "";
+        state.isError = true;
+        state.errorMessage = action.payload;
       });
   },
 });
@@ -87,4 +82,3 @@ const boardsSlice = createSlice({
 export default boardsSlice.reducer;
 // export const { setId } = boardsSlice.actions;
 export { fetchBoards };
-export const selectBoards = (state: TypeStore) => state.boards;

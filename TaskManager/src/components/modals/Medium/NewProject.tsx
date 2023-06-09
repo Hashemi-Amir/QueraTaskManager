@@ -4,10 +4,10 @@ import { useState } from "react";
 import CloseIcon from "../../ui/Close";
 
 type projectProps = {
-    handleModalProject : () => void
+  handleModalProject: () => void;
 };
 
-const NewProject = ({handleModalProject}:projectProps) => {
+const NewProject = ({ handleModalProject }: projectProps) => {
   const [projectName, setprojectName] = useState("");
 
   return (
@@ -15,7 +15,11 @@ const NewProject = ({handleModalProject}:projectProps) => {
       <div className="p-5 bg-white rounded-lg">
         {/* card header */}
         <div className="w-full flex justify-between items-center">
-          <label htmlFor="my-modal-3" className="text-323232 cursor-pointer" onClick={handleModalProject}>
+          <label
+            htmlFor="my-modal-3"
+            className="text-323232 cursor-pointer"
+            onClick={handleModalProject}
+          >
             <CloseIcon />
           </label>
 
