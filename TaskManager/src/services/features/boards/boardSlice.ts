@@ -1,12 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosResponse } from "axios";
+import AXIOS from "../utils/AXIOS";
 
-const auth = {
-  headers: {
-    "x-auth-token":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA3ZjlkNjM3M2NlZmM0Mjg2YTE1MiIsInVzZXJuYW1lIjoic2FlZWRhYmVkaW5pIiwiZW1haWwiOiJzYWVlZGFiZWRpbmlAZ21haWwuY29tIiwiaWF0IjoxNjg2MjY4MjEyLCJleHAiOjE2ODYzNTQ2MTJ9.dzApLHZahLQ_1croR29qZ58xXuykyBJUEVZOU7SBFLg",
-  },
-};
 export type BoardsProps = {
   _id: "";
   name: "";
@@ -19,7 +14,7 @@ type initialStateType = {
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
-  errorMessage: unknown ;
+  message: unknown;
   boards: BoardsProps[];
 };
 
@@ -27,19 +22,17 @@ const initialState: initialStateType = {
   isLoading: false,
   isSuccess: false,
   isError: false,
-  errorMessage: "",
+  message: "",
   boards: [],
 };
-
+//TODO FIX BUG WHEN URL NOT TRUE ANS SWITCH CULOMNVIEW AND LOSTVIEW
 const fetchBoards = createAsyncThunk(
   "Boards/fetchBoards",
   async (id: string, thunkAPI) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/boards/${id}`,
-        auth
-      );
-      return await response.data;
+      const response = await AXIOS.get(`/api/board/${id}`);
+      const data = await response.data;
+      return data;
     } catch (error: any) {
       const message =
         error?.response?.data?.message || error.message || error.toString();
@@ -58,23 +51,17 @@ const boardsSlice = createSlice({
         state.isLoading = true;
         state.isSuccess = false;
       })
-      .addCase(
-        fetchBoards.fulfilled,
-        (state, action: PayloadAction<AxiosResponse<any, any>>) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          const fetchedBoards = action.payload.data; // extract Boards from AxiosResponse object
-          if (fetchedBoards && Array.isArray(fetchedBoards)) {
-            state.boards = fetchedBoards;
-          }
-        }
-      )
+      .addCase(fetchBoards.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.boards = action.payload;
+      })
       .addCase(fetchBoards.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.boards = [];
         state.isError = true;
-        state.errorMessage = action.payload;
+        state.message = action.payload;
       });
   },
 });

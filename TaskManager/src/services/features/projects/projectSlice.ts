@@ -1,12 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios, { AxiosResponse } from "axios";
+import  { AxiosResponse } from "axios";
+import AXIOS from "../utils/AXIOS";
 
-const auth = {
-  headers: {
-    "x-auth-token":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA3ZjlkNjM3M2NlZmM0Mjg2YTE1MiIsInVzZXJuYW1lIjoic2FlZWRhYmVkaW5pIiwiZW1haWwiOiJzYWVlZGFiZWRpbmlAZ21haWwuY29tIiwiaWF0IjoxNjg2MjY4MjEyLCJleHAiOjE2ODYzNTQ2MTJ9.dzApLHZahLQ_1croR29qZ58xXuykyBJUEVZOU7SBFLg",
-  },
-};
 export type ProjectsProps = {
   _id: string;
   name: string;
@@ -19,7 +14,7 @@ type initialStateType = {
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
-  errorMessage: unknown ;
+  message: unknown ;
   id: string;
   projects: ProjectsProps[];
 };
@@ -28,7 +23,7 @@ const initialState: initialStateType = {
   isLoading: false,
   isSuccess: false,
   isError: false,
-  errorMessage: "",
+  message: "",
   projects: [],
   id: "",
 };
@@ -37,15 +32,14 @@ const fetchProjects = createAsyncThunk(
   "projects/fetchProjects",
   async (id: string, thunkAPI) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/projects/workspaces/${id}`,
-        auth
+      const response = await AXIOS.get(
+        `http://localhost:3000/api/projects/workspaces/${id}`
       );
       return await response.data;
     } catch (error: any) {
-      const errorMessage =
+      const message =
       error?.response?.data?.message || error.message || error.toString();
-    return thunkAPI.rejectWithValue(errorMessage);
+    return thunkAPI.rejectWithValue(message);
     }
   }
 );
@@ -78,9 +72,9 @@ const projectSlice = createSlice({
       .addCase(fetchProjects.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        state.projects = [];
         state.isError = true;
-        state.errorMessage = action.error
+        state.message = action.error
+        state.projects = [];
       });
   },
 });

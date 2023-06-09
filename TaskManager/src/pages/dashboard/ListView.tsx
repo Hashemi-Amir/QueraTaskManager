@@ -1,9 +1,9 @@
 import Collapsible from "../../components/dashboard/dashboardListView/Collapsible";
 import CollapseTable from "../../components/dashboard/dashboardListView/CollapseTable";
 import { useAppDispatch, useAppSelector } from "../../services/app/hook";
-import { fetchProjects } from "../../services/features/projects/projectSlice";
+import { fetchProjects } from "../../services/app/store";
 import { useEffect } from "react";
-import { fetchBoards } from "../../services/features/boards/boardSlice";
+import { fetchBoards } from "../../services/app/store";
 
 const ListView = () => {
   const { isSuccess, projects } = useAppSelector((state) => state.projects);
@@ -12,7 +12,7 @@ const ListView = () => {
   );
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchProjects("648205d2101dafd92ddc8c2a"));
+    dispatch(fetchProjects("648372756f2b80f6ae0f603d"));
   }, [dispatch]);
   const titleClass = "px-3 py-1 rounded text-base text-white";
   const chevronClass = "text-lg mr-10";

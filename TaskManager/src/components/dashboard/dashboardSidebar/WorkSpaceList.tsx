@@ -15,7 +15,6 @@ type WorkSpaceProps = {
     projects: [];
   }[];
 };
-const colors = JSON.parse(localStorage.getItem("Colors") as string);
 
 const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
   const [workspaceMore, setWorkspaceMore] = useState({
@@ -28,10 +27,6 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
   });
 
   const dispatch = useAppDispatch();
-  const allworkSpaces = useAppSelector((state) => state.workSpaces);
-  useEffect(() => {
-    console.log(allworkSpaces);
-  }, [allworkSpaces]);
 
   // modal toggle handle
   const handleItemClick = (
@@ -54,8 +49,8 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
     dispatch(deleteWorkSpace(workspaceMore.id));
     setWorkspaceMore({ ...workspaceMore, modal: "", id: "" });
   };
+  const colors = JSON.parse(localStorage.getItem("Colors") as string);
 
-  const colors = localStorage.getItem("Colors");
   return (
     <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
       {workSpaces.map(({ name, _id, projects }, index) => {

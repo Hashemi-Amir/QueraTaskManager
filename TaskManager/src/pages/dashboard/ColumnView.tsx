@@ -1,6 +1,6 @@
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import Board from "../../components/dashboard/dashboardColumnView/Board";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import {
   KeyboardSensor,
@@ -10,7 +10,9 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useAppSelector } from "../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../services/app/hook";
+import { toast } from "react-toastify";
+import { resetWorkspace } from "../../services/app/store";
 
 // const initialTasks: Task[] = [
 //   {
@@ -101,7 +103,19 @@ const ColumnView = () => {
   const { isError, message, isLoading, isSuccess, boards } = useAppSelector(
     (state) => state.boards
   );
-  const borderColors = JSON.parse(localStorage.getItem("BorderColors") as string);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (isError) {
+      toast.dismiss();
+      toast.error(`مشکلی در دریافت اطلاعات پیش اومده❗`);
+      dispatch(resetWorkspace());
+    }
+  }, []);
+
+  const borderColors = JSON.parse(
+    localStorage.getItem("BorderColors") as string
+  );
 
   //  dnd-kit Options
   // const [tasks, setTasks] = useState<BoardsProps[]>(boards);

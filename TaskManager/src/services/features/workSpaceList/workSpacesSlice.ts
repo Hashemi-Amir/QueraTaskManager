@@ -1,7 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import WorkspaceService from "./workSpaceService";
-import AXIOS from "../utils/AXIOS";
 
 export type WorkSpacesProps = {
   _id: string;
@@ -17,6 +16,7 @@ type initialStateType = {
   isError: boolean;
   message: unknown;
   workSpaces: WorkSpacesProps[];
+  workSpace: WorkSpacesProps[];
 };
 
 const initialState: initialStateType = {
@@ -25,16 +25,15 @@ const initialState: initialStateType = {
   isError: false,
   message: "",
   workSpaces: [],
+  workSpace: [],
 };
 
-
-
+// Get all workspaces from api
 const fetchAllWorkSpaces = createAsyncThunk(
   "workspaces/fetchAllWorkSpaces",
   async (_, thunkAPI) => {
     try {
-      const response = await AXIOS.get("/api/workspace/get-all");
-      return await response.data;
+      return await WorkspaceService.fetchAllWorkSpaces();
     } catch (error: any) {
       const message =
         error?.response?.data?.message || error.message || error.toString();
@@ -42,12 +41,13 @@ const fetchAllWorkSpaces = createAsyncThunk(
     }
   }
 );
+
+// Get workspace by id from api
 const fetchWorkSpaceById = createAsyncThunk(
   "workspaces/fetchWorkSpaceById",
   async (id: string, thunkAPI) => {
     try {
-      const response = await AXIOS.get(`/api/workspace/${id}`);
-      return await response.data.data;
+      return await WorkspaceService.fetchWorkSpaceById(id);
     } catch (error: any) {
       const message =
         error?.response?.data?.message || error.message || error.toString();
@@ -114,8 +114,17 @@ const removeWorkSpaceMember = createAsyncThunk(
 const workSpacesSlice = createSlice({
   name: "workSpaces",
   initialState,
-  reducers: {},
+  reducers: {
+    // Reset helper flags
+    resetWorkspace: (state) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.message = "";
+    },
+  },
   extraReducers: (builder) => {
+    // All WorkSpaces
     builder
       .addCase(fetchAllWorkSpaces.pending, (state) => {
         state.isLoading = true;
@@ -133,19 +142,18 @@ const workSpacesSlice = createSlice({
         state.message = action.payload;
         state.workSpaces = [];
       })
+
+      // WorkSpace By Id
       .addCase(fetchWorkSpaceById.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
       })
       .addCase(
         fetchWorkSpaceById.fulfilled,
-        (state, action: PayloadAction<AxiosResponse<any, any>>) => {
+        (state, action) => {
           state.isLoading = false;
           state.isSuccess = true;
-          const fetchWorkSpaceById = action.payload.data; // extract projects from AxiosResponse object
-          if (fetchWorkSpaceById && Array.isArray(fetchWorkSpaceById)) {
-            state.workSpaces = fetchWorkSpaceById;
-          }
+          state.workSpace = [action.payload];
         }
       )
       .addCase(fetchWorkSpaceById.rejected, (state, action) => {
@@ -209,6 +217,7 @@ const workSpacesSlice = createSlice({
 });
 
 export default workSpacesSlice.reducer;
+export const { resetWorkspace } = workSpacesSlice.actions;
 export {
   fetchAllWorkSpaces,
   fetchWorkSpaceById,

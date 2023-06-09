@@ -2,6 +2,16 @@ import { toast } from "react-toastify";
 import AXIOS from "../utils/AXIOS";
 const API_URL = "/api/workspace/";
 
+const fetchAllWorkSpaces = async () => {
+  const response = await AXIOS.get(API_URL + "get-all");
+  return response.data;
+};
+
+const fetchWorkSpaceById = async (id: string) => {
+  const response = await AXIOS.get(API_URL + id);  
+  return response.data;
+};
+
 const createWorkSpace = async (nameWorkspace: string) => {
   const formData = { name: nameWorkspace };
   const response = await AXIOS.post(API_URL + "create", formData);
@@ -58,6 +68,8 @@ const removeWorkSpaceMember = async (workID: any) => {
 };
 
 const WorkspaceService = {
+  fetchAllWorkSpaces,
+  fetchWorkSpaceById,
   createWorkSpace,
   deleteWorkSpace,
   updateWorkSpace,
