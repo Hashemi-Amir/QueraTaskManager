@@ -7,21 +7,19 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 type Task = {
-  task: {
-    _id: string;
-    name: string;
-    description: string;
-    label: [];
-    board: string;
-    taskTags: string[];
-    taskAssigns: string[];
-    comments: string[];
-    position: number;
-    deadline?: string;
-  };
+  _id: string;
+  name: string;
+  description: string;
+  label: [];
+  board: string;
+  // taskTags: string[];
+  taskAssigns: string[];
+  comments: string[];
+  position: number;
+  // deadline?: string;
 };
 
-const TaskCard = ({ task }: Task) => {
+const TaskCard = ({ name, description, _id }: Task) => {
   const [isExpanded, setIsExpanded] = useState(false);
   // const [colMoreModal , setColMoreModal] = useState(false)
 
@@ -36,7 +34,7 @@ const TaskCard = ({ task }: Task) => {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: task._id });
+  } = useSortable({ id: _id });
 
   const style = {
     transform: CSS.Translate.toString(transform),
@@ -56,7 +54,7 @@ const TaskCard = ({ task }: Task) => {
     >
       <div className="flex justify-between items-baseline mb-2">
         <div className="h-4 font-medium leading-4 text-right text-534D60 text-[10px]">
-          {task.name}
+          {name}
         </div>
 
         <ProfileButton
@@ -69,7 +67,7 @@ const TaskCard = ({ task }: Task) => {
       </div>
       <div className="flex items-center justify-start mb-5 gap-1">
         <div className="font-medium text-xs text-0E0E0E leading-4 text-right">
-          {task.description}
+          {description}
         </div>
         <div className="text-xs text-BDC0C6 ">
           <CiTextAlignRight />
