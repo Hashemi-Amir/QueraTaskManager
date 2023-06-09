@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { TfiArrowCircleDown } from "react-icons/tfi";
+import { fetchBoards } from "../../../services/features/boards/boardSlice";
+import { useAppDispatch } from "../../../services/app/hook";
 
 type CollapsibleProps = {
   title: string;
@@ -7,6 +9,8 @@ type CollapsibleProps = {
   numberTask?: number;
   chevronClass: string;
   children: React.ReactNode;
+  id?: string | undefined;
+  onClick?: () => void;
 };
 const Collapsible = ({
   title,
@@ -14,15 +18,19 @@ const Collapsible = ({
   chevronClass,
   titleClass,
   numberTask,
+  id,
 }: CollapsibleProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const dispatch = useAppDispatch();
   const transition = "transition-all delay-75 ease-in-out";
 
   return (
     <div className="mt-8">
       <div
         className="flex items-center gap-2 "
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={() => {
+          setIsExpanded(!isExpanded);
+        }}
       >
         <span className={chevronClass}>
           {isExpanded ? (
