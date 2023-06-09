@@ -2,27 +2,42 @@ import Button from "../../ui/Button";
 import {FiLink} from 'react-icons/fi'
 import avatar from '../../../assets/avatar.png'
 import {IoIosArrowDown} from 'react-icons/io'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Permission from "../Small/Permission";
 import CloseIcon from "../../ui/Close";
-import { useAppDispatch } from "../../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { addWorkSpaceMember, removeWorkSpaceMember } from "../../../services/features/workSpaceList/workSpacesSlice";
 
 
 type ShareModalProps = {
     ModalTitle : string,
     shareModalHandler : () => void,
+    id?:string
 }
 
-const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
+const ShareModal = ({ModalTitle , shareModalHandler,id}:ShareModalProps) => {
     const [permission , setPermission] = useState({
         value : 'دسترسی کامل',
         modal : false
     })
 
     const [inviteValue , setInviteValue] = useState('')
-
+    const [members , setMembers] = useState([])
     const dispatch = useAppDispatch()
+    const workMembers = useAppSelector(state => state.workSpaces.workSpaces)
+
+
+
+    useEffect(()=> {
+        handleMembers()
+    },[])
+
+    const handleMembers = () => {
+        const filter = workMembers.filter((item)=> item._id === id)
+        setMembers(filter[0]?.members)
+    }
+
+
 
     // handle Permission modal
     const handlePermission = (event:any) => {
@@ -33,7 +48,7 @@ const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
     // Add member with called dispatch redux toolkit
     const handleAddMember = () => {
         if(ModalTitle === "به اشتراک گذاری ورک اسپیس"){
-            const workspaceIds = ['64805c61a73fe32ecad1611e' ,  inviteValue]
+            const workspaceIds = [workId ,  inviteValue]
             dispatch(addWorkSpaceMember(workspaceIds))
         }
     }
@@ -42,7 +57,7 @@ const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
     // Remove member with called dispatch redux toolkit
     const handleRemoveMember = () => {
         if(ModalTitle === "به اشتراک گذاری ورک اسپیس"){
-            const workspaceIds = ['64805c61a73fe32ecad1611e' ,  inviteValue]
+            const workspaceIds = [id ,  inviteValue]
             dispatch(removeWorkSpaceMember(workspaceIds))
             setPermission({...permission,modal : false})
         }
@@ -119,31 +134,37 @@ const ShareModal = ({ModalTitle , shareModalHandler}:ShareModalProps) => {
 
                                     <div className="w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0]">دسترسی کامل</div>
                                 </li>
-
-                                <li className="w-full mt-5"> 
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center">
-                                            <div className="w-9 h-9 flex justify-center items-center bg-F27474 rounded-full">
-                                                SR
+                                {
+                                    members && members.map(item => (
+                                    
+                                        <li key={item.user._id} className="w-full mt-5"> 
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center">
+                                                    <div className="w-9 h-9 flex justify-center items-center bg-F27474 rounded-full">
+                                                        SR
+                                                    </div>
+                                                    <span className="w-28 mr-7 px-2 py-1 rounded-md flex items-center justify-center font-normal text-sm">{item.user.email}</span>
+            
+                                                </div>
+            
+                                                <div 
+                                                    className="relative w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer"
+                                                    onClick={()=> setPermission({...permission,modal:true})} 
+                                                >
+                                                    <span className="ml-4" >{permission.value}</span>
+                                                    <IoIosArrowDown />
+            
+                                                </div>
+            
+                                                {permission.modal && 
+                                                    <Permission handlePermission={handlePermission} handleRemoveMember={handleRemoveMember}/>
+                                                }
                                             </div>
-                                            <span className="w-28 mr-4 px-2 py-1 rounded-md flex items-center justify-center font-normal text-sm">sararahimi@gmail.com</span>
+                                        </li>
+                                    )
+                                )
+                                }
 
-                                        </div>
-
-                                        <div 
-                                            className="relative w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer"
-                                            onClick={()=> setPermission({...permission,modal:true})} 
-                                        >
-                                            <span className="ml-4" >{permission.value}</span>
-                                            <IoIosArrowDown />
-
-                                        </div>
-
-                                        {permission.modal && 
-                                            <Permission handlePermission={handlePermission} handleRemoveMember={handleRemoveMember}/>
-                                        }
-                                    </div>
-                                </li>
                             </ul>
                         </div>
 

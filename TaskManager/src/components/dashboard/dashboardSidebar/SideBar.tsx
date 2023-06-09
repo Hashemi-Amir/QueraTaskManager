@@ -20,11 +20,6 @@ const SideBar = () => {
     dispatch(fetchWorkSpaces());
   }, []);
 
-  // if (isSuccess) {
-  //   console.log(workSpace);
-  // } else if (isError) {
-  //   console.log(isError);
-  // }
 
   return (
     <div className=" flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">

@@ -1,14 +1,14 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import SideMore from "../../modals/Small/SideMore";
 import ProjectList from "./ProjectList";
 import { createPortal } from "react-dom";
-import { useAppDispatch } from "../../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { deleteWorkSpace } from "../../../services/features/workSpaceList/workSpacesSlice";
 
 type WorkSpaceProps = {
   workSpaces: {
-    _id: string;
+    _id: string ;
     name: string;
     user: string;
     members: [];
@@ -17,27 +17,39 @@ type WorkSpaceProps = {
 };
 
 const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
-  const [workspaceMore, setWorkspaceMore] = useState(null);
+  const [workspaceMore, setWorkspaceMore] = useState({
+    modal : null,
+    id : null
+  });
   const [morePosition, setMorePosition] = useState<SetStateAction<any>>({
     top: null,
     left: null,
   });
 
   const dispatch = useAppDispatch()
-
-  const handleItemClick = (e: any, item: any) => {
-    if (workspaceMore === null) {
+  const allworkSpaces = useAppSelector(state => state.workSpaces)
+  useEffect(()=>{
+    console.log(allworkSpaces);
+    
+  },[allworkSpaces]);
+  
+  // modal toggle handle
+  const handleItemClick = (e: any, item: any , id:any) => {
+    if (workspaceMore.modal === null) {
       const top = `${e.clientY}px`;
       const left = `${e.clientX}px`;
       setMorePosition({ ...morePosition, top: top, left: left });
-      setWorkspaceMore(item);
+      setWorkspaceMore({...workspaceMore,modal: item , id : id});
     } else {
-      setWorkspaceMore(null);
+      setWorkspaceMore({...workspaceMore , modal : null , id : null} );
     }
   };
 
+
+  // delete workspace and called dispatch redux toolkit
   const handleDeleteWorkSpace = () => {
-    dispatch(deleteWorkSpace())
+    dispatch(deleteWorkSpace(workspaceMore.id))
+    setWorkspaceMore({...workspaceMore,modal:null,id:null})
   }
   const colors = [
     "118C80",
@@ -67,14 +79,20 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
 
               <div
                 className="absolute left-0 cursor-pointer hidden group-hover/title:block z-10"
-                onClick={(event) => handleItemClick(event,name)}
+                onClick={(event) => handleItemClick(event,name,_id)}
               >
                 <BsThreeDots />
               </div>
             </div>
 
-            {workspaceMore && createPortal(
-              <SideMore sideMoreState="ورک اسپیس" morePosition={morePosition} handleDeleteWorkSpace={handleDeleteWorkSpace} /> 
+            {workspaceMore.modal && createPortal(
+              <SideMore 
+                sideMoreState="ورک اسپیس"
+                morePosition={morePosition} 
+                handleDeleteWorkSpace={handleDeleteWorkSpace}
+                workId={workspaceMore.id}
+                handleItemClick={handleItemClick}
+              /> 
               ,
               document.body
             ) 

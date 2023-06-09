@@ -17,12 +17,16 @@ type SideMoreProps = {
   sideMoreState: string;
   morePosition: any;
   handleDeleteWorkSpace?: () => void;
+  workId? : any;
+  handleItemClick?: any
 };
 
 const SideMore = ({
   sideMoreState,
   morePosition,
   handleDeleteWorkSpace,
+  workId,
+  handleItemClick
 }: SideMoreProps) => {
   const liStyle =
     "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer";
@@ -145,12 +149,22 @@ const SideMore = ({
         </li>
         {newModal.editWorkSpace &&
           createPortal(
-            <EditBox status={"workspace"} editPosition={editPosition} />,
+            <EditBox 
+              status={"workspace"} 
+              editPosition={editPosition} 
+              workId={workId} 
+              handleItemClick={handleItemClick}
+            />,
             document.body
           )}
         {newModal.editProject &&
           createPortal(
-            <EditBox status={"project"} editPosition={editPosition} />,
+            <EditBox 
+              status={"project"} 
+              editPosition={editPosition}
+              workId={workId}
+              handleItemClick={handleItemClick}
+             />,
             document.body
           )}
         {sideMoreState === "ورک اسپیس" && (
@@ -208,6 +222,7 @@ const SideMore = ({
               <ShareModal
                 ModalTitle="به اشتراک گذاری ورک اسپیس"
                 shareModalHandler={handleShare}
+                id={workId}
               />
             </Modal>,
             document.body

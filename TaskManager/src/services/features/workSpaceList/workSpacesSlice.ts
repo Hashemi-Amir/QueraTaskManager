@@ -6,7 +6,7 @@ import WorkspaceService from "./workSpaceService";
 const auth = {
   headers: {
     "x-auth-token":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA3ZjlkNjM3M2NlZmM0Mjg2YTE1MiIsInVzZXJuYW1lIjoic2FlZWRhYmVkaW5pIiwiZW1haWwiOiJzYWVlZGFiZWRpbmlAZ21haWwuY29tIiwiaWF0IjoxNjg2MTgwODY3LCJleHAiOjE2ODYyNjcyNjd9.hEm4QwXM8XclYxL8LCl0KqDOAn7nLWLhpCNz1hCe1_w",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA1NzljYTczZmUzMmVjYWQxNjExNSIsInVzZXJuYW1lIjoic2luYTMiLCJlbWFpbCI6InNpbmFhLm5pbGkwOTcyQGdtYWlsLmNvbSIsImlhdCI6MTY4NjI5OTQ1NSwiZXhwIjoxNjg2Mzg1ODU1fQ.0Oo4YSLkF8MPGvTXLnA262NOcef62KHw3sF9AH2KfmI",
   },
 };
 export type WorkSpacesProps = {
@@ -61,9 +61,10 @@ const createWorkSpace = createAsyncThunk(
 
 const deleteWorkSpace = createAsyncThunk(
   "workspace/deleteWorkSpace",
-  async () => {
+  async (id:string) => {
     try {
-      return await WorkspaceService.deleteWorkSpace(auth);
+      const data = await WorkspaceService.deleteWorkSpace(id,auth);      
+      return data.data
     } catch (error) {
       return error;
     }
@@ -72,9 +73,9 @@ const deleteWorkSpace = createAsyncThunk(
 
 const updateWorkSpace = createAsyncThunk(
   "workspace/updateWorkSpace",
-  async (formData: any) => {
+  async (data:object[]) => {
     try {
-      return await WorkspaceService.updateWorkSpace(formData, auth);
+      return await WorkspaceService.updateWorkSpace(data, auth);
     } catch (error) {
       return error;
     }
@@ -131,14 +132,46 @@ const workSpacesSlice = createSlice({
       })
       .addCase(createWorkSpace.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.workSpaces = [...state.workSpaces, action.payload];
+        state.workSpaces = [...state.workSpaces, action.payload.data];
         state.isError = "";
       })
       .addCase(createWorkSpace.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.error.message;
         state.workSpaces = [];
-      });
+      })
+
+      // delete workSpace
+      .addCase(deleteWorkSpace.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteWorkSpace.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.workSpaces = state.workSpaces.filter(item => item._id != action.payload._id );
+        state.isError = "";
+      })
+      .addCase(deleteWorkSpace.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.error.message;
+        state.workSpaces = [];
+      })
+
+
+      // update workSpace
+
+      .addCase(updateWorkSpace.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateWorkSpace.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // state.workSpaces = state.workSpaces[action.payload.data._id].name = action.payload.data.name 
+        state.isError = "";
+      })
+      .addCase(updateWorkSpace.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.error.message;
+        state.workSpaces = [];
+      })
   },
 });
 
