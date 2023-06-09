@@ -20,7 +20,6 @@ const NewWorkspace = ({
   setWorkSpaceStepe,
   handleModalWorkSpace,
 }: workspaceProps) => {
-
   const [selectedColor, setSelectedColor] = useState({
     color: "bg-[#7D828C]",
     id: 0,
@@ -67,7 +66,7 @@ const NewWorkspace = ({
       setWorkSpaceStepe("مرور اطلاعات");
     } else if (workSpaceStep === "مرور اطلاعات") {
       dispatch(createWorkSpace(workspaceName));
-      handleModalWorkSpace()
+      handleModalWorkSpace();
       setWorkSpaceStepe("ساختن ورک اسپیس جدید");
     }
   };
@@ -199,10 +198,8 @@ const NewWorkspace = ({
               onClick={handleWorkSpaceStep}
             />
           </div>
-
         </div>
       </div>
-
     </div>
   );
 };

@@ -1,9 +1,9 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import SideMore from "../../modals/Small/SideMore";
 import ProjectList from "./ProjectList";
 import { createPortal } from "react-dom";
-import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { useAppDispatch } from "../../../services/app/hook";
 import { deleteWorkSpace } from "../../../services/app/store";
 
 type WorkSpaceProps = {
@@ -34,7 +34,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
     item: string,
     id: string
   ) => {
-    if (workspaceMore.modal === null) {
+    if (workspaceMore.modal === "") {
       const top = `${e.clientY}px`;
       const left = `${e.clientX}px`;
       setMorePosition({ ...morePosition, top: top, left: left });
@@ -77,7 +77,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
                   sideMoreState="ورک اسپیس"
                   morePosition={morePosition}
                   handleDeleteWorkSpace={handleDeleteWorkSpace}
-                  workId={workspaceMore.id}
+                  id={workspaceMore.id}
                   handleItemClick={handleItemClick}
                 />,
                 document.body

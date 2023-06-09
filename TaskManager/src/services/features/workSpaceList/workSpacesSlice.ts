@@ -1,5 +1,9 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+<<<<<<< HEAD
 import { AxiosResponse } from "axios";
+=======
+import{ AxiosResponse } from "axios";
+>>>>>>> ali-hayati
 import WorkspaceService from "./workSpaceService";
 
 export type WorkSpacesProps = {
@@ -71,8 +75,7 @@ const deleteWorkSpace = createAsyncThunk(
   "workspace/deleteWorkSpace",
   async (id: string) => {
     try {
-      const data = await WorkspaceService.deleteWorkSpace(id);
-      return data.data;
+      return await WorkspaceService.deleteWorkSpace(id);
     } catch (error) {
       return error;
     }
@@ -81,7 +84,7 @@ const deleteWorkSpace = createAsyncThunk(
 
 const updateWorkSpace = createAsyncThunk(
   "workspace/updateWorkSpace",
-  async (data: object[]) => {
+  async (data: (string | undefined)[]) => {
     try {
       return await WorkspaceService.updateWorkSpace(data);
     } catch (error) {
@@ -111,6 +114,8 @@ const removeWorkSpaceMember = createAsyncThunk(
     }
   }
 );
+
+
 const workSpacesSlice = createSlice({
   name: "workSpaces",
   initialState,
@@ -168,9 +173,10 @@ const workSpacesSlice = createSlice({
       .addCase(createWorkSpace.pending, (state) => {
         state.isLoading = true;
       })
+      
       .addCase(createWorkSpace.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.workSpaces = [...state.workSpaces, action.payload.data];
+        state.workSpaces = [...state.workSpaces, action.payload];
       })
       .addCase(createWorkSpace.rejected, (state, action) => {
         state.isLoading = false;

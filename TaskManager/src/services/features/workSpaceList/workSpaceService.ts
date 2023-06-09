@@ -15,6 +15,7 @@ const fetchWorkSpaceById = async (id: string) => {
 const createWorkSpace = async (nameWorkspace: string) => {
   const formData = { name: nameWorkspace };
   const response = await AXIOS.post(API_URL + "create", formData);
+  
   if (response.data) {
     toast.success("ورک اسپیس ساخته شد :)");
     console.log(response.data);
@@ -25,29 +26,24 @@ const createWorkSpace = async (nameWorkspace: string) => {
 };
 
 const deleteWorkSpace = async (id: string) => {
-  const response = await AXIOS.delete(API_URL + id);
-  response.status === 200
-    ? toast("ورک اسپیس پاک شد")
-    : toast.error("مشکلی پیش اومده !");
+  const response = await AXIOS.delete(API_URL + id);  
+  response.data ? toast("ورک اسپیس پاک شد") : toast.error("مشکلی پیش اومده !")
   return response.data;
 };
 
-const updateWorkSpace = async (data: object[]) => {
-  const [value, id] = [...data];
+const updateWorkSpace = async (data:(string | undefined)[]) => {
+  const [value, id , username] = [...data];
   const formData = {
     name: value,
-    usernameOrId: "sina3",
+    usernameOrId: username,
     image: "image url",
   };
-
   const response = await AXIOS.patch(API_URL + id, formData);
-  response.status === 200
-    ? toast.success("نام ورک اسپیس تغییر یافت")
-    : toast.error("مشکلی پیش اومده !");
+  response.data ?  toast.success("نام ورک اسپیس تغییر یافت") : toast.error("مشکلی پیش اومده !")
   return response.data;
 };
 
-const addWorkSpaceMember = async (workID: any) => {
+const addWorkSpaceMember = async (workID: string) => {
   const [workSpaceId, userNameOrId] = [...workID];
   console.log(workSpaceId, userNameOrId);
 
@@ -57,8 +53,7 @@ const addWorkSpaceMember = async (workID: any) => {
   return response.data;
 };
 
-const removeWorkSpaceMember = async (workID: any) => {
-  console.log(workID);
+const removeWorkSpaceMember = async (workID: string) => {
   const [workSpaceId, userNameOrId] = [...workID];
 
   const us = `${workSpaceId}/members/${userNameOrId}`;

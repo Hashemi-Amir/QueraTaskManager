@@ -8,24 +8,34 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import Modal from "../../../layout/Modal";
 import NewProject from "../Medium/NewProject";
-import EditBox from "../../ui/EditBox";
 import CheckBoxColor from "../../ui/CheckBoxColor";
 import ShareModal from "../Medium/ShareModal";
 import AddNewTask from "../Large/AddNewTask";
+import EditBox from "../../ui/EditBox";
+
+type morePosition = {
+  top?: number;
+  left?: number;
+};
 
 type SideMoreProps = {
   sideMoreState: string;
-  morePosition: any;
+  morePosition: morePosition;
   handleDeleteWorkSpace?: () => void;
-  workId?: any;
+  id?: string;
   handleItemClick?: any;
+};
+
+type EditBoxPosition = {
+  top?: number;
+  left?: number;
 };
 
 const SideMore = ({
   sideMoreState,
   morePosition,
   handleDeleteWorkSpace,
-  workId,
+  id,
   handleItemClick,
 }: SideMoreProps) => {
   const liStyle =
@@ -63,10 +73,7 @@ const SideMore = ({
     shareProject: false,
   });
 
-  const [editPosition, setEditPosition] = useState({
-    top: 0,
-    left: 0,
-  });
+  const [editPosition, setEditPosition] = useState<EditBoxPosition>({});
 
   const [selectedColor, setSelectedColor] = useState({
     color: "bg-[#7D828C]",
@@ -152,7 +159,7 @@ const SideMore = ({
             <EditBox
               status={"workspace"}
               editPosition={editPosition}
-              workId={workId}
+              id={id}
               handleItemClick={handleItemClick}
             />,
             document.body
@@ -162,7 +169,7 @@ const SideMore = ({
             <EditBox
               status={"project"}
               editPosition={editPosition}
-              workId={workId}
+              id={id}
               handleItemClick={handleItemClick}
             />,
             document.body
@@ -222,7 +229,7 @@ const SideMore = ({
               <ShareModal
                 ModalTitle="به اشتراک گذاری ورک اسپیس"
                 shareModalHandler={handleShare}
-                id={workId}
+                id={id}
               />
             </Modal>,
             document.body
