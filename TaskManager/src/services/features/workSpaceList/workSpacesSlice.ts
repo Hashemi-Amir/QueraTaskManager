@@ -1,5 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosResponse } from "axios";
+import WorkspaceService from "./workSpaceService";
 
 const auth = {
   headers: {
@@ -64,6 +65,61 @@ const fetchWorkSpaceById = createAsyncThunk(
   }
 );
 
+const createWorkSpace = createAsyncThunk(
+  "workspace/createWorkSpace",
+  async (nameWorkspace: string) => {
+    try {
+      return await WorkspaceService.createWorkSpace(nameWorkspace, auth);
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+const deleteWorkSpace = createAsyncThunk(
+  "workspace/deleteWorkSpace",
+  async (id:string) => {
+    try {
+      const data = await WorkspaceService.deleteWorkSpace(id,auth);      
+      return data.data
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+const updateWorkSpace = createAsyncThunk(
+  "workspace/updateWorkSpace",
+  async (data:object[]) => {
+    try {
+      return await WorkspaceService.updateWorkSpace(data, auth);
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+const addWorkSpaceMember = createAsyncThunk(
+  "workspace/addWorkSpaceMember",
+  async (workID: any) => {
+    try {
+      return await WorkspaceService.addWorkSpaceMember(workID, auth);
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+const removeWorkSpaceMember = createAsyncThunk(
+  "workspace/removeWorkSpaceMember",
+  async (workID: any) => {
+    try {
+      return await WorkspaceService.removeWorkSpaceMember(workID, auth);
+    } catch (error) {
+      return error;
+    }
+  }
+);
 const workSpacesSlice = createSlice({
   name: "workSpaces",
   initialState,
@@ -107,9 +163,56 @@ const workSpacesSlice = createSlice({
         state.isError = true;
         state.errorMessage = action.error;
         state.workSpaces = [];
-      });
+      })
+
+      // create workSpace
+      .addCase(createWorkSpace.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createWorkSpace.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.workSpaces = [...state.workSpaces, action.payload.data];
+        state.isError = "";
+      })
+      .addCase(createWorkSpace.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.error.message;
+        state.workSpaces = [];
+      })
+
+      // delete workSpace
+      .addCase(deleteWorkSpace.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteWorkSpace.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.workSpaces = state.workSpaces.filter(item => item._id != action.payload._id );
+        state.isError = "";
+      })
+      .addCase(deleteWorkSpace.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.error.message;
+        state.workSpaces = [];
+      })
+
+
+      // update workSpace
+
+      .addCase(updateWorkSpace.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateWorkSpace.fulfilled, (state, action) => {
+        state.isLoading = false;
+        // state.workSpaces = state.workSpaces[action.payload.data._id].name = action.payload.data.name 
+        state.isError = "";
+      })
+      .addCase(updateWorkSpace.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.error.message;
+        state.workSpaces = [];
+      })
   },
 });
 
 export default workSpacesSlice.reducer;
-export { fetchAllWorkSpaces, fetchWorkSpaceById };
+export { fetchAllWorkSpaces,fetchWorkSpaceById ,createWorkSpace , deleteWorkSpace ,updateWorkSpace,addWorkSpaceMember , removeWorkSpaceMember};

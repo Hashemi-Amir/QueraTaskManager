@@ -1,9 +1,10 @@
 
 type PermissionProps =  {
-    handlePermission : (e:any)=> void
+    handlePermission : (e:any)=> void,
+    handleRemoveMember : ()=> void
 }
 
-const Permission = ({handlePermission}:PermissionProps) => {
+const Permission = ({handlePermission,handleRemoveMember}:PermissionProps) => {
     const liStyle = 'w-full flex flex-col mt-4 cursor-pointer text-[10px] text-[#3D3D3D] mt-1'
     const spanStyle = "text-xs text-[#1E1E1E] font-semibold"
     const pStyle = "text-[10px] text-[#3D3D3D] mt-1"
@@ -26,9 +27,8 @@ const Permission = ({handlePermission}:PermissionProps) => {
             </li>
 
 
-            <li className={liStyle}>
-                <span className={spanStyle} onClick={(e) => handlePermission(e)}>فقط دسترسی مشاهده</span>
-                <p className={pStyle}>توانایی گذاشتن کامنت یا ویرایش تسک‌ها را ندارد.</p>
+            <li className={liStyle} onClick={handleRemoveMember}>
+                <span className={spanStyle} onClick={(e) => handlePermission(e)}>حذف مشترک</span>
             </li>
 
 

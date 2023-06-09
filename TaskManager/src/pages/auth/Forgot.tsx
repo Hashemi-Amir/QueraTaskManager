@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import Card from "../../components/auth/Card";
 import Input from "../../components/ui/Input";
@@ -6,6 +5,15 @@ import Schema from "../../components/validationRuls/Schema";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
+
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../services/app/hook";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import {
+  forgot as forgotPass,
+  reset,
+} from "../../services/features/auth/authSlice";
 
 const Forget = () => {
   const {
@@ -16,14 +24,39 @@ const Forget = () => {
     resolver: yupResolver(Schema.forgot),
   });
 
+  // Redux Toolkit codes
+  const Navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { isSuccess, isLoading, isError, message } = useAppSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.dismiss();
+      toast.error((message as string) + "❗");
+      dispatch(reset());
+    }
+    if (isSuccess) {
+      toast.dismiss();
+      toast(`${message} 🎉`, { autoClose: 1000 });
+      Navigate("/reset");
+      dispatch(reset());
+    }
+    isLoading && toast("Pending ⏳");
+  }, [isSuccess, isError, message, isLoading, Navigate, dispatch]);
+
   const onSubmit = (data: FieldValues) => {
-    console.log(data);
+    dispatch(
+      forgotPass({
+        email: data.email,
+      })
+    );
   };
 
   const errorMsgStyle = "text-FC0733 text-xs absolute py-1";
   const errorInputStyle = "border-FB0606";
 
-  const Navigate = useNavigate();
   return (
     <Card
       cardTitle="فراموشی رمز عبور"
@@ -41,10 +74,7 @@ const Forget = () => {
           />
           <p className={errorMsgStyle}>{errors.email?.message}</p>
         </div>
-        <Button
-          onClick={() => Navigate("/reset")}
-          value="دریافت ایمیل بازیابی رمز عبور"
-        />
+        <Button disabled={isLoading} value="دریافت ایمیل بازیابی رمز عبور" />
       </form>
     </Card>
   );

@@ -39,7 +39,6 @@ const Header = ({ title, number, borderColor }: HeaderProps) => {
             onClick={() => setColMoreModal(!colMoreModal)}
           >
             <BsThreeDots />
-            {colMoreModal && <ColMore />}
           </span>
           <span
             className="hover:scale-110 text-xl data-[title]:text-red-500"
@@ -51,8 +50,9 @@ const Header = ({ title, number, borderColor }: HeaderProps) => {
         </div>
       )}
 
-      {newTaskModal &&
-        createPortal(
+      {colMoreModal && <ColMore />}
+
+      {newTaskModal && createPortal(
           <Modal>
             <AddNewTask handleNewTaskModal={handleNewTaskModal} />
           </Modal>,
