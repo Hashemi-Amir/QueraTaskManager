@@ -2,29 +2,37 @@ import { useAppDispatch, useAppSelector } from "../../services/app/hook";
 import { updateWorkSpace } from "../../services/app/store";
 import Button from "./Button";
 
+
+type EditBoxPosition = {
+  top?: number,
+  left?: number
+}
+
 type EditBoxProps = {
   status: string;
-  editPosition?: any;
-  workId?: any;
-  handleItemClick?: any;
+  editPosition: EditBoxPosition;
+  id?: string;
+  handleItemClick: ()=> void | undefined;
 };
+
+
 
 const EditBox = ({
   status,
   editPosition,
-  workId,
+  id,
   handleItemClick,
 }: EditBoxProps) => {
   const dispatch = useAppDispatch();
 
   // get username and send to updateWorkSpace
-  // const user = useAppSelector(state => state.auth.user)
-
+  const user = useAppSelector(state => state.auth.user)
+  
   const handleEdit = () => {
-    let val = document.querySelector<HTMLInputElement>("#edit")?.value;
-    const data = [val, workId];
+    const val = document.querySelector<HTMLInputElement>("#edit")?.value;
+    const data = [val, id ,user?.username];
     const regex = /\S/g;
-    if (status === "workspace" && regex.test(val)) {
+    if (status === "workspace" && typeof val === "string" && regex.test(val)) {
       dispatch(updateWorkSpace(data));
       handleItemClick();
     }

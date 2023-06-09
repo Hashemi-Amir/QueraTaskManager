@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { useAppDispatch } from "../../../services/app/hook";
 import { fetchBoards } from "../../../services/features/boards/boardSlice";
