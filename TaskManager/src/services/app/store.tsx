@@ -1,39 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import calendarReducer from "../features/calendar/calendarSlice";
-import workSpacesReducer, {
-  WorkSpacesProps,
-} from "../features/workSpaceList/workSpacesSlice";
+import workSpacesReducer from "../features/workSpaceList/workSpacesSlice";
 import authReducer from "../features/auth/authSlice";
-import projectReducer, {
-  ProjectsProps,
-} from "../features/projects/projectSlice";
-import boardReducer, { BoardsProps } from "../features/boards/boardSlice";
-
-export type TypeStore = {
-  calendar: {
-    date: string;
-    ref: any;
-  };
-  workSpaces: {
-    isLoading: boolean;
-    isSuccess: boolean;
-    isError: string | undefined;
-    workSpaces: WorkSpacesProps[];
-  };
-  projects: {
-    isLoading: boolean;
-    isSuccess: boolean;
-    projects: ProjectsProps[];
-    isError: string | undefined;
-    id: string;
-  };
-  boards: {
-    isLoading: false;
-    isSuccess: false;
-    isError: "";
-    boards: BoardsProps[];
-  };
-};
+import projectReducer from "../features/projects/projectSlice";
+import boardReducer from "../features/boards/boardSlice";
 
 const store = configureStore({
   reducer: {

@@ -1,3 +1,6 @@
+import { useAppDispatch } from "../../../services/app/hook";
+import { fetchWorkSpaceById } from "../../../services/features/workSpaceList/workSpacesSlice";
+
 type SpaceMenuProps = {
   workSpaces: {
     _id: string;
@@ -9,11 +12,22 @@ type SpaceMenuProps = {
 };
 
 const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
+  const dispatch = useAppDispatch();
+  function getId() {
+    const optionEl = document.querySelector("#mySelect");
+    if (optionEl instanceof HTMLSelectElement) {
+      const id = optionEl.options[optionEl.selectedIndex].id;
+      dispatch(fetchWorkSpaceById(id));
+      console.log(id);
+    }
+  }
   return (
-    <select className="p-2 bg-white outline-none focus:ring-1 focus:ring-208D8E  rounded-md mt-7 w-full  font-semibold  ">
-      <option
-        className=" bg-208D8E text-323232 font-semibold"
-      >
+    <select
+      id="mySelect"
+      onChange={getId}
+      className="p-2 bg-white outline-none focus:ring-1 focus:ring-208D8E  rounded-md mt-7 w-full  font-semibold  "
+    >
+      <option className=" bg-208D8E text-323232 font-semibold">
         ورک اسپیس‌ها
       </option>
       {workSpaces.map(({ _id, name }) => (
@@ -21,6 +35,7 @@ const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
           className="font-semibold bg-208D8E hover:text-white"
           key={_id}
           value={name}
+          id={_id}
         >
           {name}
         </option>

@@ -7,11 +7,30 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import Modal from "./Modal";
 import AddNewTask from "../components/modals/Large/AddNewTask";
-
+const colors = [
+  "bg-F92E8F",
+  "bg-F1A25C",
+  "bg-118C80",
+  "bg-2E7FF9",
+  "bg-C074D1",
+  "bg-71FDA9",
+  "bg-FFE605",
+];
+const borderColors = [
+  "border-t-F92E8F",
+  "border-t-F1A25C",
+  "border-t-118C80",
+  "border-t-2E7FF9",
+  "border-t-C074D1",
+  "border-t-71FDA9",
+  "border-t-FFE605",
+];
+localStorage.setItem('Colors', JSON.stringify(colors));
+localStorage.setItem('BorderColors', JSON.stringify(borderColors));
 const DashboardLayout = () => {
-  const [newTaskModal , setNewTaskModal] = useState(false)
+  const [newTaskModal, setNewTaskModal] = useState(false);
 
-  const handleNewTaskModal = () => setNewTaskModal(!newTaskModal)
+  const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
   const Location = useLocation();
   let WraperClasses = "";
 
@@ -38,7 +57,11 @@ const DashboardLayout = () => {
         </div>
       </div>
       <div className="fixed left-5 bottom-3 cur z-50">
-        <Button className="text-l px-2 py rounded-lg" value={"تسک جدید"} onClick={handleNewTaskModal}>
+        <Button
+          className="text-l px-2 py rounded-lg"
+          value={"تسک جدید"}
+          onClick={handleNewTaskModal}
+        >
           <CgAddR
             size={20}
             color="white"
@@ -47,12 +70,13 @@ const DashboardLayout = () => {
         </Button>
       </div>
 
-      {newTaskModal && createPortal(
-        <Modal>
-          <AddNewTask handleNewTaskModal={handleNewTaskModal}/>
-        </Modal>,
-        document.body
-      )}
+      {newTaskModal &&
+        createPortal(
+          <Modal>
+            <AddNewTask handleNewTaskModal={handleNewTaskModal} />
+          </Modal>,
+          document.body
+        )}
     </div>
   );
 };
