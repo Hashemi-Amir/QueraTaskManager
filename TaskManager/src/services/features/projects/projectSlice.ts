@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TypeStore } from "../../app/store";
 import axios, { AxiosResponse } from "axios";
 
 const auth = {
   headers: {
     "x-auth-token":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA3ZjlkNjM3M2NlZmM0Mjg2YTE1MiIsInVzZXJuYW1lIjoic2FlZWRhYmVkaW5pIiwiZW1haWwiOiJzYWVlZGFiZWRpbmlAZ21haWwuY29tIiwiaWF0IjoxNjg2MTgwODY3LCJleHAiOjE2ODYyNjcyNjd9.hEm4QwXM8XclYxL8LCl0KqDOAn7nLWLhpCNz1hCe1_w",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ODA3ZjlkNjM3M2NlZmM0Mjg2YTE1MiIsInVzZXJuYW1lIjoic2FlZWRhYmVkaW5pIiwiZW1haWwiOiJzYWVlZGFiZWRpbmlAZ21haWwuY29tIiwiaWF0IjoxNjg2MjY4MjEyLCJleHAiOjE2ODYzNTQ2MTJ9.dzApLHZahLQ_1croR29qZ58xXuykyBJUEVZOU7SBFLg",
   },
 };
 export type ProjectsProps = {
@@ -19,15 +18,17 @@ export type ProjectsProps = {
 type initialStateType = {
   isLoading: boolean;
   isSuccess: boolean;
-  projects: ProjectsProps[];
-  isError: string | undefined;
+  isError: boolean;
+  errorMessage: unknown ;
   id: string;
+  projects: ProjectsProps[];
 };
 
 const initialState: initialStateType = {
   isLoading: false,
   isSuccess: false,
-  isError: "",
+  isError: false,
+  errorMessage: "",
   projects: [],
   id: "",
 };
@@ -42,11 +43,9 @@ const fetchProjects = createAsyncThunk(
       );
       return await response.data;
     } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-
-      return thunkAPI.rejectWithValue(message);
-      // return error;
+      const errorMessage =
+      error?.response?.data?.message || error.message || error.toString();
+    return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
@@ -72,16 +71,16 @@ const projectSlice = createSlice({
           state.isSuccess = true;
           const fetchedProjects = action.payload.data; // extract projects from AxiosResponse object
           if (fetchedProjects && Array.isArray(fetchedProjects)) {
-            state.projects = [...state.projects, ...fetchedProjects];
+            state.projects = fetchedProjects;
           }
-          state.isError = "";
         }
       )
       .addCase(fetchProjects.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.projects = [];
-        state.isError = action.error.message;
+        state.isError = true;
+        state.errorMessage = action.error
       });
   },
 });
@@ -89,4 +88,3 @@ const projectSlice = createSlice({
 export default projectSlice.reducer;
 export const { setId } = projectSlice.actions;
 export { fetchProjects };
-export const selectProjects = (state: TypeStore) => state.projects;

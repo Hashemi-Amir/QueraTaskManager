@@ -6,26 +6,19 @@ import SpaceMenu from "./SpaceMenu";
 import { Link } from "react-router-dom";
 import { RxExit } from "react-icons/rx";
 import {
-  fetchWorkSpaces,
-  selectWorkSpaces,
+  fetchAllWorkSpaces,
 } from "../../../services/features/workSpaceList/workSpacesSlice";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { useEffect } from "react";
-import ProjectList from "./ProjectList";
 
 const SideBar = () => {
-  const {isSuccess, workSpaces } = useAppSelector(selectWorkSpaces);
+  const { isSuccess, workSpaces } = useAppSelector((state) => state.workSpaces);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchWorkSpaces());
-  }, []);
-
-  // if (isSuccess) {
-  //   console.log(workSpace);
-  // } else if (isError) {
-  //   console.log(isError);
-  // }
+    dispatch(fetchAllWorkSpaces());
+  }, [dispatch]);
+console.log('SideBar');
 
   return (
     <div className=" flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">
