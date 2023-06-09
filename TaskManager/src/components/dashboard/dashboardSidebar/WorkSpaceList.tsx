@@ -4,7 +4,7 @@ import SideMore from "../../modals/Small/SideMore";
 import ProjectList from "./ProjectList";
 import { createPortal } from "react-dom";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
-import { deleteWorkSpace } from "../../../services/features/workSpaceList/workSpacesSlice";
+import { deleteWorkSpace } from "../../../services/app/store";
 
 type WorkSpaceProps = {
   workSpaces: {

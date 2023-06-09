@@ -8,6 +8,15 @@ import boardReducer from "../features/boards/boardSlice";
 
 //! We should first import our actions from our slices here, then export them at the bottom
 import { getUser, reset } from "../features/getUser/getUserSlice";
+import {
+  fetchAllWorkSpaces,
+  fetchWorkSpaceById,
+  createWorkSpace,
+  deleteWorkSpace,
+  updateWorkSpace,
+  addWorkSpaceMember,
+  removeWorkSpaceMember,
+} from "../features/workSpaceList/workSpacesSlice";
 
 const store = configureStore({
   reducer: {
@@ -34,3 +43,12 @@ export type AppDispatch = typeof store.dispatch;
 
 //! Export those imported actions here one by one
 export { getUser, reset };
+export {
+  fetchAllWorkSpaces,
+  fetchWorkSpaceById,
+  createWorkSpace,
+  deleteWorkSpace,
+  updateWorkSpace,
+  addWorkSpaceMember,
+  removeWorkSpaceMember,
+};

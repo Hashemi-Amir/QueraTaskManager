@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../../../services/app/hook";
-import { fetchWorkSpaceById } from "../../../services/features/workSpaceList/workSpacesSlice";
+import { fetchWorkSpaceById } from "../../../services/app/store";
 
 type SpaceMenuProps = {
   workSpaces: {

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../services/app/hook";
-import { updateWorkSpace } from "../../services/features/workSpaceList/workSpacesSlice";
+import { updateWorkSpace } from "../../services/app/store";
 import Button from "./Button";
 
 type EditBoxProps = {

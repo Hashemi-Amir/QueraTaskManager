@@ -8,7 +8,7 @@ import { logOut } from "../../../services/features/auth/authSlice";
 import { RxExit } from "react-icons/rx";
 import {
   fetchAllWorkSpaces,
-} from "../../../services/features/workSpaceList/workSpacesSlice";
+} from "../../../services/app/store";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { useEffect } from "react";
 
@@ -16,6 +16,8 @@ const SideBar = () => {
   const { isSuccess, workSpaces } = useAppSelector((state) => state.workSpaces);
   const Navigate = useNavigate();
   const dispatch = useAppDispatch();
+console.log(workSpaces);
+
 
   useEffect(() => {
     dispatch(fetchAllWorkSpaces());

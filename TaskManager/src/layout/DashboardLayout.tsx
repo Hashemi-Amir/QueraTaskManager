@@ -7,31 +7,6 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Modal from "./Modal";
 import AddNewTask from "../components/modals/Large/AddNewTask";
-const colors = [
-  "bg-F92E8F",
-  "bg-F1A25C",
-  "bg-118C80",
-  "bg-2E7FF9",
-  "bg-C074D1",
-  "bg-71FDA9",
-  "bg-FFE605",
-];
-const borderColors = [
-  "border-t-F92E8F",
-  "border-t-F1A25C",
-  "border-t-118C80",
-  "border-t-2E7FF9",
-  "border-t-C074D1",
-  "border-t-71FDA9",
-  "border-t-FFE605",
-];
-localStorage.setItem('Colors', JSON.stringify(colors));
-localStorage.setItem('BorderColors', JSON.stringify(borderColors));
-
-
-const DashboardLayout = () => {
-  const [newTaskModal, setNewTaskModal] = useState(false);
-
 import { useAppDispatch, useAppSelector } from "../services/app/hook";
 import { toast } from "react-toastify";
 import { getUser as getu, reset } from "../services/app/store";
@@ -39,10 +14,34 @@ import { getUser as getu, reset } from "../services/app/store";
 const DashboardLayout = () => {
   //! For experiment !//
   const dispatch = useAppDispatch();
+  const [newTaskModal, setNewTaskModal] = useState(false);
+  const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
+  const Location = useLocation();
+  
   const { isSuccess, isLoading, isError, message } = useAppSelector(
     (state) => state.user
   );
-
+  const colors = [
+    "bg-F92E8F",
+    "bg-F1A25C",
+    "bg-118C80",
+    "bg-2E7FF9",
+    "bg-C074D1",
+    "bg-71FDA9",
+    "bg-FFE605",
+  ];
+  const borderColors = [
+    "border-t-F92E8F",
+    "border-t-F1A25C",
+    "border-t-118C80",
+    "border-t-2E7FF9",
+    "border-t-C074D1",
+    "border-t-71FDA9",
+    "border-t-FFE605",
+  ];
+  localStorage.setItem('Colors', JSON.stringify(colors));
+  localStorage.setItem('BorderColors', JSON.stringify(borderColors));
+  
   useEffect(() => {
     isError && toast.error((message as string) + "❗");
     isLoading && toast(" fetching workspaces⏳", { autoClose: 1000 });
@@ -59,10 +58,8 @@ const DashboardLayout = () => {
 
   // ************************************************ //
 
-  const [newTaskModal, setNewTaskModal] = useState(false);
 
-  const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
-  const Location = useLocation();
+
   let WraperClasses = "";
 
   const commonStyle =

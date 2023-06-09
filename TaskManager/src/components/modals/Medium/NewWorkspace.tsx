@@ -7,7 +7,7 @@ import avatar from "../../../assets/avatar.png";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import CloseIcon from "../../ui/Close";
 import { useAppDispatch } from "../../../services/app/hook";
-import { createWorkSpace } from "../../../services/features/workSpaceList/workSpacesSlice";
+import { createWorkSpace } from "../../../services/app/store";
 
 type workspaceProps = {
   workSpaceStep: string;
