@@ -1,13 +1,15 @@
 import { UseFormRegister } from "react-hook-form";
 export type FieldValues = Record<string, unknown>;
 type InputProps = {
-  label: string;
+  label?: string;
   id: string;
   className?: string;
   register?: UseFormRegister<FieldValues>;
 } & React.ComponentProps<"input">;
 
 const Input = ({ label, id, register, className, ...rest }: InputProps) => {
+
+
   return (
     <div className="mt-6">
       <label htmlFor={id} className="text-sm font-normal text-black">

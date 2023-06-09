@@ -42,7 +42,7 @@ const Login = () => {
       toast(`${message}🎉`, { autoClose: 1000 });
       dispatch(reset());
     }
-    isLoading && toast(`Logging in to account ⏳`);
+    isLoading && toast(`در حال ورود به حساب ⏳`, { rtl: true });
 
     const redirect = searchParams.has("redirect")
       ? searchParams.get("redirect")

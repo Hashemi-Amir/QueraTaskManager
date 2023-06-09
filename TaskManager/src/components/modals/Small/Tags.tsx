@@ -4,7 +4,11 @@ import TagMore from "./TagMore";
 import { useState } from "react";
 
 
-const Tags = () => {
+type tagProps = {
+    handleTagsModal : ()=>void
+}  
+
+const Tags = ({handleTagsModal}:tagProps) => {
     const [openMore , setOpenMore] = useState(false)
 
     const liSayle = 'w-full mt-3 flex items-center justify-between';

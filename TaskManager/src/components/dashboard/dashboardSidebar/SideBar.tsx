@@ -4,9 +4,14 @@ import SearchInput from "../../ui/SearchInput";
 import WorkSpaceList from "./WorkSpaceList";
 import SpaceMenu from "./SpaceMenu";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../../services/app/hook";
 import { logOut } from "../../../services/features/auth/authSlice";
 import { RxExit } from "react-icons/rx";
+import {
+  fetchWorkSpaces,
+  selectWorkSpaces,
+} from "../../../services/features/workSpaceList/workSpacesSlice";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { useEffect } from "react";
 
 const SideBar = () => {
   const Navigate = useNavigate();
@@ -27,24 +32,22 @@ const SideBar = () => {
       spaceColor: "6CB2F7",
     },
   ];
+  const { isSuccess, workSpaces } = useAppSelector(selectWorkSpaces);
 
-  const workSpaces = [
-    "کارهای شخصی",
-    "درس مدیریت پروژه",
-    "درس کامپایلر",
-    "درس ساختمان داده",
-    "درس داده کاوی",
-  ];
+  useEffect(() => {
+    dispatch(fetchWorkSpaces());
+  }, []);
 
   return (
     <div className=" flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">
       <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-118C80 to-4AB7D8">
         کوئرا تسک منیجر
       </h1>
-      <SpaceMenu workSpaces={workSpaces} />
+      <SpaceMenu workSpaces={(isSuccess && workSpaces) || []} />
       <SearchInput placeHolder="جستجو کنید" extraClass="my-3" />
       <NewSpace />
-      <WorkSpaceList spaceList={data} />
+      <WorkSpaceList workSpaces={(isSuccess && workSpaces) || []} />
+
       <Link className="w-fit" to={"/personalinfo"}>
         <ProfileButton
           userName="نیلوفر موجودی"
