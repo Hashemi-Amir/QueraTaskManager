@@ -1,15 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import calendarReducer from "../features/calendar/calendarSlice";
-import workSpacesReducer, {
-  WorkSpacesProps,
-} from "../features/workSpaceList/workSpacesSlice";
+import workSpacesReducer from "../features/workSpaceList/workSpacesSlice";
 import authReducer from "../features/auth/authSlice";
 import getUserSlice from "../features/getUser/getUserSlice";
+import projectReducer from "../features/projects/projectSlice";
+import boardReducer from "../features/boards/boardSlice";
 
 //! We should first import our actions from our slices here, then export them at the bottom
 import { getUser, reset } from "../features/getUser/getUserSlice";
-import projectReducer from "../features/projects/projectSlice";
-import boardReducer from "../features/boards/boardSlice";
 
 const store = configureStore({
   reducer: {
