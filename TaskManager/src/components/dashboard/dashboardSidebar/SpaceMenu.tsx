@@ -13,6 +13,8 @@ type SpaceMenuProps = {
 
 const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
   const dispatch = useAppDispatch();
+
+  // Get selected workspace id
   function getId() {
     const optionEl = document.querySelector("#mySelect");
     if (optionEl instanceof HTMLSelectElement) {
@@ -21,18 +23,19 @@ const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
       console.log(id);
     }
   }
+
   return (
     <select
       id="mySelect"
       onChange={getId}
       className="p-2 bg-white outline-none focus:ring-1 focus:ring-208D8E  rounded-md mt-7 w-full  font-semibold  "
     >
-      <option className=" bg-208D8E text-323232 font-semibold">
+      <option className="text-323232 font-semibold">
         ورک اسپیس‌ها
       </option>
       {workSpaces.map(({ _id, name }) => (
         <option
-          className="font-semibold bg-208D8E hover:text-white"
+          className="font-semibold hover:text-white"
           key={_id}
           value={name}
           id={_id}

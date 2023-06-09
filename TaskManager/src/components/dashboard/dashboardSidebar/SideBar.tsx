@@ -6,23 +6,22 @@ import SpaceMenu from "./SpaceMenu";
 import { Link, useNavigate } from "react-router-dom";
 import { logOut } from "../../../services/features/auth/authSlice";
 import { RxExit } from "react-icons/rx";
-import {
-  fetchAllWorkSpaces,
-} from "../../../services/app/store";
+import { fetchAllWorkSpaces } from "../../../services/app/store";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { useEffect } from "react";
 
 const SideBar = () => {
-  const { isSuccess, workSpaces } = useAppSelector((state) => state.workSpaces);
+  const { isSuccess, workSpaces, workSpace } = useAppSelector(
+    (state) => state.workSpaces
+  );
   const Navigate = useNavigate();
   const dispatch = useAppDispatch();
-console.log(workSpaces);
-
-
+  
   useEffect(() => {
     dispatch(fetchAllWorkSpaces());
   }, [dispatch]);
-console.log('SideBar');
+  console.log(workSpaces);
+  console.log(workSpace);
 
   return (
     <div className=" flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA  ">
@@ -32,8 +31,12 @@ console.log('SideBar');
       <SpaceMenu workSpaces={(isSuccess && workSpaces) || []} />
       <SearchInput placeHolder="جستجو کنید" extraClass="my-3" />
       <NewSpace />
-      <WorkSpaceList workSpaces={(isSuccess && workSpaces) || []} />
-
+      <WorkSpaceList
+        workSpaces={
+          (isSuccess && (workSpace.length === 0 ? workSpaces : workSpace)) || []
+        }
+      />
+{/* TODO UserName should be dynamic  sssss*/}
       <Link className="w-fit" to={"/personalinfo"}>
         <ProfileButton
           userName="نیلوفر موجودی"
