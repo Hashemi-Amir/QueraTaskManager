@@ -1,9 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-<<<<<<< HEAD
-import { AxiosResponse } from "axios";
-=======
-import{ AxiosResponse } from "axios";
->>>>>>> ali-hayati
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import WorkspaceService from "./workSpaceService";
 
 export type WorkSpacesProps = {
@@ -115,17 +110,19 @@ const removeWorkSpaceMember = createAsyncThunk(
   }
 );
 
-
 const workSpacesSlice = createSlice({
   name: "workSpaces",
   initialState,
   reducers: {
     // Reset helper flags
-    resetWorkspace: (state) => {
+    resetWorkspaces: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.message = "";
+    },
+    resetWorkspace: (state) => {
+      state.workSpace = [];
     },
   },
   extraReducers: (builder) => {
@@ -153,14 +150,11 @@ const workSpacesSlice = createSlice({
         state.isLoading = true;
         state.isSuccess = false;
       })
-      .addCase(
-        fetchWorkSpaceById.fulfilled,
-        (state, action) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.workSpace = [action.payload];
-        }
-      )
+      .addCase(fetchWorkSpaceById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.workSpace = [action.payload];
+      })
       .addCase(fetchWorkSpaceById.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
@@ -173,7 +167,7 @@ const workSpacesSlice = createSlice({
       .addCase(createWorkSpace.pending, (state) => {
         state.isLoading = true;
       })
-      
+
       .addCase(createWorkSpace.fulfilled, (state, action) => {
         state.isLoading = false;
         state.workSpaces = [...state.workSpaces, action.payload];
@@ -223,7 +217,7 @@ const workSpacesSlice = createSlice({
 });
 
 export default workSpacesSlice.reducer;
-export const { resetWorkspace } = workSpacesSlice.actions;
+export const { resetWorkspaces, resetWorkspace } = workSpacesSlice.actions;
 export {
   fetchAllWorkSpaces,
   fetchWorkSpaceById,
