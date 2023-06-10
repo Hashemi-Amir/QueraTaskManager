@@ -39,7 +39,7 @@ const Login = () => {
     }
     if (isSuccess) {
       toast.dismiss();
-      toast(`${message}🎉`, { autoClose: 1000 });
+      toast.success(` خوش آمدید 🎉`, { autoClose: 2000, rtl: true });
       dispatch(reset());
     }
     isLoading && toast(`در حال ورود به حساب ⏳`, { rtl: true });

@@ -38,16 +38,19 @@ const Register = () => {
   useEffect(() => {
     if (isError) {
       toast.dismiss();
-      toast.error(`${message} ❗`);
+      toast.error(`${message}`);
       dispatch(reset());
     }
     if (isSuccess) {
       toast.dismiss();
-      toast(`${message} 🎉`, { autoClose: 1000 });
+      toast.success(`ثبت نام با موفقیت انجام شد 🎉`, {
+        autoClose: 1000,
+        rtl: true,
+      });
       Navigate("/login");
       dispatch(reset());
     }
-    isLoading && toast("Registering ⏳");
+    isLoading && toast(" لطفا صبر کنید⏳", { rtl: true });
   }, [isSuccess, isError, message, isLoading, Navigate, dispatch]);
 
   const onSubmit = (data: FieldValues) => {

@@ -34,16 +34,21 @@ const Forget = () => {
   useEffect(() => {
     if (isError) {
       toast.dismiss();
-      toast.error((message as string) + "❗");
+      toast.error(message as string);
       dispatch(reset());
     }
     if (isSuccess) {
       toast.dismiss();
-      toast(`${message} 🎉`, { autoClose: 1000 });
+      toast.success(`ایمیل خود را بررسی کنید 🎉`, {
+        rtl: true,
+      });
       Navigate("/reset");
       dispatch(reset());
     }
-    isLoading && toast("Pending ⏳");
+    isLoading &&
+      toast("لطفا صبر کنید ⏳", {
+        rtl: true,
+      });
   }, [isSuccess, isError, message, isLoading, Navigate, dispatch]);
 
   const onSubmit = (data: FieldValues) => {
