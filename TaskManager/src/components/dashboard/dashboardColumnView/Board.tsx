@@ -22,7 +22,6 @@ type BoardProps = {
 };
 
 const Board = ({ title, number, tasks, borderColor }: BoardProps) => {
-console.log(borderColor);
 
   return (
     <div className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-16">

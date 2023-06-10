@@ -18,7 +18,6 @@ const Header = ({ title, number, borderColor }: HeaderProps) => {
     setIsHovered(isHovering);
   };
   const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
-  console.log(borderColor);
 
   return (
     <div
