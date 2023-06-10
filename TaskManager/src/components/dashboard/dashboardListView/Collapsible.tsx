@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { TfiArrowCircleDown } from "react-icons/tfi";
-import { fetchBoards } from "../../../services/features/boards/boardSlice";
-import { useAppDispatch } from "../../../services/app/hook";
 
 type CollapsibleProps = {
   title: string;
@@ -18,10 +16,8 @@ const Collapsible = ({
   chevronClass,
   titleClass,
   numberTask,
-  id,
 }: CollapsibleProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const dispatch = useAppDispatch();
   const transition = "transition-all delay-75 ease-in-out";
 
   return (
