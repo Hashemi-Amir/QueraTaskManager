@@ -19,7 +19,7 @@ const ListView = () => {
     <>
       {!isSuccess && !isError && !isLoading ? (
         <div className="m-auto">
-          ورک اسپیسی را جهت نمایش اطلاعات انتخاب کنید
+          ورک اسپیسی را جهت نمایش اطلاعات انتخاب کنید 😃
         </div>
       ) : isLoading ? (
         <AiOutlineLoading3Quarters
@@ -28,7 +28,7 @@ const ListView = () => {
           className="m-auto animate-spin"
         />
       ) : isSuccess && projects.length === 0 ? (
-        <div className="m-auto">هیچ اطلاعاتی جهت نمایش وجود ندارد</div>
+        <div className="m-auto">هیچ اطلاعاتی جهت نمایش وجود ندارد ☹️</div>
       ) : (
         <div className="pb-8 w-full">
           {projects.map(({ name, _id }) => (
