@@ -6,9 +6,10 @@ import projectReducer from "../features/projects/projectSlice";
 import boardReducer from "../features/boards/boardSlice";
 
 //! We should first import our actions from our slices here, then export them at the bottom
-import { fetchBoards } from "../features/boards/boardSlice";
-import { fetchProjects } from "../features/projects/projectSlice";
+import { fetchBoards, fetchListBoards } from "../features/boards/boardSlice";
+import { fetchProjects,resetProject } from "../features/projects/projectSlice";
 import {
+  resetWorkspaces,
   resetWorkspace,
   fetchAllWorkSpaces,
   fetchWorkSpaceById,
@@ -41,9 +42,10 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 //! Export those imported actions here one by one
-export { fetchBoards };
-export { fetchProjects };
+export { fetchBoards, fetchListBoards };
+export { fetchProjects,resetProject };
 export {
+  resetWorkspaces,
   resetWorkspace,
   fetchAllWorkSpaces,
   fetchWorkSpaceById,

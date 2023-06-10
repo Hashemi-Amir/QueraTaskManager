@@ -4,7 +4,7 @@ import SideMore from "../../modals/Small/SideMore";
 import ProjectList from "./ProjectList";
 import { createPortal } from "react-dom";
 import { useAppDispatch } from "../../../services/app/hook";
-import { deleteWorkSpace } from "../../../services/app/store";
+import { deleteWorkSpace, fetchProjects } from "../../../services/app/store";
 
 type WorkSpaceProps = {
   workSpaces: {
@@ -55,7 +55,11 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
     <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
       {workSpaces.map(({ name, _id, projects }, index) => {
         return (
-          <div className="collapse group/title" key={_id}>
+          <div
+            className="collapse group/title"
+            key={_id}
+            onClick={() => dispatch(fetchProjects(_id))}
+          >
             <input type="checkbox" className="p-0 m-0" />
             <div className="relative collapse-title font-medium flex justify-between items-center gap-2 p-0 m-0">
               <div className="flex gap-2 group">

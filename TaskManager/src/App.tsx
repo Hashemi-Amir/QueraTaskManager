@@ -19,11 +19,6 @@ import Protected from "./routes/Protected";
 function App() {
   return (
     <>
-<<<<<<< HEAD
-=======
-      {/* TODO : we should discuss about this routing system, we have a little bug I
-      should add 404 page */}
->>>>>>> ali-hayati
       <Routes>
         <Route element={<DashboardLayout />}>
           <Route
