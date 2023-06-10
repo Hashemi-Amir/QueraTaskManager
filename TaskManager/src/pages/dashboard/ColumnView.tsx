@@ -1,18 +1,18 @@
-import { DndContext, closestCenter } from "@dnd-kit/core";
 import Board from "../../components/dashboard/dashboardColumnView/Board";
-import { useEffect, useState } from "react";
-import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import {
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useAppDispatch, useAppSelector } from "../../services/app/hook";
-import { toast } from "react-toastify";
-import { resetWorkspace } from "../../services/app/store";
+import { useAppSelector } from "../../services/app/hook";
+// import { DndContext, closestCenter } from "@dnd-kit/core";
+// import { useEffect, useState } from "react";
+// import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+// import {
+//   KeyboardSensor,
+//   MouseSensor,
+//   TouchSensor,
+//   useSensor,
+//   useSensors,
+// } from "@dnd-kit/core";
+// import { toast } from "react-toastify";
+// import { resetWorkspace } from "../../services/app/store";
 
 // const initialTasks: Task[] = [
 //   {
@@ -103,16 +103,6 @@ const ColumnView = () => {
   const { isError, message, isLoading, isSuccess, boards } = useAppSelector(
     (state) => state.boards
   );
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (isError) {
-      toast.dismiss();
-      toast.error(`مشکلی در دریافت اطلاعات پیش اومده❗`);
-      dispatch(resetWorkspace());
-    }
-  }, []);
-
   const borderColors = JSON.parse(
     localStorage.getItem("BorderColors") as string
   );
@@ -159,14 +149,16 @@ const ColumnView = () => {
     //   sensors={sensors}
     // >
     <>
-      {isLoading ? (
+      {!isSuccess && !isError && !isLoading ? (
+        <div className="m-auto">پروژه‌ای را جهت نمایش اطلاعات انتخاب کنید 😃</div>
+      ) : isLoading ? (
         <AiOutlineLoading3Quarters
           size="2.8rem"
           color="208D8E"
           className="m-auto animate-spin"
         />
       ) : isSuccess && boards.length === 0 ? (
-        <div className="m-auto">هیچ چیزی برای نمایش وجود ندارد</div>
+        <div className="m-auto">هیچ اطلاعاتی جهت نمایش وجود ندارد ☹️</div>
       ) : (
         boards.map(({ _id, name, tasks }, index) => {
           return (
