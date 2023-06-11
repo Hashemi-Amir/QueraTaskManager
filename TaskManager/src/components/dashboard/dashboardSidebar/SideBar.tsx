@@ -6,7 +6,7 @@ import SpaceMenu from "./SpaceMenu";
 import { Link, useNavigate } from "react-router-dom";
 import { logOut } from "../../../services/features/auth/authSlice";
 import { RxExit } from "react-icons/rx";
-import { fetchAllWorkSpaces } from "../../../services/app/store";
+import { fetchAllWorkSpaces, resetWorkspaces } from "../../../services/app/store";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { useEffect } from "react";
 
@@ -14,12 +14,16 @@ const SideBar = () => {
   const { isSuccess, workSpaces, workSpace } = useAppSelector(
     (state) => state.workSpaces
   );
+  // const { isSuccessPost, projects} = useAppSelector(
+  //   (state) => state.projects
+  // );
   const { user } = useAppSelector((state) => state.auth);
   const Navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchAllWorkSpaces());
+    dispatch(resetWorkspaces())
   }, [dispatch]);
 
   return (

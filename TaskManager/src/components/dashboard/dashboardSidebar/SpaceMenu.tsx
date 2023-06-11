@@ -5,6 +5,7 @@ import {
   fetchWorkSpaceById,
   resetProject,
   resetWorkspace,
+  resetWorkspaces,
 } from "../../../services/app/store";
 
 type SpaceMenuProps = {
@@ -28,9 +29,11 @@ const SpaceMenu = ({ workSpaces, value }: SpaceMenuProps) => {
     if (selectedId) {
       dispatch(fetchWorkSpaceById(selectedId));
       dispatch(fetchProjects(selectedId));
+      dispatch(resetWorkspaces())
     } else {
       dispatch(resetWorkspace());
       dispatch(resetProject());
+      dispatch(resetWorkspaces())
     }
   };
 

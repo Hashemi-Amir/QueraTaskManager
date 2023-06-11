@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../services/app/hook";
-import { updateWorkSpace } from "../../services/app/store";
+import { editProjectName, resetPostWorkspace, updateWorkSpace } from "../../services/app/store";
 import Button from "./Button";
 
 
@@ -25,15 +25,25 @@ const EditBox = ({
 }: EditBoxProps) => {
   const dispatch = useAppDispatch();
 
+
+
   // get username and send to updateWorkSpace
   const user = useAppSelector(state => state.auth.user)
+
   
+
   const handleEdit = () => {
     const val = document.querySelector<HTMLInputElement>("#edit")?.value;
     const data = [val, id ,user?.username];
-    const regex = /\S/g;
-    if (status === "workspace" && typeof val === "string" && regex.test(val)) {
+    if (status === "workspace" &&  val?.trim()) {
       dispatch(updateWorkSpace(data));
+      dispatch(resetPostWorkspace());
+      handleItemClick();
+    }
+
+    if(status === 'project' && val?.trim()){
+      const data = [id  , val]
+      dispatch(editProjectName(data))
       handleItemClick();
     }
   };

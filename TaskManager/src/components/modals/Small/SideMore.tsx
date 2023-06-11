@@ -13,6 +13,7 @@ import ShareModal from "../Medium/ShareModal";
 import AddNewTask from "../Large/AddNewTask";
 import EditBox from "../../ui/EditBox";
 
+
 type morePosition = {
   top?: number;
   left?: number;
@@ -21,7 +22,7 @@ type morePosition = {
 type SideMoreProps = {
   sideMoreState: string;
   morePosition: morePosition;
-  handleDeleteWorkSpace?: () => void;
+  handleDelete?: () => void;
   id?: string;
   handleItemClick?: any;
 };
@@ -34,10 +35,11 @@ type EditBoxPosition = {
 const SideMore = ({
   sideMoreState,
   morePosition,
-  handleDeleteWorkSpace,
+  handleDelete,
   id,
   handleItemClick,
 }: SideMoreProps) => {
+  
   const liStyle =
     "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer";
   const dataColor = [
@@ -79,6 +81,7 @@ const SideMore = ({
     color: "bg-[#7D828C]",
     id: 0,
   });
+
 
   const handleModalProject = () => {
     if (sideMoreState === "ورک اسپیس") {
@@ -133,7 +136,7 @@ const SideMore = ({
           {newModal.project &&
             createPortal(
               <Modal>
-                <NewProject handleModalProject={handleModalProject} />
+                <NewProject handleModalProject={handleModalProject} id={id} />
               </Modal>,
               document.body
             )}
@@ -167,7 +170,7 @@ const SideMore = ({
         {newModal.editProject &&
           createPortal(
             <EditBox
-              status={"project"}
+            status={"project"}
               editPosition={editPosition}
               id={id}
               handleItemClick={handleItemClick}
@@ -203,7 +206,7 @@ const SideMore = ({
         </li>
         <li
           className={`${liStyle} text-9F0000`}
-          onClick={handleDeleteWorkSpace}
+          onClick={handleDelete}
         >
           <span className="ml-4 text-xl">
             <BsTrash />
@@ -240,6 +243,7 @@ const SideMore = ({
               <ShareModal
                 ModalTitle="به اشتراک گذاری پروژه"
                 shareModalHandler={handleShare}
+                id={id}
               />
             </Modal>,
             document.body

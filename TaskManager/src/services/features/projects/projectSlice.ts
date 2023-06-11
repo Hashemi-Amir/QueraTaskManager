@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AXIOS from "../utils/AXIOS";
+import ProjectsService from "./projectService";
 
 export type ProjectsProps = {
   _id: string;
@@ -16,6 +17,9 @@ type initialStateType = {
   message: unknown;
   id: string;
   projects: ProjectsProps[];
+  isLoadingPost: boolean;
+  isSuccessPost: boolean;
+  isErrorPost: boolean;
 };
 
 const initialState: initialStateType = {
@@ -25,6 +29,9 @@ const initialState: initialStateType = {
   message: "",
   projects: [],
   id: "",
+  isLoadingPost: false,
+  isSuccessPost: false,
+  isErrorPost: false,
 };
 
 const fetchProjects = createAsyncThunk(
@@ -33,6 +40,76 @@ const fetchProjects = createAsyncThunk(
     try {
       const response = await AXIOS.get(`/api/projects/workspaces/${id}`);
       return await response.data;
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// create project by workSpace id and name
+const createProject = createAsyncThunk(
+  "projects/createProject",
+  async (data: (string | undefined)[], thunkAPI) => {
+    try {
+      return await ProjectsService.createProject(data);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// delete project by project id
+const deleteProject = createAsyncThunk(
+  "projects/deleteProject",
+  async (id: string, thunkAPI) => {
+    try {
+      return await ProjectsService.deleteProject(id);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// edit project name by id and new Name
+const editProjectName = createAsyncThunk(
+  "projects/editProjectName",
+  async (data: (string | undefined)[], thunkAPI) => {
+    try {
+      return await ProjectsService.editProjectName(data);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// add member to project by id and member username
+const addMemberToProject = createAsyncThunk(
+  "projects/addMemberToProject",
+  async (data: (string | undefined)[], thunkAPI) => {
+    try {
+      return await ProjectsService.addMemberToProject(data);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// remove Member Than Project by id and member username
+const removeMemberThanProject = createAsyncThunk(
+  "projects/removeMemberThanProject ",
+  async (data: (string | undefined)[], thunkAPI) => {
+    try {
+      return await ProjectsService.removeMemberThanProject(data);
     } catch (error: any) {
       const message =
         error?.response?.data?.message || error.message || error.toString();
@@ -56,6 +133,11 @@ const projectSlice = createSlice({
       state.projects = [];
       state.id = "";
     },
+    resetPostProject: (state) => {
+      state.isLoadingPost = false;
+      state.isSuccessPost = false;
+      state.isErrorPost = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -74,10 +156,68 @@ const projectSlice = createSlice({
         state.isError = true;
         state.message = action.error;
         state.projects = [];
+      })
+
+      // create project
+      .addCase(createProject.pending, (state) => {
+        state.isLoadingPost = true;
+      })
+      .addCase(createProject.fulfilled, (state, action) => {
+        state.isLoadingPost = false;
+        state.isSuccessPost = true;
+        state.projects = [...state.projects, action.payload];
+        state.message = "پروژه ساخته شد !";
+      })
+      .addCase(createProject.rejected, (state, action) => {
+        state.isLoadingPost = false;
+        state.isErrorPost = true;
+        state.message = action.error;
+        state.projects = [];
+      })
+
+      // Delete Project
+      .addCase(deleteProject.pending, (state) => {
+        state.isLoadingPost = true;
+      })
+      .addCase(deleteProject.fulfilled, (state, action) => {
+        state.isLoadingPost = false;
+        state.isSuccessPost = true;
+        state.projects = state.projects.filter(
+          (item) => item._id != action.payload._id
+        );
+        state.message = "پروژه حذف شد ";
+      })
+      .addCase(deleteProject.rejected, (state, action) => {
+        state.isLoadingPost = false;
+        state.isErrorPost = true;
+        state.message = action.error;
+        state.projects = [];
+      })
+
+      // edit project name
+      .addCase(editProjectName.pending, (state) => {
+        state.isLoadingPost = true;
+      })
+      .addCase(editProjectName.fulfilled, (state) => {
+        state.isLoadingPost = false;
+        state.isSuccessPost = true;
+      })
+      .addCase(editProjectName.rejected, (state, action) => {
+        state.isLoadingPost = false;
+        state.isErrorPost = true;
+        state.message = action.error;
+        state.projects = [];
       });
   },
 });
 
 export default projectSlice.reducer;
-export const { setId,resetProject } = projectSlice.actions;
-export { fetchProjects };
+export const { setId, resetProject, resetPostProject } = projectSlice.actions;
+export {
+  fetchProjects,
+  createProject,
+  deleteProject,
+  editProjectName,
+  addMemberToProject,
+  removeMemberThanProject,
+};

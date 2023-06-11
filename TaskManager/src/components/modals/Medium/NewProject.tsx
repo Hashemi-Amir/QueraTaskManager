@@ -1,14 +1,48 @@
 import Input from "../../ui/Input";
 import Button from "../../ui/Button";
-import { useState } from "react";
 import CloseIcon from "../../ui/Close";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { createProject, resetPostProject } from "../../../services/app/store";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+
 
 type projectProps = {
   handleModalProject: () => void;
+  id? : string
 };
 
-const NewProject = ({ handleModalProject }: projectProps) => {
-  const [projectName, setprojectName] = useState("");
+const NewProject = ({ handleModalProject , id }: projectProps) => {
+
+  const dispatch = useAppDispatch();
+  const {isErrorPost , isLoadingPost ,isSuccessPost,message ,projects} = useAppSelector(state => state.projects)
+  console.log(projects);
+  
+  useEffect(()=> {
+    if(isErrorPost){
+      toast.dismiss();
+      toast.error(`${message}`);
+      dispatch(resetPostProject());
+    }
+
+    if(isSuccessPost && message != ''){
+      toast.dismiss();
+      toast.success(`${message}`,{rtl:true})
+      isSuccessPost && dispatch(resetPostProject());
+    }
+  }, [isErrorPost ,isLoadingPost , isSuccessPost,message])
+
+  const handleNewProject = () => {
+    const name = document.querySelector<HTMLInputElement>('#newProject')?.value
+    console.log(name , id);
+    const formData:(string | undefined  | undefined)[] = [name , id]
+    if(name?.trim()){
+     dispatch(createProject(formData))
+     dispatch(resetPostProject())
+      handleModalProject()
+    }
+    
+  }
 
   return (
     <div className="modal-box w-3/4 max-w-lgl">
@@ -36,12 +70,16 @@ const NewProject = ({ handleModalProject }: projectProps) => {
             label="نام پروژه"
             type="text"
             id="newProject"
-            onChange={(e) => setprojectName(e.target.value)}
+            
           />
 
           {/* Button  */}
           <div className="mt-16">
-            <Button value="ساختن پروژه جدید" />
+            <Button 
+              disabled={isLoadingPost}
+              value="ساختن پروژه جدید" 
+              onClick={handleNewProject}
+            />
           </div>
         </div>
       </div>

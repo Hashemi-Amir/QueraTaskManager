@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import SideMore from "../../modals/Small/SideMore";
 import ProjectList from "./ProjectList";
 import { createPortal } from "react-dom";
-import { useAppDispatch } from "../../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { deleteWorkSpace, fetchProjects } from "../../../services/app/store";
 
 type WorkSpaceProps = {
@@ -28,6 +28,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
 
   const dispatch = useAppDispatch();
 
+  
   // modal toggle handle
   const handleItemClick = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,
@@ -80,7 +81,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
                 <SideMore
                   sideMoreState="ورک اسپیس"
                   morePosition={morePosition}
-                  handleDeleteWorkSpace={handleDeleteWorkSpace}
+                  handleDelete={handleDeleteWorkSpace}
                   id={workspaceMore.id}
                   handleItemClick={handleItemClick}
                 />,

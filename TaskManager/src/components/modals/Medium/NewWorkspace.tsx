@@ -58,9 +58,10 @@ const NewWorkspace = ({
   };
 
   const handleWorkSpaceStep = () => {
-    const regex = /\S/g;
-    if (workSpaceStep === "ساختن ورک اسپیس جدید" && regex.test(workspaceName)) {
-      setWorkSpaceName(workspaceName);
+    const nameInput = document.querySelector<HTMLInputElement>('#newWork')?.value
+
+    if (workSpaceStep === "ساختن ورک اسپیس جدید" && nameInput?.trim() ) {
+      setWorkSpaceName(nameInput);
       setWorkSpaceStepe("انتخاب رنگ ورک اسپیس");
     } else if (workSpaceStep === "انتخاب رنگ ورک اسپیس") {
       setWorkSpaceStepe("مرور اطلاعات");
@@ -111,8 +112,6 @@ const NewWorkspace = ({
               label="نام ورک اسپیس"
               type="text"
               id="newWork"
-              onChange={(e) => setWorkSpaceName(e.target.value)}
-              value={workspaceName}
             />
           ) : workSpaceStep === "انتخاب رنگ ورک اسپیس" ? (
             <>

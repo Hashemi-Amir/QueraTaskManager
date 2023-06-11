@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../../services/app/hook";
 import { fetchBoards } from "../../../services/features/boards/boardSlice";
 import { createPortal } from "react-dom";
 import SideMore from "../../modals/Small/SideMore";
+import { deleteProject, resetPostProject } from "../../../services/app/store";
 
 type Projects = {
   projects: [];
@@ -12,24 +13,38 @@ type Projects = {
 function ProjectList({ projects }: Projects) {
   const dispatch = useAppDispatch();
 
-  const [projectMore, setprojectMore] = useState("");
+  const [projectMore, setprojectMore] = useState({
+    id : '',
+    modal : ''
+  });
   const [morePosition, setMorePosition] = useState<object>({
     top: 0,
     left: 0,
   });
+
+  // open or close modal toggle
   const handleItemClick = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,
-    item: string
+    name: string,
+    id : string
   ) => {
-    if (projectMore === null) {
+    if (projectMore.modal === '') {
       const top = `${e.clientY}px`;
       const left = `${e.clientX}px`;
       setMorePosition({ ...morePosition, top: top, left: left });
-      setprojectMore(item);
+      setprojectMore({...projectMore , modal : name , id :id });
     } else {
-      setprojectMore("");
+      setprojectMore({...projectMore , modal : '' , id : ''});
     }
   };
+
+  // handle delete project 
+  const  handleDeleteProject = () =>{
+    console.log(projectMore.id);
+    dispatch(deleteProject(projectMore.id))
+  //  dispatch(resetPostProject())
+  }
+
   return (
     <>
       {projects.map(({ _id, name }) => (
@@ -44,7 +59,7 @@ function ProjectList({ projects }: Projects) {
           <span
             className="cursor-pointer hidden group-hover/content:block z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-              handleItemClick(e, name)
+              handleItemClick(e, name ,_id)
             }
           >
             <BsThreeDots />
@@ -52,9 +67,15 @@ function ProjectList({ projects }: Projects) {
         </div>
       ))}
 
-      {projectMore &&
+      {projectMore.modal &&
         createPortal(
-          <SideMore sideMoreState="تسک" morePosition={morePosition} />,
+          <SideMore 
+            sideMoreState="تسک" 
+            morePosition={morePosition}
+            handleDelete={handleDeleteProject}
+            id={projectMore.id}
+            handleItemClick={handleItemClick}
+          />,
           document.body
         )}
     </>
