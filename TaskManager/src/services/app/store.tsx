@@ -4,10 +4,11 @@ import workSpacesReducer from "../features/workSpaceList/workSpacesSlice";
 import authReducer from "../features/auth/authSlice";
 import projectReducer from "../features/projects/projectSlice";
 import boardReducer from "../features/boards/boardSlice";
+import userReducer from "../features/user/userSlice";
 
 //! We should first import our actions from our slices here, then export them at the bottom
 import { fetchBoards, fetchListBoards } from "../features/boards/boardSlice";
-import { fetchProjects,resetProject } from "../features/projects/projectSlice";
+import { fetchProjects, resetProject } from "../features/projects/projectSlice";
 import {
   resetWorkspaces,
   resetWorkspace,
@@ -19,6 +20,7 @@ import {
   addWorkSpaceMember,
   removeWorkSpaceMember,
 } from "../features/workSpaceList/workSpacesSlice";
+import { updateUserById, resetUser } from "../features/user/userSlice";
 
 const store = configureStore({
   reducer: {
@@ -27,6 +29,7 @@ const store = configureStore({
     auth: authReducer,
     projects: projectReducer,
     boards: boardReducer,
+    user: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -43,7 +46,7 @@ export type AppDispatch = typeof store.dispatch;
 
 //! Export those imported actions here one by one
 export { fetchBoards, fetchListBoards };
-export { fetchProjects,resetProject };
+export { fetchProjects, resetProject };
 export {
   resetWorkspaces,
   resetWorkspace,
@@ -55,3 +58,4 @@ export {
   addWorkSpaceMember,
   removeWorkSpaceMember,
 };
+export { updateUserById, resetUser };
