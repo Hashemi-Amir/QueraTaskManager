@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useAppDispatch } from "../../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import {
   fetchProjects,
-  fetchWorkSpaceById,
-  resetProject,
-  resetWorkspace,
+  setSelectedSpace,
+  setSelectedWorkSpaceId,
 } from "../../../services/app/store";
 
 type SpaceMenuProps = {
@@ -15,22 +14,25 @@ type SpaceMenuProps = {
     members: [];
     projects: [];
   }[];
-  value: string;
 };
 
-const SpaceMenu = ({ workSpaces, value }: SpaceMenuProps) => {
-  const [selectedValue, setSelectedValue] = useState<string>(value);
+const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
+  const [selectedValue, setSelectedValue] = useState<string>("");
   const dispatch = useAppDispatch();
+  const { projects } = useAppSelector((state) => state.projects);
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = e.target.value;
-    setSelectedValue(selectedId); // Update the selected value state variable
+    setSelectedValue(selectedId);
     if (selectedId) {
-      dispatch(fetchWorkSpaceById(selectedId));
-      dispatch(fetchProjects(selectedId));
-    } else {
-      dispatch(resetWorkspace());
-      dispatch(resetProject());
+      dispatch(setSelectedSpace(selectedId));
+      const workSpaceIndex = projects.findIndex((projects) => {
+        return projects.workSpaceId === selectedId;
+      });
+      if (workSpaceIndex < 0 && selectedId != "ورک اسپیس‌ها") {
+        dispatch(setSelectedWorkSpaceId(selectedId));
+        dispatch(fetchProjects(selectedId));
+      }
     }
   };
 
@@ -40,9 +42,7 @@ const SpaceMenu = ({ workSpaces, value }: SpaceMenuProps) => {
       onChange={handleSelectChange}
       className="p-2 bg-white outline-none focus:ring-1 focus:ring-208D8E blur:ring-none rounded-md mt-7 w-full font-semibold"
     >
-      <option className="text-323232 font-semibold" value="">
-        ورک اسپیس‌ها
-      </option>
+      <option className="text-323232 font-semibold">ورک اسپیس‌ها</option>
       {workSpaces.map(({ _id, name }) => (
         <option
           className="font-semibold hover:text-white"
