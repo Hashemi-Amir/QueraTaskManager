@@ -7,11 +7,14 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import Modal from "./Modal";
 import AddNewTask from "../components/modals/Large/AddNewTask";
+import { useAppSelector } from "../services/app/hook";
 
 const DashboardLayout = () => {
   const [newTaskModal, setNewTaskModal] = useState(false);
   const Location = useLocation();
   const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
+  const { selectedProject } = useAppSelector((state) => state.projects);
+  const { selectedWorkSpaceHeader } = useAppSelector((state) => state.workSpaces);
 
   const colors = [
     "bg-F92E8F",
@@ -55,7 +58,7 @@ const DashboardLayout = () => {
   // Dynamically styling different view wrapers
   if (Location.pathname === "/columnview")
     WraperClasses = `overflow-x-auto my-4 overflow-y-hidden flex ${commonStyle} `;
-  else if (Location.pathname === "/listview")
+  else if (Location.pathname === "/" || Location.pathname === "/listview")
     WraperClasses = `overflow-y-auto mt-4 flex ${commonStyle}`;
   else if (Location.pathname === "/calendarview")
     WraperClasses = "overflow-hidden mt-2 h-[calc(100%-14rem)]";
@@ -65,10 +68,11 @@ const DashboardLayout = () => {
       <SideBar />
       <div className="w-4/5 pr-4 pl-10 min-h-screen">
         {/* Header */}
-        <Header projectName="پروژه اول" />
+        
+        <Header projectName={Location.pathname==="/columnview" ? selectedProject : selectedWorkSpaceHeader} />
 
         {/* Without Classes for calander view */}
-        <div className={` ${WraperClasses} `}>
+        <div className={`${WraperClasses}`}>
           <Outlet />
         </div>
       </div>

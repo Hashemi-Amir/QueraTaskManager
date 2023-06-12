@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
-import { fetchBoards } from "../../../services/features/boards/boardSlice";
-import { createPortal } from "react-dom";
-import SideMore from "../../modals/Small/SideMore";
 import { deleteProject, resetPostProject } from "../../../services/app/store";
 import { toast } from "react-toastify";
 
+import {
+  fetchBoards,
+  setSelectedId,
+} from "../../../services/features/boards/boardSlice";
+import { createPortal } from "react-dom";
+import SideMore from "../../modals/Small/SideMore";
+import { setSelectedProject } from "../../../services/app/store";
+import { useLocation } from "react-router-dom";
 
 type Projects = {
   projects: [];
@@ -14,6 +19,8 @@ type Projects = {
 
 function ProjectList({ projects }: Projects) {
   const dispatch = useAppDispatch();
+  const Location = useLocation();
+  const { projects : projectState } = useAppSelector((state) => state.boards);
 
   const [projectMore, setprojectMore] = useState({
     id : '',
@@ -71,16 +78,26 @@ function ProjectList({ projects }: Projects) {
         <div
           className="pb-3 font-medium flex justify-between items-center cursor-pointer group/content"
           key={_id}
-          onClick={() => {
-            dispatch(fetchBoards(_id));
+          onClick={(event) => {
+            if (Location.pathname === "/columnview") {
+              const projectIndex = projectState.findIndex((project) => {
+                return project.projectId === _id;
+              });
+              if (projectIndex < 0) dispatch(fetchBoards(_id));
+            } else {
+              event.stopPropagation();
+            }
+            dispatch(setSelectedId(_id));
+            dispatch(setSelectedProject(name));
           }}
         >
           {name}
           <span
-            className="cursor-pointer hidden group-hover/content:block z-10"
-            onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-              handleItemClick(e, name ,_id)
-            }
+            className=" left-2 p-3 cursor-pointer hidden group-hover/content:block z-10"
+            onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+              handleItemClick(e, name ,_id);
+              e.stopPropagation();
+            }}
           >
             <BsThreeDots />
           </span>

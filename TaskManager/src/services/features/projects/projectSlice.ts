@@ -9,19 +9,23 @@ export type ProjectsProps = {
   members: [];
   boards: [];
 };
-
+type Projects = {
+  workSpaceId: string;
+  projects: ProjectsProps[];
+};
 type initialStateType = {
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
   message: unknown;
   id: string;
-  projects: ProjectsProps[];
   isLoadingPost: boolean;
   isSuccessPost: boolean;
   isErrorPost: boolean;
   messagePost: unknown;
 
+  selectedProject: string;
+  workSpaces: Projects[];
 };
 
 const initialState: initialStateType = {
@@ -29,12 +33,13 @@ const initialState: initialStateType = {
   isSuccess: false,
   isError: false,
   message: "",
-  projects: [],
   id: "",
   isLoadingPost: false,
   isSuccessPost: false,
   isErrorPost: false,
-  messagePost : ''
+  messagePost : '' ,
+  selectedProject: "",
+  workSpaces: [],
 };
 
 const fetchProjects = createAsyncThunk(
@@ -128,12 +133,15 @@ const projectSlice = createSlice({
     setId: (state, action) => {
       state.id = action.payload;
     },
+    setSelectedProject: (state, action) => {
+      state.selectedProject = action.payload;
+    },
     resetProject: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.message = "";
-      state.projects = [];
+      state.workSpaces = [];
       state.id = "";
     },
     resetPostProject: (state) => {
@@ -152,14 +160,28 @@ const projectSlice = createSlice({
       .addCase(fetchProjects.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.projects = action.payload;
+
+        const workSpaceId = action.meta.arg;
+        const workSpaceIndex = state.workSpaces.findIndex((item) => {
+          return item.workSpaceId === workSpaceId;
+        });
+        if (workSpaceIndex >= 0) {
+          // workSpace exists, add the new board to its list of boards
+          state.workSpaces[workSpaceIndex].projects = action.payload;
+        } else {
+          // workSpace doesn't exist, create a new index and add the new board with its own list of boards
+          state.workSpaces.push({
+            workSpaceId: workSpaceId,
+            projects: action.payload,
+          });
+        }
       })
       .addCase(fetchProjects.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
         state.message = action.error;
-        state.projects = [];
+        state.workSpaces = [];
       })
 
       // create project
@@ -169,14 +191,14 @@ const projectSlice = createSlice({
       .addCase(createProject.fulfilled, (state, action) => {
         state.isLoadingPost = false;
         state.isSuccessPost = true;
-        state.projects = [...state.projects, action.payload];
+        state.workSpaces = [...state.workSpaces, action.payload];
         state.messagePost = "پروژه ساخته شد !";
       })
       .addCase(createProject.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.error;
-        state.projects = [];
+        state.workSpaces = [];
       })
 
       // Delete Project
@@ -186,16 +208,20 @@ const projectSlice = createSlice({
       .addCase(deleteProject.fulfilled, (state, action) => {
         state.isLoadingPost = false;
         state.isSuccessPost = true;
-        state.projects = state.projects.filter(
-          (item) => item._id != action.payload._id
-        );
+        const selectedWorkSpace = action.meta.arg
+        const workSpaceIndex = state.workSpaces.findIndex((item) => {
+          return item.workSpaceId === selectedWorkSpace;
+        });
+        state.workSpaces[workSpaceIndex].projects = state.workSpaces[workSpaceIndex].projects.filter(project => {
+          return project._id = action.payload._id
+        })
         state.messagePost = "پروژه حذف شد ";
       })
       .addCase(deleteProject.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.error;
-        state.projects = [];
+        state.workSpaces = [];
       })
 
       // edit project name
@@ -210,13 +236,13 @@ const projectSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.error;
-        state.projects = [];
+        state.workSpaces = [];
       });
   },
 });
 
 export default projectSlice.reducer;
-export const { setId, resetProject, resetPostProject } = projectSlice.actions;
+export const { setId, resetProject, resetPostProject ,setSelectedProject} = projectSlice.actions;
 export {
   fetchProjects,
   createProject,
