@@ -3,8 +3,14 @@ import { BsThreeDots } from "react-icons/bs";
 import SideMore from "../../modals/Small/SideMore";
 import ProjectList from "./ProjectList";
 import { createPortal } from "react-dom";
-import { useAppDispatch } from "../../../services/app/hook";
-import { deleteWorkSpace, fetchProjects } from "../../../services/app/store";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import {
+  deleteWorkSpace,
+  fetchProjects,
+  setSelectedWorkSpaceHeader,
+  setSelectedWorkSpaceId,
+} from "../../../services/app/store";
+import { useLocation } from "react-router-dom";
 
 type WorkSpaceProps = {
   workSpaces: {
@@ -17,6 +23,9 @@ type WorkSpaceProps = {
 };
 
 const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
+  const dispatch = useAppDispatch();
+  const Location = useLocation();
+  const { workSpaces: stateProject } = useAppSelector((state) => state.projects);
   const [workspaceMore, setWorkspaceMore] = useState({
     modal: "",
     id: "",
@@ -25,8 +34,6 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
     top: 0,
     left: 0,
   });
-
-  const dispatch = useAppDispatch();
 
   // modal toggle handle
   const handleItemClick = (
@@ -53,12 +60,26 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
 
   return (
     <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
-      {workSpaces.map(({ name, _id, projects }, index) => {
+      {workSpaces?.map(({ name, _id, projects }, index) => {
         return (
           <div
             className="collapse group/title"
             key={_id}
-            onClick={() => dispatch(fetchProjects(_id))}
+            onClick={(event) => {
+              if (
+                Location.pathname === "/listview" ||
+                Location.pathname === "/"
+              ) {
+                const workSpaceIndex = stateProject.findIndex((projects) => {
+                  return projects.workSpaceId === _id;
+                });
+                if (workSpaceIndex < 0) dispatch(fetchProjects(_id));
+              } else {
+                event.stopPropagation();
+              }
+              dispatch(setSelectedWorkSpaceId(_id));
+              dispatch(setSelectedWorkSpaceHeader(name))
+            }}
           >
             <input type="checkbox" className="p-0 m-0" />
             <div className="relative collapse-title font-medium flex justify-between items-center gap-2 p-0 m-0">
@@ -68,8 +89,11 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
               </div>
 
               <div
-                className="absolute left-0 cursor-pointer hidden group-hover/title:block z-10"
-                onClick={(event) => handleItemClick(event, name, _id)}
+                className="absolute left-2 p-3 cursor-pointer hidden group-hover/title:block z-10"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleItemClick(event, name, _id);
+                }}
               >
                 <BsThreeDots />
               </div>

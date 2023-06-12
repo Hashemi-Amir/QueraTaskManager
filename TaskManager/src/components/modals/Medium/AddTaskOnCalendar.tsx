@@ -5,9 +5,9 @@ import PriorityOptions from "../Small/PriorityOptions";
 
 type AddTaskOnCalendar = {
   handleNewTask: () => void;
-  todayDate: string;
+  clickDate: string;
 };
-const AddTaskOnCalendar = ({ handleNewTask, todayDate }: AddTaskOnCalendar) => {
+const AddTaskOnCalendar = ({ handleNewTask, clickDate }: AddTaskOnCalendar) => {
   const [priority, setPriority] = useState({
     modal: false,
     style: "text-C1C1C1 border-C1C1C1",
@@ -51,7 +51,7 @@ const AddTaskOnCalendar = ({ handleNewTask, todayDate }: AddTaskOnCalendar) => {
             <FiFlag />
           </span>
           <span className="mr-5 text-208D8E text-xl font-medium">
-            {todayDate}
+            {clickDate}
           </span>
 
           {priority.modal && (

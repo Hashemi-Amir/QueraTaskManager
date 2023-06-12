@@ -23,7 +23,7 @@ const Collapsible = ({
   return (
     <div className="mt-8">
       <div
-        className="flex items-center gap-2 "
+        className="flex items-center gap-2 w-fit cursor-pointer"
         onClick={() => {
           setIsExpanded(!isExpanded);
         }}

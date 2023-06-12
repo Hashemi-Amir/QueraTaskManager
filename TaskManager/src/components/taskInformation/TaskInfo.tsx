@@ -2,7 +2,7 @@ import TaskInfoCard from "./TaskInfoCard";
 import Share from "../ui/Share";
 import Watchers from "../ui/Watchers";
 import CloseIcon from "../ui/Close";
-import DashedBorderCard from "../../../DashedBorderCard";
+import DashedBorderCard from "../ui/DashedBorderCard";
 import { RiAddBoxLine, RiArrowLeftSLine } from "react-icons/ri";
 import { BsCheckSquare } from "react-icons/bs";
 import { FiFlag } from "react-icons/fi";

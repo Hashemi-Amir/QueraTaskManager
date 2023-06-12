@@ -1,18 +1,8 @@
+import { Droppable } from "react-beautiful-dnd";
 import Header from "../dashboardColumnView/Header";
 import TaskCard from "./TaskCard";
+import { Task } from "../../../services/features/boards/boardSlice";
 
-type Task = {
-  _id: string;
-  name: string;
-  description: string;
-  label: [];
-  board: string;
-  taskTags: string[];
-  taskAssigns: string[];
-  comments: string[];
-  position: number;
-  deadline?: string;
-};
 type BoardProps = {
   title: string;
   number: number;
@@ -21,28 +11,36 @@ type BoardProps = {
   tasks: Task[];
 };
 
-const Board = ({ title, number, tasks, borderColor }: BoardProps) => {
-
+const Board = ({ title, number, tasks, borderColor,id }: BoardProps) => {
   return (
-    <div className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-16">
-      {/* Sticky Header */}
-      <Header title={title} number={number} borderColor={borderColor} />
+    <Droppable droppableId={id}>
+      {(provided) => (
+        <div
+          className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-16"
+          {...provided.droppableProps}
+          ref={provided.innerRef}
+        >
+          {/* Sticky Header */}
+          <Header title={title} number={number} borderColor={borderColor} />
 
-      {/* Task Cards */}
-      {tasks.map(({ name, description, _id }) => (
-        <TaskCard
-          key={_id}
-          name={name}
-          description={description}
-          _id={_id}
-          label={[]}
-          board={""}
-          taskAssigns={[]}
-          comments={[]}
-          position={0}
-        />
-      ))}
-    </div>
+          {tasks.map(({ name, description, _id, position,comments }) => (
+            <TaskCard
+              position={position}
+              key={_id}
+              name={name}
+              description={description}
+              _id={_id}
+              label={[]}
+              board={""}
+              taskAssigns={[]}
+              comments={comments}
+            />
+          ))}
+          {provided.placeholder}
+          {/* Task Cards */}
+        </div>
+      )}
+    </Droppable>
   );
 };
 
