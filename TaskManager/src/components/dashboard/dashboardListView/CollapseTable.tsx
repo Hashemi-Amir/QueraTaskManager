@@ -2,15 +2,8 @@ import { CiTextAlignRight } from "react-icons/ci";
 import { FiFlag } from "react-icons/fi";
 import avatar from "../../../assets/avatar.jpg";
 import avatar2 from "../../../assets/avatar.png";
+import { Task } from "../../../services/features/boards/boardSlice";
 
-interface Task {
-  _id: string;
-  name: string;
-  members: string[];
-  deadLine: string;
-  priority: string;
-  description: string;
-}
 interface StatusProjects {
   tasks: Task[];
   color: string;
