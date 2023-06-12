@@ -6,13 +6,19 @@ import projectReducer from "../features/projects/projectSlice";
 import boardReducer from "../features/boards/boardSlice";
 
 //! We should first import our actions from our slices here, then export them at the bottom
-import { fetchBoards, fetchListBoards } from "../features/boards/boardSlice";
-import { fetchProjects,resetProject } from "../features/projects/projectSlice";
+import { fetchBoards, setSelectedId,changeTaskPosition } from "../features/boards/boardSlice";
 import {
+  fetchProjects,
+  setSelectedProject,
+  resetProject,
+} from "../features/projects/projectSlice";
+import { setDate, setRef } from "../features/calendar/calendarSlice";
+import {
+  setSelectedWorkSpaceHeader,
+  setSelectedWorkSpaceId,
+  setSelectedSpace,
   resetWorkspaces,
-  resetWorkspace,
   fetchAllWorkSpaces,
-  fetchWorkSpaceById,
   createWorkSpace,
   deleteWorkSpace,
   updateWorkSpace,
@@ -42,13 +48,15 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 //! Export those imported actions here one by one
-export { fetchBoards, fetchListBoards };
-export { fetchProjects,resetProject };
+export { fetchBoards, setSelectedId,changeTaskPosition };
+export { fetchProjects, setSelectedProject, resetProject };
+export { setDate, setRef };
 export {
+  setSelectedWorkSpaceHeader,
+  setSelectedWorkSpaceId,
+  setSelectedSpace,
   resetWorkspaces,
-  resetWorkspace,
   fetchAllWorkSpaces,
-  fetchWorkSpaceById,
   createWorkSpace,
   deleteWorkSpace,
   updateWorkSpace,
