@@ -8,14 +8,18 @@ export type ProjectsProps = {
   members: [];
   boards: [];
 };
-
+type Projects = {
+  workSpaceId: string;
+  projects: ProjectsProps[];
+};
 type initialStateType = {
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
   message: unknown;
   id: string;
-  projects: ProjectsProps[];
+  selectedProject: string;
+  projects: Projects[];
 };
 
 const initialState: initialStateType = {
@@ -23,8 +27,9 @@ const initialState: initialStateType = {
   isSuccess: false,
   isError: false,
   message: "",
-  projects: [],
   id: "",
+  selectedProject: "",
+  projects: [],
 };
 
 const fetchProjects = createAsyncThunk(
@@ -48,6 +53,9 @@ const projectSlice = createSlice({
     setId: (state, action) => {
       state.id = action.payload;
     },
+    setSelectedProject: (state, action) => {
+      state.selectedProject = action.payload;
+    },
     resetProject: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
@@ -56,6 +64,9 @@ const projectSlice = createSlice({
       state.projects = [];
       state.id = "";
     },
+    setAddProject: (state,action)=>{
+      state.projects[0].projects.push(action.payload)
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -66,18 +77,31 @@ const projectSlice = createSlice({
       .addCase(fetchProjects.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.projects = action.payload;
+
+        const workSpaceId = action.meta.arg;
+        const workSpaceIndex = state.projects.findIndex((item) => {
+          return item.workSpaceId === workSpaceId;
+        });
+        if (workSpaceIndex >= 0) {
+          // workSpace exists, add the new board to its list of boards
+          state.projects[workSpaceIndex].projects = action.payload;
+        } else {
+          // workSpace doesn't exist, create a new index and add the new board with its own list of boards
+          state.projects.push({
+            workSpaceId: workSpaceId,
+            projects: action.payload,
+          });
+        }
       })
       .addCase(fetchProjects.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
         state.message = action.error;
-        state.projects = [];
       });
   },
 });
 
 export default projectSlice.reducer;
-export const { setId,resetProject } = projectSlice.actions;
+export const { setId, setSelectedProject, resetProject,setAddProject } = projectSlice.actions;
 export { fetchProjects };
