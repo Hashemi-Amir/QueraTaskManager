@@ -14,8 +14,11 @@ type initialStateType = {
   isSuccess: boolean;
   isError: boolean;
   message: unknown;
+  selectedSpace: string;
+  selectedWorkSpaceId: string;
+  selectedWorkSpaceHeader: string;
+  searchedWorkSpace: WorkSpacesProps[];
   workSpaces: WorkSpacesProps[];
-  workSpace: WorkSpacesProps[];
 };
 
 const initialState: initialStateType = {
@@ -23,8 +26,11 @@ const initialState: initialStateType = {
   isSuccess: false,
   isError: false,
   message: "",
+  selectedSpace: "",
+  selectedWorkSpaceId: "",
+  selectedWorkSpaceHeader: "",
+  searchedWorkSpace: [],
   workSpaces: [],
-  workSpace: [],
 };
 
 // Get all workspaces from api
@@ -33,20 +39,6 @@ const fetchAllWorkSpaces = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       return await WorkspaceService.fetchAllWorkSpaces();
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-// Get workspace by id from api
-const fetchWorkSpaceById = createAsyncThunk(
-  "workspaces/fetchWorkSpaceById",
-  async (id: string, thunkAPI) => {
-    try {
-      return await WorkspaceService.fetchWorkSpaceById(id);
     } catch (error: any) {
       const message =
         error?.response?.data?.message || error.message || error.toString();
@@ -120,9 +112,20 @@ const workSpacesSlice = createSlice({
       state.isSuccess = false;
       state.isError = false;
       state.message = "";
+      state.selectedSpace = "";
     },
-    resetWorkspace: (state) => {
-      state.workSpace = [];
+
+    setSelectedSpace: (state, action) => {
+      state.selectedSpace = action.payload;
+    },
+    setSelectedWorkSpaceId: (state, action) => {
+      state.selectedWorkSpaceId = action.payload;
+    },
+    setSelectedWorkSpaceHeader: (state, action) => {
+      state.selectedWorkSpaceHeader = action.payload;
+    },
+    searchedWorkSpace: (state, action) => {
+      state.searchedWorkSpace = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -144,25 +147,6 @@ const workSpacesSlice = createSlice({
         state.message = action.payload;
         state.workSpaces = [];
       })
-
-      // WorkSpace By Id
-      .addCase(fetchWorkSpaceById.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-      })
-      .addCase(fetchWorkSpaceById.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.workSpace = [action.payload];
-      })
-      .addCase(fetchWorkSpaceById.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.isError = true;
-        state.message = action.payload;
-        state.workSpaces = [];
-      })
-
       // create workSpace
       .addCase(createWorkSpace.pending, (state) => {
         state.isLoading = true;
@@ -217,10 +201,15 @@ const workSpacesSlice = createSlice({
 });
 
 export default workSpacesSlice.reducer;
-export const { resetWorkspaces, resetWorkspace } = workSpacesSlice.actions;
+export const {
+  resetWorkspaces,
+  setSelectedSpace,
+  setSelectedWorkSpaceId,
+  setSelectedWorkSpaceHeader,
+  searchedWorkSpace,
+} = workSpacesSlice.actions;
 export {
   fetchAllWorkSpaces,
-  fetchWorkSpaceById,
   createWorkSpace,
   deleteWorkSpace,
   updateWorkSpace,
