@@ -90,11 +90,14 @@ const accountInfo = yup.object().shape({
 const personalInfo = yup.object().shape({
   firstName: yup.string().required(errorMessage.required),
   lastName: yup.string().required(errorMessage.required),
-
-  phoneNumber: yup
+  email: yup
     .string()
-    .required(errorMessage.required)
-    .matches(/^[0-9]{11}$/, errorMessage.invalidPhoneNum),
+    .email(errorMessage.invalidEmail)
+    .required(errorMessage.required),
+  // phoneNumber: yup
+  //   .string()
+  //   .required(errorMessage.required)
+  //   .matches(/^[0-9]{11}$/, errorMessage.invalidPhoneNum),
 });
 
 const Schema = {
