@@ -14,6 +14,7 @@ import {
   forgot as forgotPass,
   reset,
 } from "../../services/features/auth/authSlice";
+import { ImSpinner2 } from "react-icons/im";
 
 const Forget = () => {
   const {
@@ -24,7 +25,6 @@ const Forget = () => {
     resolver: yupResolver(Schema.forgot),
   });
 
-  // Redux Toolkit codes
   const Navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isSuccess, isLoading, isError, message } = useAppSelector(
@@ -45,10 +45,6 @@ const Forget = () => {
       Navigate("/reset");
       dispatch(reset());
     }
-    isLoading &&
-      toast("لطفا صبر کنید ⏳", {
-        rtl: true,
-      });
   }, [isSuccess, isError, message, isLoading, Navigate, dispatch]);
 
   const onSubmit = (data: FieldValues) => {
@@ -79,7 +75,17 @@ const Forget = () => {
           />
           <p className={errorMsgStyle}>{errors.email?.message}</p>
         </div>
-        <Button disabled={isLoading} value="دریافت ایمیل بازیابی رمز عبور" />
+
+        <div className="relative">
+          <Button disabled={isLoading} value="دریافت ایمیل بازیابی رمز عبور" />
+          {isLoading && (
+            <ImSpinner2
+              size="2rem"
+              color="white"
+              className="m-auto animate-spin absolute left-[47%] bottom-1 "
+            />
+          )}
+        </div>
       </form>
     </Card>
   );

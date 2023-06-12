@@ -5,18 +5,52 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 export type FieldValues = Record<string, unknown>;
 import Schema from "../../components/validationRuls/Schema";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../services/app/hook";
+import { toast } from "react-toastify";
+import { updateUserById, resetUser } from "../../services/app/store";
+import { ImSpinner2 } from "react-icons/im";
 
 const PersonalInfo = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FieldValues>({
     resolver: yupResolver(Schema.personalInfo),
   });
 
+  const dispatch = useAppDispatch();
+  const { isSuccess, isLoading, isError, message } = useAppSelector(
+    (state) => state.user
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.dismiss();
+      toast.error(`${message}`);
+      dispatch(resetUser());
+    }
+    if (isSuccess) {
+      toast.dismiss();
+      toast.success(`اطلاعات شما با موفقیت تغییر کرد`, {
+        autoClose: 1000,
+        rtl: true,
+      });
+      dispatch(resetUser());
+      reset();
+    }
+  }, [isSuccess, isError, message, isLoading, dispatch]);
+
   const onSubmit = (data: FieldValues) => {
-    console.log(data);
+    dispatch(
+      updateUserById({
+        firstname: data.firstName,
+        lastname: data.lastName,
+        email: data.email,
+      })
+    );
   };
 
   const errorMsgStyle = "text-FC0733 text-xs absolute py-1";
@@ -70,19 +104,32 @@ const PersonalInfo = () => {
             <p className={errorMsgStyle}>{errors.lastName?.message}</p>
 
             <Input
-              label="شماره موبایل"
+              label="ایمیل"
               type="tel"
-              id="phoneNumber"
-              name="phoneNumber"
-              autoComplete="tel"
-              className={errors.phoneNumber?.message && errorInputStyle}
+              id="email"
+              name="email"
+              autoComplete="email"
+              className={errors.email?.message && errorInputStyle}
               dir="auto"
               register={register}
             />
-            <p className={errorMsgStyle}>{errors.phoneNumber?.message}</p>
+            <p className={errorMsgStyle}>{errors.email?.message}</p>
           </div>
 
-          <Button value="ثبت تغییرات"></Button>
+          <div className=" relative">
+            <Button
+              disabled={isLoading}
+              type="submit"
+              value="ثبت تغییرات"
+            ></Button>
+            {isLoading && (
+              <ImSpinner2
+                size="2rem"
+                color="white"
+                className="m-auto animate-spin absolute left-[47%] bottom-1 "
+              />
+            )}
+          </div>
         </form>
       </div>
     </div>
