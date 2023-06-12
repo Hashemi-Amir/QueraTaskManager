@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TypeStore } from "../../app/store";
 
- type CalendarProps = {
+type CalendarProps = {
   date: string;
   ref: any;
-}
+};
 
 const initialState: CalendarProps = {
   date: "",
@@ -25,4 +24,3 @@ const calendarSlice = createSlice({
 });
 export const { setDate, setRef } = calendarSlice.actions;
 export default calendarSlice.reducer;
-export const selectCalendar = (store: TypeStore) => store.calendar;

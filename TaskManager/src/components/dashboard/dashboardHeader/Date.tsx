@@ -1,31 +1,34 @@
-import { useSelector } from "react-redux";
-import { selectCalendar } from "../../../services/features/calendar/calendarSlice";
 import {
   MdKeyboardArrowRight,
   MdKeyboardArrowLeft,
   MdKeyboardDoubleArrowRight,
   MdKeyboardDoubleArrowLeft,
 } from "react-icons/md";
+import { useAppSelector } from "../../../services/app/hook";
 
 const Date = () => {
-  const calendar = useSelector(selectCalendar);
+  const { ref, date } = useAppSelector((state) => state.calendar);
+
 
   return (
     <>
-      <button onClick={() => calendar.ref.today()}>امروز</button>
-      <button title="سال بعد" onClick={() => calendar.ref.nextYear()}>
+      <button onClick={() => ref.today()}>امروز</button>
+      <button title="سال بعد" onClick={() => ref.nextYear()}>
         <MdKeyboardDoubleArrowRight />
       </button>
-      <button title="ماه بعد" onClick={() => calendar.ref.next()}>
+      <button title="ماه بعد" onClick={() => ref.incrementDate({ month: 1 })}>
         <MdKeyboardArrowRight />
       </button>
-      <button title="ماه قبل" onClick={() => calendar.ref.prev()}>
+      <button title="ماه قبل" onClick={() => ref.incrementDate({ month: -1 })}>
         <MdKeyboardArrowLeft />
       </button>
-      <button title="سال قبل" onClick={() => calendar.ref.prevYear()}>
+      <button title="سال قبل" onClick={() => ref.prevYear()}>
         <MdKeyboardDoubleArrowLeft />
       </button>
-      <div>{calendar.date}</div>
+      <div>
+        {date}
+        {/* {ref.getDate().toLocaleDateString("fa-IR", { dateStyle: "medium" })} */}
+      </div>
     </>
   );
 };
