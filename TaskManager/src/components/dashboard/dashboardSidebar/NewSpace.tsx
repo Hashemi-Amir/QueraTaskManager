@@ -12,20 +12,20 @@ const NewSpace = () => {
   const [workSpaceStep, setWorkSpaceStepe] = useState("ساختن ورک اسپیس جدید");
 
   const dispatch = useAppDispatch()
-  const {isErrorPost , isLoadingPost ,isSuccessPost,message} = useAppSelector(state => state.workSpaces)
+  const {isErrorPost , isLoadingPost ,isSuccessPost,messagePost} = useAppSelector(state => state.workSpaces)
 
   useEffect(()=> {
     if(isErrorPost){
       toast.dismiss();
-      toast.error(`${message} ❗` );
+      toast.error(`${messagePost} ❗` );
       dispatch(resetPostWorkspace())
     }
-    if(isSuccessPost && message != ''){
+    if(isSuccessPost && messagePost != ''){
       toast.dismiss();
-      toast.success(`${message}` ,  {rtl:true})
+      toast.success(`${messagePost}` ,  {rtl:true})
       dispatch(resetPostWorkspace())
     }
-  },[isErrorPost , isLoadingPost ,isSuccessPost,,message,dispatch])
+  },[isErrorPost , isLoadingPost ,isSuccessPost,,messagePost,dispatch])
 
 
   // new workspaace modal toggle

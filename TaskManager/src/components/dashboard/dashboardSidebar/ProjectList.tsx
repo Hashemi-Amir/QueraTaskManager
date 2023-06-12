@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { useAppDispatch } from "../../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { fetchBoards } from "../../../services/features/boards/boardSlice";
 import { createPortal } from "react-dom";
 import SideMore from "../../modals/Small/SideMore";
 import { deleteProject, resetPostProject } from "../../../services/app/store";
+import { toast } from "react-toastify";
+
 
 type Projects = {
   projects: [];
@@ -21,6 +23,24 @@ function ProjectList({ projects }: Projects) {
     top: 0,
     left: 0,
   });
+
+  const {isErrorPost , isLoadingPost ,isSuccessPost,messagePost } = useAppSelector(state => state.projects)
+
+  useEffect(()=> {
+    if(isErrorPost){
+      toast.dismiss();
+      toast.error(`${messagePost}`);
+      dispatch(resetPostProject());
+    }
+
+    if(isSuccessPost ){
+      toast.dismiss();
+      toast.success(`${messagePost}`,{rtl:true})
+      dispatch(resetPostProject());
+    }
+  }, [isErrorPost ,isLoadingPost , isSuccessPost])
+
+
 
   // open or close modal toggle
   const handleItemClick = (

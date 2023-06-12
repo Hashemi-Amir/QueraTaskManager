@@ -12,6 +12,7 @@ import {
   fetchAllWorkSpaces,
   removeMemberThanProject,
   removeWorkSpaceMember,
+  resetWorkspaces,
 } from "../../../services/app/store";
 
 type Members = {
@@ -41,18 +42,29 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
   const dispatch = useAppDispatch();
 
   const workMembers = useAppSelector((state) => state.workSpaces.workSpaces);
-  const projectMembers = useAppSelector((state) => state.projects.projects);
+  const {isSuccessPost:isSuccessProject, projects:projectMembers} = useAppSelector((state) => state.projects);
 
   const { isSuccessPost } = useAppSelector((state) => state.workSpaces);
 
   useEffect(() => {
+
+    if (isSuccessPost) {
+      dispatch(fetchAllWorkSpaces());
+      dispatch(resetWorkspaces())
+    }
+    if(isSuccessProject){
+      dispatch(fetchAllWorkSpaces());
+      dispatch(resetWorkspaces())
+    }
+
+    
     if (ModalTitle === "به اشتراک گذاری ورک اسپیس") {
       handleMembers(workMembers);
     }
     if (ModalTitle === "به اشتراک گذاری پروژه") {
       handleMembers(projectMembers);
     }
-  }, [workMembers]);
+  }, [dispatch,workMembers , isSuccessPost,isSuccessProject]);
 
   const handleMembers = (data: DataItem[]) => {
     const filter = data.filter((item) => item._id === id);
@@ -81,16 +93,12 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
     if (ModalTitle === "به اشتراک گذاری ورک اسپیس" && inviteValue?.trim()) {
       const workspaceIds: (string | undefined)[] = [id, inviteValue];
       dispatch(addWorkSpaceMember(workspaceIds));
-      // setTimeout(() => dispatch(fetchAllWorkSpaces()), 3000);
-      if (isSuccessPost) {
-        dispatch(fetchAllWorkSpaces());
-      }
     }
 
     if (ModalTitle === "به اشتراک گذاری پروژه" && inviteValue?.trim()) {
       const projectsIds: (string | undefined)[] = [id, inviteValue];
       dispatch(addMemberToProject(projectsIds));
-      setTimeout(() => dispatch(fetchAllWorkSpaces()), 3000);
+      
     }
   };
 
@@ -99,12 +107,10 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
     if (ModalTitle === "به اشتراک گذاری ورک اسپیس") {
       const workspaceIds = [id, selectedMemberId];
       dispatch(removeWorkSpaceMember(workspaceIds));
-      setTimeout(() => dispatch(fetchAllWorkSpaces()), 3000);
     }
     if (ModalTitle === "به اشتراک گذاری پروژه") {
       const projectsIds: (string | undefined)[] = [id, selectedMemberId];
       dispatch(removeMemberThanProject(projectsIds));
-      setTimeout(() => dispatch(fetchAllWorkSpaces()), 3000);
     }
   };
 

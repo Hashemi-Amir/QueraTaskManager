@@ -20,6 +20,8 @@ type initialStateType = {
   isLoadingPost: boolean;
   isSuccessPost: boolean;
   isErrorPost: boolean;
+  messagePost: unknown;
+
 };
 
 const initialState: initialStateType = {
@@ -32,6 +34,7 @@ const initialState: initialStateType = {
   isLoadingPost: false,
   isSuccessPost: false,
   isErrorPost: false,
+  messagePost : ''
 };
 
 const fetchProjects = createAsyncThunk(
@@ -137,6 +140,7 @@ const projectSlice = createSlice({
       state.isLoadingPost = false;
       state.isSuccessPost = false;
       state.isErrorPost = false;
+      state.messagePost = ''
     },
   },
   extraReducers: (builder) => {
@@ -166,12 +170,12 @@ const projectSlice = createSlice({
         state.isLoadingPost = false;
         state.isSuccessPost = true;
         state.projects = [...state.projects, action.payload];
-        state.message = "پروژه ساخته شد !";
+        state.messagePost = "پروژه ساخته شد !";
       })
       .addCase(createProject.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
-        state.message = action.error;
+        state.messagePost = action.error;
         state.projects = [];
       })
 
@@ -185,12 +189,12 @@ const projectSlice = createSlice({
         state.projects = state.projects.filter(
           (item) => item._id != action.payload._id
         );
-        state.message = "پروژه حذف شد ";
+        state.messagePost = "پروژه حذف شد ";
       })
       .addCase(deleteProject.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
-        state.message = action.error;
+        state.messagePost = action.error;
         state.projects = [];
       })
 
@@ -205,7 +209,7 @@ const projectSlice = createSlice({
       .addCase(editProjectName.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
-        state.message = action.error;
+        state.messagePost = action.error;
         state.projects = [];
       });
   },

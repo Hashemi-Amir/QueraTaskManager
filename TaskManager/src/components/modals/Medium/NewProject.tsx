@@ -2,9 +2,7 @@ import Input from "../../ui/Input";
 import Button from "../../ui/Button";
 import CloseIcon from "../../ui/Close";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
-import { createProject, resetPostProject } from "../../../services/app/store";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { createProject } from "../../../services/app/store";
 
 
 type projectProps = {
@@ -15,30 +13,15 @@ type projectProps = {
 const NewProject = ({ handleModalProject , id }: projectProps) => {
 
   const dispatch = useAppDispatch();
-  const {isErrorPost , isLoadingPost ,isSuccessPost,message ,projects} = useAppSelector(state => state.projects)
-  console.log(projects);
+  const {isLoadingPost} = useAppSelector(state => state.projects)
   
-  useEffect(()=> {
-    if(isErrorPost){
-      toast.dismiss();
-      toast.error(`${message}`);
-      dispatch(resetPostProject());
-    }
 
-    if(isSuccessPost && message != ''){
-      toast.dismiss();
-      toast.success(`${message}`,{rtl:true})
-      isSuccessPost && dispatch(resetPostProject());
-    }
-  }, [isErrorPost ,isLoadingPost , isSuccessPost,message])
 
   const handleNewProject = () => {
     const name = document.querySelector<HTMLInputElement>('#newProject')?.value
-    console.log(name , id);
     const formData:(string | undefined  | undefined)[] = [name , id]
     if(name?.trim()){
      dispatch(createProject(formData))
-     dispatch(resetPostProject())
       handleModalProject()
     }
     

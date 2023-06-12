@@ -19,7 +19,8 @@ type initialStateType = {
   isLoadingPost: boolean;
   isSuccessPost: boolean;
   isErrorPost: boolean;
-  allMembersId : object[]
+  messagePost: unknown;
+
 };
 
 const initialState: initialStateType = {
@@ -32,7 +33,7 @@ const initialState: initialStateType = {
   isLoadingPost: false,
   isSuccessPost: false,
   isErrorPost: false,
-  allMembersId : []
+  messagePost : '',
 };
 
 // Get all workspaces from api
@@ -148,7 +149,7 @@ const workSpacesSlice = createSlice({
       state.isLoadingPost = false,
       state.isSuccessPost = false,
       state.isErrorPost = false;
-      state.message = "";
+      state.messagePost = "";
     },
     resetWorkspace: (state) => {
       state.workSpace = [];
@@ -202,12 +203,12 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = false;
         state.workSpaces = [...state.workSpaces, action.payload];
         state.isSuccessPost = true;
-        state.message = `ورک اسپیس با موفقیت ساخته شد 🎉`;
+        state.messagePost = `ورک اسپیس با موفقیت ساخته شد 🎉`;
       })
       .addCase(createWorkSpace.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
-        state.message = action.payload;
+        state.messagePost = action.payload;
         state.workSpaces = [];
       })
 
@@ -221,12 +222,12 @@ const workSpacesSlice = createSlice({
           (item) => item._id != action.payload._id
         );
         state.isSuccessPost = true;
-        state.message = "ورک اسپیس حذف شد";
+        state.messagePost = "ورک اسپیس حذف شد";
       })
       .addCase(deleteWorkSpace.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
-        state.message = action.payload;
+        state.messagePost = action.payload;
         state.workSpaces = [];
       })
 
@@ -247,7 +248,7 @@ const workSpacesSlice = createSlice({
       .addCase(updateWorkSpace.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
-        state.message = action.payload;
+        state.messagePost = action.payload;
         state.workSpaces = [];
       })
 
@@ -256,16 +257,15 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = true;
       })
 
-      .addCase(addWorkSpaceMember.fulfilled, (state , action) => {
+      .addCase(addWorkSpaceMember.fulfilled, (state ) => {
         state.isLoadingPost = false;
         state.isSuccessPost = true;
-        state.message = "کاربر با موفقیت اضافه شد";
-        state.allMembersId = [...state.allMembersId , action.payload]
+        state.messagePost = "کاربر با موفقیت اضافه شد";
       })
       .addCase(addWorkSpaceMember.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
-        state.message = action.payload;
+        state.messagePost = action.payload;
         state.workSpaces = [];
       })
 
@@ -277,12 +277,12 @@ const workSpacesSlice = createSlice({
       .addCase(removeWorkSpaceMember.fulfilled, (state) => {
         state.isErrorPost = false;
         state.isSuccessPost = true;
-        state.message = 'کاربر حذف شد'
+        state.messagePost = 'کاربر حذف شد'
       })
       .addCase(removeWorkSpaceMember.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
-        state.message = action.payload;
+        state.messagePost = action.payload;
         state.workSpaces = [];
       });
   },
