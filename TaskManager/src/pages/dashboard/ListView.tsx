@@ -3,10 +3,9 @@ import CollapseTable from "../../components/dashboard/dashboardListView/Collapse
 import { useAppDispatch, useAppSelector } from "../../services/app/hook";
 import { fetchBoards } from "../../services/app/store";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { setAddProject } from "../../services/features/projects/projectSlice";
 
 const ListView = () => {
-  const { isError, message, isSuccess, isLoading, projects } = useAppSelector(
+  const { isError, message, isSuccess, isLoading, workSpaces } = useAppSelector(
     (state) => state.projects
   );
   const boards = useAppSelector((state) => state.boards.projects);
@@ -18,7 +17,7 @@ const ListView = () => {
   const colors = JSON.parse(localStorage.getItem("Colors") || "[]");
   const titleClass = "px-3 py-1 rounded text-base text-white";
   const chevronClass = "text-lg mr-10";
-  const workspaceProjects = projects.filter(
+  const workspaceProjects = workSpaces.filter(
     (project) => project.workSpaceId === selectedWorkSpaceId
   );
 
@@ -52,44 +51,8 @@ const ListView = () => {
       dispatch(fetchBoards(projectId));
     }
   };
-  const handleonclicktest = () => {
-    dispatch(
-      setAddProject({
-        _id: "648375536f2b80f6ae0f60b5",
-        name: "Doing",
-        position: 2,
-        project: "648372756f2b80f6ae0f603d",
-        tasks: [
-          {
-            _id: "648376006f2b80f6ae0f60cd",
-            name: "درگاه پرداخت",
-            description:
-              "ساخت درگاه پرداحت دیجی‌پی و قرارداد با بانکهای مربوطه",
-            label: [],
-            board: "648375536f2b80f6ae0f60b5",
-            taskAssigns: [],
-            comments: [],
-            position: 1,
-          },
-          {
-            _id: "6485dd8e6141d43b3fa5ba2a",
-            name: "حسابداری",
-            description: "مرتب کردن فاکتورها و محاسبه بدهی‌ها",
-            label: [],
-            board: "648375536f2b80f6ae0f60b5",
-            taskAssigns: [],
-            comments: [],
-            position: 2,
-          },
-        ],
-      })
-    );
-
-    //
-  };
   return (
     <div className="pb-8 w-full">
-      <button onClick={handleonclicktest}>test</button>
       {workspaceProjects[0].projects.map(({ name, _id }) => (
         <div key={_id} onClick={() => handleClick(_id)}>
           <Collapsible

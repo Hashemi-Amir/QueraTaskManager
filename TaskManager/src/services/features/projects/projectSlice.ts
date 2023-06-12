@@ -19,7 +19,7 @@ type initialStateType = {
   message: unknown;
   id: string;
   selectedProject: string;
-  projects: Projects[];
+  workSpaces: Projects[];
 };
 
 const initialState: initialStateType = {
@@ -29,7 +29,7 @@ const initialState: initialStateType = {
   message: "",
   id: "",
   selectedProject: "",
-  projects: [],
+  workSpaces: [],
 };
 
 const fetchProjects = createAsyncThunk(
@@ -61,11 +61,8 @@ const projectSlice = createSlice({
       state.isSuccess = false;
       state.isError = false;
       state.message = "";
-      state.projects = [];
+      state.workSpaces = [];
       state.id = "";
-    },
-    setAddProject: (state,action)=>{
-      state.projects[0].projects.push(action.payload)
     }
   },
   extraReducers: (builder) => {
@@ -79,15 +76,15 @@ const projectSlice = createSlice({
         state.isSuccess = true;
 
         const workSpaceId = action.meta.arg;
-        const workSpaceIndex = state.projects.findIndex((item) => {
+        const workSpaceIndex = state.workSpaces.findIndex((item) => {
           return item.workSpaceId === workSpaceId;
         });
         if (workSpaceIndex >= 0) {
           // workSpace exists, add the new board to its list of boards
-          state.projects[workSpaceIndex].projects = action.payload;
+          state.workSpaces[workSpaceIndex].projects = action.payload;
         } else {
           // workSpace doesn't exist, create a new index and add the new board with its own list of boards
-          state.projects.push({
+          state.workSpaces.push({
             workSpaceId: workSpaceId,
             projects: action.payload,
           });
@@ -103,5 +100,5 @@ const projectSlice = createSlice({
 });
 
 export default projectSlice.reducer;
-export const { setId, setSelectedProject, resetProject,setAddProject } = projectSlice.actions;
+export const { setId, setSelectedProject, resetProject } = projectSlice.actions;
 export { fetchProjects };

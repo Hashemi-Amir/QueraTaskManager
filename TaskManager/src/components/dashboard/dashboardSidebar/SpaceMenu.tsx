@@ -19,14 +19,14 @@ type SpaceMenuProps = {
 const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
   const [selectedValue, setSelectedValue] = useState<string>("");
   const dispatch = useAppDispatch();
-  const { projects } = useAppSelector((state) => state.projects);
+  const { workSpaces: projectState } = useAppSelector((state) => state.projects);
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = e.target.value;
     setSelectedValue(selectedId);
     if (selectedId) {
       dispatch(setSelectedSpace(selectedId));
-      const workSpaceIndex = projects.findIndex((projects) => {
+      const workSpaceIndex = projectState.findIndex((projects) => {
         return projects.workSpaceId === selectedId;
       });
       if (workSpaceIndex < 0 && selectedId != "ورک اسپیس‌ها") {

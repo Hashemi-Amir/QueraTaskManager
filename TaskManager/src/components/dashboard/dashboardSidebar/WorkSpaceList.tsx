@@ -25,7 +25,7 @@ type WorkSpaceProps = {
 const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
   const dispatch = useAppDispatch();
   const Location = useLocation();
-  const { projects: stateProject } = useAppSelector((state) => state.projects);
+  const { workSpaces: stateProject } = useAppSelector((state) => state.projects);
   const [workspaceMore, setWorkspaceMore] = useState({
     modal: "",
     id: "",
