@@ -5,29 +5,62 @@ import Modal from "../../../layout/Modal";
 import NewWorkspace from "../../modals/Medium/NewWorkspace";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { toast } from "react-toastify";
-import { resetPostWorkspace } from "../../../services/app/store";
+import { fetchAllWorkSpaces, resetPostProject, resetPostWorkspace } from "../../../services/app/store";
 
 const NewSpace = () => {
   const [modalWorkSpace, setModalWorkSpace] = useState(false);
   const [workSpaceStep, setWorkSpaceStepe] = useState("ساختن ورک اسپیس جدید");
 
-  const dispatch = useAppDispatch()
-  const {isErrorPost , isLoadingPost ,isSuccessPost,messagePost} = useAppSelector(state => state.workSpaces)
-
-  useEffect(()=> {
-    if(isErrorPost){
+  const dispatch = useAppDispatch();
+  const { isErrorPost, isLoadingPost, isSuccessPost, messagePost } =
+    useAppSelector((state) => state.workSpaces);
+  const {
+    isErrorPost: isErrorProject,
+    isLoadingPost: isLoadingPorject,
+    isSuccessPost: isSuccessProject,
+    messagePost: messageProject,
+    
+  } = useAppSelector((state) => state.projects);
+  
+  useEffect(() => {
+    if (isErrorPost) {
       toast.dismiss();
-      toast.error(`${messagePost} ❗` );
-      dispatch(resetPostWorkspace())
+      toast.error(`${messagePost} ❗`);
+      dispatch(resetPostWorkspace());
     }
-    if(isSuccessPost && messagePost != ''){
+    if (isSuccessPost && messagePost != "") {
       toast.dismiss();
-      toast.success(`${messagePost}` ,  {rtl:true})
-      dispatch(resetPostWorkspace())
+      toast.success(`${messagePost}`, { rtl: true });
+      dispatch(resetPostWorkspace());
     }
-  },[isErrorPost , isLoadingPost ,isSuccessPost,,messagePost,dispatch])
 
+    if (isErrorProject) {
+      toast.dismiss();
+      toast.error(`${messageProject} ❗`);
+      dispatch(resetPostProject());
+    }
+    if (isSuccessProject && messageProject != "") {
+      toast.dismiss();
+      toast.success(`${messageProject}`, { rtl: true });
+      dispatch(resetPostProject());
+      // dispatch(fetchAllWorkSpaces())
+      // dispatch(resetPostWorkspace());
+    }
+  }, [
+    isErrorPost,
+    isLoadingPost,
+    isSuccessPost,
+    ,
+    messagePost,
+    dispatch,
+    isErrorProject,
+    isLoadingPorject,
+    isSuccessProject,
+    messageProject
+  ]);
 
+  console.log();
+  
   // new workspaace modal toggle
   const handleModalWorkSpace = () => setModalWorkSpace(!modalWorkSpace);
   return (

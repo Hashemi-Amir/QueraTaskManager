@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import SideMore from "../../modals/Small/SideMore";
 import ProjectList from "./ProjectList";
@@ -26,10 +26,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
   const dispatch = useAppDispatch();
   const Location = useLocation();
   const { workSpaces: stateProject } = useAppSelector((state) => state.projects);
-  const [workspaceMore, setWorkspaceMore] = useState({
-    modal: "",
-    id: "",
-  });
+  const [workspaceMore, setWorkspaceMore] = useState<string | undefined>('');
   const [morePosition, setMorePosition] = useState<object>({
     top: 0,
     left: 0,
@@ -39,24 +36,23 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
   
   // modal toggle handle
   const handleItemClick = (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
-    item: string,
-    id: string
+    e?: React.MouseEvent<HTMLElement, MouseEvent>,
+    id?: string
   ) => {
-    if (workspaceMore.modal === "") {
-      const top = `${e.clientY}px`;
-      const left = `${e.clientX}px`;
+    if (workspaceMore === "") {
+      const top = `${e?.clientY}px`;
+      const left = `${e?.clientX}px`;
       setMorePosition({ ...morePosition, top: top, left: left });
-      setWorkspaceMore({ ...workspaceMore, modal: item, id: id });
+      setWorkspaceMore(id);
     } else {
-      setWorkspaceMore({ ...workspaceMore, modal: "", id: "" });
+      setWorkspaceMore('');
     }
   };
 
   // delete workspace and called dispatch redux toolkit
   const handleDeleteWorkSpace = () => {
-    dispatch(deleteWorkSpace(workspaceMore.id));
-    setWorkspaceMore({ ...workspaceMore, modal: "", id: "" });
+    workspaceMore && dispatch(deleteWorkSpace(workspaceMore));
+    setWorkspaceMore('');
   };
   const colors = JSON.parse(localStorage.getItem("Colors") as string);
 
@@ -94,20 +90,20 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
                 className="absolute left-2 p-3 cursor-pointer hidden group-hover/title:block z-10"
                 onClick={(event) => {
                   event.stopPropagation();
-                  handleItemClick(event, name, _id);
+                  handleItemClick(event, _id);
                 }}
               >
                 <BsThreeDots />
               </div>
             </div>
 
-            {workspaceMore.modal &&
+            {workspaceMore &&
               createPortal(
                 <SideMore
                   sideMoreState="ورک اسپیس"
                   morePosition={morePosition}
                   handleDelete={handleDeleteWorkSpace}
-                  id={workspaceMore.id}
+                  id={workspaceMore}
                   handleItemClick={handleItemClick}
                 />,
                 document.body

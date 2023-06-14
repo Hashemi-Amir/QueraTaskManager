@@ -8,11 +8,17 @@ type EditBoxPosition = {
   left?: number
 }
 
+type HandleDeleteProjectType = (
+  e?: React.MouseEvent<HTMLElement, MouseEvent>,
+  name?: string,
+  id?: string
+) => void;
+
 type EditBoxProps = {
   status: string;
   editPosition: EditBoxPosition;
   id?: string;
-  handleItemClick: ()=> void | undefined;
+  handleItemClick: HandleDeleteProjectType;
 };
 
 
@@ -34,14 +40,15 @@ const EditBox = ({
 
   const handleEdit = () => {
     const val = document.querySelector<HTMLInputElement>("#edit")?.value;
+
     const data = [val, id ,user?.username];
-    if (status === "workspace" &&  val?.trim()) {
+    if (status === "workspace" && val?.trim()) {
       dispatch(updateWorkSpace(data));
       dispatch(resetPostWorkspace());
       handleItemClick();
     }
 
-    if(status === 'project' && val?.trim()){
+    if(status === 'project'  && val?.trim()){
       const data = [id  , val]
       dispatch(editProjectName(data))
       handleItemClick();

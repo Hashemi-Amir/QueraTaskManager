@@ -1,12 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import WorkspaceService from "./workSpaceService";
+import { createProject, deleteProject, editProjectName } from "../projects/projectSlice";
+
+
+type ProjectProps = {
+  _id : string;
+}
 
 export type WorkSpacesProps = {
   _id: string;
   name: string;
   user: string;
   members: [];
-  projects: [];
+  projects: ProjectProps[];
 };
 
 type initialStateType = {
@@ -23,7 +29,6 @@ type initialStateType = {
   isSuccessPost: boolean;
   isErrorPost: boolean;
   messagePost: unknown;
-
 };
 
 const initialState: initialStateType = {
@@ -39,7 +44,7 @@ const initialState: initialStateType = {
   isLoadingPost: false,
   isSuccessPost: false,
   isErrorPost: false,
-  messagePost : '',
+  messagePost: "",
 };
 
 // Get all workspaces from api
@@ -138,12 +143,11 @@ const workSpacesSlice = createSlice({
       state.selectedSpace = "";
     },
     resetPostWorkspace: (state) => {
-      state.isLoadingPost = false,
-      state.isSuccessPost = false,
-      state.isErrorPost = false;
+      (state.isLoadingPost = false),
+        (state.isSuccessPost = false),
+        (state.isErrorPost = false);
       state.messagePost = "";
     },
-
 
     setSelectedSpace: (state, action) => {
       state.selectedSpace = action.payload;
@@ -157,7 +161,6 @@ const workSpacesSlice = createSlice({
     searchedWorkSpace: (state, action) => {
       state.searchedWorkSpace = action.payload;
     },
-
   },
   extraReducers: (builder) => {
     // All WorkSpaces
@@ -241,7 +244,7 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = true;
       })
 
-      .addCase(addWorkSpaceMember.fulfilled, (state ) => {
+      .addCase(addWorkSpaceMember.fulfilled, (state) => {
         state.isLoadingPost = false;
         state.isSuccessPost = true;
         state.messagePost = "کاربر با موفقیت اضافه شد";
@@ -261,14 +264,72 @@ const workSpacesSlice = createSlice({
       .addCase(removeWorkSpaceMember.fulfilled, (state) => {
         state.isErrorPost = false;
         state.isSuccessPost = true;
-        state.messagePost = 'کاربر حذف شد'
+        state.messagePost = "کاربر حذف شد";
       })
       .addCase(removeWorkSpaceMember.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
         state.workSpaces = [];
-      });
+      })
+
+      // update workspace by create project
+      .addCase(createProject.fulfilled, (state, action) => {
+        // find index workSpace
+        const workSpaceId = action.meta.arg[1];
+
+        const workSpaceIndex = state.workSpaces.findIndex((workSpace) => {
+          return workSpace._id === workSpaceId;
+        });
+
+        // push project in workSpace
+        workSpaceIndex !== -1 &&
+          state.workSpaces[workSpaceIndex].projects.push(action.payload);
+      })
+
+      // update workspace by delete project
+
+      .addCase(deleteProject.fulfilled, (state, action) => {
+        state.isLoadingPost = false;
+        const selectedWorkSpace = action.payload.workspace;
+        // find workSpaceIndex
+        const workSpaceIndex:number = state.workSpaces.findIndex((item) => {
+          return item._id === selectedWorkSpace;
+        });
+
+        if (workSpaceIndex !== -1) {
+          // remove project
+          state.workSpaces[workSpaceIndex].projects = state.workSpaces[
+            workSpaceIndex
+          ].projects.filter((project) => {
+            return project._id != action.payload._id;
+          });
+        }
+      })
+
+
+
+      // update workspace by rename project
+      .addCase(editProjectName.fulfilled, (state, action) => {
+        // find workSpaceIndex
+        const selectedWorkSpace = action.payload.workspace;
+        const workSpaceIndex = state.workSpaces.findIndex((item) => {
+          return item._id === selectedWorkSpace;
+        });
+
+        // rename project
+        state.workSpaces[workSpaceIndex].projects = state.workSpaces[
+          workSpaceIndex
+        ].projects.map((project) => {
+          return project._id === action.payload._id
+            ? { ...project, name: action.payload.name }
+            : project;
+        });
+      })
+
+
+
+
   },
 });
 

@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
-import { deleteProject, resetPostProject } from "../../../services/app/store";
-import { toast } from "react-toastify";
+import { deleteProject } from "../../../services/app/store";
 
 import {
   fetchBoards,
@@ -17,60 +16,43 @@ type Projects = {
   projects: [];
 };
 
+// type HandleDeleteProjectType = (
+//   e?: React.MouseEvent<HTMLElement, MouseEvent>,
+//   name?: string,
+//   id?: string
+// ) => void;
+
 function ProjectList({ projects }: Projects) {
   const dispatch = useAppDispatch();
   const Location = useLocation();
-  const { projects : projectState } = useAppSelector((state) => state.boards);
+  const { projects: projectState } = useAppSelector((state) => state.boards);
 
-  const [projectMore, setprojectMore] = useState({
-    id : '',
-    modal : ''
-  });
+  const [projectMore, setprojectMore] = useState<string | undefined>('');
   const [morePosition, setMorePosition] = useState<object>({
     top: 0,
     left: 0,
   });
 
-  const {isErrorPost , isLoadingPost ,isSuccessPost,messagePost } = useAppSelector(state => state.projects)
-
-  useEffect(()=> {
-    if(isErrorPost){
-      toast.dismiss();
-      toast.error(`${messagePost}`);
-      dispatch(resetPostProject());
-    }
-
-    if(isSuccessPost ){
-      toast.dismiss();
-      toast.success(`${messagePost}`,{rtl:true})
-      dispatch(resetPostProject());
-    }
-  }, [isErrorPost ,isLoadingPost , isSuccessPost])
-
-
-
   // open or close modal toggle
   const handleItemClick = (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
-    name: string,
-    id : string
+    e?: React.MouseEvent<HTMLElement, MouseEvent>,
+    id?: string | undefined
   ) => {
-    if (projectMore.modal === '') {
-      const top = `${e.clientY}px`;
-      const left = `${e.clientX}px`;
+    if (projectMore === "") {
+      const top = `${e?.clientY}px`;
+      const left = `${e?.clientX}px`;
       setMorePosition({ ...morePosition, top: top, left: left });
-      setprojectMore({...projectMore , modal : name , id :id });
+      setprojectMore(id);
     } else {
-      setprojectMore({...projectMore , modal : '' , id : ''});
+      setprojectMore('');
     }
   };
 
-  // handle delete project 
-  const  handleDeleteProject = () =>{
-    console.log(projectMore.id);
-    dispatch(deleteProject(projectMore.id))
-  //  dispatch(resetPostProject())
-  }
+  // handle delete project
+  const handleDeleteProject = () => {
+    projectMore && dispatch(deleteProject(projectMore));
+    handleItemClick()
+  };
 
   return (
     <>
@@ -95,7 +77,7 @@ function ProjectList({ projects }: Projects) {
           <span
             className=" left-2 p-3 cursor-pointer hidden group-hover/content:block z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-              handleItemClick(e, name ,_id);
+              handleItemClick(e , _id);
               e.stopPropagation();
             }}
           >
@@ -104,13 +86,13 @@ function ProjectList({ projects }: Projects) {
         </div>
       ))}
 
-      {projectMore.modal &&
+      {projectMore &&
         createPortal(
-          <SideMore 
-            sideMoreState="تسک" 
+          <SideMore
+            sideMoreState="تسک"
             morePosition={morePosition}
             handleDelete={handleDeleteProject}
-            id={projectMore.id}
+            id={projectMore}
             handleItemClick={handleItemClick}
           />,
           document.body

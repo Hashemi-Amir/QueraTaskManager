@@ -18,13 +18,17 @@ type morePosition = {
   top?: number;
   left?: number;
 };
-
+type HandleDeleteProjectType = (
+  e?: React.MouseEvent<HTMLElement, MouseEvent>,
+  name?: string,
+  id?: string
+) => void;
 type SideMoreProps = {
   sideMoreState: string;
   morePosition: morePosition;
   handleDelete?: () => void;
   id?: string;
-  handleItemClick?: any;
+  handleItemClick : HandleDeleteProjectType;
 };
 
 type EditBoxPosition = {
@@ -91,7 +95,7 @@ const SideMore = ({
     }
   };
 
-  const handleEdit = (e: any) => {
+  const handleEdit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const top = e.clientY;
     const left = e.clientX - 200;
     if (sideMoreState === "ورک اسپیس") {
@@ -116,7 +120,6 @@ const SideMore = ({
       setNewModal({ ...newModal, shareWorkSpace: !newModal.shareWorkSpace });
     } else if (sideMoreState === "تسک") {
       setNewModal({ ...newModal, shareProject: !newModal.shareProject });
-      console.log("task");
     }
   };
 
@@ -136,7 +139,7 @@ const SideMore = ({
           {newModal.project &&
             createPortal(
               <Modal>
-                <NewProject handleModalProject={handleModalProject} id={id} />
+                <NewProject handleModalProject={handleModalProject} id={id} handleItemClick={handleItemClick}/>
               </Modal>,
               document.body
             )}

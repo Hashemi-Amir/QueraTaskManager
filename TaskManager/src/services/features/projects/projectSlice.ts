@@ -13,6 +13,7 @@ type Projects = {
   workSpaceId: string;
   projects: ProjectsProps[];
 };
+
 type initialStateType = {
   isLoading: boolean;
   isSuccess: boolean;
@@ -37,7 +38,7 @@ const initialState: initialStateType = {
   isLoadingPost: false,
   isSuccessPost: false,
   isErrorPost: false,
-  messagePost : '' ,
+  messagePost: "",
   selectedProject: "",
   workSpaces: [],
 };
@@ -148,7 +149,7 @@ const projectSlice = createSlice({
       state.isLoadingPost = false;
       state.isSuccessPost = false;
       state.isErrorPost = false;
-      state.messagePost = ''
+      state.messagePost = "";
     },
   },
   extraReducers: (builder) => {
@@ -187,15 +188,26 @@ const projectSlice = createSlice({
       // create project
       .addCase(createProject.pending, (state) => {
         state.isLoadingPost = true;
+        state.isSuccessPost = false;
       })
       .addCase(createProject.fulfilled, (state, action) => {
         state.isLoadingPost = false;
+        // find index workSpace
+        const workSpaceId = action.meta.arg[1];
+        const workSpaceIndex = state.workSpaces.findIndex((workSpace) => {
+          return workSpace.workSpaceId === workSpaceId;
+        });
+
+        // push project in workSpace
+        workSpaceIndex !== -1 &&
+          state.workSpaces[workSpaceIndex].projects.push(action.payload);
+
         state.isSuccessPost = true;
-        state.workSpaces = [...state.workSpaces, action.payload];
         state.messagePost = "پروژه ساخته شد !";
       })
       .addCase(createProject.rejected, (state, action) => {
         state.isLoadingPost = false;
+        state.isSuccessPost = false;
         state.isErrorPost = true;
         state.messagePost = action.error;
         state.workSpaces = [];
@@ -204,17 +216,23 @@ const projectSlice = createSlice({
       // Delete Project
       .addCase(deleteProject.pending, (state) => {
         state.isLoadingPost = true;
+        state.isSuccessPost = false;
       })
       .addCase(deleteProject.fulfilled, (state, action) => {
         state.isLoadingPost = false;
-        state.isSuccessPost = true;
-        const selectedWorkSpace = action.meta.arg
+        const selectedWorkSpace = action.payload.workspace;
+        // find workSpaceIndex
         const workSpaceIndex = state.workSpaces.findIndex((item) => {
           return item.workSpaceId === selectedWorkSpace;
         });
-        state.workSpaces[workSpaceIndex].projects = state.workSpaces[workSpaceIndex].projects.filter(project => {
-          return project._id = action.payload._id
-        })
+
+        // remove project
+        state.workSpaces[workSpaceIndex].projects = state.workSpaces[
+          workSpaceIndex
+        ].projects.filter((project) => {
+          return project._id != action.payload._id;
+        });
+        state.isSuccessPost = true;
         state.messagePost = "پروژه حذف شد ";
       })
       .addCase(deleteProject.rejected, (state, action) => {
@@ -227,9 +245,25 @@ const projectSlice = createSlice({
       // edit project name
       .addCase(editProjectName.pending, (state) => {
         state.isLoadingPost = true;
+        state.isSuccessPost = false;
       })
-      .addCase(editProjectName.fulfilled, (state) => {
+      .addCase(editProjectName.fulfilled, (state, action) => {
         state.isLoadingPost = false;
+
+        // find workSpaceIndex
+        const selectedWorkSpace = action.payload.workspace;
+        const workSpaceIndex = state.workSpaces.findIndex((item) => {
+          return item.workSpaceId === selectedWorkSpace;
+        });
+
+        // rename project
+        state.workSpaces[workSpaceIndex].projects = state.workSpaces[
+          workSpaceIndex
+        ].projects.map((project) => {
+          return project._id === action.payload._id
+            ? { ...project, name: action.payload.name }
+            : project;
+        });
         state.isSuccessPost = true;
       })
       .addCase(editProjectName.rejected, (state, action) => {
@@ -242,7 +276,8 @@ const projectSlice = createSlice({
 });
 
 export default projectSlice.reducer;
-export const { setId, resetProject, resetPostProject ,setSelectedProject} = projectSlice.actions;
+export const { setId, resetProject, resetPostProject, setSelectedProject } =
+  projectSlice.actions;
 export {
   fetchProjects,
   createProject,

@@ -7,10 +7,11 @@ import { createProject } from "../../../services/app/store";
 
 type projectProps = {
   handleModalProject: () => void;
-  id? : string
+  id? : string,
+  handleItemClick : () => void
 };
 
-const NewProject = ({ handleModalProject , id }: projectProps) => {
+const NewProject = ({ handleModalProject , id ,handleItemClick}: projectProps) => {
 
   const dispatch = useAppDispatch();
   const {isLoadingPost} = useAppSelector(state => state.projects)
@@ -23,6 +24,7 @@ const NewProject = ({ handleModalProject , id }: projectProps) => {
     if(name?.trim()){
      dispatch(createProject(formData))
       handleModalProject()
+      handleItemClick()
     }
     
   }

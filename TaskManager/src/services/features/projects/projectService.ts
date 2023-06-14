@@ -5,13 +5,12 @@ const API_URL = "/api/projects";
 const createProject = async (data: (string | undefined)[]) => {
   const [name, workspaceId] = [...data];
   const formData = { name, workspaceId };
-  const response = await AXIOS.post(API_URL, formData);
+  const response = await AXIOS.post(API_URL, formData);  
   return response.data;
 };
 
 const deleteProject = async (id: string) => {
   const response = await AXIOS.delete(API_URL + "/" + id);
-  console.log(response.data);
   return response.data;
 };
 
@@ -19,7 +18,6 @@ const editProjectName = async (data: (string | undefined)[]) => {
   const [id, newName] = [...data];
   const formData = { name: newName };
   const response = await AXIOS.put(API_URL + "/" + id, formData);
-  console.log(response.data);
   return response.data;
 };
 
