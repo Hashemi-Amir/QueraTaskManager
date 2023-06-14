@@ -1,18 +1,15 @@
 import { AiOutlinePlus, AiOutlineLink } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { SlNote } from "react-icons/sl";
-import { VscSymbolColor } from "react-icons/vsc";
 import Button from "../../ui/Button";
 import { BiShareAlt } from "react-icons/bi";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import Modal from "../../../layout/Modal";
 import NewProject from "../Medium/NewProject";
-import CheckBoxColor from "../../ui/CheckBoxColor";
 import ShareModal from "../Medium/ShareModal";
 import AddNewTask from "../Large/AddNewTask";
 import EditBox from "../../ui/EditBox";
-
 
 type morePosition = {
   top?: number;
@@ -28,7 +25,7 @@ type SideMoreProps = {
   morePosition: morePosition;
   handleDelete?: () => void;
   id?: string;
-  handleItemClick : HandleDeleteProjectType;
+  handleItemClick: HandleDeleteProjectType;
 };
 
 type EditBoxPosition = {
@@ -43,84 +40,26 @@ const SideMore = ({
   id,
   handleItemClick,
 }: SideMoreProps) => {
-  
   const liStyle =
     "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer";
-  const dataColor = [
-    { id: 1, color: "bg-[#84C6A1]" },
-    { id: 2, color: "bg-[#78C6B0]" },
-    { id: 3, color: "bg-[#76BC86]" },
-    { id: 4, color: "bg-[#80DC69]" },
-    { id: 5, color: "bg-[#E46161]" },
-    { id: 6, color: "bg-[#E17E80]" },
-    { id: 7, color: "bg-[#EC8182]" },
-    { id: 8, color: "bg-[#F3C567]" },
-    { id: 9, color: "bg-[#B9995E]" },
-    { id: 10, color: "bg-[#E57A57]" },
-    { id: 11, color: "bg-[#F1A25C]" },
-    { id: 12, color: "bg-[#E28A60]" },
-    { id: 13, color: "bg-[#6897C2]" },
-    { id: 14, color: "bg-[#74AADD]" },
-    { id: 15, color: "bg-[#3C45E7]" },
-    { id: 16, color: "bg-[#6DAFCE]" },
-    { id: 17, color: "bg-[#6CB2F7]" },
-    { id: 18, color: "bg-[#9286EA]" },
-    { id: 19, color: "bg-[#C074D1]" },
-    { id: 20, color: "bg-[#486774]" },
-  ];
-
-  const [newModal, setNewModal] = useState({
-    project: false,
-    task: false,
-    editWorkSpace: false,
-    editProject: false,
-    color: false,
-    shareWorkSpace: false,
-    shareProject: false,
-  });
-
+  const [newModal, setNewModal] = useState("");
   const [editPosition, setEditPosition] = useState<EditBoxPosition>({});
 
-  const [selectedColor, setSelectedColor] = useState({
-    color: "bg-[#7D828C]",
-    id: 0,
-  });
 
-
-  const handleModalProject = () => {
-    if (sideMoreState === "ورک اسپیس") {
-      setNewModal({ ...newModal, project: !newModal.project });
-    } else if (sideMoreState === "تسک") {
-      setNewModal({ ...newModal, task: !newModal.task });
+  // toggle all modals inside sideMore
+  const handleAllSideMoreModals = (
+    modalName: string,
+    event?: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
+    // set edit box position
+    if (modalName === "ویرایش ورک اسپیس" || modalName === "ویرایش تسک") {
+      const top = event?.clientY;
+      const left = event?.clientX;
+      const resLeft = left && left - 200;
+      setEditPosition({ ...editPosition, top: top, left: resLeft });
     }
-  };
-
-  const handleEdit = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    const top = e.clientY;
-    const left = e.clientX - 200;
-    if (sideMoreState === "ورک اسپیس") {
-      setNewModal({ ...newModal, editWorkSpace: !newModal.editWorkSpace });
-      setEditPosition({ ...editPosition, top: top, left: left });
-    } else if (sideMoreState === "تسک") {
-      setNewModal({ ...newModal, editProject: !newModal.editProject });
-      setEditPosition({ ...editPosition, top: top, left: left });
-    }
-  };
-
-  const handleColor = () => {
-    setNewModal({ ...newModal, color: !newModal.color });
-  };
-  const handleCheckBoxColor = (data: any): any => {
-    setSelectedColor({ ...selectedColor, color: data.color, id: data.id });
-    handleColor();
-  };
-
-  const handleShare = () => {
-    if (sideMoreState === "ورک اسپیس") {
-      setNewModal({ ...newModal, shareWorkSpace: !newModal.shareWorkSpace });
-    } else if (sideMoreState === "تسک") {
-      setNewModal({ ...newModal, shareProject: !newModal.shareProject });
-    }
+    // set sidemore modals state
+    setNewModal(modalName);
   };
 
   return (
@@ -133,26 +72,35 @@ const SideMore = ({
           <span className="ml-4 text-xl">
             <AiOutlinePlus />
           </span>
-          <span onClick={handleModalProject}>
+          <span onClick={() => handleAllSideMoreModals(sideMoreState)}>
             ساختن {sideMoreState === "تسک" ? "تسک" : "پروژه"} جدید
           </span>
-          {newModal.project &&
+          {newModal === "ورک اسپیس" &&
             createPortal(
               <Modal>
-                <NewProject handleModalProject={handleModalProject} id={id} handleItemClick={handleItemClick}/>
+                <NewProject
+                  handleAllSideMoreModals={handleAllSideMoreModals}
+                  id={id}
+                  handleItemClick={handleItemClick}
+                />
               </Modal>,
               document.body
             )}
 
-          {newModal.task &&
+          {newModal === "تسک" &&
             createPortal(
               <Modal>
-                <AddNewTask handleNewTaskModal={handleModalProject} />
+                <AddNewTask handleNewTaskModal={handleAllSideMoreModals} />
               </Modal>,
               document.body
             )}
         </li>
-        <li className={liStyle} onClick={handleEdit}>
+        <li
+          className={liStyle}
+          onClick={(event) =>
+            handleAllSideMoreModals(`ویرایش ${sideMoreState}`, event)
+          }
+        >
           <span className="ml-4 text-xl">
             <SlNote />
           </span>
@@ -160,7 +108,7 @@ const SideMore = ({
             ویرایش نام {sideMoreState === "تسک" ? "پروژه" : "ورک اسپیس"}
           </span>
         </li>
-        {newModal.editWorkSpace &&
+        {newModal === `ویرایش ورک اسپیس` &&
           createPortal(
             <EditBox
               status={"workspace"}
@@ -170,47 +118,24 @@ const SideMore = ({
             />,
             document.body
           )}
-        {newModal.editProject &&
+        {newModal === `ویرایش تسک` &&
           createPortal(
             <EditBox
-            status={"project"}
+              status={"project"}
               editPosition={editPosition}
               id={id}
               handleItemClick={handleItemClick}
             />,
             document.body
           )}
-        {sideMoreState === "ورک اسپیس" && (
-          <li className={liStyle} onClick={handleColor}>
-            <span className="ml-4 text-xl">
-              <VscSymbolColor />
-            </span>
-            <span>ویرایش رنگ</span>
-          </li>
-        )}
 
-        {newModal.color && (
-          <ul className="absolute top-14 mr-28 border w-40 h-32 flex content-between flex-wrap z-50 bg-white rounded-lg py-2 px-1 shadow-xl">
-            {dataColor.map((li) => (
-              <CheckBoxColor
-                key={li.id}
-                data={li}
-                selectedColor={selectedColor}
-                handleCheckBoxColor={handleCheckBoxColor}
-              />
-            ))}
-          </ul>
-        )}
         <li className={liStyle}>
           <span className="ml-4 text-xl">
             <AiOutlineLink />
           </span>
           <span>کپی لینک</span>
         </li>
-        <li
-          className={`${liStyle} text-9F0000`}
-          onClick={handleDelete}
-        >
+        <li className={`${liStyle} text-9F0000`} onClick={handleDelete}>
           <span className="ml-4 text-xl">
             <BsTrash />
           </span>
@@ -219,7 +144,7 @@ const SideMore = ({
 
         <li
           className="w-full relative flex  items-center mt-4"
-          onClick={handleShare}
+          onClick={() => handleAllSideMoreModals(`اشتراک ${sideMoreState}`)}
         >
           <span className="absolute right-5 text-2xl text-white ">
             <BiShareAlt />
@@ -229,23 +154,23 @@ const SideMore = ({
             className="hover:bg-208D8E hover:text-white"
           />
         </li>
-        {newModal.shareWorkSpace &&
+        {newModal === "اشتراک ورک اسپیس" &&
           createPortal(
             <Modal>
               <ShareModal
                 ModalTitle="به اشتراک گذاری ورک اسپیس"
-                shareModalHandler={handleShare}
+                shareModalHandler={handleAllSideMoreModals}
                 id={id}
               />
             </Modal>,
             document.body
           )}
-        {newModal.shareProject &&
+        {newModal === "اشتراک تسک" &&
           createPortal(
             <Modal>
               <ShareModal
                 ModalTitle="به اشتراک گذاری پروژه"
-                shareModalHandler={handleShare}
+                shareModalHandler={handleAllSideMoreModals}
                 id={id}
               />
             </Modal>,

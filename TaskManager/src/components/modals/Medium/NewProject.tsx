@@ -6,12 +6,12 @@ import { createProject } from "../../../services/app/store";
 
 
 type projectProps = {
-  handleModalProject: () => void;
+  handleAllSideMoreModals: (modalName:string) => void;
   id? : string,
   handleItemClick : () => void
 };
 
-const NewProject = ({ handleModalProject , id ,handleItemClick}: projectProps) => {
+const NewProject = ({ handleAllSideMoreModals , id ,handleItemClick}: projectProps) => {
 
   const dispatch = useAppDispatch();
   const {isLoadingPost} = useAppSelector(state => state.projects)
@@ -23,7 +23,7 @@ const NewProject = ({ handleModalProject , id ,handleItemClick}: projectProps) =
     const formData:(string | undefined  | undefined)[] = [name , id]
     if(name?.trim()){
      dispatch(createProject(formData))
-      handleModalProject()
+     handleAllSideMoreModals('')
       handleItemClick()
     }
     
@@ -37,7 +37,7 @@ const NewProject = ({ handleModalProject , id ,handleItemClick}: projectProps) =
           <label
             htmlFor="my-modal-3"
             className="text-323232 cursor-pointer"
-            onClick={handleModalProject}
+            onClick={() => handleAllSideMoreModals('')}
           >
             <CloseIcon />
           </label>

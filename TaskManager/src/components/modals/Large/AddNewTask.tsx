@@ -15,7 +15,7 @@ type typePriority = {
 };
 
 type addNewTaskProps = {
-  handleNewTaskModal: () => void;
+  handleNewTaskModal: (modalName :string) => void;
 };
 
 const AddNewTask = ({ handleNewTaskModal }: addNewTaskProps) => {
@@ -63,7 +63,7 @@ const AddNewTask = ({ handleNewTaskModal }: addNewTaskProps) => {
 
           <span
             className="cursor-pointer text-[#BDBDBD]"
-            onClick={handleNewTaskModal}
+            onClick={() => handleNewTaskModal('')}
           >
             <CloseIcon />
           </span>

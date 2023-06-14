@@ -31,6 +31,7 @@ const updateWorkSpace = async (data:(string | undefined)[]) => {
     usernameOrId: username,
     image: "image url",
   };
+  
   const response = await AXIOS.patch(API_URL + id, formData);  
   return response.data;
 };

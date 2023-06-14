@@ -40,8 +40,9 @@ const EditBox = ({
 
   const handleEdit = () => {
     const val = document.querySelector<HTMLInputElement>("#edit")?.value;
-
+    
     const data = [val, id ,user?.username];
+    
     if (status === "workspace" && val?.trim()) {
       dispatch(updateWorkSpace(data));
       dispatch(resetPostWorkspace());

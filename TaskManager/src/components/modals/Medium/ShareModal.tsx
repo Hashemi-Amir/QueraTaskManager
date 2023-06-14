@@ -27,7 +27,7 @@ type DataItem = {
 };
 type ShareModalProps = {
   ModalTitle: string;
-  shareModalHandler: () => void;
+  shareModalHandler: (modalName:string) => void;
   id?: string;
 };
 
@@ -123,7 +123,7 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
           <label
             htmlFor="my-modal-3"
             className="text-323232 cursor-pointer"
-            onClick={shareModalHandler}
+            onClick={() => shareModalHandler('')}
           >
             <CloseIcon />
           </label>
