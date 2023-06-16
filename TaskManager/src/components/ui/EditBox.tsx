@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../services/app/hook";
-import { editProjectName, resetPostWorkspace, updateWorkSpace } from "../../services/app/store";
+import { editBoardName, editProjectName, resetPostProject, resetPostWorkspace, updateWorkSpace } from "../../services/app/store";
 import Button from "./Button";
 
 
@@ -51,8 +51,15 @@ const EditBox = ({
 
     if(status === 'project'  && val?.trim()){
       const data = [id  , val]
-      dispatch(editProjectName(data))
+      dispatch(editProjectName(data));
+      dispatch(resetPostProject());
       handleItemClick();
+    }
+
+    if(status === 'board'  && val?.trim()){
+      const data = [id  , val]
+      dispatch(editBoardName(data))
+      handleItemClick()
     }
   };
   return (

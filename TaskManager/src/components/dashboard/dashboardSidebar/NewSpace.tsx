@@ -5,7 +5,7 @@ import Modal from "../../../layout/Modal";
 import NewWorkspace from "../../modals/Medium/NewWorkspace";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { toast } from "react-toastify";
-import { fetchAllWorkSpaces, resetPostProject, resetPostWorkspace } from "../../../services/app/store";
+import { resetPostBoard, resetPostProject, resetPostWorkspace } from "../../../services/app/store";
 
 const NewSpace = () => {
   const [modalWorkSpace, setModalWorkSpace] = useState(false);
@@ -21,8 +21,15 @@ const NewSpace = () => {
     messagePost: messageProject,
     
   } = useAppSelector((state) => state.projects);
-  
+  const {
+    isErrorPost : isErrorBoard,
+    isLoadingPost : isLoadingBoard,
+    isSuccessPost : isSuccessBoard,
+    messagePost : messageBoard,
+  } = useAppSelector((state => state.boards));
   useEffect(() => {
+
+    // workSpace
     if (isErrorPost) {
       toast.dismiss();
       toast.error(`${messagePost} ❗`);
@@ -33,7 +40,7 @@ const NewSpace = () => {
       toast.success(`${messagePost}`, { rtl: true });
       dispatch(resetPostWorkspace());
     }
-
+    // project
     if (isErrorProject) {
       toast.dismiss();
       toast.error(`${messageProject} ❗`);
@@ -43,20 +50,34 @@ const NewSpace = () => {
       toast.dismiss();
       toast.success(`${messageProject}`, { rtl: true });
       dispatch(resetPostProject());
-      // dispatch(fetchAllWorkSpaces())
-      // dispatch(resetPostWorkspace());
     }
+
+    // board
+    if (isErrorBoard) {
+      toast.dismiss();
+      toast.error(`${messageBoard} ❗`);
+      dispatch(resetPostBoard());
+    }
+    if (isSuccessBoard && messageBoard != "") {
+      toast.dismiss();
+      toast.success(`${messageBoard}`, { rtl: true });
+      dispatch(resetPostBoard());
+    }
+
   }, [
+    dispatch,
     isErrorPost,
     isLoadingPost,
     isSuccessPost,
-    ,
     messagePost,
-    dispatch,
     isErrorProject,
     isLoadingPorject,
     isSuccessProject,
-    messageProject
+    messageProject,
+    isErrorBoard,
+    isLoadingBoard,
+    isSuccessBoard,
+    messageBoard
   ]);
 
   console.log();

@@ -7,7 +7,7 @@ import boardReducer from "../features/boards/boardSlice";
 
 //! We should first import our actions from our slices here, then export them at the bottom
 
-import { fetchBoards, setSelectedId,changeTaskPosition } from "../features/boards/boardSlice";
+import { fetchBoards,createBoard, deleteBoard,editBoardName, resetPostBoard,setSelectedProjectId,changeTaskPosition } from "../features/boards/boardSlice";
 import {
   fetchProjects,
   setSelectedProject,
@@ -67,7 +67,7 @@ export {
   addMemberToProject,
   removeMemberThanProject
 };
-export { fetchBoards, setSelectedId,changeTaskPosition };
+export { fetchBoards, createBoard ,deleteBoard,editBoardName,resetPostBoard,setSelectedProjectId,changeTaskPosition };
 export { setDate, setRef };
 export {
   setSelectedWorkSpaceHeader,

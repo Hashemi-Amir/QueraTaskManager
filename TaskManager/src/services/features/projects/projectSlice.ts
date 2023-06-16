@@ -271,7 +271,31 @@ const projectSlice = createSlice({
         state.isErrorPost = true;
         state.messagePost = action.error;
         state.workSpaces = [];
-      });
+      })
+
+
+
+      // add member to project
+      .addCase(addMemberToProject.pending, (state) => {
+        state.isLoadingPost = true;
+        state.isSuccessPost = false;
+      })
+      .addCase(addMemberToProject.fulfilled, (state) => {
+        state.isLoadingPost = false;
+        state.isSuccessPost = true;
+
+        state.messagePost = 'کاربر به پروژه اضافه شد'
+        
+      })
+      .addCase(addMemberToProject.rejected, (state, action) => {
+        state.isLoadingPost = false;
+        state.isErrorPost = true;
+        state.messagePost = action.error;
+        state.workSpaces = [];
+      })
+
+
+      
   },
 });
 

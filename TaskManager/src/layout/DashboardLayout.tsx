@@ -70,7 +70,6 @@ const DashboardLayout = () => {
         {/* Header */}
         
         <Header projectName={Location.pathname==="/columnview" ? selectedProject : selectedWorkSpaceHeader} />
-
         {/* Without Classes for calander view */}
         <div className={`${WraperClasses}`}>
           <Outlet />

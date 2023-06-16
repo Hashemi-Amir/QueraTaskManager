@@ -158,7 +158,7 @@ const SideMore = ({
           createPortal(
             <Modal>
               <ShareModal
-                ModalTitle="به اشتراک گذاری ورک اسپیس"
+                ModalTitle="ورک اسپیس"
                 shareModalHandler={handleAllSideMoreModals}
                 id={id}
               />
@@ -169,7 +169,7 @@ const SideMore = ({
           createPortal(
             <Modal>
               <ShareModal
-                ModalTitle="به اشتراک گذاری پروژه"
+                ModalTitle="پروژه"
                 shareModalHandler={handleAllSideMoreModals}
                 id={id}
               />

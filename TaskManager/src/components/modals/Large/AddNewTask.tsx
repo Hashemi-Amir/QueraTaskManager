@@ -16,6 +16,7 @@ type typePriority = {
 
 type addNewTaskProps = {
   handleNewTaskModal: (modalName :string) => void;
+  
 };
 
 const AddNewTask = ({ handleNewTaskModal }: addNewTaskProps) => {

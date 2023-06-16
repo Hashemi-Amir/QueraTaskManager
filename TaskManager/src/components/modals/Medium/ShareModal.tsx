@@ -21,13 +21,9 @@ type Members = {
     email: string;
   };
 };
-type DataItem = {
-  _id: string;
-  members: string[];
-};
 type ShareModalProps = {
   ModalTitle: string;
-  shareModalHandler: (modalName:string) => void;
+  shareModalHandler: (modalName: string) => void;
   id?: string;
 };
 
@@ -41,36 +37,59 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
   const [selectedMemberId, setSelectedMemberId] = useState<string>("");
   const dispatch = useAppDispatch();
 
-  const workMembers = useAppSelector((state) => state.workSpaces.workSpaces);
-  const {isSuccessPost:isSuccessProject, projects:projectMembers} = useAppSelector((state) => state.projects);
-
-  const { isSuccessPost } = useAppSelector((state) => state.workSpaces);
+  const { workSpaces: workMembers, isSuccessPost } = useAppSelector(
+    (state) => state.workSpaces
+  );
+  const { isSuccessPost: isSuccessProject, workSpaces } = useAppSelector(
+    (state) => state.projects
+  );
 
   useEffect(() => {
-
     if (isSuccessPost) {
       dispatch(fetchAllWorkSpaces());
-      dispatch(resetWorkspaces())
+      dispatch(resetWorkspaces());
     }
-    if(isSuccessProject){
+    if (isSuccessProject) {
       dispatch(fetchAllWorkSpaces());
-      dispatch(resetWorkspaces())
+      dispatch(resetWorkspaces());
     }
 
-    
-    if (ModalTitle === "به اشتراک گذاری ورک اسپیس") {
-      handleMembers(workMembers);
-    }
-    if (ModalTitle === "به اشتراک گذاری پروژه") {
-      handleMembers(projectMembers);
-    }
-  }, [dispatch,workMembers , isSuccessPost,isSuccessProject]);
+    handleMembers();
+  }, [dispatch, workMembers, isSuccessPost, isSuccessProject]);
 
-  const handleMembers = (data: DataItem[]) => {
-    const filter = data.filter((item) => item._id === id);
-    if (filter[0]?.members) {
-      const membersArray: Members[] = (filter[0] as any).members;
-      setMembers(membersArray);
+  const handleMembers = () => {
+    if (ModalTitle === "ورک اسپیس") {
+      const filter = workMembers.filter((item) => item._id === id);
+      console.log(filter);
+      
+      if (filter[0]?.members) {
+        const membersArray: Members[] = (filter[0] as any).members;
+        setMembers(membersArray);
+      }
+    }
+
+    if (ModalTitle === "پروژه") {
+      const projects = workMembers.map((workSpace) => workSpace.projects);
+      console.log(projects);
+      
+      // const selectedProject: any = [];
+      // projects.forEach((project) => {
+      //   console.log(project);
+        
+      //   project.forEach(
+      //     (item) => item._id === id && selectedProject.push(project)
+      //   );
+      // });
+
+      // console.log(selectedProject);
+      
+      // if(selectedProject[0]?.members){
+      //   const membersArray: Members[] = (selectedProject[0] as any).members;
+      //   console.log(membersArray);
+        
+      //   setMembers(selectedProject[0])
+      // }
+      
     }
   };
 
@@ -90,25 +109,24 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
   const handleAddMember = () => {
     const inviteValue: string | undefined =
       document.querySelector<HTMLInputElement>("#invite")?.value;
-    if (ModalTitle === "به اشتراک گذاری ورک اسپیس" && inviteValue?.trim()) {
+    if (ModalTitle === "ورک اسپیس" && inviteValue?.trim()) {
       const workspaceIds: (string | undefined)[] = [id, inviteValue];
       dispatch(addWorkSpaceMember(workspaceIds));
     }
 
-    if (ModalTitle === "به اشتراک گذاری پروژه" && inviteValue?.trim()) {
+    if (ModalTitle === "پروژه" && inviteValue?.trim()) {
       const projectsIds: (string | undefined)[] = [id, inviteValue];
       dispatch(addMemberToProject(projectsIds));
-      
     }
   };
 
   // Remove member with called dispatch redux toolkit
   const handleRemoveMember = () => {
-    if (ModalTitle === "به اشتراک گذاری ورک اسپیس") {
+    if (ModalTitle === "ورک اسپیس") {
       const workspaceIds = [id, selectedMemberId];
       dispatch(removeWorkSpaceMember(workspaceIds));
     }
-    if (ModalTitle === "به اشتراک گذاری پروژه") {
+    if (ModalTitle === "پروژه") {
       const projectsIds: (string | undefined)[] = [id, selectedMemberId];
       dispatch(removeMemberThanProject(projectsIds));
     }
@@ -123,12 +141,14 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
           <label
             htmlFor="my-modal-3"
             className="text-323232 cursor-pointer"
-            onClick={() => shareModalHandler('')}
+            onClick={() => shareModalHandler("")}
           >
             <CloseIcon />
           </label>
 
-          <div className="font-semibold text-2xl text-black">{ModalTitle}</div>
+          <div className="font-semibold text-2xl text-black">
+            {`به اشتراک گذاری ${ModalTitle}`}
+          </div>
 
           <span></span>
         </div>

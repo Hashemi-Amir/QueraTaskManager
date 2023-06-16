@@ -3,20 +3,42 @@ import { createPortal } from "react-dom";
 import { BsThreeDots, BsPlus } from "react-icons/bs";
 import Modal from "../../../layout/Modal";
 import AddNewTask from "../../modals/Large/AddNewTask";
-import ColMore from "../../modals/Small/ColMore";
+import BoardMore from "../../modals/Small/BoardMore";
+import { useAppDispatch } from "../../../services/app/hook";
+import { deleteBoard } from "../../../services/app/store";
 
 type HeaderProps = {
   title: string;
   number: number;
   borderColor: string;
+  id: string
 };
-const Header = ({ title, number, borderColor }: HeaderProps) => {
+const Header = ({ title, number, borderColor , id}: HeaderProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [newTaskModal, setNewTaskModal] = useState(false);
-  const [colMoreModal, setColMoreModal] = useState(false);
+  const [boardModal, setBoardModal] = useState({
+    modal: false,
+    position: { top: 0, left: 0 },
+  });
+
+  const dispatch = useAppDispatch()
   const handleCardHover = (isHovering: boolean) => {
     setIsHovered(isHovering);
   };
+
+  // toggle board modal and set modal position
+  const handleBoardModal = (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const pos:{top:number , left: number} = { top: e?.clientY || 0, left: e?.clientX || 0 };
+    setBoardModal({ ...boardModal, modal: !boardModal.modal, position: pos });
+  };
+
+  // handle delete board with dispatch 
+  const handleDeleteBoard = () => {
+    dispatch(deleteBoard(id))
+    handleBoardModal()      
+  }
+
+  // toggle modal new task 
   const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
 
   return (
@@ -35,7 +57,7 @@ const Header = ({ title, number, borderColor }: HeaderProps) => {
         <div className="flex items-center gap-1">
           <span
             className="relative hover:scale-110"
-            onClick={() => setColMoreModal(!colMoreModal)}
+            onClick={(e) => handleBoardModal(e)}
           >
             <BsThreeDots />
           </span>
@@ -49,9 +71,19 @@ const Header = ({ title, number, borderColor }: HeaderProps) => {
         </div>
       )}
 
-      {colMoreModal && <ColMore />}
+      {boardModal.modal &&
+        createPortal(
+          <BoardMore
+             position={boardModal.position} 
+             handleDeleteBoard={handleDeleteBoard} 
+             handleBoardModal={handleBoardModal}
+             id={id} 
+          />,
+          document.body
+        )}
 
-      {newTaskModal && createPortal(
+      {newTaskModal &&
+        createPortal(
           <Modal>
             <AddNewTask handleNewTaskModal={handleNewTaskModal} />
           </Modal>,

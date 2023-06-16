@@ -4,9 +4,8 @@ import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { deleteProject } from "../../../services/app/store";
 
 import {
-  fetchBoards,
-  setSelectedId,
-} from "../../../services/features/boards/boardSlice";
+  fetchBoards, setSelectedProjectId
+} from "../../../services/app/store";
 import { createPortal } from "react-dom";
 import SideMore from "../../modals/Small/SideMore";
 import { setSelectedProject } from "../../../services/app/store";
@@ -16,11 +15,7 @@ type Projects = {
   projects: [];
 };
 
-// type HandleDeleteProjectType = (
-//   e?: React.MouseEvent<HTMLElement, MouseEvent>,
-//   name?: string,
-//   id?: string
-// ) => void;
+
 
 function ProjectList({ projects }: Projects) {
   const dispatch = useAppDispatch();
@@ -69,7 +64,7 @@ function ProjectList({ projects }: Projects) {
             } else {
               event.stopPropagation();
             }
-            dispatch(setSelectedId(_id));
+            dispatch(setSelectedProjectId(_id));
             dispatch(setSelectedProject(name));
           }}
         >

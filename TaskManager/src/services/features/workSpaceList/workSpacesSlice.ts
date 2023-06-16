@@ -242,10 +242,11 @@ const workSpacesSlice = createSlice({
       // add member to workSpace
       .addCase(addWorkSpaceMember.pending, (state) => {
         state.isLoadingPost = true;
+        state.isSuccessPost = false;
       })
 
       .addCase(addWorkSpaceMember.fulfilled, (state) => {
-        state.isLoadingPost = false;
+        state.isLoadingPost = false;        
         state.isSuccessPost = true;
         state.messagePost = "کاربر با موفقیت اضافه شد";
       })

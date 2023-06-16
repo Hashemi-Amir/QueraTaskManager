@@ -14,6 +14,7 @@ type BoardProps = {
 const Board = ({ title, number, tasks, borderColor,id }: BoardProps) => {
   return (
     <Droppable droppableId={id}>
+
       {(provided) => (
         <div
           className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-16"
@@ -21,8 +22,8 @@ const Board = ({ title, number, tasks, borderColor,id }: BoardProps) => {
           ref={provided.innerRef}
         >
           {/* Sticky Header */}
-          <Header title={title} number={number} borderColor={borderColor} />
-
+          <Header title={title} number={number} borderColor={borderColor} id={id} />
+          
           {tasks.map(({ name, description, _id, position,comments }) => (
             <TaskCard
               position={position}
@@ -40,6 +41,7 @@ const Board = ({ title, number, tasks, borderColor,id }: BoardProps) => {
           {/* Task Cards */}
         </div>
       )}
+      
     </Droppable>
   );
 };
