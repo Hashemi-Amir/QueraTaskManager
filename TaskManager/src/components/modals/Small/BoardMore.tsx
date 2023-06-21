@@ -50,19 +50,19 @@ const BoardMore = ({position ,handleDeleteBoard,handleBoardModal ,id}:BoardMoreP
         document.body
       )}
 
-      <li className={liStyle}>
+      {/* <li className={liStyle}>
         <span className="text-sm">
           <AiOutlinePlus />
         </span>
         <p className="mr-2">افزودن تسک</p>
-      </li>
+      </li> */}
 
-      <li className={liStyle}>
+      {/* <li className={liStyle}>
         <span className="text-sm">
           <BiArchiveIn />
         </span>
         <p className="mr-2">آرشیو تمام تسک‌ها</p>
-      </li>
+      </li> */}
 
       <li className={liStyle} onClick={handleDeleteBoard}>
         <span className="text-sm">

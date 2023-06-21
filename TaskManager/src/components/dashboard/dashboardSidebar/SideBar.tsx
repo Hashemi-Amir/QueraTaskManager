@@ -26,8 +26,8 @@ const SideBar = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    workSpaces.length === 0 && dispatch(fetchAllWorkSpaces());
-  }, [dispatch, selectedSpace, workSpaces]);
+    !isSuccess && workSpaces.length === 0 && dispatch(fetchAllWorkSpaces());
+  }, [dispatch, selectedSpace, workSpaces ,isSuccess]);
 
   const getSelectedWorkSpaces = workSpaces.filter((workSpace) => {
     return workSpace._id === selectedSpace;

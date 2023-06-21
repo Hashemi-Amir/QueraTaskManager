@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AXIOS from "../utils/AXIOS";
 import boardService from "./boardService";
+import { fetchCreateTask, fetchDeleteTask } from "../tasks/taskSlice";
 
 export type Task = {
   _id: string;
@@ -265,7 +266,7 @@ const boardsSlice = createSlice({
         state.isLoadingPost = true;
         state.isSuccessPost = false;
       })
-      .addCase(editBoardName.fulfilled, (state,action) => {
+      .addCase(editBoardName.fulfilled, (state, action) => {
         state.isLoadingPost = false;
         // find project
         const selectedProject = action.payload.project;
@@ -273,11 +274,13 @@ const boardsSlice = createSlice({
           return project.projectId === selectedProject;
         });
 
-        state.projects[index].projectBoards = state.projects[index].projectBoards.map(board => {
-          return board._id === action.payload._id 
-          ? {...board,name : action.payload.name}
-          : board
-        })
+        state.projects[index].projectBoards = state.projects[
+          index
+        ].projectBoards.map((board) => {
+          return board._id === action.payload._id
+            ? { ...board, name: action.payload.name }
+            : board;
+        });
         state.isSuccessPost = true;
       })
       .addCase(editBoardName.rejected, (state, action) => {
@@ -285,6 +288,59 @@ const boardsSlice = createSlice({
         state.isSuccessPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
+      })
+
+      // update board by create task
+      .addCase(fetchCreateTask.fulfilled, (state, action) => {
+        let selectedProject: string = "";
+        const boardId = action.payload.board;
+
+        // find project id
+        state.projects.forEach((project) => {
+          project.projectBoards.forEach((board) => {
+            board._id === boardId ? (selectedProject = project.projectId) : "";
+          });
+        });
+
+        // find project and board index
+        const projectIndx = state.projects.findIndex(
+          (project) => project.projectId === selectedProject
+        );
+        
+        const boardIndx = state.projects[projectIndx].projectBoards.findIndex(
+          (board) => board._id === boardId
+        );
+
+        // dispatch task to board
+        state.projects[projectIndx].projectBoards[boardIndx].tasks.push(
+          action.payload
+        );
+      })
+
+      // update board by delete task
+      .addCase(fetchDeleteTask.fulfilled, (state, action) => {
+        let selectedProject: string = "";
+        const boardId = action.payload.board;
+
+        // find project id
+        state.projects.forEach((project) => {
+          project.projectBoards.forEach((board) => {
+            board._id === boardId ? (selectedProject = project.projectId) : "";
+          });
+        });
+
+        // find project and board index
+        const projectIndx = state.projects.findIndex(
+          (project) => project.projectId === selectedProject
+        );
+        const boardIndx = state.projects[projectIndx].projectBoards.findIndex(
+          (board) => board._id === boardId
+        );
+
+        state.projects[projectIndx].projectBoards[boardIndx].tasks =
+          state.projects[projectIndx].projectBoards[boardIndx].tasks.filter(
+            (task) => task._id != action.payload._id
+          );
       });
   },
 });
