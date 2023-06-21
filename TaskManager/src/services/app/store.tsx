@@ -11,6 +11,11 @@ import {
   fetchBoards,
   setSelectedId,
   changeTaskPosition,
+  setSelectedBoardId,
+  setSelectedTaskdId,
+  addComment,
+  deleteComment,
+  updateComment,
 } from "../features/boards/boardSlice";
 import {
   fetchProjects,
@@ -31,6 +36,8 @@ import {
   removeWorkSpaceMember,
 } from "../features/workSpaceList/workSpacesSlice";
 import { updateUserById, resetUser } from "../features/user/userSlice";
+
+import { fetchUpdateTask } from "../features/tasks/taskSlice";
 
 const store = configureStore({
   reducer: {
@@ -55,7 +62,16 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 //! Export those imported actions here one by one
-export { fetchBoards, setSelectedId, changeTaskPosition };
+export {
+  fetchBoards,
+  setSelectedId,
+  changeTaskPosition,
+  setSelectedBoardId,
+  setSelectedTaskdId,
+  addComment,
+  deleteComment,
+  updateComment,
+};
 export { fetchProjects, setSelectedProject, resetProject };
 export { setDate, setRef };
 export {
@@ -71,3 +87,4 @@ export {
   removeWorkSpaceMember,
 };
 export { updateUserById, resetUser };
+export { fetchUpdateTask };

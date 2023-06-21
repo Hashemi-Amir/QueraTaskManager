@@ -26,8 +26,8 @@ const SideBar = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    workSpaces.length === 0 && dispatch(fetchAllWorkSpaces());
-  }, [dispatch, selectedSpace, workSpaces]);
+    !isSuccess && workSpaces.length === 0 && dispatch(fetchAllWorkSpaces());
+  }, [dispatch, selectedSpace, workSpaces, isSuccess]);
 
   const getSelectedWorkSpaces = workSpaces.filter((workSpace) => {
     return workSpace._id === selectedSpace;
@@ -56,9 +56,7 @@ const SideBar = () => {
           className="m-auto animate-spin"
         />
       )}
-      {isError && (
-        <div className="m-auto text-FB0606">{`${message}`}</div>
-      )}
+      {isError && <div className="m-auto text-FB0606">{`${message}`}</div>}
       {isSuccess && <WorkSpaceList workSpaces={workSpacesToRender} />}
       <Link className="w-fit" to="/personalinfo">
         <ProfileButton userName={user?.username} className="w-9 h-9 p-2" />

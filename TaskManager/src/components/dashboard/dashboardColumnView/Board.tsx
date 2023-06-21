@@ -11,7 +11,7 @@ type BoardProps = {
   tasks: Task[];
 };
 
-const Board = ({ title, number, tasks, borderColor,id }: BoardProps) => {
+const Board = ({ title, number, tasks, borderColor, id }: BoardProps) => {
   return (
     <Droppable droppableId={id}>
       {(provided) => (
@@ -23,19 +23,22 @@ const Board = ({ title, number, tasks, borderColor,id }: BoardProps) => {
           {/* Sticky Header */}
           <Header title={title} number={number} borderColor={borderColor} />
 
-          {tasks.map(({ name, description, _id, position,comments }) => (
-            <TaskCard
-              position={position}
-              key={_id}
-              name={name}
-              description={description}
-              _id={_id}
-              label={[]}
-              board={""}
-              taskAssigns={[]}
-              comments={comments}
-            />
-          ))}
+          {tasks.map(
+            ({ name, description, _id, position, comments, deadline }) => (
+              <TaskCard
+                position={position}
+                key={_id}
+                name={name}
+                description={description}
+                deadline={deadline}
+                _id={_id}
+                label={[]}
+                board={id}
+                taskAssigns={[]}
+                comments={comments}
+              />
+            )
+          )}
           {provided.placeholder}
           {/* Task Cards */}
         </div>

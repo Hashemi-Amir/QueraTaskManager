@@ -45,7 +45,7 @@ const Header = ({ projectName }: HeaderProps) => {
     if (marker.current && Location.pathname === "/calendarview") {
       indicator(calendarRef.current as EventTarget);
     }
-  }, []);
+  }, [Location.pathname]);
 
   return (
     <div className="sm:pt-1 xl:pt-4 flex-grow">
@@ -58,7 +58,7 @@ const Header = ({ projectName }: HeaderProps) => {
           <div className="flex items-center py-4 divide-x-2 relative">
             <div
               ref={marker}
-              className="absolute h-1 w-0 bg-208D8E -bottom-0 left-0 duration-500 rounded-lg"
+              className="absolute h-[3px] w-0 bg-208D8E -bottom-[2px] left-0 duration-500 rounded-lg"
             ></div>
             <NavLink
               ref={listRef}
