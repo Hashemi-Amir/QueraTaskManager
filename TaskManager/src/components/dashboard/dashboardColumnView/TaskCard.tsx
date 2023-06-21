@@ -4,6 +4,7 @@ import ProfileButton from "../../ui/ProfileButton";
 import { FiCheckCircle, FiFlag } from "react-icons/fi";
 import { BsThreeDots } from "react-icons/bs";
 import { Draggable } from "react-beautiful-dnd";
+import { Link } from "react-router-dom";
 
 type Task = {
   _id: string;
@@ -14,11 +15,11 @@ type Task = {
   // taskTags: string[];
   taskAssigns: string[];
   comments: string[];
-  position: number;
+  index: number;
   // deadline?: string;
 };
 
-const TaskCard = ({ name, description, _id, position,comments }: Task) => {
+const TaskCard = ({ name, description, _id, index, comments }: Task) => {
   const [isExpanded, setIsExpanded] = useState(false);
   // const [colMoreModal , setColMoreModal] = useState(false)
 
@@ -26,16 +27,14 @@ const TaskCard = ({ name, description, _id, position,comments }: Task) => {
     setIsExpanded(isHovering);
   };
 
-
-
   return (
-    <Draggable draggableId={_id} index={position - 1}>
+    <Draggable key={_id} draggableId={_id} index={index}>
       {(provided) => (
         <div
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          className={`border w-[250px] rounded p-3 bg-white text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3`}
+          className={`border w-[250px] rounded p-3 bg-white text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3 text-right`}
           onMouseOver={() => handleCardHover(true)}
           onMouseLeave={() => handleCardHover(false)}
         >
@@ -43,13 +42,14 @@ const TaskCard = ({ name, description, _id, position,comments }: Task) => {
             <div className="h-4 font-medium leading-4 text-right text-534D60 text-[10px]">
               {name}
             </div>
-
-            <ProfileButton
-              className={`w-6 h-6 pt-[3px] text-[10px] ${
-                isExpanded ? "visible" : "invisible"
-              }
-            `}
-            />
+            <Link className="w-fit" to="/personalinfo">
+              <ProfileButton
+                className={`w-6 h-6 pt-[3px] text-[10px] ${
+                  isExpanded ? "visible" : "invisible"
+                }
+              `}
+              />
+            </Link>
           </div>
           <div className="flex items-center justify-start mb-5 gap-1">
             <div className="font-medium text-xs text-0E0E0E leading-4 text-right">
