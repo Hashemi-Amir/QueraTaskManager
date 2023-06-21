@@ -4,7 +4,14 @@ import { AiOutlineClose } from "react-icons/ai";
 import CheckBoxColor from "../../ui/CheckBoxColor";
 import { useState } from "react";
 
-const TagMore = () => {
+type TagMorePosition = {
+  position : {
+    top?: number,
+    left?: number
+  }
+}
+
+const TagMore = ({position}:TagMorePosition) => {
   const [selectedColor, setSelectedColor] = useState({
     color: "bg-[#7D828C]",
     id: 0,
@@ -38,7 +45,9 @@ const TagMore = () => {
   ];
 
   return (
-    <ul className="w-28 bg-white relative border p-2 rounded-lg shadow-md">
+    <ul
+      style={{top:position.top,left:position.left}} 
+      className=" absolute w-28 bg-white  border p-2 rounded-lg shadow-md">
       <li className={liStyle}>
         <span className="text-xs text-[#1E1E1E] ml-2">
           <AiOutlineClose />

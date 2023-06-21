@@ -4,10 +4,23 @@ import workSpacesReducer from "../features/workSpaceList/workSpacesSlice";
 import authReducer from "../features/auth/authSlice";
 import projectReducer from "../features/projects/projectSlice";
 import boardReducer from "../features/boards/boardSlice";
+import taskReducer from "../features/tasks/taskSlice";
 
 //! We should first import our actions from our slices here, then export them at the bottom
-
-import { fetchBoards,createBoard, deleteBoard,editBoardName, resetPostBoard,setSelectedProjectId,changeTaskPosition } from "../features/boards/boardSlice";
+import {
+  resetTask,
+  fetchCreateTask,
+  fetchDeleteTask,
+} from '../features/tasks/taskSlice'
+import {
+  fetchBoards,
+  createBoard,
+  deleteBoard,
+  editBoardName,
+  resetPostBoard,
+  setSelectedProjectId,
+  changeTaskPosition,
+} from "../features/boards/boardSlice";
 import {
   fetchProjects,
   setSelectedProject,
@@ -17,7 +30,7 @@ import {
   deleteProject,
   editProjectName,
   addMemberToProject,
-  removeMemberThanProject
+  removeMemberThanProject,
 } from "../features/projects/projectSlice";
 import { setDate, setRef } from "../features/calendar/calendarSlice";
 import {
@@ -41,6 +54,7 @@ const store = configureStore({
     auth: authReducer,
     projects: projectReducer,
     boards: boardReducer,
+    tasks: taskReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -57,6 +71,13 @@ export type AppDispatch = typeof store.dispatch;
 
 //! Export those imported actions here one by one
 export {
+  resetTask,
+  fetchCreateTask,
+  fetchDeleteTask,
+}
+
+
+export {
   fetchProjects,
   resetProject,
   resetPostProject,
@@ -65,9 +86,17 @@ export {
   deleteProject,
   editProjectName,
   addMemberToProject,
-  removeMemberThanProject
+  removeMemberThanProject,
 };
-export { fetchBoards, createBoard ,deleteBoard,editBoardName,resetPostBoard,setSelectedProjectId,changeTaskPosition };
+export {
+  fetchBoards,
+  createBoard,
+  deleteBoard,
+  editBoardName,
+  resetPostBoard,
+  setSelectedProjectId,
+  changeTaskPosition,
+};
 export { setDate, setRef };
 export {
   setSelectedWorkSpaceHeader,

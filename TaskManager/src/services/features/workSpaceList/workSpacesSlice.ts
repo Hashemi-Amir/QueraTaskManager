@@ -4,6 +4,7 @@ import { createProject, deleteProject, editProjectName } from "../projects/proje
 
 
 type ProjectProps = {
+  boards: any;
   _id : string;
 }
 

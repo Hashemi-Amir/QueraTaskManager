@@ -5,7 +5,7 @@ import Modal from "../../../layout/Modal";
 import NewWorkspace from "../../modals/Medium/NewWorkspace";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { toast } from "react-toastify";
-import { resetPostBoard, resetPostProject, resetPostWorkspace } from "../../../services/app/store";
+import { resetPostBoard, resetPostProject, resetPostWorkspace, resetTask } from "../../../services/app/store";
 
 const NewSpace = () => {
   const [modalWorkSpace, setModalWorkSpace] = useState(false);
@@ -27,6 +27,13 @@ const NewSpace = () => {
     isSuccessPost : isSuccessBoard,
     messagePost : messageBoard,
   } = useAppSelector((state => state.boards));
+
+  const {
+    isError : isErrorTask,
+    isLoading : isLoadingTask,
+    isSuccess : isSuccessTask,
+    message : messageTask,
+  } = useAppSelector((state => state.tasks));
   useEffect(() => {
 
     // workSpace
@@ -64,6 +71,19 @@ const NewSpace = () => {
       dispatch(resetPostBoard());
     }
 
+
+    // task
+    if (isErrorTask) {
+      toast.dismiss();
+      toast.error(`${messageTask} ❗`);
+      dispatch(resetTask());
+    }
+    if (isSuccessTask && messageTask != "") {
+      toast.dismiss();
+      toast.success(`${messageTask}`, { rtl: true });
+      dispatch(resetTask());
+    }
+
   }, [
     dispatch,
     isErrorPost,
@@ -77,10 +97,13 @@ const NewSpace = () => {
     isErrorBoard,
     isLoadingBoard,
     isSuccessBoard,
-    messageBoard
+    messageBoard,
+    messageTask,
+    isSuccessTask,
+    isLoadingTask,
+    isErrorTask
   ]);
 
-  console.log();
   
   // new workspaace modal toggle
   const handleModalWorkSpace = () => setModalWorkSpace(!modalWorkSpace);
