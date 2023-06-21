@@ -3,11 +3,11 @@ import { BsThreeDots } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import {
   fetchBoards,
-  setSelectedId,
+  setSelectedProjectId,
 } from "../../../services/features/boards/boardSlice";
+import { setSelectedProject } from "../../../services/features/projects/projectSlice";
 import { createPortal } from "react-dom";
 import SideMore from "../../modals/Small/SideMore";
-import { setSelectedProject } from "../../../services/app/store";
 import { useLocation } from "react-router-dom";
 
 type Projects = {
@@ -17,7 +17,7 @@ type Projects = {
 function ProjectList({ projects }: Projects) {
   const dispatch = useAppDispatch();
   const Location = useLocation();
-  const { projects : projectState } = useAppSelector((state) => state.boards);
+  const { projects: projectState } = useAppSelector((state) => state.boards);
 
   const [projectMore, setProjectMore] = useState("");
   const [morePosition, setMorePosition] = useState<object>({
@@ -43,16 +43,12 @@ function ProjectList({ projects }: Projects) {
         <div
           className="pb-3 font-medium flex justify-between items-center cursor-pointer group/content"
           key={_id}
-          onClick={(event) => {
-            if (Location.pathname === "/columnview") {
-              const projectIndex = projectState.findIndex((project) => {
-                return project.projectId === _id;
-              });
-              if (projectIndex < 0) dispatch(fetchBoards(_id));
-            } else {
-              event.stopPropagation();
-            }
-            dispatch(setSelectedId(_id));
+          onClick={() => {
+            const projectIndex = projectState.findIndex((project) => {
+              return project.projectId === _id;
+            });
+            if (projectIndex < 0) dispatch(fetchBoards(_id));
+            dispatch(setSelectedProjectId(_id));
             dispatch(setSelectedProject(name));
           }}
         >
