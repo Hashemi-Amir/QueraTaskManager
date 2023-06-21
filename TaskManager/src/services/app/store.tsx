@@ -5,11 +5,21 @@ import authReducer from "../features/auth/authSlice";
 import projectReducer from "../features/projects/projectSlice";
 import boardReducer from "../features/boards/boardSlice";
 import userReducer from "../features/user/userSlice";
+import taskReducer from "../features/tasks/taskSlice";
 
 //! We should first import our actions from our slices here, then export them at the bottom
 import {
+  resetTask,
+  fetchCreateTask,
+  fetchDeleteTask,
+} from "../features/tasks/taskSlice";
+import {
   fetchBoards,
-  setSelectedId,
+  createBoard,
+  deleteBoard,
+  editBoardName,
+  resetPostBoard,
+  setSelectedProjectId,
   changeTaskPosition,
   setSelectedBoardId,
   setSelectedTaskdId,
@@ -21,6 +31,12 @@ import {
   fetchProjects,
   setSelectedProject,
   resetProject,
+  resetPostProject,
+  createProject,
+  deleteProject,
+  editProjectName,
+  addMemberToProject,
+  removeMemberThanProject,
 } from "../features/projects/projectSlice";
 import { setDate, setRef } from "../features/calendar/calendarSlice";
 import {
@@ -28,6 +44,7 @@ import {
   setSelectedWorkSpaceId,
   setSelectedSpace,
   resetWorkspaces,
+  resetPostWorkspace,
   fetchAllWorkSpaces,
   createWorkSpace,
   deleteWorkSpace,
@@ -46,6 +63,7 @@ const store = configureStore({
     auth: authReducer,
     projects: projectReducer,
     boards: boardReducer,
+    tasks: taskReducer,
     user: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -62,9 +80,26 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 //! Export those imported actions here one by one
+export { resetTask, fetchCreateTask, fetchDeleteTask };
+
+export {
+  fetchProjects,
+  resetProject,
+  resetPostProject,
+  setSelectedProject,
+  createProject,
+  deleteProject,
+  editProjectName,
+  addMemberToProject,
+  removeMemberThanProject,
+};
 export {
   fetchBoards,
-  setSelectedId,
+  createBoard,
+  deleteBoard,
+  editBoardName,
+  resetPostBoard,
+  setSelectedProjectId,
   changeTaskPosition,
   setSelectedBoardId,
   setSelectedTaskdId,
@@ -72,13 +107,13 @@ export {
   deleteComment,
   updateComment,
 };
-export { fetchProjects, setSelectedProject, resetProject };
 export { setDate, setRef };
 export {
   setSelectedWorkSpaceHeader,
   setSelectedWorkSpaceId,
   setSelectedSpace,
   resetWorkspaces,
+  resetPostWorkspace,
   fetchAllWorkSpaces,
   createWorkSpace,
   deleteWorkSpace,

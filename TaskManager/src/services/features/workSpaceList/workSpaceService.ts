@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import AXIOS from "../utils/AXIOS";
 const API_URL = "/api/workspace/";
 
@@ -15,19 +14,13 @@ const fetchWorkSpaceById = async (id: string) => {
 const createWorkSpace = async (nameWorkspace: string) => {
   const formData = { name: nameWorkspace };
   const response = await AXIOS.post(API_URL + "create", formData);
+  console.log(response);
   
-  if (response.data) {
-    toast.success("ورک اسپیس ساخته شد :)");
-    console.log(response.data);
-    return response.data;
-  } else {
-    toast.error("مشکلی پیش اومده !");
-  }
+  return response.data;
 };
 
 const deleteWorkSpace = async (id: string) => {
   const response = await AXIOS.delete(API_URL + id);  
-  response.data ? toast("ورک اسپیس پاک شد") : toast.error("مشکلی پیش اومده !")
   return response.data;
 };
 
@@ -38,26 +31,25 @@ const updateWorkSpace = async (data:(string | undefined)[]) => {
     usernameOrId: username,
     image: "image url",
   };
-  const response = await AXIOS.patch(API_URL + id, formData);
-  response.data ?  toast.success("نام ورک اسپیس تغییر یافت") : toast.error("مشکلی پیش اومده !")
+  
+  const response = await AXIOS.patch(API_URL + id, formData);  
   return response.data;
 };
 
-const addWorkSpaceMember = async (workID: string) => {
+const addWorkSpaceMember = async (workID: (string | undefined)[] ) => {  
   const [workSpaceId, userNameOrId] = [...workID];
-  console.log(workSpaceId, userNameOrId);
-
-  const us = `${workSpaceId}/members/${userNameOrId}`;
-  const response = await AXIOS.put(API_URL + us, "_");
+  const url = `${workSpaceId}/members/${userNameOrId}`;
+  const response = await AXIOS.put(API_URL + url, "_");
   console.log(response);
+  
   return response.data;
 };
 
-const removeWorkSpaceMember = async (workID: string) => {
+const removeWorkSpaceMember = async (workID: (string | undefined)[]) => {
   const [workSpaceId, userNameOrId] = [...workID];
 
-  const us = `${workSpaceId}/members/${userNameOrId}`;
-  const response = await AXIOS.delete(API_URL + us);
+  const url = `${workSpaceId}/members/${userNameOrId}`;
+  const response = await AXIOS.delete(API_URL + url);
   console.log(response);
   return response.data;
 };

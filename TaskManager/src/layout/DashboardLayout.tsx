@@ -7,16 +7,74 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import Modal from "./Modal";
 import AddNewTask from "../components/modals/Large/AddNewTask";
-import { useAppSelector } from "../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../services/app/hook";
+import CloseIcon from "../components/ui/Close";
+import SelectBoard from "../components/modals/Medium/SelectBoard";
+import { fetchCreateTask } from "../services/app/store";
+
+type BoardType = {
+  _id: string;
+  name: string;
+};
+
+type BoardsState = {
+  boardList: BoardType[];
+  boardStep: string;
+  boardId: string;
+};
 
 const DashboardLayout = () => {
   const [newTaskModal, setNewTaskModal] = useState(false);
+  const [boards, setBoards] = useState<BoardsState>({
+    boardList: [],
+    boardStep: "select",
+    boardId: "",
+  });
   const Location = useLocation();
-  const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
+  const dispatch = useAppDispatch();
   const { selectedProject } = useAppSelector((state) => state.projects);
   const { selectedWorkSpaceHeader } = useAppSelector(
     (state) => state.workSpaces
   );
+
+  const { projects, selectedProjectId } = useAppSelector(
+    (state) => state.boards
+  );
+
+  // handle modal new task and get boards
+  const handleNewTaskModal = () => {
+    if (projects.length > 0) {
+      const projectIndex = projects.findIndex(
+        (project) => project.projectId === selectedProjectId
+      );
+      const allBoards: BoardType[] = projects[projectIndex].projectBoards.map(
+        (board) => board
+      );
+      setBoards({ ...boards, boardList: allBoards });
+    }
+
+    // toggle new task modal
+    setNewTaskModal(!newTaskModal);
+  };
+
+  // handle selected board id and modal step
+  const handleSelectBoardList = (boardId: string) => {
+    setBoards({ ...boards, boardStep: "new", boardId: boardId });
+  };
+
+  // handle add new task with dispatch redux toolkit
+  const handleDispatchNewTask = (data: (string | undefined)[]) => {
+    data.push(boards.boardId);
+    const [name, description, boardId] = [...data];
+    const formData = {
+      name,
+      description,
+      boardId,
+      deadline: "2023-05-16T12:52:24.483+00:00",
+    };
+    dispatch(fetchCreateTask(formData));
+    setNewTaskModal(false);
+  };
 
   const colors = [
     "bg-F92E8F",
@@ -78,9 +136,8 @@ const DashboardLayout = () => {
               : selectedWorkSpaceHeader
           }
         />
-
         {/* Without Classes for calander view */}
-        <div className={`${WraperClasses}`}>
+        <div className={`${WraperClasses} relative`}>
           <Outlet />
         </div>
       </div>
@@ -98,10 +155,46 @@ const DashboardLayout = () => {
         </Button>
       </div>
 
+      {/* handle modal new task */}
       {newTaskModal &&
         createPortal(
           <Modal>
-            <AddNewTask handleNewTaskModal={handleNewTaskModal} />
+            {projects.length > 0 ? (
+              <>
+                {boards.boardStep === "select" ? (
+                  <SelectBoard
+                    boardList={boards.boardList}
+                    handleAllSideMoreModals={handleNewTaskModal}
+                    handleSelectBoardList={handleSelectBoardList}
+                  />
+                ) : (
+                  <AddNewTask
+                    handleAddNewTask={handleDispatchNewTask}
+                    handleNewTaskModal={handleNewTaskModal}
+                  />
+                )}
+              </>
+            ) : (
+              <div className="modal-box w-3/4 max-w-lgl">
+                <div className="w-full flex justify-between items-center">
+                  <label
+                    htmlFor="my-modal-3"
+                    className="text-323232 cursor-pointer"
+                    onClick={() => handleNewTaskModal()}
+                  >
+                    <CloseIcon />
+                  </label>
+
+                  <div className="font-semibold text-2xl text-black"></div>
+
+                  <span></span>
+                </div>
+                <div className="font-semibold flex flex-col text-black text-center ">
+                  <span className="text-2xl">پروژه ای پیدا نشد !</span>
+                  <span className="pt-5 text-sm "> یه پروژه انتخاب کن</span>
+                </div>
+              </div>
+            )}
           </Modal>,
           document.body
         )}

@@ -3,6 +3,7 @@ import AXIOS from "../utils/AXIOS";
 import boardService from "./boardService";
 import { commentType } from "../../../components/dashboard/dashboardColumnView/TaskCard";
 import { fetchUpdateTask } from "../tasks/taskSlice";
+import { fetchCreateTask, fetchDeleteTask } from "../tasks/taskSlice";
 
 export type Task = {
   _id: string;
@@ -51,8 +52,13 @@ type initialStateType = {
   selectedId: string;
   selectedBoardId: string;
   selectedTaskdId: string;
+  selectedProjectId: string;
   projects: ProjectType[];
   test: any;
+  isLoadingPost: boolean;
+  isSuccessPost: boolean;
+  isErrorPost: boolean;
+  messagePost: unknown;
 };
 
 // boards (boardsState) => projects => projectBoards => boards => board => tasks
@@ -84,8 +90,13 @@ const initialState: initialStateType = {
   selectedId: "",
   selectedBoardId: "",
   selectedTaskdId: "",
+  selectedProjectId: "",
   projects: [],
   test: [],
+  isLoadingPost: false,
+  isSuccessPost: false,
+  isErrorPost: false,
+  messagePost: "",
 };
 
 // fetchBoards
@@ -96,6 +107,20 @@ const fetchBoards = createAsyncThunk(
       const response = await AXIOS.get(`/api/board/${id}`);
       const data = await response.data;
       return data;
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// create Board
+const createBoard = createAsyncThunk(
+  "Boards/createBoard",
+  async (data: (string | undefined)[], thunkAPI) => {
+    try {
+      return await boardService.createBoard(data);
     } catch (error: any) {
       const message =
         error?.response?.data?.message || error.message || error.toString();
@@ -136,6 +161,7 @@ const deleteComment = createAsyncThunk(
     }
   }
 );
+
 // Update comment
 export type updateCommentDataType = {
   text: string;
@@ -155,12 +181,40 @@ const updateComment = createAsyncThunk(
   }
 );
 
+// delete Board
+const deleteBoard = createAsyncThunk(
+  "Boards/deleteBoard",
+  async (id: string, thunkAPI) => {
+    try {
+      return await boardService.deleteBoard(id);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// rename board
+const editBoardName = createAsyncThunk(
+  "Boards/editBoardName",
+  async (data: (string | undefined)[], thunkAPI) => {
+    try {
+      return await boardService.editBoardName(data);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const boardsSlice = createSlice({
   name: "Boards",
   initialState,
   reducers: {
-    setSelectedId: (state, action) => {
-      state.selectedId = action.payload;
+    setSelectedProjectId: (state, action) => {
+      state.selectedProjectId = action.payload;
     },
     setSelectedBoardId: (state, action) => {
       state.selectedBoardId = action.payload;
@@ -172,12 +226,12 @@ const boardsSlice = createSlice({
     changeTaskPosition: (state, action) => {
       // Find the project that is currently active
       const activeProject = state.projects.find((project) => {
-        return project.projectId == state.selectedId;
+        return project.projectId == state.selectedProjectId;
       });
 
       // Find the index of the active project in the list of projects
       const activeProjectIndex = state.projects.findIndex((project) => {
-        return project.projectId == state.selectedId;
+        return project.projectId == state.selectedProjectId;
       });
 
       // Find the board where the task has been dropped
@@ -236,6 +290,13 @@ const boardsSlice = createSlice({
       state.deleteCommentIsError = false;
       state.deleteCommentMessage = "";
     },
+
+    resetPostBoard: (state) => {
+      state.isLoadingPost = false;
+      state.isSuccessPost = false;
+      state.isErrorPost = false;
+      state.messagePost = "";
+    },
   },
 
   extraReducers: (builder) => {
@@ -285,16 +346,6 @@ const boardsSlice = createSlice({
             ?.projectBoards.find((board) => board._id === state.selectedBoardId)
             ?.tasks.find((task) => task._id === state.selectedTaskdId)
             ?.comments.push(action.payload);
-
-          // console.log(
-          //   state.projects
-          //     .find((project) => project.projectId === state.selectedId)
-          //     ?.projectBoards.find(
-          //       (board) => board._id === state.selectedBoardId
-          //     )
-          //     ?.tasks.find((task) => task._id === state.selectedTaskdId)
-          //     ?.comments.push(action.payload)
-          // );
         }
       )
       .addCase(addComment.rejected, (state, action) => {
@@ -365,25 +416,156 @@ const boardsSlice = createSlice({
               task.description = action.payload.description;
             }
           });
+      })
+      // create board
+      .addCase(createBoard.pending, (state) => {
+        state.isLoadingPost = true;
+        state.isSuccessPost = false;
+      })
+      .addCase(createBoard.fulfilled, (state, action) => {
+        state.isLoadingPost = false;
+        // find project
+        const selectedProject = action.payload.project;
+        const index = state.projects.findIndex((project) => {
+          return project.projectId === selectedProject;
+        });
 
-        console.log(
-          state.projects
-            .find((project) => project.projectId === state.selectedId)
-            ?.projectBoards.find((board) => board._id === state.selectedBoardId)
-            ?.tasks.map((task) =>
-              task._id === state.selectedTaskdId ? action.payload : task
-            )
+        state.projects[index].projectBoards.push(action.payload);
+        state.isSuccessPost = true;
+        state.messagePost = "برد ساخته شد :)";
+      })
+      .addCase(createBoard.rejected, (state, action) => {
+        state.isLoadingPost = false;
+        state.isSuccessPost = false;
+        state.isErrorPost = true;
+        state.messagePost = action.payload;
+      })
+
+      // delete board
+      .addCase(deleteBoard.pending, (state) => {
+        state.isLoadingPost = true;
+        state.isSuccessPost = false;
+      })
+      .addCase(deleteBoard.fulfilled, (state, action) => {
+        state.isLoadingPost = false;
+        // find project
+        const selectedProject = action.payload.project;
+        const index = state.projects.findIndex((project) => {
+          return project.projectId === selectedProject;
+        });
+        state.projects[index].projectBoards = state.projects[
+          index
+        ].projectBoards.filter((board) => board._id != action.payload._id);
+        state.isSuccessPost = true;
+        state.messagePost = "برد حذف شد";
+      })
+      .addCase(deleteBoard.rejected, (state, action) => {
+        state.isLoadingPost = false;
+        state.isSuccessPost = false;
+        state.isErrorPost = true;
+        state.messagePost = action.payload;
+      })
+
+      // rename board
+      .addCase(editBoardName.pending, (state) => {
+        state.isLoadingPost = true;
+        state.isSuccessPost = false;
+      })
+      .addCase(editBoardName.fulfilled, (state, action) => {
+        state.isLoadingPost = false;
+        // find project
+        const selectedProject = action.payload.project;
+        const index = state.projects.findIndex((project) => {
+          return project.projectId === selectedProject;
+        });
+
+        state.projects[index].projectBoards = state.projects[
+          index
+        ].projectBoards.map((board) => {
+          return board._id === action.payload._id
+            ? { ...board, name: action.payload.name }
+            : board;
+        });
+        state.isSuccessPost = true;
+      })
+      .addCase(editBoardName.rejected, (state, action) => {
+        state.isLoadingPost = false;
+        state.isSuccessPost = false;
+        state.isErrorPost = true;
+        state.messagePost = action.payload;
+      })
+
+      // update board by create task
+      .addCase(fetchCreateTask.fulfilled, (state, action) => {
+        let selectedProject = "";
+        const boardId = action.payload.board;
+
+        // find project id
+        state.projects.forEach((project) => {
+          project.projectBoards.forEach((board) => {
+            board._id === boardId ? (selectedProject = project.projectId) : "";
+          });
+        });
+
+        // find project and board index
+        const projectIndx = state.projects.findIndex(
+          (project) => project.projectId === selectedProject
         );
+
+        const boardIndx = state.projects[projectIndx].projectBoards.findIndex(
+          (board) => board._id === boardId
+        );
+
+        // dispatch task to board
+        state.projects[projectIndx].projectBoards[boardIndx].tasks.push(
+          action.payload
+        );
+      })
+
+      // update board by delete task
+      .addCase(fetchDeleteTask.fulfilled, (state, action) => {
+        let selectedProject = "";
+        const boardId = action.payload.board;
+
+        // find project id
+        state.projects.forEach((project) => {
+          project.projectBoards.forEach((board) => {
+            board._id === boardId ? (selectedProject = project.projectId) : "";
+          });
+        });
+
+        // find project and board index
+        const projectIndx = state.projects.findIndex(
+          (project) => project.projectId === selectedProject
+        );
+        const boardIndx = state.projects[projectIndx].projectBoards.findIndex(
+          (board) => board._id === boardId
+        );
+
+        state.projects[projectIndx].projectBoards[boardIndx].tasks =
+          state.projects[projectIndx].projectBoards[boardIndx].tasks.filter(
+            (task) => task._id != action.payload._id
+          );
       });
   },
 });
 
 export default boardsSlice.reducer;
+
+export {
+  fetchBoards,
+  addComment,
+  deleteComment,
+  updateComment,
+  createBoard,
+  deleteBoard,
+  editBoardName,
+};
 export const {
-  setSelectedId,
+  setSelectedProjectId,
   changeTaskPosition,
+  resetPostBoard,
   setSelectedBoardId,
   setSelectedTaskdId,
   resetComment,
 } = boardsSlice.actions;
-export { fetchBoards, addComment, deleteComment, updateComment };

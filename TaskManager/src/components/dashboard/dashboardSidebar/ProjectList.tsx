@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { deleteProject } from "../../../services/app/store";
+
 import {
-  fetchBoards,
-  setSelectedId,
-} from "../../../services/features/boards/boardSlice";
+  fetchBoards, setSelectedProjectId
+} from "../../../services/app/store";
 import { createPortal } from "react-dom";
 import SideMore from "../../modals/Small/SideMore";
 import { setSelectedProject } from "../../../services/app/store";
@@ -14,29 +15,40 @@ type Projects = {
   projects: [];
 };
 
+
+
 function ProjectList({ projects }: Projects) {
   const dispatch = useAppDispatch();
   const Location = useLocation();
-  const { projects : projectState } = useAppSelector((state) => state.boards);
+  const { projects: projectState } = useAppSelector((state) => state.boards);
 
-  const [projectMore, setProjectMore] = useState("");
+  const [projectMore, setprojectMore] = useState<string | undefined>('');
   const [morePosition, setMorePosition] = useState<object>({
     top: 0,
     left: 0,
   });
+
+  // open or close modal toggle
   const handleItemClick = (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
-    item: string
+    e?: React.MouseEvent<HTMLElement, MouseEvent>,
+    id?: string | undefined
   ) => {
-    if (projectMore === null) {
-      const top = `${e.clientY}px`;
-      const left = `${e.clientX}px`;
+    if (projectMore === "") {
+      const top = `${e?.clientY}px`;
+      const left = `${e?.clientX}px`;
       setMorePosition({ ...morePosition, top: top, left: left });
-      setProjectMore(item);
+      setprojectMore(id);
     } else {
-      setProjectMore("");
+      setprojectMore('');
     }
   };
+
+  // handle delete project
+  const handleDeleteProject = () => {
+    projectMore && dispatch(deleteProject(projectMore));
+    handleItemClick()
+  };
+
   return (
     <>
       {projects.map(({ _id, name }) => (
@@ -44,24 +56,24 @@ function ProjectList({ projects }: Projects) {
           className="pb-3 font-medium flex justify-between items-center cursor-pointer group/content"
           key={_id}
           onClick={(event) => {
-            if (Location.pathname === "/columnview") {
+            
               const projectIndex = projectState.findIndex((project) => {
                 return project.projectId === _id;
               });
               if (projectIndex < 0) dispatch(fetchBoards(_id));
-            } else {
-              event.stopPropagation();
-            }
-            dispatch(setSelectedId(_id));
-            dispatch(setSelectedProject(name));
+            //  else {
+            //   event.stopPropagation();
+            // }
+              dispatch(setSelectedProjectId(_id));
+              dispatch(setSelectedProject(name));
           }}
         >
           {name}
           <span
             className=" left-2 p-3 cursor-pointer hidden group-hover/content:block z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-              handleItemClick(e, name);
-              e.stopPropagation();
+              handleItemClick(e , _id);
+              // e.stopPropagation();
             }}
           >
             <BsThreeDots />
@@ -71,7 +83,13 @@ function ProjectList({ projects }: Projects) {
 
       {projectMore &&
         createPortal(
-          <SideMore sideMoreState="تسک" morePosition={morePosition} />,
+          <SideMore
+            sideMoreState="تسک"
+            morePosition={morePosition}
+            handleDelete={handleDeleteProject}
+            id={projectMore}
+            handleItemClick={handleItemClick}
+          />,
           document.body
         )}
     </>

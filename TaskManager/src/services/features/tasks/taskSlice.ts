@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import taskService from "./taskService";
 
-type createTast = {
+export type createTask = {
   name: string | undefined;
   description: string | undefined;
-  boardId: string;
+  boardId: string | undefined;
+  deadline: string;
 };
 
 type initialStateType = {
@@ -24,7 +25,7 @@ const initialState: initialStateType = {
 // create task
 const fetchCreateTask = createAsyncThunk(
   "Tasks/fetchCreateTask",
-  async (data: createTast, thunkAPI) => {
+  async (data: createTask, thunkAPI) => {
     try {
       return await taskService.fetchCreateTask(data);
     } catch (error: any) {

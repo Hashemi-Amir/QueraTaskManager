@@ -2,10 +2,12 @@ import { useState } from "react";
 import { CiTextAlignRight } from "react-icons/ci";
 import ProfileButton from "../../ui/ProfileButton";
 import { FiCheckCircle, FiFlag } from "react-icons/fi";
-import { BsThreeDots } from "react-icons/bs";
+import { BsThreeDots, BsTrash } from "react-icons/bs";
 import { Draggable } from "react-beautiful-dnd";
 import TaskInfo from "../../taskInformation/TaskInfo";
 import { createPortal } from "react-dom";
+import { useAppDispatch } from "../../../services/app/hook";
+import { fetchDeleteTask } from "../../../services/app/store";
 
 export type commentType = {
   _id: string; // comment _id
@@ -61,8 +63,13 @@ const TaskCard = ({
   };
   // const [colMoreModal , setColMoreModal] = useState(false)
 
+  const dispatch = useAppDispatch();
   const handleCardHover = (isHovering: boolean) => {
     setIsExpanded(isHovering);
+  };
+
+  const handleDeleteTask = () => {
+    dispatch(fetchDeleteTask(_id));
   };
 
   return (
@@ -131,8 +138,8 @@ const TaskCard = ({
               <div className="hover:text-208D8E hover:scale-110">
                 <FiCheckCircle />
               </div>
-              <div className="hover:scale-110">
-                <BsThreeDots />
+              <div className="hover:scale-110" onClick={handleDeleteTask}>
+                <BsTrash />
 
                 {/* {colMoreModal && <ColMore />} */}
               </div>

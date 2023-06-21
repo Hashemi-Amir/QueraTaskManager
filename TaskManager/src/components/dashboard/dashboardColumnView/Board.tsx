@@ -21,7 +21,12 @@ const Board = ({ title, number, tasks, borderColor, id }: BoardProps) => {
           ref={provided.innerRef}
         >
           {/* Sticky Header */}
-          <Header title={title} number={number} borderColor={borderColor} />
+          <Header
+            title={title}
+            number={number}
+            borderColor={borderColor}
+            id={id}
+          />
 
           {tasks.map(
             ({ name, description, _id, position, comments, deadline }) => (
