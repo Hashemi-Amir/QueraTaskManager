@@ -49,7 +49,6 @@ type initialStateType = {
   deleteCommentIsError: boolean;
   deleteCommentMessage: unknown;
 
-  selectedId: string;
   selectedBoardId: string;
   selectedTaskdId: string;
   selectedProjectId: string;
@@ -87,7 +86,6 @@ const initialState: initialStateType = {
   deleteCommentIsError: false,
   deleteCommentMessage: "",
 
-  selectedId: "",
   selectedBoardId: "",
   selectedTaskdId: "",
   selectedProjectId: "",
@@ -342,7 +340,7 @@ const boardsSlice = createSlice({
           state.addCommentIsSuccess = true;
 
           state.projects
-            .find((project) => project.projectId === state.selectedId)
+            .find((project) => project.projectId === state.selectedProjectId)
             ?.projectBoards.find((board) => board._id === state.selectedBoardId)
             ?.tasks.find((task) => task._id === state.selectedTaskdId)
             ?.comments.push(action.payload);
@@ -363,7 +361,7 @@ const boardsSlice = createSlice({
         console.log(action);
 
         const curCommentArr = state.projects
-          .find((project) => project.projectId === state.selectedId)
+          .find((project) => project.projectId === state.selectedProjectId)
           ?.projectBoards.find((board) => board._id === state.selectedBoardId)
           ?.tasks.find((task) => task._id === state.selectedTaskdId)?.comments;
 
@@ -390,7 +388,7 @@ const boardsSlice = createSlice({
           state.editingCommentIsSuccess = true;
 
           state.projects
-            .find((project) => project.projectId === state.selectedId)
+            .find((project) => project.projectId === state.selectedProjectId)
             ?.projectBoards.find((board) => board._id === state.selectedBoardId)
             ?.tasks.find((task) => task._id === state.selectedTaskdId)
             ?.comments.map((comment) => {
@@ -407,7 +405,7 @@ const boardsSlice = createSlice({
       .addCase(fetchUpdateTask.fulfilled, (state, action) => {
         console.log(action.payload);
         state.projects
-          .find((project) => project.projectId === state.selectedId)
+          .find((project) => project.projectId === state.selectedProjectId)
           ?.projectBoards.find((board) => board._id === state.selectedBoardId)
           ?.tasks.map((task) => {
             if (task._id === state.selectedTaskdId) {
