@@ -7,7 +7,7 @@ import { BsCalendar4 } from "react-icons/bs";
 import "./customCalendar.css";
 
 type QuckCalendarProps = {
-  handleCalendar: () => void;
+  handleCalendar: (modalState:boolean) => void;
 };
 
 const QuckCalendar = ({ handleCalendar }: QuckCalendarProps) => {
@@ -32,7 +32,8 @@ const QuckCalendar = ({ handleCalendar }: QuckCalendarProps) => {
   const handleCal = (date: any) => {
     let fDay = date[0].day;
     let lDay = date[1]?.day;
-
+    console.log(date[1]?.format('YYYY-MM-DDTHH:mm:ss'));
+    
     setValue(date);
     setCal({ ...cal, startDay: fDay, endDay: lDay });
   };
@@ -81,7 +82,7 @@ const QuckCalendar = ({ handleCalendar }: QuckCalendarProps) => {
             <div className="w-32 h-8">
               <label
                 htmlFor="my-modal"
-                onClick={() => handleCalendar()}
+                onClick={() => handleCalendar(false)}
                 className="w-full h-10 p-2.5 text-sm font-bold leading-4 cursor-pointer flex justify-center items-center text-white rounded-md bg-208D8E"
               >
                 بستن

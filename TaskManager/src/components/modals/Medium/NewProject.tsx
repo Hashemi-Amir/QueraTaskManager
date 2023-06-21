@@ -8,7 +8,7 @@ import { createProject } from "../../../services/app/store";
 type projectProps = {
   handleAllSideMoreModals: (modalName:string) => void;
   id? : string,
-  handleItemClick : () => void
+  handleItemClick : () => void,
 };
 
 const NewProject = ({ handleAllSideMoreModals , id ,handleItemClick}: projectProps) => {
@@ -28,6 +28,7 @@ const NewProject = ({ handleAllSideMoreModals , id ,handleItemClick}: projectPro
     }
     
   }
+
 
   return (
     <div className="modal-box w-3/4 max-w-lgl">

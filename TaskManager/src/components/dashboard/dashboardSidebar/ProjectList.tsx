@@ -56,16 +56,16 @@ function ProjectList({ projects }: Projects) {
           className="pb-3 font-medium flex justify-between items-center cursor-pointer group/content"
           key={_id}
           onClick={(event) => {
-            if (Location.pathname === "/columnview") {
+            
               const projectIndex = projectState.findIndex((project) => {
                 return project.projectId === _id;
               });
               if (projectIndex < 0) dispatch(fetchBoards(_id));
-            } else {
-              event.stopPropagation();
-            }
-            dispatch(setSelectedProjectId(_id));
-            dispatch(setSelectedProject(name));
+            //  else {
+            //   event.stopPropagation();
+            // }
+              dispatch(setSelectedProjectId(_id));
+              dispatch(setSelectedProject(name));
           }}
         >
           {name}
@@ -73,7 +73,7 @@ function ProjectList({ projects }: Projects) {
             className=" left-2 p-3 cursor-pointer hidden group-hover/content:block z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
               handleItemClick(e , _id);
-              e.stopPropagation();
+              // e.stopPropagation();
             }}
           >
             <BsThreeDots />
