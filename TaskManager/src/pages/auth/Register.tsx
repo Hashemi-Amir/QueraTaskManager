@@ -14,6 +14,7 @@ import {
   register as registerUser,
   reset,
 } from "../../services/features/auth/authSlice";
+import { ImSpinner2 } from "react-icons/im";
 
 const Register = () => {
   const {
@@ -28,8 +29,6 @@ const Register = () => {
   const errorInputStyle = "border-FB0606";
 
   const Navigate = useNavigate();
-
-  // Redux Toolkit codes
   const dispatch = useAppDispatch();
   const { isSuccess, isLoading, isError, message } = useAppSelector(
     (state) => state.auth
@@ -38,16 +37,18 @@ const Register = () => {
   useEffect(() => {
     if (isError) {
       toast.dismiss();
-      toast.error(`${message} ❗`);
+      toast.error(`${message}`);
       dispatch(reset());
     }
     if (isSuccess) {
       toast.dismiss();
-      toast(`${message} 🎉`, { autoClose: 1000 });
+      toast.success(`ثبت نام با موفقیت انجام شد 🎉`, {
+        autoClose: 1000,
+        rtl: true,
+      });
       Navigate("/login");
       dispatch(reset());
     }
-    isLoading && toast("Registering ⏳");
   }, [isSuccess, isError, message, isLoading, Navigate, dispatch]);
 
   const onSubmit = (data: FieldValues) => {
@@ -58,7 +59,6 @@ const Register = () => {
         password: data.password,
       })
     );
-    console.log(data);
   };
 
   return (
@@ -118,7 +118,16 @@ const Register = () => {
           register={register}
           className={errors.checkbox && "text-FC0733"}
         />
-        <Button disabled={isLoading} value="ثبت نام" />
+        <div className=" relative">
+          <Button disabled={isLoading} value="ثبت نام" />
+          {isLoading && (
+            <ImSpinner2
+              size="2rem"
+              color="white"
+              className="m-auto animate-spin absolute left-[47%] bottom-1 "
+            />
+          )}
+        </div>
       </form>
     </Card>
   );

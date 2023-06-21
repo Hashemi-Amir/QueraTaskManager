@@ -2,27 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authServie from "./authService";
 import { FieldValues } from "../../../pages/auth/Register";
 
-// type User = {
-//   message: string;
-//   code: number;
-//   error: boolean;
-//   data: {
-//     username: string;
-//     firstname: string;
-//     lastname: string;
-//     email: string;
-//     profile_url: string;
-//     phone: string;
-//     workspaces: [];
-//     workspaceMember: [];
-//     taskAssignees: [];
-//     comments: [];
-//     settings: [];
-//     projectMember: [];
-//     _id: string;
-//   };
-// };
-
 type User = {
   _id: string;
   username: string;
@@ -38,9 +17,6 @@ type initialStateType = {
   isSuccess: boolean;
   message: unknown;
 };
-
-// const token = localStorage.getItem("authToken");
-// authToken: token ? JSON.parse(token) : null,
 
 const initialState: initialStateType = {
   user: JSON.parse(localStorage.getItem("user") as string) || null,
@@ -116,6 +92,10 @@ const authSlice = createSlice({
     authTokenUpdate: (state, action) => {
       state.authToken = action.payload;
     },
+    // Update user
+    updateUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -169,5 +149,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { reset, logOut, authTokenUpdate } = authSlice.actions;
+export const { reset, logOut, authTokenUpdate, updateUser } = authSlice.actions;
 export default authSlice.reducer;

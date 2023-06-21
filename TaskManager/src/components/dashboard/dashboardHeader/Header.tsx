@@ -36,6 +36,9 @@ const Header = ({ projectName }: HeaderProps) => {
     if (marker.current && Location.pathname === "/listview") {
       indicator(listRef.current as EventTarget);
     }
+    if (marker.current && Location.pathname === "/") {
+      indicator(listRef.current as EventTarget);
+    }
     if (marker.current && Location.pathname === "/columnview") {
       indicator(columnRef.current as EventTarget);
     }

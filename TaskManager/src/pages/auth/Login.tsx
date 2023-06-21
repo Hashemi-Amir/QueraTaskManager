@@ -13,6 +13,7 @@ import {
   login as loginUser,
   reset,
 } from "../../services/features/auth/authSlice";
+import { ImSpinner2 } from "react-icons/im";
 
 const Login = () => {
   const {
@@ -23,7 +24,6 @@ const Login = () => {
     resolver: yupResolver(Schema.login),
   });
 
-  // Redux Toolkit codes
   const Navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
@@ -39,10 +39,9 @@ const Login = () => {
     }
     if (isSuccess) {
       toast.dismiss();
-      toast(`${message}🎉`, { autoClose: 1000 });
+      toast.success(` خوش آمدید 🎉`, { autoClose: 2000, rtl: true });
       dispatch(reset());
     }
-    isLoading && toast(`در حال ورود به حساب ⏳`, { rtl: true });
 
     const redirect = searchParams.has("redirect")
       ? searchParams.get("redirect")
@@ -99,14 +98,16 @@ const Login = () => {
           </Link>
         </div>
 
-        <Button
-          disabled={isLoading}
-          type="submit"
-          value="ورود"
-          onClick={() => {
-            console.log("Clicked");
-          }}
-        />
+        <div className="relative">
+          <Button disabled={isLoading} type="submit" value="ورود" />
+          {isLoading && (
+            <ImSpinner2
+              size="2rem"
+              color="white"
+              className="m-auto animate-spin absolute left-[47%] bottom-1 "
+            />
+          )}
+        </div>
         <div className="text-center text-base mt-5">
           <span>ثبت نام نکرده‌ای؟</span>
           <Link to={"/register"} className="font-bold text-208D8E mr-2">

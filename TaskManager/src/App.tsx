@@ -15,6 +15,7 @@ import ProfileLayout from "./layout/ProfileLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Protected from "./routes/Protected";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
@@ -86,6 +87,7 @@ function App() {
             }
           />
         </Route>
+        <Route path="*" element={<PageNotFound />}></Route>
       </Routes>
       <ToastContainer />
     </>
