@@ -1,14 +1,34 @@
 import Input from "../../ui/Input";
 import Button from "../../ui/Button";
-import { useState } from "react";
 import CloseIcon from "../../ui/Close";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { createProject } from "../../../services/app/store";
+
 
 type projectProps = {
-  handleModalProject: () => void;
+  handleAllSideMoreModals: (modalName:string) => void;
+  id? : string,
+  handleItemClick : () => void,
 };
 
-const NewProject = ({ handleModalProject }: projectProps) => {
-  const [projectName, setprojectName] = useState("");
+const NewProject = ({ handleAllSideMoreModals , id ,handleItemClick}: projectProps) => {
+
+  const dispatch = useAppDispatch();
+  const {isLoadingPost} = useAppSelector(state => state.projects)
+  
+
+
+  const handleNewProject = () => {
+    const name = document.querySelector<HTMLInputElement>('#newProject')?.value
+    const formData:(string | undefined  | undefined)[] = [name , id]
+    if(name?.trim()){
+     dispatch(createProject(formData))
+     handleAllSideMoreModals('')
+      handleItemClick()
+    }
+    
+  }
+
 
   return (
     <div className="modal-box w-3/4 max-w-lgl">
@@ -18,7 +38,7 @@ const NewProject = ({ handleModalProject }: projectProps) => {
           <label
             htmlFor="my-modal-3"
             className="text-323232 cursor-pointer"
-            onClick={handleModalProject}
+            onClick={() => handleAllSideMoreModals('')}
           >
             <CloseIcon />
           </label>
@@ -36,12 +56,16 @@ const NewProject = ({ handleModalProject }: projectProps) => {
             label="نام پروژه"
             type="text"
             id="newProject"
-            onChange={(e) => setprojectName(e.target.value)}
+            
           />
 
           {/* Button  */}
           <div className="mt-16">
-            <Button value="ساختن پروژه جدید" />
+            <Button 
+              disabled={isLoadingPost}
+              value="ساختن پروژه جدید" 
+              onClick={handleNewProject}
+            />
           </div>
         </div>
       </div>

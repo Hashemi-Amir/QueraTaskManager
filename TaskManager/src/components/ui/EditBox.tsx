@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../services/app/hook";
-import { updateWorkSpace } from "../../services/app/store";
+import { editBoardName, editProjectName, resetPostProject, resetPostWorkspace, updateWorkSpace } from "../../services/app/store";
 import Button from "./Button";
 
 
@@ -8,11 +8,17 @@ type EditBoxPosition = {
   left?: number
 }
 
+type HandleDeleteProjectType = (
+  e?: React.MouseEvent<HTMLElement, MouseEvent>,
+  name?: string,
+  id?: string
+) => void;
+
 type EditBoxProps = {
   status: string;
   editPosition: EditBoxPosition;
   id?: string;
-  handleItemClick: ()=> void | undefined;
+  handleItemClick: HandleDeleteProjectType;
 };
 
 
@@ -25,16 +31,35 @@ const EditBox = ({
 }: EditBoxProps) => {
   const dispatch = useAppDispatch();
 
+
+
   // get username and send to updateWorkSpace
   const user = useAppSelector(state => state.auth.user)
+
   
+
   const handleEdit = () => {
     const val = document.querySelector<HTMLInputElement>("#edit")?.value;
+    
     const data = [val, id ,user?.username];
-    const regex = /\S/g;
-    if (status === "workspace" && typeof val === "string" && regex.test(val)) {
+    
+    if (status === "workspace" && val?.trim()) {
       dispatch(updateWorkSpace(data));
+      dispatch(resetPostWorkspace());
       handleItemClick();
+    }
+
+    if(status === 'project'  && val?.trim()){
+      const data = [id  , val]
+      dispatch(editProjectName(data));
+      dispatch(resetPostProject());
+      handleItemClick();
+    }
+
+    if(status === 'board'  && val?.trim()){
+      const data = [id  , val]
+      dispatch(editBoardName(data))
+      handleItemClick()
     }
   };
   return (

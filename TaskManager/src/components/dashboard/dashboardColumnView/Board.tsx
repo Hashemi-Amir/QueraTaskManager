@@ -21,16 +21,21 @@ const Board = ({
   id,
   index,
 }: BoardProps) => {
-  const boardTasks = [...tasks]
-  const sortedTasks = boardTasks.sort((a, b) => a.position - b.position)
-  console.log(sortedTasks);
+  const boardTasks = [...tasks];
+  const sortedTasks = boardTasks.sort((a, b) => a.position - b.position);
+  // console.log(sortedTasks);
   return (
     <Draggable key={id} draggableId={id} index={index}>
       {(provided) => (
         <div {...provided.draggableProps} ref={provided.innerRef}>
           {/* Sticky Header */}
           <div {...provided.dragHandleProps}>
-            <Header title={title} number={number} borderColor={borderColor} />
+            <Header
+              title={title}
+              number={number}
+              borderColor={borderColor}
+              id={id}
+            />
           </div>
           <StrictModeDroppable droppableId={id} type="task">
             {(provided) => (
@@ -50,11 +55,12 @@ const Board = ({
                       label,
                       taskAssigns,
                       board,
+                      deadline,
                     },
                     index
                   ) => (
                     <TaskCard
-                      index={index}
+                      position={index}
                       key={_id}
                       name={name}
                       description={description}
@@ -63,6 +69,7 @@ const Board = ({
                       board={board}
                       taskAssigns={taskAssigns}
                       comments={comments}
+                      deadline={deadline}
                     />
                   )
                 )}

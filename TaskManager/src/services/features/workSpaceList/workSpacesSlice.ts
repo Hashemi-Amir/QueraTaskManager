@@ -1,12 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import WorkspaceService from "./workSpaceService";
+import { createProject, deleteProject, editProjectName } from "../projects/projectSlice";
+
+
+type ProjectProps = {
+  boards: any;
+  _id : string;
+}
 
 export type WorkSpacesProps = {
   _id: string;
   name: string;
   user: string;
   members: [];
-  projects: [];
+  projects: ProjectProps[];
 };
 
 type initialStateType = {
@@ -19,6 +26,10 @@ type initialStateType = {
   selectedWorkSpaceHeader: string;
   searchedWorkSpace: WorkSpacesProps[];
   workSpaces: WorkSpacesProps[];
+  isLoadingPost: boolean;
+  isSuccessPost: boolean;
+  isErrorPost: boolean;
+  messagePost: unknown;
 };
 
 export const initialState: initialStateType = {
@@ -31,6 +42,10 @@ export const initialState: initialStateType = {
   selectedWorkSpaceHeader: "",
   searchedWorkSpace: [],
   workSpaces: [],
+  isLoadingPost: false,
+  isSuccessPost: false,
+  isErrorPost: false,
+  messagePost: "",
 };
 
 // Get all workspaces from api
@@ -49,55 +64,69 @@ const fetchAllWorkSpaces = createAsyncThunk(
 
 const createWorkSpace = createAsyncThunk(
   "workspace/createWorkSpace",
-  async (nameWorkspace: string) => {
+  async (nameWorkspace: string, thunkAPI) => {
     try {
       return await WorkspaceService.createWorkSpace(nameWorkspace);
-    } catch (error) {
-      return error;
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
 
+// Delete WorkSpace by id
 const deleteWorkSpace = createAsyncThunk(
   "workspace/deleteWorkSpace",
-  async (id: string) => {
+  async (id: string, thunkAPI) => {
     try {
       return await WorkspaceService.deleteWorkSpace(id);
-    } catch (error) {
-      return error;
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
 
+// Rename WorkSpace
 const updateWorkSpace = createAsyncThunk(
   "workspace/updateWorkSpace",
-  async (data: (string | undefined)[]) => {
+  async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await WorkspaceService.updateWorkSpace(data);
-    } catch (error) {
-      return error;
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
 
+// Add member to workSpace by id
 const addWorkSpaceMember = createAsyncThunk(
   "workspace/addWorkSpaceMember",
-  async (workID: any) => {
+  async (workID: (string | undefined)[], thunkAPI) => {
     try {
       return await WorkspaceService.addWorkSpaceMember(workID);
-    } catch (error) {
-      return error;
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
 
+// Remove member than workSpace by id
 const removeWorkSpaceMember = createAsyncThunk(
   "workspace/removeWorkSpaceMember",
-  async (workID: any) => {
+  async (workID: (string | undefined)[], thunkAPI) => {
     try {
       return await WorkspaceService.removeWorkSpaceMember(workID);
-    } catch (error) {
-      return error;
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
@@ -106,7 +135,21 @@ const workSpacesSlice = createSlice({
   name: "workSpaces",
   initialState,
   reducers: {
- 
+    // Reset helper flags
+    resetWorkspaces: (state) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.message = "";
+      state.selectedSpace = "";
+    },
+    resetPostWorkspace: (state) => {
+      (state.isLoadingPost = false),
+        (state.isSuccessPost = false),
+        (state.isErrorPost = false);
+      state.messagePost = "";
+    },
+
     setSelectedSpace: (state, action) => {
       state.selectedSpace = action.payload;
     },
@@ -139,60 +182,161 @@ const workSpacesSlice = createSlice({
       })
       // create workSpace
       .addCase(createWorkSpace.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadingPost = true;
       })
 
       .addCase(createWorkSpace.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingPost = false;
         state.workSpaces = [...state.workSpaces, action.payload];
+        state.isSuccessPost = true;
+        state.messagePost = `ورک اسپیس با موفقیت ساخته شد 🎉`;
       })
       .addCase(createWorkSpace.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
+        state.isLoadingPost = false;
+        state.isErrorPost = true;
+        state.messagePost = action.payload;
         state.workSpaces = [];
       })
 
       // delete workSpace
       .addCase(deleteWorkSpace.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadingPost = true;
       })
       .addCase(deleteWorkSpace.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingPost = false;
         state.workSpaces = state.workSpaces.filter(
           (item) => item._id != action.payload._id
         );
-        state.isError = false;
+        state.isSuccessPost = true;
+        state.messagePost = "ورک اسپیس حذف شد";
       })
       .addCase(deleteWorkSpace.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
+        state.isLoadingPost = false;
+        state.isErrorPost = true;
+        state.messagePost = action.payload;
         state.workSpaces = [];
       })
 
       // update workSpace
 
       .addCase(updateWorkSpace.pending, (state) => {
-        state.isLoading = true;
+        state.isLoadingPost = true;
       })
       .addCase(updateWorkSpace.fulfilled, (state, action) => {
-        state.isLoading = false;
-        // state.workSpaces = state.workSpaces[action.payload.data._id].name = action.payload.data.name
-        state.isError = false;
+        state.isLoadingPost = false;
+        state.isSuccessPost = true;
+        state.workSpaces = state.workSpaces.map((item) => {
+          return item._id === action.payload._id
+            ? { ...item, name: action.payload.name }
+            : item;
+        });
       })
       .addCase(updateWorkSpace.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
+        state.isLoadingPost = false;
+        state.isErrorPost = true;
+        state.messagePost = action.payload;
         state.workSpaces = [];
-      });
+      })
+
+      // add member to workSpace
+      .addCase(addWorkSpaceMember.pending, (state) => {
+        state.isLoadingPost = true;
+        state.isSuccessPost = false;
+      })
+
+      .addCase(addWorkSpaceMember.fulfilled, (state) => {
+        state.isLoadingPost = false;        
+        state.isSuccessPost = true;
+        state.messagePost = "کاربر با موفقیت اضافه شد";
+      })
+      .addCase(addWorkSpaceMember.rejected, (state, action) => {
+        state.isLoadingPost = false;
+        state.isErrorPost = true;
+        state.messagePost = action.payload;
+        state.workSpaces = [];
+      })
+
+      // remove member than workSpace
+      .addCase(removeWorkSpaceMember.pending, (state) => {
+        state.isLoadingPost = true;
+      })
+
+      .addCase(removeWorkSpaceMember.fulfilled, (state) => {
+        state.isErrorPost = false;
+        state.isSuccessPost = true;
+        state.messagePost = "کاربر حذف شد";
+      })
+      .addCase(removeWorkSpaceMember.rejected, (state, action) => {
+        state.isLoadingPost = false;
+        state.isErrorPost = true;
+        state.messagePost = action.payload;
+        state.workSpaces = [];
+      })
+
+      // update workspace by create project
+      .addCase(createProject.fulfilled, (state, action) => {
+        // find index workSpace
+        const workSpaceId = action.meta.arg[1];
+
+        const workSpaceIndex = state.workSpaces.findIndex((workSpace) => {
+          return workSpace._id === workSpaceId;
+        });
+
+        // push project in workSpace
+        workSpaceIndex !== -1 &&
+          state.workSpaces[workSpaceIndex].projects.push(action.payload);
+      })
+
+      // update workspace by delete project
+
+      .addCase(deleteProject.fulfilled, (state, action) => {
+        state.isLoadingPost = false;
+        const selectedWorkSpace = action.payload.workspace;
+        // find workSpaceIndex
+        const workSpaceIndex:number = state.workSpaces.findIndex((item) => {
+          return item._id === selectedWorkSpace;
+        });
+
+        if (workSpaceIndex !== -1) {
+          // remove project
+          state.workSpaces[workSpaceIndex].projects = state.workSpaces[
+            workSpaceIndex
+          ].projects.filter((project) => {
+            return project._id != action.payload._id;
+          });
+        }
+      })
+
+
+
+      // update workspace by rename project
+      .addCase(editProjectName.fulfilled, (state, action) => {
+        // find workSpaceIndex
+        const selectedWorkSpace = action.payload.workspace;
+        const workSpaceIndex = state.workSpaces.findIndex((item) => {
+          return item._id === selectedWorkSpace;
+        });
+
+        // rename project
+        state.workSpaces[workSpaceIndex].projects = state.workSpaces[
+          workSpaceIndex
+        ].projects.map((project) => {
+          return project._id === action.payload._id
+            ? { ...project, name: action.payload.name }
+            : project;
+        });
+      })
+
+
+
+
   },
 });
 
 export default workSpacesSlice.reducer;
 export const {
-
+  resetWorkspaces,
+  resetPostWorkspace,
   setSelectedSpace,
   setSelectedWorkSpaceId,
   setSelectedWorkSpaceHeader,

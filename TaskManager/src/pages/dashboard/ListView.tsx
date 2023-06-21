@@ -12,8 +12,8 @@ const ListView = () => {
   const selectedWorkSpaceId = useAppSelector(
     (state) => state.workSpaces.selectedWorkSpaceId
   );
-  console.log(projects);
-  console.log(test);
+  // console.log(projects);
+  // console.log(test);
 
   
   const dispatch = useAppDispatch();

@@ -1,42 +1,55 @@
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { deleteProject } from "../../../services/app/store";
+
 import {
-  fetchBoards,
   setSelectedProjectId,
 } from "../../../services/features/boards/boardSlice";
 import { setSelectedProject } from "../../../services/features/projects/projectSlice";
+import {
+  fetchBoards
+} from "../../../services/app/store";
 import { createPortal } from "react-dom";
 import SideMore from "../../modals/Small/SideMore";
-import { useLocation } from "react-router-dom";
 
 type Projects = {
   projects: [];
 };
 
+
+
 function ProjectList({ projects }: Projects) {
   const dispatch = useAppDispatch();
-  const Location = useLocation();
   const { projects: projectState } = useAppSelector((state) => state.boards);
 
-  const [projectMore, setProjectMore] = useState("");
+  const [projectMore, setprojectMore] = useState<string | undefined>('');
   const [morePosition, setMorePosition] = useState<object>({
     top: 0,
     left: 0,
   });
+
+  // open or close modal toggle
   const handleItemClick = (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
-    item: string
+    e?: React.MouseEvent<HTMLElement, MouseEvent>,
+    id?: string | undefined
   ) => {
-    if (projectMore === null) {
-      const top = `${e.clientY}px`;
-      const left = `${e.clientX}px`;
+    if (projectMore === "") {
+      const top = `${e?.clientY}px`;
+      const left = `${e?.clientX}px`;
       setMorePosition({ ...morePosition, top: top, left: left });
-      setProjectMore(item);
+      setprojectMore(id);
     } else {
-      setProjectMore("");
+      setprojectMore('');
     }
   };
+
+  // handle delete project
+  const handleDeleteProject = () => {
+    projectMore && dispatch(deleteProject(projectMore));
+    handleItemClick()
+  };
+
   return (
     <>
       {projects.map(({ _id, name }) => (
@@ -56,8 +69,7 @@ function ProjectList({ projects }: Projects) {
           <span
             className=" left-2 p-3 cursor-pointer hidden group-hover/content:block z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-              handleItemClick(e, name);
-              e.stopPropagation();
+              handleItemClick(e , _id);
             }}
           >
             <BsThreeDots />
@@ -67,7 +79,13 @@ function ProjectList({ projects }: Projects) {
 
       {projectMore &&
         createPortal(
-          <SideMore sideMoreState="تسک" morePosition={morePosition} />,
+          <SideMore
+            sideMoreState="تسک"
+            morePosition={morePosition}
+            handleDelete={handleDeleteProject}
+            id={projectMore}
+            handleItemClick={handleItemClick}
+          />,
           document.body
         )}
     </>

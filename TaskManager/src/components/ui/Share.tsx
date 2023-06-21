@@ -24,7 +24,7 @@ const Share = () => {
 
       {shareModal && createPortal(
           <Modal >
-            <ShareModal ModalTitle="به اشتراک گذاری پروژه" shareModalHandler={shareModalHandler}/>
+            <ShareModal ModalTitle="پروژه" shareModalHandler={shareModalHandler}/>
           </Modal>,
           document.body
         )

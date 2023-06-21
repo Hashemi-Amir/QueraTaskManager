@@ -8,12 +8,35 @@ import calendarReducer from "../features/calendar/calendarSlice";
 import authReducer from "../features/auth/authSlice";
 import projectReducer, {
   fetchProjects,
+  resetProject,
+  resetPostProject,
+  createProject,
+  deleteProject,
+  editProjectName,
+  addMemberToProject,
+  removeMemberThanProject,
 } from "../features/projects/projectSlice";
+import taskReducer,{
+  resetTask,
+  fetchCreateTask,
+  fetchDeleteTask,
+  fetchUpdateTask
+} from "../features/tasks/taskSlice";
+
 import boardReducer, {
   fetchBoards,
   fetchChangeBoardPosition,
   fetchChangeTaskPosition,
   fetchChangeTaskBoard,
+  addComment,
+  deleteComment,
+  updateComment,
+  setSelectedBoardId,
+  setSelectedTaskId,
+  createBoard,
+  deleteBoard,
+  editBoardName,
+  resetPostBoard,
 } from "../features/boards/boardSlice";
 import userReducer, {
   updateUserById,
@@ -26,6 +49,7 @@ import workSpacesReducer, {
   updateWorkSpace,
   addWorkSpaceMember,
   removeWorkSpaceMember,
+  resetPostWorkspace,
 } from "../features/workSpaceList/workSpacesSlice";
 
 // Define the appReducer to combine all the reducers used in the application
@@ -36,6 +60,7 @@ const appReducer = combineReducers({
   projects: projectReducer,
   boards: boardReducer,
   user: userReducer,
+  tasks: taskReducer,
 });
 
 // Define the rootReducer, which is responsible for handling resetting the state of the entire application
@@ -68,21 +93,38 @@ export type AppDispatch = typeof store.dispatch;
 
 export {
   fetchProjects,
-
+  resetProject,
+  resetPostProject,
+  createProject,
+  deleteProject,
+  editProjectName,
+  addMemberToProject,
+  removeMemberThanProject,
+  resetTask,
+  fetchUpdateTask,
+  fetchCreateTask,
+  fetchDeleteTask,
   fetchBoards,
   fetchChangeBoardPosition,
   fetchChangeTaskPosition,
   fetchChangeTaskBoard,
-
+  addComment,
+  deleteComment,
+  updateComment,
+  createBoard,
+  deleteBoard,
+  editBoardName,
+  resetPostBoard,
+  setSelectedBoardId,
+  setSelectedTaskId,
   fetchAllWorkSpaces,
   createWorkSpace,
   deleteWorkSpace,
   updateWorkSpace,
   addWorkSpaceMember,
   removeWorkSpaceMember,
-
+  resetPostWorkspace,
   updateUserById,
   resetUser,
-
   resetAllState,
 };

@@ -13,4 +13,3 @@ const CloseIcon = ({ classes }: CloseIconProps) => {
 };
 
 export default CloseIcon;
-// absolute left-3 top-2
