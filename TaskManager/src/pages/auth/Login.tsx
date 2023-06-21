@@ -13,7 +13,6 @@ import {
   login as loginUser,
   reset,
 } from "../../services/features/auth/authSlice";
-import { ImSpinner2 } from "react-icons/im";
 
 const Login = () => {
   const {
@@ -34,7 +33,13 @@ const Login = () => {
   useEffect(() => {
     if (isError) {
       toast.dismiss();
-      toast.error(`${message} ❗`);
+      toast.error(
+        `${
+          message === "Invalid email/username or password"
+            ? "نام کاربری/ایمیل یا رمز عبور نادرست است."
+            : message
+        } ❗`
+      );
       dispatch(reset());
     }
     if (isSuccess) {
@@ -51,7 +56,15 @@ const Login = () => {
     } else if (isSuccess) {
       Navigate("/listview");
     }
-  }, [isSuccess, isError, isLoading, message, Navigate, dispatch]);
+  }, [
+    isSuccess,
+    isError,
+    isLoading,
+    message,
+    Navigate,
+    dispatch,
+    searchParams,
+  ]);
 
   const onSubmit = (data: FieldValues) => {
     dispatch(
@@ -99,13 +112,14 @@ const Login = () => {
         </div>
 
         <div className="relative">
-          <Button disabled={isLoading} type="submit" value="ورود" />
+          <Button
+            disabled={isLoading}
+            type="submit"
+            value={`${isLoading ? "" : "ورود"}`}
+          />
+
           {isLoading && (
-            <ImSpinner2
-              size="2rem"
-              color="white"
-              className="m-auto animate-spin absolute left-[47%] bottom-1 "
-            />
+            <span className=" loading loading-dots loading-lg absolute left-[46%] bottom-0 text-white"></span>
           )}
         </div>
         <div className="text-center text-base mt-5">

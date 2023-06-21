@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../services/app/hook";
 import { toast } from "react-toastify";
 import { updateUserById, resetUser } from "../../services/app/store";
-import { ImSpinner2 } from "react-icons/im";
 
 const PersonalInfo = () => {
   const {
@@ -41,7 +40,7 @@ const PersonalInfo = () => {
       dispatch(resetUser());
       reset();
     }
-  }, [isSuccess, isError, message, isLoading, dispatch]);
+  }, [isSuccess, isError, message, isLoading, dispatch, reset]);
 
   const onSubmit = (data: FieldValues) => {
     dispatch(
@@ -120,14 +119,10 @@ const PersonalInfo = () => {
             <Button
               disabled={isLoading}
               type="submit"
-              value="ثبت تغییرات"
+              value={`${isLoading ? "" : "ثبت تغییرات"}`}
             ></Button>
             {isLoading && (
-              <ImSpinner2
-                size="2rem"
-                color="white"
-                className="m-auto animate-spin absolute left-[47%] bottom-1 "
-              />
+              <span className=" loading loading-dots loading-lg absolute left-[45%] -bottom-0 text-white"></span>
             )}
           </div>
         </form>
