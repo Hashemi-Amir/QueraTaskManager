@@ -5,15 +5,15 @@ import Modal from "../../../layout/Modal";
 import AddNewTask from "../../modals/Large/AddNewTask";
 import BoardMore from "../../modals/Small/BoardMore";
 import { useAppDispatch } from "../../../services/app/hook";
-import { deleteBoard } from "../../../services/app/store";
+import { deleteBoard, fetchCreateTask } from "../../../services/app/store";
 
 type HeaderProps = {
   title: string;
   number: number;
   borderColor: string;
-  id: string
+  id: string;
 };
-const Header = ({ title, number, borderColor , id}: HeaderProps) => {
+const Header = ({ title, number, borderColor, id }: HeaderProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [newTaskModal, setNewTaskModal] = useState(false);
   const [boardModal, setBoardModal] = useState({
@@ -21,26 +21,35 @@ const Header = ({ title, number, borderColor , id}: HeaderProps) => {
     position: { top: 0, left: 0 },
   });
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const handleCardHover = (isHovering: boolean) => {
     setIsHovered(isHovering);
   };
 
   // toggle board modal and set modal position
   const handleBoardModal = (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    const pos:{top:number , left: number} = { top: e?.clientY || 0, left: e?.clientX || 0 };
+    const pos: { top: number; left: number } = {
+      top: e?.clientY || 0,
+      left: e?.clientX || 0,
+    };
     setBoardModal({ ...boardModal, modal: !boardModal.modal, position: pos });
   };
 
-  // handle delete board with dispatch 
+  // handle delete board with dispatch
   const handleDeleteBoard = () => {
-    dispatch(deleteBoard(id))
-    handleBoardModal()      
-  }
+    dispatch(deleteBoard(id));
+    handleBoardModal();
+  };
 
-  // toggle modal new task 
+  // toggle modal new task
   const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
-
+  const handleAddNewTask = (data:(string | undefined)[]) => {
+    const [name , description] = [...data]
+    
+    const formData = {name,description,boardId:id,deadline:'2023-05-16T12:52:24.483+00:00'}
+    dispatch(fetchCreateTask(formData))
+    handleNewTaskModal()
+  };
   return (
     <div
       className={`flex items-center justify-between w-[250px] bg-white sticky top-0 h-10 rounded px-3 py-2 mb-5 border border-t-2 text-1E1E1E ${borderColor} shadow-[0px_2px_8px_rgba(0,0,0,0.18)]`}
@@ -74,10 +83,10 @@ const Header = ({ title, number, borderColor , id}: HeaderProps) => {
       {boardModal.modal &&
         createPortal(
           <BoardMore
-             position={boardModal.position} 
-             handleDeleteBoard={handleDeleteBoard} 
-             handleBoardModal={handleBoardModal}
-             id={id} 
+            position={boardModal.position}
+            handleDeleteBoard={handleDeleteBoard}
+            handleBoardModal={handleBoardModal}
+            id={id}
           />,
           document.body
         )}
@@ -85,7 +94,10 @@ const Header = ({ title, number, borderColor , id}: HeaderProps) => {
       {newTaskModal &&
         createPortal(
           <Modal>
-            <AddNewTask handleNewTaskModal={handleNewTaskModal} />
+            <AddNewTask
+              handleNewTaskModal={handleNewTaskModal}
+              handleAddNewTask={handleAddNewTask}
+            />
           </Modal>,
           document.body
         )}

@@ -10,6 +10,9 @@ import NewProject from "../Medium/NewProject";
 import ShareModal from "../Medium/ShareModal";
 import AddNewTask from "../Large/AddNewTask";
 import EditBox from "../../ui/EditBox";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import SelectBoard from "../Medium/SelectBoard";
+import { fetchCreateTask } from "../../../services/app/store";
 
 type morePosition = {
   top?: number;
@@ -44,7 +47,13 @@ const SideMore = ({
     "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer";
   const [newModal, setNewModal] = useState("");
   const [editPosition, setEditPosition] = useState<EditBoxPosition>({});
+  const [boardList , setBoardList] = useState([])
+  const [newTaskStatus , setNewTaskStatus] = useState('select')
+  const [selectedBoardId , setSelectedBoardId] = useState('')
 
+
+  const {selectedProjectId,projects} = useAppSelector(state => state.boards)
+  const dispatch = useAppDispatch()
 
   // toggle all modals inside sideMore
   const handleAllSideMoreModals = (
@@ -58,10 +67,31 @@ const SideMore = ({
       const resLeft = left && left - 200;
       setEditPosition({ ...editPosition, top: top, left: resLeft });
     }
+    // select board list handle
+    if(modalName === 'تسک'){
+      const projectIndex = projects.findIndex(workspace => workspace.projectId === selectedProjectId);
+      const projectsBoards = projects[projectIndex].projectBoards.map(board => board)
+      setBoardList(projectsBoards as never[])
+    }
     // set sidemore modals state
     setNewModal(modalName);
+    setNewTaskStatus('select')
   };
 
+
+  const handleSelectBoardList = (boardId:string) => {
+    setSelectedBoardId(boardId);
+    setNewTaskStatus('new');
+  } 
+  const handleAddNewTask = (data:(string | undefined)[]) => {
+    data.push(selectedBoardId)
+    const [name , description ,boardId] = [...data]
+    const formData = {name,description,boardId,deadline:'2023-05-16T12:52:24.483+00:00'}
+    dispatch(fetchCreateTask(formData))
+    handleAllSideMoreModals('')
+    
+  }
+  
   return (
     <>
       <ul
@@ -82,6 +112,7 @@ const SideMore = ({
                   handleAllSideMoreModals={handleAllSideMoreModals}
                   id={id}
                   handleItemClick={handleItemClick}
+                  
                 />
               </Modal>,
               document.body
@@ -90,7 +121,20 @@ const SideMore = ({
           {newModal === "تسک" &&
             createPortal(
               <Modal>
-                <AddNewTask handleNewTaskModal={handleAllSideMoreModals} />
+                {
+                  newTaskStatus === 'select' ? 
+                  <SelectBoard
+                    handleAllSideMoreModals={handleAllSideMoreModals}
+                    boardList={boardList}
+                    handleSelectBoardList={handleSelectBoardList}
+                  />
+                  :
+                  <AddNewTask 
+                  handleNewTaskModal={handleAllSideMoreModals} 
+                  handleAddNewTask={handleAddNewTask}
+                  />
+                }
+
               </Modal>,
               document.body
             )}
