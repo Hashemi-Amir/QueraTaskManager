@@ -56,14 +56,7 @@ const projectSlice = createSlice({
     setSelectedProject: (state, action) => {
       state.selectedProject = action.payload;
     },
-    resetProject: (state) => {
-      state.isLoading = false;
-      state.isSuccess = false;
-      state.isError = false;
-      state.message = "";
-      state.workSpaces = [];
-      state.id = "";
-    }
+    
   },
   extraReducers: (builder) => {
     builder
@@ -94,11 +87,11 @@ const projectSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.isError = true;
-        state.message = action.error;
+        state.message = action.payload;
       });
   },
 });
 
 export default projectSlice.reducer;
-export const { setId, setSelectedProject, resetProject } = projectSlice.actions;
+export const { setId, setSelectedProject } = projectSlice.actions;
 export { fetchProjects };

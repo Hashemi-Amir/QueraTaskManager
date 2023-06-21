@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userService from "./userService";
 import { FieldValues } from "../../../pages/profile/PersonalInfo";
+import { logOut } from "../auth/authSlice";
 
 type User = {
   _id: string;
@@ -89,6 +90,9 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(logOut, (state) => {
+        state.user = null;
       });
     // getUserByUserNameOrId
     // .addCase(getUserByUserNameOrId.pending, (state) => {

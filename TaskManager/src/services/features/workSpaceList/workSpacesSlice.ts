@@ -21,7 +21,7 @@ type initialStateType = {
   workSpaces: WorkSpacesProps[];
 };
 
-const initialState: initialStateType = {
+export const initialState: initialStateType = {
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -106,15 +106,7 @@ const workSpacesSlice = createSlice({
   name: "workSpaces",
   initialState,
   reducers: {
-    // Reset helper flags
-    resetWorkspaces: (state) => {
-      state.isLoading = false;
-      state.isSuccess = false;
-      state.isError = false;
-      state.message = "";
-      state.selectedSpace = "";
-    },
-
+ 
     setSelectedSpace: (state, action) => {
       state.selectedSpace = action.payload;
     },
@@ -133,7 +125,6 @@ const workSpacesSlice = createSlice({
     builder
       .addCase(fetchAllWorkSpaces.pending, (state) => {
         state.isLoading = true;
-        state.isSuccess = false;
       })
       .addCase(fetchAllWorkSpaces.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -142,7 +133,6 @@ const workSpacesSlice = createSlice({
       })
       .addCase(fetchAllWorkSpaces.rejected, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
         state.workSpaces = [];
@@ -202,7 +192,7 @@ const workSpacesSlice = createSlice({
 
 export default workSpacesSlice.reducer;
 export const {
-  resetWorkspaces,
+
   setSelectedSpace,
   setSelectedWorkSpaceId,
   setSelectedWorkSpaceHeader,
