@@ -1,5 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AXIOS from "../utils/AXIOS";
+import boardService from "./boardService";
+import { commentType } from "../../../components/dashboard/dashboardColumnView/TaskCard";
+import { fetchUpdateTask } from "../tasks/taskSlice";
 
 export type Task = {
   _id: string;
@@ -8,8 +11,9 @@ export type Task = {
   label: [];
   board: string;
   taskAssigns: [];
-  comments: [];
+  comments: commentType[];
   position: number;
+  deadline: string;
 };
 
 type BoardType = {
@@ -28,7 +32,25 @@ type initialStateType = {
   isSuccess: boolean;
   isError: boolean;
   message: unknown;
+
+  addCommentIsLoading: boolean;
+  addCommentIsSuccess: boolean;
+  addCommentIsError: boolean;
+  addCommentMessage: unknown;
+
+  editingCommentIsLoading: boolean;
+  editingCommentIsSuccess: boolean;
+  editingCommentIsError: boolean;
+  editingCommentMessage: unknown;
+
+  deleteCommentIsLoading: boolean;
+  deleteCommentIsSuccess: boolean;
+  deleteCommentIsError: boolean;
+  deleteCommentMessage: unknown;
+
   selectedId: string;
+  selectedBoardId: string;
+  selectedTaskdId: string;
   projects: ProjectType[];
   test: any;
 };
@@ -40,7 +62,28 @@ const initialState: initialStateType = {
   isSuccess: false,
   isError: false,
   message: "",
+
+  // Adding Comment Flags
+  addCommentIsLoading: false,
+  addCommentIsSuccess: false,
+  addCommentIsError: false,
+  addCommentMessage: "",
+
+  // Editing Comment Flags
+  editingCommentIsLoading: false,
+  editingCommentIsSuccess: false,
+  editingCommentIsError: false,
+  editingCommentMessage: "",
+
+  // Deleting Comment Flags
+  deleteCommentIsLoading: false,
+  deleteCommentIsSuccess: false,
+  deleteCommentIsError: false,
+  deleteCommentMessage: "",
+
   selectedId: "",
+  selectedBoardId: "",
+  selectedTaskdId: "",
   projects: [],
   test: [],
 };
@@ -61,12 +104,69 @@ const fetchBoards = createAsyncThunk(
   }
 );
 
+// Add comment
+export type createCommentDataType = {
+  text: string;
+  taskId: string;
+};
+
+const addComment = createAsyncThunk(
+  "Boards/addComment",
+  async (commentData: createCommentDataType, thunkAPI) => {
+    try {
+      return await boardService.addComment(commentData);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Delete comment
+const deleteComment = createAsyncThunk(
+  "Boards/deleteComment",
+  async (commentId: string, thunkAPI) => {
+    try {
+      return await boardService.deleteComment(commentId);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+// Update comment
+export type updateCommentDataType = {
+  text: string;
+  id: string;
+};
+
+const updateComment = createAsyncThunk(
+  "Boards/updateComment",
+  async (commentData: updateCommentDataType, thunkAPI) => {
+    try {
+      return await boardService.updateComment(commentData);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const boardsSlice = createSlice({
   name: "Boards",
   initialState,
   reducers: {
     setSelectedId: (state, action) => {
       state.selectedId = action.payload;
+    },
+    setSelectedBoardId: (state, action) => {
+      state.selectedBoardId = action.payload;
+    },
+    setSelectedTaskdId: (state, action) => {
+      state.selectedTaskdId = action.payload;
     },
 
     changeTaskPosition: (state, action) => {
@@ -118,6 +218,24 @@ const boardsSlice = createSlice({
         droppableBoardIndex
       ].tasks = items;
     },
+
+    // Reset comment helper flags
+    resetComment: (state) => {
+      state.addCommentIsLoading = false;
+      state.addCommentIsSuccess = false;
+      state.addCommentIsError = false;
+      state.addCommentMessage = "";
+
+      state.editingCommentIsLoading = false;
+      state.editingCommentIsSuccess = false;
+      state.editingCommentIsError = false;
+      state.editingCommentMessage = "";
+
+      state.deleteCommentIsLoading = false;
+      state.deleteCommentIsSuccess = false;
+      state.deleteCommentIsError = false;
+      state.deleteCommentMessage = "";
+    },
   },
 
   extraReducers: (builder) => {
@@ -151,10 +269,121 @@ const boardsSlice = createSlice({
         state.projects = [];
         state.isError = true;
         state.message = action.payload;
+      })
+      // Add comment
+      .addCase(addComment.pending, (state) => {
+        state.addCommentIsLoading = true;
+      })
+      .addCase(
+        addComment.fulfilled,
+        (state, action: PayloadAction<commentType>) => {
+          state.addCommentIsLoading = false;
+          state.addCommentIsSuccess = true;
+
+          state.projects
+            .find((project) => project.projectId === state.selectedId)
+            ?.projectBoards.find((board) => board._id === state.selectedBoardId)
+            ?.tasks.find((task) => task._id === state.selectedTaskdId)
+            ?.comments.push(action.payload);
+
+          // console.log(
+          //   state.projects
+          //     .find((project) => project.projectId === state.selectedId)
+          //     ?.projectBoards.find(
+          //       (board) => board._id === state.selectedBoardId
+          //     )
+          //     ?.tasks.find((task) => task._id === state.selectedTaskdId)
+          //     ?.comments.push(action.payload)
+          // );
+        }
+      )
+      .addCase(addComment.rejected, (state, action) => {
+        state.addCommentIsLoading = false;
+        state.addCommentIsError = true;
+        state.addCommentMessage = action.payload;
+      })
+      // Delete comment
+      .addCase(deleteComment.pending, (state) => {
+        state.deleteCommentIsLoading = true;
+      })
+      .addCase(deleteComment.fulfilled, (state, action) => {
+        state.deleteCommentIsLoading = false;
+        state.deleteCommentIsSuccess = true;
+        console.log(action);
+
+        const curCommentArr = state.projects
+          .find((project) => project.projectId === state.selectedId)
+          ?.projectBoards.find((board) => board._id === state.selectedBoardId)
+          ?.tasks.find((task) => task._id === state.selectedTaskdId)?.comments;
+
+        const commentIndex = curCommentArr?.findIndex(
+          (comment) => comment._id === action.payload
+        );
+
+        if (commentIndex || commentIndex === 0)
+          curCommentArr?.splice(commentIndex, 1);
+      })
+      .addCase(deleteComment.rejected, (state, action) => {
+        state.deleteCommentIsLoading = false;
+        state.deleteCommentIsError = true;
+        state.deleteCommentMessage = action.payload;
+      })
+      // Editing comment
+      .addCase(updateComment.pending, (state) => {
+        state.editingCommentIsLoading = true;
+      })
+      .addCase(
+        updateComment.fulfilled,
+        (state, action: PayloadAction<commentType>) => {
+          state.editingCommentIsLoading = false;
+          state.editingCommentIsSuccess = true;
+
+          state.projects
+            .find((project) => project.projectId === state.selectedId)
+            ?.projectBoards.find((board) => board._id === state.selectedBoardId)
+            ?.tasks.find((task) => task._id === state.selectedTaskdId)
+            ?.comments.map((comment) => {
+              if (comment._id === action.payload._id)
+                comment.text = action.payload.text;
+            });
+        }
+      )
+      .addCase(updateComment.rejected, (state, action) => {
+        state.editingCommentIsLoading = false;
+        state.editingCommentIsError = true;
+        state.editingCommentMessage = action.payload;
+      })
+      .addCase(fetchUpdateTask.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.projects
+          .find((project) => project.projectId === state.selectedId)
+          ?.projectBoards.find((board) => board._id === state.selectedBoardId)
+          ?.tasks.map((task) => {
+            if (task._id === state.selectedTaskdId) {
+              task.name = action.payload.name;
+              task.deadline = action.payload.deadline;
+              task.description = action.payload.description;
+            }
+          });
+
+        console.log(
+          state.projects
+            .find((project) => project.projectId === state.selectedId)
+            ?.projectBoards.find((board) => board._id === state.selectedBoardId)
+            ?.tasks.map((task) =>
+              task._id === state.selectedTaskdId ? action.payload : task
+            )
+        );
       });
   },
 });
 
 export default boardsSlice.reducer;
-export const { setSelectedId, changeTaskPosition } = boardsSlice.actions;
-export { fetchBoards };
+export const {
+  setSelectedId,
+  changeTaskPosition,
+  setSelectedBoardId,
+  setSelectedTaskdId,
+  resetComment,
+} = boardsSlice.actions;
+export { fetchBoards, addComment, deleteComment, updateComment };
