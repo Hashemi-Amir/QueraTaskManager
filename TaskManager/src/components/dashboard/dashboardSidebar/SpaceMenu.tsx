@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import {
-  fetchProjects,
   setSelectedSpace,
+  setSelectedWorkSpaceHeader,
   setSelectedWorkSpaceId,
-} from "../../../services/app/store";
+} from "../../../services/features/workSpaceList/workSpacesSlice";
+import { fetchProjects } from "../../../services/app/store";
 
 type SpaceMenuProps = {
   workSpaces: {
@@ -19,19 +20,30 @@ type SpaceMenuProps = {
 const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
   const [selectedValue, setSelectedValue] = useState<string>("");
   const dispatch = useAppDispatch();
-  const { workSpaces: projectState } = useAppSelector((state) => state.projects);
+  const { workSpaces: projectState } = useAppSelector(
+    (state) => state.projects
+  );
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = e.target.value;
+    const selectedName = e.target.selectedOptions[0].label;
+
     setSelectedValue(selectedId);
     if (selectedId) {
       dispatch(setSelectedSpace(selectedId));
+      if (selectedName !== "ورک اسپیس‌ها")
+        dispatch(setSelectedWorkSpaceHeader(selectedName));
+
       const workSpaceIndex = projectState.findIndex((projects) => {
         return projects.workSpaceId === selectedId;
       });
-      if (workSpaceIndex < 0 && selectedId != "ورک اسپیس‌ها") {
-        dispatch(setSelectedWorkSpaceId(selectedId));
-        dispatch(fetchProjects(selectedId));
+      if (selectedId != "ورک اسپیس‌ها") {
+        if (workSpaceIndex < 0) {
+          dispatch(fetchProjects(selectedId));
+          dispatch(setSelectedWorkSpaceId(selectedId));
+        } else {
+          dispatch(setSelectedWorkSpaceId(selectedId));
+        }
       }
     }
   };

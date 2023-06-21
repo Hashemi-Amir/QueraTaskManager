@@ -14,7 +14,9 @@ const DashboardLayout = () => {
   const Location = useLocation();
   const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
   const { selectedProject } = useAppSelector((state) => state.projects);
-  const { selectedWorkSpaceHeader } = useAppSelector((state) => state.workSpaces);
+  const { selectedWorkSpaceHeader } = useAppSelector(
+    (state) => state.workSpaces
+  );
 
   const colors = [
     "bg-F92E8F",
@@ -68,8 +70,14 @@ const DashboardLayout = () => {
       <SideBar />
       <div className="w-4/5 pr-4 pl-10 min-h-screen">
         {/* Header */}
-        
-        <Header projectName={Location.pathname==="/columnview" ? selectedProject : selectedWorkSpaceHeader} />
+
+        <Header
+          projectName={
+            Location.pathname === "/columnview"
+              ? selectedProject
+              : selectedWorkSpaceHeader
+          }
+        />
 
         {/* Without Classes for calander view */}
         <div className={`${WraperClasses}`}>

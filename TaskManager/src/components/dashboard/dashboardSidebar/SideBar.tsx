@@ -6,10 +6,11 @@ import SpaceMenu from "./SpaceMenu";
 import { Link, useNavigate } from "react-router-dom";
 import { logOut } from "../../../services/features/auth/authSlice";
 import { RxExit } from "react-icons/rx";
-import { fetchAllWorkSpaces } from "../../../services/app/store";
+import { fetchAllWorkSpaces, resetAllState } from "../../../services/app/store";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { useEffect } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 
 const SideBar = () => {
   const {
@@ -26,8 +27,8 @@ const SideBar = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    workSpaces.length === 0 && dispatch(fetchAllWorkSpaces());
-  }, [dispatch, selectedSpace, workSpaces]);
+    !isSuccess && workSpaces.length === 0 && dispatch(fetchAllWorkSpaces());
+  }, [dispatch, selectedSpace, workSpaces.length, isSuccess, workSpaces]);
 
   const getSelectedWorkSpaces = workSpaces.filter((workSpace) => {
     return workSpace._id === selectedSpace;
@@ -56,9 +57,7 @@ const SideBar = () => {
           className="m-auto animate-spin"
         />
       )}
-      {isError && (
-        <div className="m-auto text-FB0606">{`${message}`}</div>
-      )}
+      {isError && <div className="m-auto text-FB0606">{`${message}`}</div>}
       {isSuccess && <WorkSpaceList workSpaces={workSpacesToRender} />}
       <Link className="w-fit" to="/personalinfo">
         <ProfileButton userName={user?.username} className="w-9 h-9 p-2" />
@@ -66,6 +65,7 @@ const SideBar = () => {
       <button
         className="w-fit mt-5 flex items-center gap-2 text-base text-818181"
         onClick={() => {
+          dispatch(resetAllState());
           dispatch(logOut());
           Navigate("/login");
         }}

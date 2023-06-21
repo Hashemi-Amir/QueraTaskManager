@@ -6,10 +6,10 @@ import { createPortal } from "react-dom";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import {
   deleteWorkSpace,
-  fetchProjects,
   setSelectedWorkSpaceHeader,
   setSelectedWorkSpaceId,
-} from "../../../services/app/store";
+} from "../../../services/features/workSpaceList/workSpacesSlice";
+import { fetchProjects } from "../../../services/app/store";
 import { useLocation } from "react-router-dom";
 
 type WorkSpaceProps = {
@@ -25,7 +25,9 @@ type WorkSpaceProps = {
 const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
   const dispatch = useAppDispatch();
   const Location = useLocation();
-  const { workSpaces: stateProject } = useAppSelector((state) => state.projects);
+  const { workSpaces: stateProject } = useAppSelector(
+    (state) => state.projects
+  );
   const [workspaceMore, setWorkspaceMore] = useState({
     modal: "",
     id: "",
@@ -44,8 +46,8 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
     if (workspaceMore.modal === "") {
       const top = `${e.clientY}px`;
       const left = `${e.clientX}px`;
-      setMorePosition({ ...morePosition, top: top, left: left });
-      setWorkspaceMore({ ...workspaceMore, modal: item, id: id });
+      setMorePosition({ ...morePosition, top, left });
+      setWorkspaceMore({ ...workspaceMore, modal: item, id });
     } else {
       setWorkspaceMore({ ...workspaceMore, modal: "", id: "" });
     }
@@ -78,7 +80,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
                 event.stopPropagation();
               }
               dispatch(setSelectedWorkSpaceId(_id));
-              dispatch(setSelectedWorkSpaceHeader(name))
+              dispatch(setSelectedWorkSpaceHeader(name));
             }}
           >
             <input type="checkbox" className="p-0 m-0" />
