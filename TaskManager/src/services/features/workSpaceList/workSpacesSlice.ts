@@ -32,7 +32,7 @@ type initialStateType = {
   messagePost: unknown;
 };
 
-const initialState: initialStateType = {
+export const initialState: initialStateType = {
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -168,7 +168,6 @@ const workSpacesSlice = createSlice({
     builder
       .addCase(fetchAllWorkSpaces.pending, (state) => {
         state.isLoading = true;
-        state.isSuccess = false;
       })
       .addCase(fetchAllWorkSpaces.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -177,7 +176,6 @@ const workSpacesSlice = createSlice({
       })
       .addCase(fetchAllWorkSpaces.rejected, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = false;
         state.isError = true;
         state.message = action.payload;
         state.workSpaces = [];

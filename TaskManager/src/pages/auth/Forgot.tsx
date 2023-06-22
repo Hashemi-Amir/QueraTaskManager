@@ -14,7 +14,6 @@ import {
   forgot as forgotPass,
   reset,
 } from "../../services/features/auth/authSlice";
-import { ImSpinner2 } from "react-icons/im";
 
 const Forget = () => {
   const {
@@ -77,13 +76,12 @@ const Forget = () => {
         </div>
 
         <div className="relative">
-          <Button disabled={isLoading} value="دریافت ایمیل بازیابی رمز عبور" />
+          <Button
+            disabled={isLoading}
+            value={`${isLoading ? "" : "دریافت ایمیل بازیابی رمز عبور"}`}
+          />
           {isLoading && (
-            <ImSpinner2
-              size="2rem"
-              color="white"
-              className="m-auto animate-spin absolute left-[47%] bottom-1 "
-            />
+            <span className=" loading loading-dots loading-lg absolute left-[45%] -bottom-0 text-white"></span>
           )}
         </div>
       </form>

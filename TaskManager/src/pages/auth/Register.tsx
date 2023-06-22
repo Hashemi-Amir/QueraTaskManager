@@ -14,7 +14,6 @@ import {
   register as registerUser,
   reset,
 } from "../../services/features/auth/authSlice";
-import { ImSpinner2 } from "react-icons/im";
 
 const Register = () => {
   const {
@@ -119,13 +118,12 @@ const Register = () => {
           className={errors.checkbox && "text-FC0733"}
         />
         <div className=" relative">
-          <Button disabled={isLoading} value="ثبت نام" />
+          <Button
+            disabled={isLoading}
+            value={`${isLoading ? "" : "ثبت نام"}`}
+          />
           {isLoading && (
-            <ImSpinner2
-              size="2rem"
-              color="white"
-              className="m-auto animate-spin absolute left-[47%] bottom-1 "
-            />
+            <span className=" loading loading-dots loading-lg absolute left-[45%] -bottom-0 text-white"></span>
           )}
         </div>
       </form>

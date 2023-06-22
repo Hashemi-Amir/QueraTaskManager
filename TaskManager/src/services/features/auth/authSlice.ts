@@ -29,7 +29,7 @@ const initialState: initialStateType = {
 
 // Register user
 export const register = createAsyncThunk(
-  "auth/register",
+  "Auth/register",
   async (userData: FieldValues, thunkAPI) => {
     try {
       return await authServie.register(userData);
@@ -43,7 +43,7 @@ export const register = createAsyncThunk(
 
 // Login user
 export const login = createAsyncThunk(
-  "auth/login",
+  "Auth/login",
   async (userData: FieldValues, thunkAPI) => {
     try {
       return await authServie.login(userData);
@@ -58,7 +58,7 @@ export const login = createAsyncThunk(
 
 // Forgot Password
 export const forgot = createAsyncThunk(
-  "auth/forget-password",
+  "Auth/forget-password",
   async (userEmail: FieldValues, thunkAPI) => {
     try {
       return await authServie.forgot(userEmail);
@@ -72,7 +72,7 @@ export const forgot = createAsyncThunk(
 );
 
 const authSlice = createSlice({
-  name: "auth",
+  name: "Auth",
   initialState,
   reducers: {
     // Reset helper flags
@@ -82,11 +82,13 @@ const authSlice = createSlice({
       state.isError = false;
       state.message = "";
     },
+
     // Logout
     logOut: (state) => {
       localStorage.removeItem("authToken");
       localStorage.removeItem("user");
       state.user = null;
+      state.authToken = null;
     },
     // Update access token
     authTokenUpdate: (state, action) => {

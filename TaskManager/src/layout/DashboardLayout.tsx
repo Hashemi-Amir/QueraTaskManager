@@ -140,7 +140,7 @@ const DashboardLayout = () => {
           <Outlet />
         </div>
       </div>
-      <div className="fixed left-5 bottom-3 cur z-50">
+      <div className="fixed left-5 bottom-3 cur z-45">
         <Button
           className="text-l px-2 py rounded-lg"
           value={"تسک جدید"}

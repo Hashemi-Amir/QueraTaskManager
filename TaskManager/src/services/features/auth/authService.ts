@@ -25,7 +25,6 @@ const login = async (userData: FieldValues) => {
       "user",
       JSON.stringify(response.data.data.toBeSendUserData)
     );
-    console.log(response.data.data.toBeSendUserData);
   }
   return response.data;
 };

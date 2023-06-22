@@ -6,10 +6,10 @@ import { createPortal } from "react-dom";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import {
   deleteWorkSpace,
-  fetchProjects,
   setSelectedWorkSpaceHeader,
   setSelectedWorkSpaceId,
-} from "../../../services/app/store";
+} from "../../../services/features/workSpaceList/workSpacesSlice";
+import { fetchProjects } from "../../../services/app/store";
 import { useLocation } from "react-router-dom";
 
 type WorkSpaceProps = {
@@ -76,7 +76,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
                 event.stopPropagation();
               }
               dispatch(setSelectedWorkSpaceId(_id));
-              dispatch(setSelectedWorkSpaceHeader(name))
+              dispatch(setSelectedWorkSpaceHeader(name));
             }}
           >
             <input type="checkbox" className="p-0 m-0" />

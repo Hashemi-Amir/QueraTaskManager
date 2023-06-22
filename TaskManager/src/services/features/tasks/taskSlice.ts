@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import taskService from "./taskService";
 
-type createTast = {
+export type createTask = {
   name: string | undefined;
   description: string | undefined;
   boardId: string | undefined;
-  deadline : string;
+  deadline: string;
 };
 
 type initialStateType = {
@@ -25,7 +25,7 @@ const initialState: initialStateType = {
 // create task
 const fetchCreateTask = createAsyncThunk(
   "Tasks/fetchCreateTask",
-  async (data: createTast, thunkAPI) => {
+  async (data: createTask, thunkAPI) => {
     try {
       return await taskService.fetchCreateTask(data);
     } catch (error: any) {
@@ -42,6 +42,26 @@ const fetchDeleteTask = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       return await taskService.fetchDeleteTask(id);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// update task
+export type taskinfoType = {
+  name: string;
+  description: string;
+  deadline: string;
+  taskId: string;
+};
+const fetchUpdateTask = createAsyncThunk(
+  "Tasks/fetchUpdateTask",
+  async (taskinfo: taskinfoType, thunkAPI) => {
+    try {
+      return await taskService.fetchUpdateTask(taskinfo);
     } catch (error: any) {
       const message =
         error?.response?.data?.message || error.message || error.toString();
@@ -81,7 +101,6 @@ const tasksSlice = createSlice({
         state.message = action.payload;
       })
 
-
       // delete task
       .addCase(fetchDeleteTask.pending, (state) => {
         state.isLoading = true;
@@ -97,10 +116,26 @@ const tasksSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      // update task
+      .addCase(fetchUpdateTask.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      .addCase(fetchUpdateTask.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = "تسک با موفیت آپدیت شد";
+      })
+
+      .addCase(fetchUpdateTask.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });
 
 export default tasksSlice.reducer;
 export const { resetTask } = tasksSlice.actions;
-export { fetchCreateTask, fetchDeleteTask };
+export { fetchCreateTask, fetchDeleteTask, fetchUpdateTask };

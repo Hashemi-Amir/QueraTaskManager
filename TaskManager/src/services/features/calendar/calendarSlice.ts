@@ -20,6 +20,9 @@ const calendarSlice = createSlice({
     setRef: (state, action) => {
       state.ref = action.payload;
     },
+    resetCalendar: () => {
+      return initialState;
+    },
   },
 });
 export const { setDate, setRef } = calendarSlice.actions;

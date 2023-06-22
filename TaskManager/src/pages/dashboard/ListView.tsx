@@ -8,10 +8,14 @@ const ListView = () => {
   const { isError, message, isSuccess, isLoading, workSpaces } = useAppSelector(
     (state) => state.projects
   );
-  const boards = useAppSelector((state) => state.boards.projects);
+  const {projects,test} = useAppSelector((state) => state.boards);
   const selectedWorkSpaceId = useAppSelector(
     (state) => state.workSpaces.selectedWorkSpaceId
   );
+  // console.log(projects);
+  // console.log(test);
+
+  
   const dispatch = useAppDispatch();
 
   const colors = JSON.parse(localStorage.getItem("Colors") || "[]");
@@ -30,6 +34,9 @@ const ListView = () => {
       />
     );
   }
+  if (isError) {
+    return <div className="m-auto text-FB0606">{`${message}`}</div>;
+  }
 
   if (!isSuccess) {
     return (
@@ -44,7 +51,7 @@ const ListView = () => {
   }
 
   const handleClick = (projectId: string) => {
-    const projectIndex = boards.findIndex(
+    const projectIndex = projects.findIndex(
       (project) => project.projectId === projectId
     );
     if (projectIndex < 0) {
@@ -53,7 +60,7 @@ const ListView = () => {
   };
   return (
     <div className="pb-8 w-full">
-      {workspaceProjects[0].projects.map(({ name, _id }) => (
+      {workspaceProjects[0]?.projects.map(({ name, _id }) => (
         <div key={_id} onClick={() => handleClick(_id)}>
           <Collapsible
             title={name}
@@ -61,7 +68,7 @@ const ListView = () => {
             chevronClass="text-xl mr-1"
             id={_id}
           >
-            {boards
+            {projects
               .find((project) => project.projectId === _id)
               ?.projectBoards.map(({ name, tasks, _id }, index) => (
                 <Collapsible
@@ -77,7 +84,6 @@ const ListView = () => {
           </Collapsible>
         </div>
       ))}
-      {isError && <div className="m-auto text-FB0606">{`${message}`}</div>}
     </div>
   );
 };

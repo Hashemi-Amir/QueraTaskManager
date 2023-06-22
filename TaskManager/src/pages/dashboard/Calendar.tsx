@@ -1,31 +1,29 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import dayGrid from "@fullcalendar/daygrid"
 import interactionPlugin from "@fullcalendar/interaction";
 import faLocale from "@fullcalendar/core/locales/fa";
 import "../../components/dashboard/dashboardCalendar/calendar.css";
 import { SiAddthis } from "react-icons/si";
-import { useEffect, useRef, useState } from "react";
-import { setDate, setRef } from "../../services/features/calendar/calendarSlice";
+import { useEffect, useState } from "react";
+import {
+  setDate,
+  setRef,
+} from "../../services/features/calendar/calendarSlice";
 import { useAppDispatch } from "../../services/app/hook";
 import Modal from "../../layout/Modal";
 import AddTaskOnCalendar from "../../components/modals/Medium/AddTaskOnCalendar";
 import { createPortal } from "react-dom";
-import Date from "../../components/dashboard/dashboardHeader/Date";
 
 const Calendar = () => {
   const [todayDate, setTodayDate] = useState("");
   const [clickDate, setClickDate] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useAppDispatch();
-  const calendarEl = useRef<FullCalendar | null>(null);
 
-  
-  // setTodayDate(calendarEl?.current?.getApi().getDate().toLocaleDateString("fa-IR", { dateStyle: "medium" }))
   useEffect(() => {
-    // dispatch(setRef(calendarEl.current));
-    // console.log(calendarEl.current?.getApi());
     dispatch(setDate(todayDate));
-  }, [dispatch,todayDate]);
+  }, [dispatch, todayDate]);
 
   const handleNewTask = () => {
     setOpenModal(!openModal);
@@ -57,10 +55,11 @@ const Calendar = () => {
     });
   };
 
+
   return (
     <>
       <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
+        plugins={[dayGridPlugin, interactionPlugin,dayGrid]}
         initialView="dayGridMonth"
         locale={faLocale}
         dayCellContent={dayCellContent}
@@ -82,8 +81,8 @@ const Calendar = () => {
         selectable={true}
         editable={true}
         fixedWeekCount={false}
+        firstDay = {6}
         titleFormat={titleFormat}
-        ref={calendarEl}
         dateClick={(arg) => {
           setClickDate(
             arg.date.toLocaleDateString("fa-IR", {
