@@ -8,7 +8,6 @@ import { createPortal } from "react-dom";
 import Modal from "./Modal";
 import AddNewTask from "../components/modals/Large/AddNewTask";
 import { useAppDispatch, useAppSelector } from "../services/app/hook";
-import CloseIcon from "../components/ui/Close";
 import SelectBoard from "../components/modals/Medium/SelectBoard";
 import { fetchCreateTask } from "../services/app/store";
 
@@ -156,48 +155,24 @@ const DashboardLayout = () => {
       </div>
 
       {/* handle modal new task */}
-      {newTaskModal &&
+      {/* {newTaskModal &&
         createPortal(
           <Modal>
-            {projects.length > 0 ? (
-              <>
-                {boards.boardStep === "select" ? (
-                  <SelectBoard
-                    boardList={boards.boardList}
-                    handleAllSideMoreModals={handleNewTaskModal}
-                    handleSelectBoardList={handleSelectBoardList}
-                  />
-                ) : (
-                  <AddNewTask
-                    handleAddNewTask={handleDispatchNewTask}
-                    handleNewTaskModal={handleNewTaskModal}
-                  />
-                )}
-              </>
+            {boards.boardStep === "select" ? (
+              <SelectBoard
+                boardList={boards.boardList}
+                handleAllSideMoreModals={handleNewTaskModal}
+                handleSelectBoardList={handleSelectBoardList}
+              />
             ) : (
-              <div className="modal-box w-3/4 max-w-lgl">
-                <div className="w-full flex justify-between items-center">
-                  <label
-                    htmlFor="my-modal-3"
-                    className="text-323232 cursor-pointer"
-                    onClick={() => handleNewTaskModal()}
-                  >
-                    <CloseIcon />
-                  </label>
-
-                  <div className="font-semibold text-2xl text-black"></div>
-
-                  <span></span>
-                </div>
-                <div className="font-semibold flex flex-col text-black text-center ">
-                  <span className="text-2xl">پروژه ای پیدا نشد !</span>
-                  <span className="pt-5 text-sm "> یه پروژه انتخاب کن</span>
-                </div>
-              </div>
+              <AddNewTask
+                handleAddNewTask={handleDispatchNewTask}
+                handleNewTaskModal={handleNewTaskModal}
+              />
             )}
           </Modal>,
           document.body
-        )}
+        )} */}
     </div>
   );
 };

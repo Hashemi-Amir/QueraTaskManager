@@ -48,7 +48,7 @@ const SideMore = ({
   const [newModal, setNewModal] = useState("");
   const [editPosition, setEditPosition] = useState<EditBoxPosition>({});
   const [boardList , setBoardList] = useState([])
-  const [newTaskStatus , setNewTaskStatus] = useState('select')
+  const [newTaskStatus , setNewTaskStatus] = useState('برد')
   const [selectedBoardId , setSelectedBoardId] = useState('')
 
 
@@ -75,14 +75,14 @@ const SideMore = ({
     }
     // set sidemore modals state
     setNewModal(modalName);
-    setNewTaskStatus('select')
+    setNewTaskStatus('برد')
   };
 
-
   const handleSelectBoardList = (boardId:string) => {
-    setSelectedBoardId(boardId);
-    setNewTaskStatus('new');
-  } 
+    setSelectedBoardId(boardId)
+    setNewTaskStatus('تسک')
+  };
+
   const handleAddNewTask = (data:(string | undefined)[]) => {
     data.push(selectedBoardId)
     const [name , description ,boardId] = [...data]
@@ -122,16 +122,17 @@ const SideMore = ({
             createPortal(
               <Modal>
                 {
-                  newTaskStatus === 'select' ? 
+                  newTaskStatus === 'برد' ? 
                   <SelectBoard
-                    handleAllSideMoreModals={handleAllSideMoreModals}
-                    boardList={boardList}
-                    handleSelectBoardList={handleSelectBoardList}
+                    toggleModal={handleAllSideMoreModals}
+                    data={boardList}
+                    selectedHandle={handleSelectBoardList}
+                    status={newTaskStatus}
                   />
                   :
                   <AddNewTask 
-                  handleNewTaskModal={handleAllSideMoreModals} 
-                  handleAddNewTask={handleAddNewTask}
+                    handleNewTaskModal={handleAllSideMoreModals} 
+                    handleAddNewTask={handleAddNewTask}
                   />
                 }
 
