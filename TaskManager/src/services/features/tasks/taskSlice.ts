@@ -5,7 +5,7 @@ export type createTask = {
   name: string | undefined;
   description: string | undefined;
   boardId: string | undefined;
-  deadline: string;
+  deadline: string | undefined;
 };
 
 type initialStateType = {

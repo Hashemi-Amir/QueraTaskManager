@@ -85,8 +85,8 @@ const SideMore = ({
 
   const handleAddNewTask = (data:(string | undefined)[]) => {
     data.push(selectedBoardId)
-    const [name , description ,boardId] = [...data]
-    const formData = {name,description,boardId,deadline:'2023-05-16T12:52:24.483+00:00'}
+    const [name , description ,deadline,boardId,] = [...data]
+    const formData = {name,description,deadline ,boardId}    
     dispatch(fetchCreateTask(formData))
     handleAllSideMoreModals('')
     

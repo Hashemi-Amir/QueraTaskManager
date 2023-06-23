@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../ui/Button";
 import CloseIcon from "../../ui/Close";
 
@@ -7,9 +7,9 @@ type dataList = {
   name: string;
 };
 type SelectBoardProps = {
-  toggleModal: (modalName: string) => void;
+  toggleModal: (modalName: string ) => void;
   data: dataList[];
-  selectedHandle: (id: string) => void;
+  selectedHandle: (id: string ) => void;
   status :string;
 };
 
@@ -19,15 +19,17 @@ const SelectBoard = ({
   selectedHandle,
   status
 }: SelectBoardProps) => {
-  const [boardId, setBoardId] = useState("");
+  const [boardId, setBoardId] = useState('');
   const handleSelectValue = (event: React.ChangeEvent<HTMLElement>) => {
     const element = event.target as HTMLInputElement;
     setBoardId(element.value);
   };
-  
+  useEffect(()=> {
+    // console.log(data);
+  },[status])
 
   return (
-    <div className="modal-box w-3/4 max-w-lgl">
+    <div className="modal-box w-3/4 max-w-lgl min-w-[500px]">
       {data.length > 0 ? (
         <div className="p-5 bg-white rounded-lg">
           {/* card header */}
@@ -53,8 +55,10 @@ const SelectBoard = ({
                 dir="rtl"
                 onChange={handleSelectValue}
                 className="select select-accent w-full max-w-xs text-center"
+                id='sel'
+                defaultValue={boardId}
               >
-                <option disabled selected>
+                <option disabled value={boardId}>
                   {status} مورد نظرت رو انتخاب کن ;)
                 </option>
                 {data &&
@@ -73,7 +77,23 @@ const SelectBoard = ({
               <Button
                 value={"ادامه"}
                 onClick={() => {
-                  boardId.trim() && selectedHandle(boardId);
+                  if(boardId.trim()){
+                    selectedHandle(boardId);
+                    setBoardId(``)
+                  }
+                  else if(boardId === ''){
+                    const select = document.querySelector<HTMLSelectElement>('#sel')
+                    const sel:HTMLCollectionOf<HTMLOptionElement> | undefined = select?.selectedOptions
+
+                    if(sel && sel.length > 0){
+                    const id = sel[0].getAttribute('value')!;
+                    setBoardId(id);
+                    }
+                    
+                    
+                  }
+                  
+                  
                 }}
               />
             </div>
@@ -95,7 +115,7 @@ const SelectBoard = ({
             <span></span>
           </div>
           <div className="font-semibold text-xl text-black text-center">
-            بردی وجود نداره ، یدونه بساز
+            {status}ی وجود نداره ، یدونه بساز
           </div>
         </>
       )}

@@ -44,9 +44,8 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
   // toggle modal new task
   const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
   const handleAddNewTask = (data:(string | undefined)[]) => {
-    const [name , description] = [...data]
-    
-    const formData = {name,description,boardId:id,deadline:'2023-05-16T12:52:24.483+00:00'}
+    const [name , description , deadline] = [...data]
+    const formData = {name,description,boardId:id,deadline}
     dispatch(fetchCreateTask(formData))
     handleNewTaskModal()
   };
