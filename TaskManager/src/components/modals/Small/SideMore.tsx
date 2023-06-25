@@ -60,6 +60,7 @@ const SideMore = ({
     modalName: string,
     event?: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
+    
     // set edit box position
     if (modalName === "ویرایش ورک اسپیس" || modalName === "ویرایش تسک") {
       const top = event?.clientY;
@@ -71,7 +72,7 @@ const SideMore = ({
     if(modalName === 'تسک'){
       const projectIndex = projects.findIndex(workspace => workspace.projectId === selectedProjectId);
       const projectsBoards = projects[projectIndex].projectBoards.map(board => board)
-      setBoardList(projectsBoards as never[])
+      setBoardList(projectsBoards as never[])      
     }
     // set sidemore modals state
     setNewModal(modalName);

@@ -15,7 +15,7 @@ type typePriority = {
 };
 
 type addNewTaskProps = {
-  handleNewTaskModal: (modalName: string) => void;
+  handleNewTaskModal: (modalName: boolean) => void;
   handleAddNewTask?: ((data: (string | undefined)[]) => void) | undefined;
   boardList?: object[] | undefined;
 };
@@ -57,7 +57,6 @@ const AddNewTask = ({
     const taskTitle =
       document.querySelector<HTMLInputElement>("#taskTitle")?.value;
     const data = [taskTitle, taskDisc , calendar.value];
-    console.log(data);
       
     if((taskDisc && taskTitle && calendar.value)?.trim() ){
       handleAddNewTask && handleAddNewTask(data);
@@ -88,7 +87,7 @@ const AddNewTask = ({
 
               <span
                 className="cursor-pointer text-[#BDBDBD]"
-                onClick={() => handleNewTaskModal("")}
+                onClick={() => handleNewTaskModal(false)}
               >
                 <CloseIcon />
               </span>

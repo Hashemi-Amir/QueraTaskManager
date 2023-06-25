@@ -6,14 +6,15 @@ import "react-multi-date-picker/styles/colors/teal.css";
 import { BsCalendar4 } from "react-icons/bs";
 import "./customCalendar.css";
 
+
 type QuckCalendarProps = {
   handleCalendar: (modalState: boolean, value?: any) => void;
 };
 
 const QuckCalendar = ({ handleCalendar }: QuckCalendarProps) => {
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState(null);
   const [deadline, setDeadline] = useState({
-    showDeadline: { fDay: "", lDay: "" },
+    showDeadline: '',
     value: "",
   });
 
@@ -33,15 +34,12 @@ const QuckCalendar = ({ handleCalendar }: QuckCalendarProps) => {
 
   // handle deadLine value and show deadline
   const handleDeadline = (date: any) => {
-    const deadlineShow = {
-      fDay: date[0]?.format("YYYY/MM/DD"),
-      lDay: date[1]?.format("YYYY/MM/DD"),
-    };
-    const valueDate = date[1]?.format("YYYY-MM-DDTHH:mm:ss");
+    const deadlineShow = date?.format("YYYY/MM/DD");
+    const valueDate = date?.format("YYYY-MM-DDTHH:mm:ss");
+    
     // convert
     const englishNum =
       valueDate != undefined && persianToEnglishNumber(valueDate);
-
     setValue(date);
     setDeadline({ ...deadline, showDeadline: deadlineShow, value: englishNum });
   };
@@ -52,6 +50,9 @@ const QuckCalendar = ({ handleCalendar }: QuckCalendarProps) => {
       return String.fromCharCode(digit.charCodeAt(0) - 1728);
     });
   };
+
+
+
 
   return (
     <>
@@ -66,16 +67,8 @@ const QuckCalendar = ({ handleCalendar }: QuckCalendarProps) => {
               <span className="ml-3">
                 <BsCalendar4 />
               </span>
-              تاریخ شروع{" "}
-              <span className={HeaderDate}>{deadline.showDeadline.fDay}</span>
-            </div>
-
-            <div className={HeaderFont}>
-              <span className="ml-3">
-                <BsCalendar4 />
-              </span>
               ددلاین
-              <span className={HeaderDate}>{deadline.showDeadline.lDay}</span>
+              <span className={HeaderDate}>{deadline.showDeadline}</span>
             </div>
           </div>
 
@@ -87,10 +80,10 @@ const QuckCalendar = ({ handleCalendar }: QuckCalendarProps) => {
               weekDays={weekDays}
               headerOrder={["MONTH_YEAR", "LEFT_BUTTON", "RIGHT_BUTTON"]}
               monthYearSeparator=" "
-              className="multi-locale-days teal"
+              className="teal"
+              multiple={false}
               calendar={persian}
               locale={persian_fa}
-              range
             />
           </div>
 

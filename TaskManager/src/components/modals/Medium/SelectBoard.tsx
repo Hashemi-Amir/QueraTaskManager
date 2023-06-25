@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../../ui/Button";
 import CloseIcon from "../../ui/Close";
 
@@ -7,26 +7,29 @@ type dataList = {
   name: string;
 };
 type SelectBoardProps = {
-  toggleModal: (modalName: string ) => void;
+  toggleModal: (modalName: boolean) => void;
   data: dataList[];
-  selectedHandle: (id: string ) => void;
-  status :string;
+  selectedHandle: (id: string) => void;
+  status: string;
 };
 
 const SelectBoard = ({
   toggleModal,
   data,
   selectedHandle,
-  status
+  status,
 }: SelectBoardProps) => {
-  const [boardId, setBoardId] = useState('');
+  const [boardId, setBoardId] = useState("");
+  const selectRef = useRef<any | null>(null);
+
   const handleSelectValue = (event: React.ChangeEvent<HTMLElement>) => {
     const element = event.target as HTMLInputElement;
+
     setBoardId(element.value);
   };
-  useEffect(()=> {
+  useEffect(() => {
     // console.log(data);
-  },[status])
+  }, [status]);
 
   return (
     <div className="modal-box w-3/4 max-w-lgl min-w-[500px]">
@@ -37,12 +40,14 @@ const SelectBoard = ({
             <label
               htmlFor="my-modal-3"
               className="text-323232 cursor-pointer"
-              onClick={() => toggleModal("")}
+              onClick={() => toggleModal(false)}
             >
               <CloseIcon />
             </label>
 
-            <div className="font-semibold text-2xl text-black">انتخاب {status}</div>
+            <div className="font-semibold text-2xl text-black">
+              انتخاب {status}
+            </div>
 
             <span></span>
           </div>
@@ -55,14 +60,15 @@ const SelectBoard = ({
                 dir="rtl"
                 onChange={handleSelectValue}
                 className="select select-accent w-full max-w-xs text-center"
-                id='sel'
+                id="sel"
                 defaultValue={boardId}
+                ref={selectRef}
               >
                 <option disabled value={boardId}>
                   {status} مورد نظرت رو انتخاب کن ;)
                 </option>
                 {data &&
-                  data.map(item => {
+                  data.map((item) => {
                     return (
                       <option key={item._id} value={item._id}>
                         {item.name}
@@ -77,23 +83,8 @@ const SelectBoard = ({
               <Button
                 value={"ادامه"}
                 onClick={() => {
-                  if(boardId.trim()){
-                    selectedHandle(boardId);
-                    setBoardId(``)
-                  }
-                  else if(boardId === ''){
-                    const select = document.querySelector<HTMLSelectElement>('#sel')
-                    const sel:HTMLCollectionOf<HTMLOptionElement> | undefined = select?.selectedOptions
-
-                    if(sel && sel.length > 0){
-                    const id = sel[0].getAttribute('value')!;
-                    setBoardId(id);
-                    }
-                    
-                    
-                  }
-                  
-                  
+                  const selectedValue = selectRef.current?.value;
+                  selectedValue && selectedHandle(selectedValue);
                 }}
               />
             </div>
@@ -105,7 +96,7 @@ const SelectBoard = ({
             <label
               htmlFor="my-modal-3"
               className="text-323232 cursor-pointer"
-              onClick={() => toggleModal("")}
+              onClick={() => toggleModal(false)}
             >
               <CloseIcon />
             </label>
@@ -115,7 +106,7 @@ const SelectBoard = ({
             <span></span>
           </div>
           <div className="font-semibold text-xl text-black text-center">
-            {status}ی وجود نداره ، یدونه بساز
+            {status} ای وجود نداره ، یدونه بساز
           </div>
         </>
       )}

@@ -37,6 +37,7 @@ import boardReducer, {
   deleteBoard,
   editBoardName,
   resetPostBoard,
+  resetBoard
 } from "../features/boards/boardSlice";
 import userReducer, {
   updateUserById,
@@ -115,6 +116,7 @@ export {
   deleteBoard,
   editBoardName,
   resetPostBoard,
+  resetBoard,
   setSelectedBoardId,
   setSelectedTaskId,
   fetchAllWorkSpaces,
