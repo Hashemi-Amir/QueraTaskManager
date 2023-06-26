@@ -4,26 +4,23 @@ import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { deleteProject } from "../../../services/app/store";
 
 import {
+  resetBoards,
   setSelectedProjectId,
 } from "../../../services/features/boards/boardSlice";
 import { setSelectedProject } from "../../../services/features/projects/projectSlice";
-import {
-  fetchBoards
-} from "../../../services/app/store";
+import { fetchBoards } from "../../../services/app/store";
 import { createPortal } from "react-dom";
 import SideMore from "../../modals/Small/SideMore";
 
-type Projects = {
-  projects: [];
+export type Projects = {
+  projects: { _id: string; name: string; boards: [] }[];
 };
-
-
 
 function ProjectList({ projects }: Projects) {
   const dispatch = useAppDispatch();
   const { projects: projectState } = useAppSelector((state) => state.boards);
 
-  const [projectMore, setprojectMore] = useState<string | undefined>('');
+  const [projectMore, setprojectMore] = useState<string | undefined>("");
   const [morePosition, setMorePosition] = useState<object>({
     top: 0,
     left: 0,
@@ -40,14 +37,17 @@ function ProjectList({ projects }: Projects) {
       setMorePosition({ ...morePosition, top: top, left: left });
       setprojectMore(id);
     } else {
-      setprojectMore('');
+      setprojectMore("");
     }
   };
 
   // handle delete project
   const handleDeleteProject = () => {
     projectMore && dispatch(deleteProject(projectMore));
-    handleItemClick()
+    handleItemClick();
+    dispatch(setSelectedProjectId(""));
+    dispatch(setSelectedProject(""));
+    dispatch(resetBoards());
   };
 
   return (
@@ -67,9 +67,9 @@ function ProjectList({ projects }: Projects) {
         >
           {name}
           <span
-            className=" left-2 p-3 cursor-pointer hidden group-hover/content:block z-10"
+            className=" left-2 cursor-pointer hidden group-hover/content:block z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-              handleItemClick(e , _id);
+              handleItemClick(e, _id);
             }}
           >
             <BsThreeDots />

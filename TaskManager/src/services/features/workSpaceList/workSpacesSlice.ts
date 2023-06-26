@@ -1,20 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import WorkspaceService from "./workSpaceService";
-import { createProject, deleteProject, editProjectName } from "../projects/projectSlice";
+import {
+  createProject,
+  deleteProject,
+  editProjectName,
+} from "../projects/projectSlice";
 
-
-type ProjectProps = {
-  boards: any;
-  _id : string;
-}
+export type ProjectProps = {
+  _id: string;
+  boards: [];
+  name: string;
+}[];
 
 export type WorkSpacesProps = {
   _id: string;
   name: string;
   user: string;
   members: [];
-  projects: ProjectProps[];
-};
+  projects: ProjectProps;
+}[];
 
 type initialStateType = {
   isLoading: boolean;
@@ -24,8 +28,8 @@ type initialStateType = {
   selectedSpace: string;
   selectedWorkSpaceId: string;
   selectedWorkSpaceHeader: string;
-  searchedWorkSpace: WorkSpacesProps[];
-  workSpaces: WorkSpacesProps[];
+  searchedWorkSpace: WorkSpacesProps;
+  workSpaces: WorkSpacesProps;
   isLoadingPost: boolean;
   isSuccessPost: boolean;
   isErrorPost: boolean;
@@ -245,7 +249,7 @@ const workSpacesSlice = createSlice({
       })
 
       .addCase(addWorkSpaceMember.fulfilled, (state) => {
-        state.isLoadingPost = false;        
+        state.isLoadingPost = false;
         state.isSuccessPost = true;
         state.messagePost = "کاربر با موفقیت اضافه شد";
       })
@@ -293,7 +297,7 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = false;
         const selectedWorkSpace = action.payload.workspace;
         // find workSpaceIndex
-        const workSpaceIndex:number = state.workSpaces.findIndex((item) => {
+        const workSpaceIndex: number = state.workSpaces.findIndex((item) => {
           return item._id === selectedWorkSpace;
         });
 
@@ -306,8 +310,6 @@ const workSpacesSlice = createSlice({
           });
         }
       })
-
-
 
       // update workspace by rename project
       .addCase(editProjectName.fulfilled, (state, action) => {
@@ -325,11 +327,7 @@ const workSpacesSlice = createSlice({
             ? { ...project, name: action.payload.name }
             : project;
         });
-      })
-
-
-
-
+      });
   },
 });
 

@@ -14,7 +14,7 @@ type Projects = {
   projects: ProjectsProps[];
 };
 
-type initialStateType = {
+export type initialStateType = {
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -163,8 +163,8 @@ const projectSlice = createSlice({
         state.isSuccess = true;
 
         const workSpaceId = action.meta.arg;
-        const workSpaceIndex = state.workSpaces.findIndex((item) => {
-          return item.workSpaceId === workSpaceId;
+        const workSpaceIndex = state.workSpaces.findIndex((workSpace) => {
+          return workSpace.workSpaceId === workSpaceId;
         });
         if (workSpaceIndex >= 0) {
           // workSpace exists, add the new board to its list of boards

@@ -272,6 +272,13 @@ const boardsSlice = createSlice({
     setSelectedTaskId: (state, action) => {
       state.selectedTaskId = action.payload;
     },
+    resetBoards: (state) => {
+      state.isError = false;
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.message = "";
+      state.projects = [];
+    },
 
     // Reset comment helper flags
     resetComment: (state) => {
@@ -308,13 +315,21 @@ const boardsSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         const projectId = action.meta.arg;
-        state.test = action.payload;
-        state.projects.push({
-          projectId,
-          projectBoards: action.payload.sort(
-            (b: Task, a: Task) => a.position - b.position
-          ),
+        const projectIndex = state.projects.findIndex((project) => {
+          return project.projectId == projectId;
         });
+        if (projectIndex >= 0) {
+          state.projects[projectIndex].projectBoards = action.payload.sort(
+            (b: Task, a: Task) => a.position - b.position
+          );
+        } else {
+          state.projects.push({
+            projectId,
+            projectBoards: action.payload.sort(
+              (b: Task, a: Task) => a.position - b.position
+            ),
+          });
+        }
       })
 
       .addCase(fetchBoards.rejected, (state, action) => {
@@ -582,10 +597,11 @@ export {
   editBoardName,
 };
 export const {
-  setSelectedProjectId,
   changePosition,
-  resetPostBoard,
+  setSelectedProjectId,
   setSelectedBoardId,
   setSelectedTaskId,
+  resetBoards,
+  resetPostBoard,
   resetComment,
 } = boardsSlice.actions;

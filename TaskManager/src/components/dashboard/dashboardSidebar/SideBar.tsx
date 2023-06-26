@@ -10,7 +10,15 @@ import { fetchAllWorkSpaces, resetAllState } from "../../../services/app/store";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { useEffect } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { ProjectProps } from "../../../services/features/workSpaceList/workSpacesSlice";
 
+export type workSpacesType = {
+  _id: string;
+  name: string;
+  user: string;
+  members: [];
+  projects: ProjectProps;
+}[];
 
 const SideBar = () => {
   const {

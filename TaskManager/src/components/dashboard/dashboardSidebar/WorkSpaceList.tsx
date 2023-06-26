@@ -9,31 +9,26 @@ import {
   setSelectedWorkSpaceHeader,
   setSelectedWorkSpaceId,
 } from "../../../services/features/workSpaceList/workSpacesSlice";
-import { fetchProjects } from "../../../services/app/store";
+import { fetchProjects, resetProject } from "../../../services/app/store";
 import { useLocation } from "react-router-dom";
+import { workSpacesType } from "./SideBar";
 
-type WorkSpaceProps = {
-  workSpaces: {
-    _id: string;
-    name: string;
-    user: string;
-    members: [];
-    projects: [];
-  }[];
+export type WorkSpaceProps = {
+  workSpaces: workSpacesType;
 };
 
 const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
   const dispatch = useAppDispatch();
   const Location = useLocation();
-  const { workSpaces: stateProject } = useAppSelector((state) => state.projects);
-  const [workspaceMore, setWorkspaceMore] = useState<string | undefined>('');
+  const { workSpaces: stateProject } = useAppSelector(
+    (state) => state.projects
+  );
+  const [workspaceMore, setWorkspaceMore] = useState<string | undefined>("");
   const [morePosition, setMorePosition] = useState<object>({
     top: 0,
     left: 0,
   });
 
-
-  
   // modal toggle handle
   const handleItemClick = (
     e?: React.MouseEvent<HTMLElement, MouseEvent>,
@@ -42,17 +37,20 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
     if (workspaceMore === "") {
       const top = `${e?.clientY}px`;
       const left = `${e?.clientX}px`;
-      setMorePosition({ ...morePosition, top: top, left: left });
+      setMorePosition({ ...morePosition, top, left });
       setWorkspaceMore(id);
     } else {
-      setWorkspaceMore('');
+      setWorkspaceMore("");
     }
   };
 
   // delete workspace and called dispatch redux toolkit
   const handleDeleteWorkSpace = () => {
     workspaceMore && dispatch(deleteWorkSpace(workspaceMore));
-    setWorkspaceMore('');
+    setWorkspaceMore("");
+    dispatch(setSelectedWorkSpaceId(""));
+    dispatch(setSelectedWorkSpaceHeader(""));
+    dispatch(resetProject());
   };
   const colors = JSON.parse(localStorage.getItem("Colors") as string);
 
@@ -87,7 +85,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
               </div>
 
               <div
-                className="absolute left-2 p-3 cursor-pointer hidden group-hover/title:block z-10"
+                className="absolute left-2 cursor-pointer hidden group-hover/title:block z-10"
                 onClick={(event) => {
                   event.stopPropagation();
                   handleItemClick(event, _id);
@@ -97,24 +95,24 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
               </div>
             </div>
 
-            {workspaceMore &&
-              createPortal(
-                <SideMore
-                  sideMoreState="ورک اسپیس"
-                  morePosition={morePosition}
-                  handleDelete={handleDeleteWorkSpace}
-                  id={workspaceMore}
-                  handleItemClick={handleItemClick}
-                />,
-                document.body
-              )}
-
             <div className="collapse-content">
               <ProjectList projects={projects} />
             </div>
           </div>
         );
       })}
+
+      {workspaceMore &&
+        createPortal(
+          <SideMore
+            sideMoreState="ورک اسپیس"
+            morePosition={morePosition}
+            handleDelete={handleDeleteWorkSpace}
+            id={workspaceMore}
+            handleItemClick={handleItemClick}
+          />,
+          document.body
+        )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useLocation, Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/dashboard/dashboardHeader/Header";
 import SideBar from "../components/dashboard/dashboardSidebar/SideBar";
 import Button from "../components/ui/Button";
@@ -30,8 +30,9 @@ const DashboardLayout = () => {
     boardStep: "select",
     boardId: "",
   });
-  const Location = useLocation();
   const dispatch = useAppDispatch();
+  const Location = useLocation();
+
   const { selectedProject } = useAppSelector((state) => state.projects);
   const { selectedWorkSpaceHeader } = useAppSelector(
     (state) => state.workSpaces
@@ -108,6 +109,8 @@ const DashboardLayout = () => {
     "border-t-71FDA9",
     "border-t-FFE605",
   ];
+
+
   localStorage.setItem("Colors", JSON.stringify(colors));
   localStorage.setItem("BorderColors", JSON.stringify(borderColors));
 
@@ -117,7 +120,7 @@ const DashboardLayout = () => {
   let WraperClasses = "";
   // Dynamically styling different view wrapers
   if (Location.pathname === "/columnview")
-    WraperClasses = `overflow-x-auto my-4 overflow-y-hidden flex ${commonStyle} `;
+    WraperClasses = `overflow-x-auto my-4 overflow-y-hidden flex ${commonStyle}  `;
   else if (Location.pathname === "/" || Location.pathname === "/listview")
     WraperClasses = `overflow-y-auto mt-4 flex ${commonStyle}`;
   else if (Location.pathname === "/calendarview")
@@ -133,7 +136,9 @@ const DashboardLayout = () => {
           projectName={
             Location.pathname === "/columnview"
               ? selectedProject
-              : selectedWorkSpaceHeader
+              : Location.pathname === "/listview"
+              ? selectedWorkSpaceHeader
+              : ""
           }
         />
         {/* Without Classes for calander view */}
