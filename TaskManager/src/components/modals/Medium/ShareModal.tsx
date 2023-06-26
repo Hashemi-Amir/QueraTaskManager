@@ -2,13 +2,15 @@ import Button from "../../ui/Button";
 import { FiLink } from "react-icons/fi";
 import avatar from "../../../assets/avatar.png";
 import { IoIosArrowDown } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Permission from "../Small/Permission";
 import CloseIcon from "../../ui/Close";
+import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import {
   addMemberToProject,
   addWorkSpaceMember,
+  fetchAddedMember,
   fetchAllWorkSpaces,
   removeMemberThanProject,
   removeWorkSpaceMember,
@@ -35,33 +37,62 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
 
   const [members, setMembers] = useState<Members[]>([]);
   const [selectedMemberId, setSelectedMemberId] = useState<string>("");
+  const inputInvite = useRef<HTMLInputElement>(null)
   const dispatch = useAppDispatch();
 
   const { workSpaces: workMembers, isSuccessPost } = useAppSelector(
     (state) => state.workSpaces
   );
-  const { isSuccessPost: isSuccessProject, workSpaces } = useAppSelector(
-    (state) => state.projects
-  );
+  const {
+    isSuccessPost: isSuccessProject,
+    workSpaces,
+    addedMemberUserName,
+  } = useAppSelector((state) => state.projects);
+  // check has member
+  const checkHasMember = (memberName:string) => {
+    if (ModalTitle === "ورک اسپیس" ) {
+      const workspaceIndex = workMembers.findIndex(
+        (workspace) => workspace._id === id
+      );
+      const hasMember = workMembers[workspaceIndex].members.some(
+        (member) => member.user.username === memberName
+      );
+      return hasMember;
+    }
+    if (ModalTitle === "پروژه") {
+      const project = workSpaces.map((workSpace) =>
+        workSpace.projects.find((project) => project._id === id)
+      );
+
+      const hasMember = project[0]?.members.some(
+        (member) => member.user.username === memberName
+      );      
+      return hasMember;
+    }
+  };
 
   useEffect(() => {
     if (isSuccessPost) {
       dispatch(fetchAllWorkSpaces());
       dispatch(resetWorkspaces());
     }
-    if (isSuccessProject) {
-      dispatch(fetchAllWorkSpaces());
-      dispatch(resetWorkspaces());
+    if (!checkHasMember(inputInvite.current?.value) && isSuccessProject) {
+      dispatch(fetchAddedMember(addedMemberUserName));
     }
 
     handleMembers();
-  }, [dispatch, workMembers, isSuccessPost, isSuccessProject]);
+  }, [
+    dispatch,
+    workMembers,
+    isSuccessPost,
+    isSuccessProject,
+    fetchAddedMember,
+    workSpaces,
+  ]);
 
   const handleMembers = () => {
     if (ModalTitle === "ورک اسپیس") {
       const filter = workMembers.filter((item) => item._id === id);
-      console.log(filter);
-
       if (filter[0]?.members) {
         const membersArray: Members[] = (filter[0] as any).members;
         setMembers(membersArray);
@@ -69,26 +100,18 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
     }
 
     if (ModalTitle === "پروژه") {
-      const projects = workMembers.map((workSpace) => workSpace.projects);
-      console.log(projects);
+      const projects = workSpaces.map((workSpace) => workSpace.projects);
+      const selectedProject: any = [];
+      projects.forEach((project) => {
+        project.forEach(
+          (item) => item._id === id && selectedProject.push(project)
+        );
+      });
 
-      // const selectedProject: any = [];
-      // projects.forEach((project) => {
-      //   console.log(project);
-
-      //   project.forEach(
-      //     (item) => item._id === id && selectedProject.push(project)
-      //   );
-      // });
-
-      // console.log(selectedProject);
-
-      // if(selectedProject[0]?.members){
-      //   const membersArray: Members[] = (selectedProject[0] as any).members;
-      //   console.log(membersArray);
-
-      //   setMembers(selectedProject[0])
-      // }
+      const projectMembers = selectedProject[0].find(
+        (project: { _id: string | undefined }) => project._id === id
+      );
+      setMembers(projectMembers.members);
     }
   };
 
@@ -106,16 +129,23 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
 
   // Add member with called dispatch redux toolkit
   const handleAddMember = () => {
-    const inviteValue: string | undefined =
-      document.querySelector<HTMLInputElement>("#invite")?.value;
+    // const inviteValue: string | undefined =
+    //   document.querySelector<HTMLInputElement>("#invite")?.value;
+      const inviteValue = inputInvite.current?.value
     if (ModalTitle === "ورک اسپیس" && inviteValue?.trim()) {
       const workspaceIds: (string | undefined)[] = [id, inviteValue];
-      dispatch(addWorkSpaceMember(workspaceIds));
+      checkHasMember(inviteValue)
+        ? toast.error(`کاربر ${inviteValue} از قبل اضافه شده !`, { rtl: true })
+        : dispatch(addWorkSpaceMember(workspaceIds));
     }
 
     if (ModalTitle === "پروژه" && inviteValue?.trim()) {
       const projectsIds: (string | undefined)[] = [id, inviteValue];
-      dispatch(addMemberToProject(projectsIds));
+      checkHasMember(inviteValue)
+      ? toast.error(`کاربر ${inviteValue} از قبل اضافه شده !`, { rtl: true })
+      : dispatch(addMemberToProject(projectsIds));
+      
+      
     }
   };
 
@@ -162,6 +192,7 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
                 placeholder="دعوت با نام کاربری"
                 name="invite"
                 id="invite"
+                ref={inputInvite}
                 className="w-4/5 h-10 p-3 bg-F0F1F3 rounded-tr-lg rounded-br-lg text-sm font-normal focus:outline-none"
               />
 

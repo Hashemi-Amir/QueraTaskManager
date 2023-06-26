@@ -40,6 +40,7 @@ import boardReducer, {
   resetBoard
 } from "../features/boards/boardSlice";
 import userReducer, {
+  fetchAddedMember,
   updateUserById,
   resetUser,
 } from "../features/user/userSlice";
@@ -129,4 +130,5 @@ export {
   updateUserById,
   resetUser,
   resetAllState,
+  fetchAddedMember,
 };

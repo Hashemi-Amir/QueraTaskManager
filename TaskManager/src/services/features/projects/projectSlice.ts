@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AXIOS from "../utils/AXIOS";
 import ProjectsService from "./projectService";
+import { fetchAddedMember } from "../user/userSlice";
 
 export type ProjectsProps = {
   _id: string;
@@ -24,7 +25,7 @@ type initialStateType = {
   isSuccessPost: boolean;
   isErrorPost: boolean;
   messagePost: unknown;
-
+  addedMemberUserName: string | undefined;
   selectedProject: string;
   workSpaces: Projects[];
 };
@@ -40,6 +41,7 @@ const initialState: initialStateType = {
   isErrorPost: false,
   messagePost: "",
   selectedProject: "",
+  addedMemberUserName: "",
   workSpaces: [],
 };
 
@@ -274,19 +276,17 @@ const projectSlice = createSlice({
         state.workSpaces = [];
       })
 
-
-
       // add member to project
       .addCase(addMemberToProject.pending, (state) => {
         state.isLoadingPost = true;
         state.isSuccessPost = false;
       })
-      .addCase(addMemberToProject.fulfilled, (state) => {
+      .addCase(addMemberToProject.fulfilled, (state, action) => {
+        const memberName = action.meta.arg[1];
         state.isLoadingPost = false;
         state.isSuccessPost = true;
-
-        state.messagePost = 'کاربر به پروژه اضافه شد'
-        
+        state.addedMemberUserName = memberName;
+        state.messagePost = `کاربر ${memberName} به پروژه اضافه شد`;
       })
       .addCase(addMemberToProject.rejected, (state, action) => {
         state.isLoadingPost = false;
@@ -295,8 +295,40 @@ const projectSlice = createSlice({
         state.workSpaces = [];
       })
 
+      // update member project
+      .addCase(fetchAddedMember.fulfilled, (state, action) => {
+        const data = action.payload;
+        const memberObject = {
+          user: {
+            _id: data._id,
+            username: data.username,
+            email: data.email,
+          },
+          role: "member",
+        };
 
-      
+        let test: any[] = [];
+        state.workSpaces.forEach((workspace) =>
+          workspace.projects.forEach((project) => {
+            if (project.name === state.selectedProject) {
+              test.push(project);
+            }
+          })
+        );
+        const workspaceId = test[0].workspace;
+        const projectId = test[0]._id;
+
+        const workspaceIndex = state.workSpaces.findIndex(
+          (workspace) => workspace.workSpaceId === workspaceId
+        );
+        const projectIndex = state.workSpaces[
+          workspaceIndex
+        ].projects.findIndex((project) => project._id === projectId);
+
+        state.workSpaces[workspaceIndex].projects[projectIndex].members.push(
+          memberObject
+        );
+      });
   },
 });
 

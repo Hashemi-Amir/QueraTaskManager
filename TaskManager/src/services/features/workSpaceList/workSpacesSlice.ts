@@ -3,6 +3,12 @@ import WorkspaceService from "./workSpaceService";
 import { createProject, deleteProject, editProjectName } from "../projects/projectSlice";
 
 
+type MemberProps = {
+  user : {
+    username : string
+  }
+}
+
 type ProjectProps = {
   boards: any;
   _id : string;
@@ -12,7 +18,7 @@ export type WorkSpacesProps = {
   _id: string;
   name: string;
   user: string;
-  members: [];
+  members: MemberProps[];
   projects: ProjectProps[];
 };
 
@@ -149,7 +155,6 @@ const workSpacesSlice = createSlice({
         (state.isErrorPost = false);
       state.messagePost = "";
     },
-
     setSelectedSpace: (state, action) => {
       state.selectedSpace = action.payload;
     },
@@ -244,10 +249,11 @@ const workSpacesSlice = createSlice({
         state.isSuccessPost = false;
       })
 
-      .addCase(addWorkSpaceMember.fulfilled, (state) => {
+      .addCase(addWorkSpaceMember.fulfilled, (state , action) => {
+        const memberName = action.meta.arg[1]
         state.isLoadingPost = false;        
         state.isSuccessPost = true;
-        state.messagePost = "کاربر با موفقیت اضافه شد";
+        state.messagePost = `کاربر ${memberName} به ورک اسپیس اضافه شد`;
       })
       .addCase(addWorkSpaceMember.rejected, (state, action) => {
         state.isLoadingPost = false;
@@ -261,10 +267,11 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = true;
       })
 
-      .addCase(removeWorkSpaceMember.fulfilled, (state) => {
+      .addCase(removeWorkSpaceMember.fulfilled, (state,action) => {
+        const memberName = action.payload.username        
         state.isErrorPost = false;
         state.isSuccessPost = true;
-        state.messagePost = "کاربر حذف شد";
+        state.messagePost =  `کاربر ${memberName} حذف شد`;
       })
       .addCase(removeWorkSpaceMember.rejected, (state, action) => {
         state.isLoadingPost = false;

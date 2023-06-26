@@ -16,11 +16,18 @@ const updateUserById = async (userData: FieldValues) => {
   return response.data;
 };
 
+const fetchAddedMember = async (memberId:string | undefined) => {
+  // console.log(memberId);
+  const response = await AXIOS.get(API_URL+ memberId)
+  // console.log(response);
+  return response.data
+}
 // getUserByUserNameOrId
 // const getUserByUserNameOrId = (idOrUsername) => {};
 
 const authServie = {
   updateUserById,
+  fetchAddedMember
   // getUserByUserNameOrId,
 };
 

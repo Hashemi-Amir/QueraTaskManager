@@ -166,7 +166,7 @@ const DashboardLayout = () => {
     <div className="flex flex-row w-full max-h-screen overflow-hidden bg-FAFBFC">
       <SideBar />
       <div className="w-4/5 pr-4 pl-10 min-h-screen">
-        
+        {/* Header */}
         <Header
           projectName={
             Location.pathname === "/columnview"
