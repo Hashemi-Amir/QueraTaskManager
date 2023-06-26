@@ -43,8 +43,8 @@ const AddNewTask = ({
     setPriority({ ...priority, style: style, modal: false, status });
   };
 
-  const handleCalendar = (modalState: boolean) => {
-    setCalendar({ ...calendar, modal: modalState });
+  const handleCalendar = (modalState: boolean, value?: string) => {
+    setCalendar({ ...calendar, modal: modalState, value: value! });
   };
 
   const handleTagsModal = () => {
@@ -56,10 +56,13 @@ const AddNewTask = ({
       document.querySelector<HTMLTextAreaElement>("#descTask")?.value;
     const taskTitle =
       document.querySelector<HTMLInputElement>("#taskTitle")?.value;
+    const data = [taskTitle, taskDisc, calendar.value];
 
-    const data = [taskTitle, taskDisc];
-    handleAddNewTask && handleAddNewTask(data);
+    if ((taskDisc && taskTitle && calendar.value)?.trim()) {
+      handleAddNewTask && handleAddNewTask(data);
+    }
   };
+
   const listOfIcons = `w-12 h-12 text-xl rounded-full text-C1C1C1 border-C1C1C1 border-2 border-dashed flex justify-center items-center cursor-pointer`;
 
   return (

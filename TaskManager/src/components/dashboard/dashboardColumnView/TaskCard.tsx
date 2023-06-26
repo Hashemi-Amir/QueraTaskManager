@@ -10,6 +10,12 @@ import { useAppDispatch } from "../../../services/app/hook";
 import { fetchDeleteTask } from "../../../services/app/store";
 import { Link } from "react-router-dom";
 
+export type taskAssignsType = {
+  _id: string;
+  username: string;
+  email: string;
+};
+
 export type commentType = {
   _id: string; // comment _id
   text: string;
@@ -29,11 +35,12 @@ export type Task = {
   description: string;
   label?: [];
   board?: string;
-  // taskTags: string[];
-  taskAssigns: string[];
-  comments: string[];
+  taskAssigns: taskAssignsType[];
+  comments: commentType[];
   position: number;
-  deadline?: string;
+  deadline: string;
+  borderColor: string;
+  title: string;
 };
 
 const TaskCard = ({
@@ -45,6 +52,8 @@ const TaskCard = ({
   taskAssigns,
   board,
   deadline,
+  borderColor,
+  title,
 }: Task) => {
   const taskInfo = {
     name,
@@ -55,6 +64,8 @@ const TaskCard = ({
     position,
     board,
     deadline,
+    borderColor,
+    title,
   };
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -68,8 +79,8 @@ const TaskCard = ({
     setIsExpanded(isHovering);
   };
 
-  const handleDeleteTask = (event:any) => {
-    event.stopPropagation()
+  const handleDeleteTask = (event: any) => {
+    event.stopPropagation();
     dispatch(fetchDeleteTask(_id));
   };
 

@@ -60,6 +60,8 @@ const Board = ({
                     index
                   ) => (
                     <TaskCard
+                      borderColor={borderColor}
+                      title={title}
                       position={index}
                       key={_id}
                       name={name}
