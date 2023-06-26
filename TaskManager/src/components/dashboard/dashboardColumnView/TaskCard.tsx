@@ -31,7 +31,7 @@ export type Task = {
   board?: string;
   // taskTags: string[];
   taskAssigns: string[];
-  comments: string[];
+  comments: commentType[];
   position: number;
   deadline?: string;
 };
@@ -68,8 +68,8 @@ const TaskCard = ({
     setIsExpanded(isHovering);
   };
 
-  const handleDeleteTask = (event:any) => {
-    event.stopPropagation()
+  const handleDeleteTask = (event: React.MouseEvent) => {
+    event.stopPropagation();
     dispatch(fetchDeleteTask(_id));
   };
 
@@ -111,13 +111,20 @@ const TaskCard = ({
               <span className="text-FB0606">
                 <FiFlag />
               </span>
-              <div className="text-343434">۵ مهر - فردا</div>
+              <div className="text-343434">
+                {/* {getPersianDate(deadline)
+                  .split(" ")
+                  .slice(0, 2)
+                  .join(" ") || ""} */}
+                ۲۵ مهر
+              </div>
               <span className="text-BDC0C6">
                 <div className="form-control">
                   <label className="cursor-pointer label">
                     <input
                       type="checkbox"
                       className="checkbox checkbox-success w-3 h-3 mb-[2px]"
+                      onClick={(event) => event.stopPropagation()}
                     />
                   </label>
                 </div>

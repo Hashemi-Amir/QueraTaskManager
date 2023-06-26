@@ -17,7 +17,7 @@ const CollapseTable = ({ tasks, color }: StatusProjects) => {
       ) : (
         <table className="w-full text-right">
           <thead>
-            <tr className="text-base  font-medium ">
+            <tr className="text-base font-medium ">
               <th className=""></th>
               <th>اعضا</th>
               <th>ددلاین</th>
@@ -26,7 +26,7 @@ const CollapseTable = ({ tasks, color }: StatusProjects) => {
             </tr>
           </thead>
           <tbody>
-            {tasks.map(({ _id, name }) => (
+            {tasks.map(({ _id, name,description }) => (
               <tr key={_id} className="text-sm">
                 <th className="flex items-center mr-16 py-6">
                   <span className={`w-4 h-4 ${color} rounded-sm ml-2 `}></span>
@@ -46,14 +46,17 @@ const CollapseTable = ({ tasks, color }: StatusProjects) => {
                     />
                   </div>
                 </th>
-                <td>۲۰ خرداد</td>
+                <td>
+                  {/* {getPersianDate(deadline).split(" ").slice(0, 2).join(" ")} */}
+                  ۲۵ مهر
+                </td>
                 <td>
                   <span className="text-FB0606">
-                    <FiFlag />
+                    <FiFlag size="1.1rem"/>
                   </span>
                 </td>
                 <td>
-                  <CiTextAlignRight />
+                  <CiTextAlignRight size="1.1rem" title={description}/>
                 </td>
               </tr>
             ))}
