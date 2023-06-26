@@ -1,5 +1,5 @@
 import AXIOS from "../utils/AXIOS";
-import { taskinfoType } from "./taskSlice";
+import { assignInfoType, taskinfoType, unAssignInfoType } from "./taskSlice";
 import { createTask } from "./taskSlice";
 const API_URL = "/api/task/";
 
@@ -11,6 +11,21 @@ const fetchUpdateTask = async (taskinfo: taskinfoType) => {
     deadline: taskinfo.deadline,
   });
   return response.data;
+};
+
+// assign task
+const fetchAssignTask = async (assignInfo: assignInfoType) => {
+  const response = await AXIOS.put(
+    API_URL + assignInfo.taskId + "/assign/" + assignInfo.usernameOrId
+  );
+  if (response.data) return response.data;
+};
+// unAassign task
+const fetchUnAssignTask = async (unAssignInfo: unAssignInfoType) => {
+  const response = await AXIOS.delete(
+    API_URL + unAssignInfo.taskId + "/assign/" + unAssignInfo.usernameOrId
+  );
+  if (response) return unAssignInfo.usernameOrId;
 };
 
 const fetchCreateTask = async (data: createTask) => {
@@ -26,6 +41,8 @@ const taskService = {
   fetchCreateTask,
   fetchDeleteTask,
   fetchUpdateTask,
+  fetchAssignTask,
+  fetchUnAssignTask,
 };
 
 export default taskService;

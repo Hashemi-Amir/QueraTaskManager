@@ -16,11 +16,13 @@ import projectReducer, {
   addMemberToProject,
   removeMemberThanProject,
 } from "../features/projects/projectSlice";
-import taskReducer,{
+import taskReducer, {
   resetTask,
   fetchCreateTask,
   fetchDeleteTask,
-  fetchUpdateTask
+  fetchUpdateTask,
+  fetchAssignTask,
+  fetchUnAssignTask,
 } from "../features/tasks/taskSlice";
 
 import boardReducer, {
@@ -102,6 +104,8 @@ export {
   removeMemberThanProject,
   resetTask,
   fetchUpdateTask,
+  fetchAssignTask,
+  fetchUnAssignTask,
   fetchCreateTask,
   fetchDeleteTask,
   fetchBoards,

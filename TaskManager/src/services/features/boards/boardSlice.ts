@@ -2,12 +2,21 @@ import changePositionReducer from "./reducers/changePositionReducer";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import boardService from "./boardService";
 import { commentType } from "../../../components/dashboard/dashboardColumnView/TaskCard";
-import { fetchUpdateTask } from "../tasks/taskSlice";
+import {
+  fetchAssignTask,
+  fetchUnAssignTask,
+  fetchUpdateTask,
+} from "../tasks/taskSlice";
 import { fetchCreateTask, fetchDeleteTask } from "../tasks/taskSlice";
 
 type PositionProps = {
   id: string;
   index: number;
+};
+type taskAssignsType = {
+  _id: string;
+  username: string;
+  email: string;
 };
 export type Task = {
   _id: string;
@@ -15,7 +24,7 @@ export type Task = {
   description: string;
   label: [];
   board: string;
-  taskAssigns: [];
+  taskAssigns: taskAssignsType[];
   comments: commentType[];
   position: number;
   deadline: string;
@@ -422,7 +431,6 @@ const boardsSlice = createSlice({
         state.editingCommentMessage = action.payload;
       })
       .addCase(fetchUpdateTask.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.projects
           .find((project) => project.projectId === state.selectedProjectId)
           ?.projectBoards.find((board) => board._id === state.selectedBoardId)
@@ -431,6 +439,28 @@ const boardsSlice = createSlice({
               task.name = action.payload.name;
               task.deadline = action.payload.deadline;
               task.description = action.payload.description;
+            }
+          });
+      })
+      .addCase(fetchAssignTask.fulfilled, (state, action) => {
+        state.projects
+          .find((project) => project.projectId === state.selectedProjectId)
+          ?.projectBoards.find((board) => board._id === state.selectedBoardId)
+          ?.tasks.map((task) => {
+            if (task._id === state.selectedTaskId) {
+              task.taskAssigns.push(action.payload.user);
+            }
+          });
+      })
+      .addCase(fetchUnAssignTask.fulfilled, (state, action) => {
+        state.projects
+          .find((project) => project.projectId === state.selectedProjectId)
+          ?.projectBoards.find((board) => board._id === state.selectedBoardId)
+          ?.tasks.map((task) => {
+            if (task._id === state.selectedTaskId) {
+              task.taskAssigns = task.taskAssigns.filter(
+                (user) => user._id !== action.payload
+              );
             }
           });
       })
