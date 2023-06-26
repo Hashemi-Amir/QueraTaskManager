@@ -53,7 +53,7 @@ const SelectBoard = ({
                 className="select select-accent w-full max-w-xs text-center"
               >
                 <option disabled selected>
-                  برد مورد نظرت رو انتخاب کن ;)
+                  برد مورد نظرت رو انتخاب کن
                 </option>
                 {boardList &&
                   boardList.map(board => {

@@ -33,7 +33,7 @@ const TaskInfo = ({ handleCloseTaskInfo, taskInfo }: TaskInfoProps) => {
           <TaskInfoHeaderRight />
 
           <TaskInfoHeaderLeft
-            deadline={deadline}
+            deadline={deadline || ""}
             handleCloseTaskInfo={handleCloseTaskInfo}
           />
         </section>

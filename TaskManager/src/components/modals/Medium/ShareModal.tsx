@@ -60,7 +60,6 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
   const handleMembers = () => {
     if (ModalTitle === "ورک اسپیس") {
       const filter = workMembers.filter((item) => item._id === id);
-      console.log(filter);
 
       if (filter[0]?.members) {
         const membersArray: Members[] = (filter[0] as any).members;
@@ -70,22 +69,18 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
 
     if (ModalTitle === "پروژه") {
       const projects = workMembers.map((workSpace) => workSpace.projects);
-      console.log(projects);
 
       // const selectedProject: any = [];
       // projects.forEach((project) => {
-      //   console.log(project);
 
       //   project.forEach(
       //     (item) => item._id === id && selectedProject.push(project)
       //   );
       // });
 
-      // console.log(selectedProject);
 
       // if(selectedProject[0]?.members){
       //   const membersArray: Members[] = (selectedProject[0] as any).members;
-      //   console.log(membersArray);
 
       //   setMembers(selectedProject[0])
       // }
