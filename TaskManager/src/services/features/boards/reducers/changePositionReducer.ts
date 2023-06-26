@@ -45,7 +45,8 @@ const changePositionReducer = (state: initialStateType, action: any) => {
     const targetBoard = activeProject.projectBoards.find(
       ({ _id }) => _id === destination.droppableId
     );
-
+    
+    reorderedItem.board = destination.droppableId;
     if (!targetBoard) return;
 
     targetBoard.tasks.splice(destination.index, 0, reorderedItem);
