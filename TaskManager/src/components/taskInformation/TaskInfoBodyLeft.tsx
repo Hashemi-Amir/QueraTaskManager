@@ -32,8 +32,6 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
   const dispatch = useAppDispatch();
   const deleteCommentHandler = (commentId: string) => {
     dispatch(deleteComment(commentId));
-    console.log(deletingCommentId);
-    console.log(taskId);
     setDeletingCommentId("");
   };
 
@@ -109,7 +107,7 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
     }
     if (deleteCommentIsSuccess) {
       toast.dismiss();
-      toast.success(`کامنت با موفقیت حذف شد 🎉`, {
+      toast.success(`کامنت با موفقیت حذف شد `, {
         autoClose: 2000,
         rtl: true,
       });
@@ -123,7 +121,7 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
     }
     if (editingCommentIsSuccess) {
       toast.dismiss();
-      toast.success(`کامنت با موفقیت ویرایش شد 🎉`, {
+      toast.success(`کامنت با موفقیت ویرایش شد `, {
         autoClose: 2000,
         rtl: true,
       });
@@ -201,9 +199,14 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
 
                 <div
                   suppressContentEditableWarning={true}
-                  className={`group chat-bubble pb-6  relative min-w-[100px] transition-all ${
+                  className={`group chat-bubble ${
+                    !editingCommentId && "hover:pb-6"
+                  } ${
+                    editingCommentId === comment._id &&
+                    "pb-8 hover:pb-8 min-w-full"
+                  } relative min-w-[100px] transition-all delay-200 ${
                     comment._id === editingCommentId
-                      ? "bg-white text-black border border-C1C1C1 before:border rounded-md  before:border-b-0 before:border-C1C1C1"
+                      ? "  rounded-md  before:border-b-0 before:border-C1C1C1"
                       : ""
                   }`}
                 >
@@ -256,7 +259,6 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
                             contentEditable="false"
                             className=" text-white px-2 py-1  text-[11px] rounded bg-208D8E hover:bg-[#1d7f80] focus:outline-none focus:ring-2 focus:ring-teal-300 transition-all"
                             onClick={() => editCommentHandler()}
-                            // onClick={() => handleCommentChange()}
                           >
                             ثبت
                           </button>

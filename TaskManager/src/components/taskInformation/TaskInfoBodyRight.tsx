@@ -9,9 +9,14 @@ import { fetchUpdateTask } from "../../services/app/store";
 type TaskInfoBodyRightType = {
   description: string;
   name: string;
+  deadline: string;
 };
 
-const TaskInfoBodyRight = ({ description, name }: TaskInfoBodyRightType) => {
+const TaskInfoBodyRight = ({
+  description,
+  name,
+  deadline,
+}: TaskInfoBodyRightType) => {
   const nameRef = useRef<HTMLHeadingElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
@@ -29,8 +34,8 @@ const TaskInfoBodyRight = ({ description, name }: TaskInfoBodyRightType) => {
         fetchUpdateTask({
           description: descriptionRef.current.value,
           name: nameRef.current.textContent,
+          deadline,
           taskId: selectedTaskId,
-          deadline: "2023-10-16T12:52:24.483+00:00",
         })
       );
     }
@@ -69,9 +74,11 @@ const TaskInfoBodyRight = ({ description, name }: TaskInfoBodyRightType) => {
             ref={descriptionRef}
             name="editTask"
             placeholder="تسک خود را اینجا ویرایش کنید"
-            className="w-full outline-none resize-none text-black text-base p-4 min-h-[100px] focus:min-h-[200px] rounded-sm hover:ring-[1px] hover:ring-C1C1C1 focus:ring-[1px] focus:ring-C1C1C1 focus:shadow-inner transition-all  scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white scrollbar-corner-transparent "
+            className="w-full outline-none resize-none text-black text-base p-4 min-h-[150px] focus:min-h-[150px] rounded-sm hover:ring-[1px] hover:ring-C1C1C1 focus:ring-[1px] focus:ring-C1C1C1 focus:shadow-inner transition-all  scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white scrollbar-corner-transparent "
             defaultValue={description}
-            onChange={() => {}}
+            onChange={() => {
+              true;
+            }}
           />
           <Button
             onClick={submitChangesHandler}
