@@ -25,15 +25,15 @@ type WorkSpaceProps = {
 const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
   const dispatch = useAppDispatch();
   const Location = useLocation();
-  const { workSpaces: stateProject } = useAppSelector((state) => state.projects);
-  const [workspaceMore, setWorkspaceMore] = useState<string | undefined>('');
+  const { workSpaces: stateProject } = useAppSelector(
+    (state) => state.projects
+  );
+  const [workspaceMore, setWorkspaceMore] = useState<string | undefined>("");
   const [morePosition, setMorePosition] = useState<object>({
     top: 0,
     left: 0,
   });
 
-
-  
   // modal toggle handle
   const handleItemClick = (
     e?: React.MouseEvent<HTMLElement, MouseEvent>,
@@ -45,14 +45,14 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
       setMorePosition({ ...morePosition, top: top, left: left });
       setWorkspaceMore(id);
     } else {
-      setWorkspaceMore('');
+      setWorkspaceMore("");
     }
   };
 
   // delete workspace and called dispatch redux toolkit
   const handleDeleteWorkSpace = () => {
     workspaceMore && dispatch(deleteWorkSpace(workspaceMore));
-    setWorkspaceMore('');
+    setWorkspaceMore("");
   };
   const colors = JSON.parse(localStorage.getItem("Colors") as string);
 
