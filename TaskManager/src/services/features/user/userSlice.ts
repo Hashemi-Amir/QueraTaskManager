@@ -51,48 +51,35 @@ export const updateUserById = createAsyncThunk(
   }
 );
 
-// getUserByUserNameOrId
-// export const getUserByUserNameOrId = createAsyncThunk(
-//   "user/getUserByUserNameOrId",
-//   async (userData: FieldValues, thunkAPI) => {
-//     try {
-//       return await userService.getUserByUserNameOrId(userData);
-//     } catch (error: unknown) {
-// if (error instanceof AxiosError) {
-//       const message =
-//         error?.response?.data?.message || error.message || error.toString();
-//       return thunkAPI.rejectWithValue(message);
-//     }}
-//   }
-// );
-
-
 export const fetchAddedMember = createAsyncThunk(
   "user/fetchAddedMember",
-  async (memberId:string | undefined, thunkAPI) => {
+  async (memberId: string | undefined, thunkAPI) => {
     try {
       return await userService.fetchAddedMember(memberId);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
 
 export const fetchAddedMemberWorkspace = createAsyncThunk(
   "user/fetchAddedMemberWorkspace",
-  async (memberId:string | undefined, thunkAPI) => {
+  async (memberId: string | undefined, thunkAPI) => {
     try {
       return await userService.fetchAddedMemberWorkspace(memberId);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
-
 
 const userSlice = createSlice({
   name: "user",
@@ -126,21 +113,6 @@ const userSlice = createSlice({
       .addCase(logOut, (state) => {
         state.user = null;
       });
-    // getUserByUserNameOrId
-    // .addCase(getUserByUserNameOrId.pending, (state) => {
-    //   state.isLoading = true;
-    // })
-    // .addCase(getUserByUserNameOrId.fulfilled, (state, action) => {
-    //   state.isLoading = false;
-    //   state.isSuccess = true;
-    //   state.user = action.payload;
-    //   state.message = action.payload.message;
-    // })
-    // .addCase(getUserByUserNameOrId.rejected, (state, action) => {
-    //   state.isLoading = false;
-    //   state.isError = true;
-    //   state.message = action.payload;
-    // });
   },
 });
 

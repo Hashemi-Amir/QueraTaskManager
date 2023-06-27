@@ -95,10 +95,12 @@ const fetchAssignTask = createAsyncThunk(
   async (assignInfo: assignInfoType, thunkAPI) => {
     try {
       return await taskService.fetchAssignTask(assignInfo);
-    } catch (error: any) {
-      const message: string =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -112,10 +114,12 @@ const fetchUnAssignTask = createAsyncThunk(
   async (unAssignInfo: unAssignInfoType, thunkAPI) => {
     try {
       return await taskService.fetchUnAssignTask(unAssignInfo);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
