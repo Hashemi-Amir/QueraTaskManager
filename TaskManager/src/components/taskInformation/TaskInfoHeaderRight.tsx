@@ -3,41 +3,78 @@ import DashedBorderCard from "../ui/DashedBorderCard";
 import { BsCheckSquare } from "react-icons/bs";
 import { FiFlag } from "react-icons/fi";
 import Share from "../ui/Share";
-import avatar from "../../assets/avatar.jpg";
+import { taskAssignsType } from "../dashboard/dashboardColumnView/TaskCard";
+import TaskAssign from "./taskAssign";
+import { useState } from "react";
 
-const TaskInfoHeaderRight = () => {
+export type TaskInfoHeaderRightType = {
+  taskAssigns: taskAssignsType[];
+  borderColor: string;
+  title: string;
+};
+
+const TaskInfoHeaderRight = ({
+  taskAssigns,
+  borderColor,
+  title,
+}: TaskInfoHeaderRightType) => {
+  const [taskAssignModal, setTaskAssignModal] = useState(false);
+  const colors = JSON.parse(localStorage.getItem("Colors") as string);
+
+  const btnColor = borderColor.split("-")[2];
+  const shadowColor = `shadow-[0px_0px_0px_2px_#${btnColor}]`;
+
   return (
-    <div className="w-1/2 h-full ml-[1px] relative">
-      <div className="w-full  h-14 absolute bottom-6 flex place-content-between items-center px-4">
+    <div className="w-1/2 h-full ml-[1px] relative ">
+      <div className="w-full h-14 absolute bottom-6 flex place-content-between items-center px-4">
         {/* Task Info Right */}
         <div className="h-9 flex items-center gap-7">
           {/* Status Changer */}
-          <div className="flex rounded-sm hover:shadow-[0px_0px_0px_2px_#F84747] transition-all ">
-            <div
-              role="button"
-              className="w-28 h-8 text-white bg-F84747 flex items-center justify-center"
+          <div
+            className={`flex rounded-sm hover:${shadowColor} transition-all`}
+          >
+            <button
+              className={`w-28 h-8 text-white bg-${btnColor} p-1 justify-center truncate`}
             >
-              Open
-            </div>
-            <button className="bg-F84747 mr-[2px] text-white ">
+              {title}
+            </button>
+            <button className={` mr-[2px] text-white bg-${btnColor}`}>
               <RiArrowLeftSLine size="24"></RiArrowLeftSLine>
             </button>
           </div>
           {/* Set To Complete */}
           <BsCheckSquare role="button" size="32" color="#BDBDBD" />
-          {/* Assign task */}
-          <div dir="ltr" className="flex -space-x-2 ">
-            <DashedBorderCard classes="border-C1C1C1">
-              <RiUserAddLine color="#C1C1C1" size="20"></RiUserAddLine>
-            </DashedBorderCard>
 
-            <div className="w-8 cursor-pointer">
-              <img className="rounded-full" draggable={false} src={avatar} />
-            </div>
-            <div className="w-8 cursor-pointer">
-              <img className="rounded-full" draggable={false} src={avatar} />
-            </div>
-          </div>
+          {/* ******************************************************** */}
+          {/* Assign task */}
+          <ul dir="ltr" className="flex -space-x-2 ">
+            <li onClick={() => setTaskAssignModal(true)}>
+              <DashedBorderCard classes="border-C1C1C1">
+                <RiUserAddLine color="#C1C1C1" size="20"></RiUserAddLine>
+              </DashedBorderCard>
+            </li>
+
+            {taskAssigns.map((user, index) => (
+              <li key={user._id} className="w-8 cursor-pointer ">
+                {/* <img className="rounded-full" draggable={false} src={avatar} /> */}
+                <div
+                  className={`${colors[index]} w-full h-full rounded-full flex items-center justify-center pt-1 text-white`}
+                >
+                  {user.username.substring(0, 2)}
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          {taskAssignModal && (
+            <TaskAssign
+              taskAssigns={taskAssigns}
+              setTaskAssignModal={setTaskAssignModal}
+            />
+          )}
+
+          {/* ******************************************************** */}
+
           {/* Priority Flag */}
           <DashedBorderCard classes="border-FB0606">
             <FiFlag color="#FB0606" size="20" />

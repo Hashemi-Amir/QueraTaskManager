@@ -15,7 +15,7 @@ type typePriority = {
 };
 
 type addNewTaskProps = {
-  handleNewTaskModal: (modalName: string) => void;
+  handleNewTaskModal: (modalName: boolean) => void;
   handleAddNewTask?: ((data: (string | undefined)[]) => void) | undefined;
   boardList?: object[] | undefined;
 };
@@ -43,8 +43,8 @@ const AddNewTask = ({
     setPriority({ ...priority, style: style, modal: false, status });
   };
 
-  const handleCalendar = (modalState: boolean) => {
-    setCalendar({ ...calendar, modal: modalState });
+  const handleCalendar = (modalState: boolean, value?: string) => {
+    setCalendar({ ...calendar, modal: modalState, value: value! });
   };
 
   const handleTagsModal = () => {
@@ -56,16 +56,19 @@ const AddNewTask = ({
       document.querySelector<HTMLTextAreaElement>("#descTask")?.value;
     const taskTitle =
       document.querySelector<HTMLInputElement>("#taskTitle")?.value;
+    const data = [taskTitle, taskDisc, calendar.value];
 
-    const data = [taskTitle, taskDisc];
-    handleAddNewTask && handleAddNewTask(data);
+    if ((taskDisc && taskTitle && calendar.value)?.trim()) {
+      handleAddNewTask && handleAddNewTask(data);
+    }
   };
+
   const listOfIcons = `w-12 h-12 text-xl rounded-full text-C1C1C1 border-C1C1C1 border-2 border-dashed flex justify-center items-center cursor-pointer`;
 
   return (
     <>
       <div className="modal-box overflow-visible opacity-100 z-30 py-9 px-11 rounded-2xl shadow-xl w-11/12 max-w-5xl min-w-[1000px]">
-        <form onSubmit={handleNewTaskButton}>
+        <div>
           <div className="flex flex-col">
             {/* task header */}
             <div className="w-full flex justify-between items-center">
@@ -83,7 +86,7 @@ const AddNewTask = ({
 
               <span
                 className="cursor-pointer text-[#BDBDBD]"
-                onClick={() => handleNewTaskModal("")}
+                onClick={() => handleNewTaskModal(false)}
               >
                 <CloseIcon />
               </span>
@@ -176,11 +179,11 @@ const AddNewTask = ({
               {/* create task button */}
 
               <div className="w-32 h-8">
-                <Button value="ساخت تسک" type="submit" />
+                <Button value="ساخت تسک" onClick={handleNewTaskButton} />
               </div>
             </div>
           </div>
-        </form>
+        </div>
         {/* modals on modals */}
         {calendar.modal &&
           createPortal(

@@ -2,12 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AXIOS from "../utils/AXIOS";
 import ProjectsService from "./projectService";
 import { AxiosError } from "axios";
+import { fetchAddedMember } from "../user/userSlice";
 
 export type ProjectsProps = {
   _id: string;
   name: string;
   workspace: string;
-  members: [];
+  members: { user: { username: string } }[];
   boards: [];
 };
 type Projects = {
@@ -25,7 +26,8 @@ export type initialStateType = {
   isSuccessPost: boolean;
   isErrorPost: boolean;
   messagePost: unknown;
-
+  addedMemberUserName: string | undefined;
+  selectedProjectSidebar : string;
   selectedProject: string;
   workSpaces: Projects[];
 };
@@ -40,7 +42,9 @@ const initialState: initialStateType = {
   isSuccessPost: false,
   isErrorPost: false,
   messagePost: "",
+  selectedProjectSidebar : '',
   selectedProject: "",
+  addedMemberUserName: "",
   workSpaces: [],
 };
 
@@ -150,6 +154,9 @@ const projectSlice = createSlice({
     setSelectedProject: (state, action) => {
       state.selectedProject = action.payload;
     },
+    setSelectedProjectSidebar : (state , action) => {
+      state.selectedProjectSidebar = action.payload
+    },
     resetProject: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
@@ -223,7 +230,7 @@ const projectSlice = createSlice({
         state.isLoadingPost = false;
         state.isSuccessPost = false;
         state.isErrorPost = true;
-        state.messagePost = action.error;
+        state.messagePost = action.payload;
         state.workSpaces = [];
       })
 
@@ -252,7 +259,7 @@ const projectSlice = createSlice({
       .addCase(deleteProject.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
-        state.messagePost = action.error;
+        state.messagePost = action.payload;
         state.workSpaces = [];
       })
 
@@ -283,7 +290,7 @@ const projectSlice = createSlice({
       .addCase(editProjectName.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
-        state.messagePost = action.error;
+        state.messagePost = action.payload;
         state.workSpaces = [];
       })
 
@@ -292,23 +299,104 @@ const projectSlice = createSlice({
         state.isLoadingPost = true;
         state.isSuccessPost = false;
       })
-      .addCase(addMemberToProject.fulfilled, (state) => {
+      .addCase(addMemberToProject.fulfilled, (state, action) => {
+        const memberName = action.meta.arg[1];
         state.isLoadingPost = false;
         state.isSuccessPost = true;
-
-        state.messagePost = "کاربر به پروژه اضافه شد";
+        state.addedMemberUserName = memberName;
+        state.messagePost = `کاربر ${memberName} به پروژه اضافه شد`;
       })
       .addCase(addMemberToProject.rejected, (state, action) => {
+        state.isSuccessPost = false;
+        state.isLoadingPost = false;
+        state.isErrorPost = true;
+        state.messagePost = action.payload;
+        state.workSpaces = [];
+      })
+
+      // remove member than project
+      .addCase(removeMemberThanProject.pending, (state) => {
+        state.isLoadingPost = true;
+        state.isSuccessPost = false;
+      })
+      .addCase(removeMemberThanProject.fulfilled, (state, action) => {
+        const memberName = action.payload.username ;
+        const data = action.payload;
+        const test: any[] = [];
+        state.workSpaces.forEach((workspace) =>
+          workspace.projects.forEach((project) => {
+            if (project.name === state.selectedProject) {              
+              test.push(project);
+            }
+          })
+        );
+        
+        const workspaceId = test[0].workspace;
+        const projectId = test[0]._id;
+        const workspaceIndex = state.workSpaces.findIndex(
+          (workspace) => workspace.workSpaceId === workspaceId
+        );
+        
+        const projectIndex = state.workSpaces[
+          workspaceIndex
+        ].projects.findIndex((project) => project._id === projectId);
+        
+        state.workSpaces[workspaceIndex].projects[projectIndex].members = state.workSpaces[workspaceIndex].projects[projectIndex].members.filter(member => member.user.username != data.username)
+        // const st = state.workSpaces[workspaceIndex].projects[projectIndex].members.filter(member => member.user.username != data.username)
+        // const selectedProject = state.workSpaces.forEach
+        // console.log(st);
+        
+        // state.workSpaces.map(workspace => workspace.projects.find(project => project._id === data.projectId)?.members.filter(member => member.user.username != data.username))
+        state.isLoadingPost = false;
+        state.isSuccessPost = true;
+        state.messagePost =  `کاربر ${memberName} حذف شد`;
+      })
+      .addCase(removeMemberThanProject.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.error;
         state.workSpaces = [];
+      })
+
+      // update member project
+      .addCase(fetchAddedMember.fulfilled, (state, action) => {
+        const data = action.payload;
+        const memberObject = {
+          user: {
+            _id: data?._id,
+            username: data?.username,
+            email: data?.email,
+          },
+          role: "member",
+        };
+
+        const test: any[] = [];
+        state.workSpaces.forEach((workspace) =>
+          workspace.projects.forEach((project) => {
+            if (project.name === state.selectedProject) {
+              test.push(project);
+            }
+          })
+        );
+        const workspaceId = test[0].workspace;
+        const projectId = test[0]._id;
+
+        const workspaceIndex = state.workSpaces.findIndex(
+          (workspace) => workspace.workSpaceId === workspaceId
+        );
+        const projectIndex = state.workSpaces[
+          workspaceIndex
+        ].projects.findIndex((project) => project._id === projectId);
+
+        state.workSpaces[workspaceIndex].projects[projectIndex].members.push(
+          memberObject
+        );
       });
   },
 });
 
 export default projectSlice.reducer;
-export const { setId, resetProject, resetPostProject, setSelectedProject } =
+export const { setId, resetProject, resetPostProject, setSelectedProject ,setSelectedProjectSidebar} =
   projectSlice.actions;
 export {
   fetchProjects,

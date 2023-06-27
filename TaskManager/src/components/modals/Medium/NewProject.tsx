@@ -31,7 +31,7 @@ const NewProject = ({ handleAllSideMoreModals , id ,handleItemClick}: projectPro
 
 
   return (
-    <div className="modal-box w-3/4 max-w-lgl">
+    <div className="modal-box w-3/4 max-w-lgl min-w-[500px]">
       <div className="p-5 bg-white rounded-lg">
         {/* card header */}
         <div className="w-full flex justify-between items-center">

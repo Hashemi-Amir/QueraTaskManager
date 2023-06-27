@@ -22,7 +22,7 @@ const AddTaskOnCalendar = ({ handleNewTask, clickDate }: AddTaskOnCalendar) => {
 
   const centering = "w-full flex items-center";
   return (
-    <div className="modal-box w-2/3 max-w-1xl py-5 px-12 overflow-visible ">
+    <div className="modal-box w-2/3 max-w-1xl min-w-[550px] py-5 px-12 overflow-visible ">
       {/* header */}
       <div className={centering}>
         <label

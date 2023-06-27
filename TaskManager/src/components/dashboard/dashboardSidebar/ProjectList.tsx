@@ -7,7 +7,7 @@ import {
   resetBoards,
   setSelectedProjectId,
 } from "../../../services/features/boards/boardSlice";
-import { setSelectedProject } from "../../../services/features/projects/projectSlice";
+import { setSelectedProject,setSelectedProjectSidebar } from "../../../services/features/projects/projectSlice";
 import { fetchBoards } from "../../../services/app/store";
 import { createPortal } from "react-dom";
 import SideMore from "../../modals/Small/SideMore";
@@ -19,14 +19,13 @@ export type Projects = {
 function ProjectList({ projects }: Projects) {
   const dispatch = useAppDispatch();
   const { projects: projectState } = useAppSelector((state) => state.boards);
-
+  const { selectedProjectSidebar } = useAppSelector((state) => state.projects);
   const [projectMore, setprojectMore] = useState<string | undefined>("");
   const [morePosition, setMorePosition] = useState<object>({
     top: 0,
     left: 0,
   });
 
-  // open or close modal toggle
   const handleItemClick = (
     e?: React.MouseEvent<HTMLElement, MouseEvent>,
     id?: string | undefined
@@ -54,7 +53,11 @@ function ProjectList({ projects }: Projects) {
     <>
       {projects.map(({ _id, name }) => (
         <div
-          className="pb-3 font-medium flex justify-between items-center cursor-pointer group/content"
+          className={`pb-3 font-medium flex justify-between items-center cursor-pointer group/content ${
+            selectedProjectSidebar === name
+              ? "text-[#118c80] transition-all"
+              : ""
+          }`}
           key={_id}
           onClick={() => {
             const projectIndex = projectState.findIndex((project) => {
@@ -63,6 +66,11 @@ function ProjectList({ projects }: Projects) {
             if (projectIndex < 0) dispatch(fetchBoards(_id));
             dispatch(setSelectedProjectId(_id));
             dispatch(setSelectedProject(name));
+            selectedProjectSidebar === ""
+              ? dispatch(setSelectedProjectSidebar(name))
+              : selectedProjectSidebar != name
+              ? dispatch(setSelectedProjectSidebar(name))
+              : dispatch(setSelectedProjectSidebar(""));
           }}
         >
           {name}

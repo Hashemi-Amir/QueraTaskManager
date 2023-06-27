@@ -41,11 +41,11 @@ const changePositionReducer = (state: initialStateType, action: AnyAction) => {
   const [reorderedItem] = activeBoardTasks.splice(source.index, 1);
 
   // If the item was dropped in a different column, add it to the destination column's list of tasks and update the positions of all its tasks as necessary.
+
   if (start !== finish && type === "task") {
     const targetBoard = activeProject.projectBoards.find(
       ({ _id }) => _id === destination.droppableId
     );
-    
     reorderedItem.board = destination.droppableId;
     if (!targetBoard) return;
 

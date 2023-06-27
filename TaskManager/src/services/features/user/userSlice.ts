@@ -66,6 +66,34 @@ export const updateUserById = createAsyncThunk(
 //   }
 // );
 
+
+export const fetchAddedMember = createAsyncThunk(
+  "user/fetchAddedMember",
+  async (memberId:string | undefined, thunkAPI) => {
+    try {
+      return await userService.fetchAddedMember(memberId);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const fetchAddedMemberWorkspace = createAsyncThunk(
+  "user/fetchAddedMemberWorkspace",
+  async (memberId:string | undefined, thunkAPI) => {
+    try {
+      return await userService.fetchAddedMemberWorkspace(memberId);
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+
 const userSlice = createSlice({
   name: "user",
   initialState,

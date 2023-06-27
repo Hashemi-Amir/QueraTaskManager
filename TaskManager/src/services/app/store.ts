@@ -15,12 +15,15 @@ import projectReducer, {
   editProjectName,
   addMemberToProject,
   removeMemberThanProject,
+  setSelectedProjectSidebar
 } from "../features/projects/projectSlice";
-import taskReducer,{
+import taskReducer, {
   resetTask,
   fetchCreateTask,
   fetchDeleteTask,
-  fetchUpdateTask
+  fetchUpdateTask,
+  fetchAssignTask,
+  fetchUnAssignTask,
 } from "../features/tasks/taskSlice";
 
 import boardReducer, {
@@ -37,8 +40,11 @@ import boardReducer, {
   deleteBoard,
   editBoardName,
   resetPostBoard,
+  resetBoard
 } from "../features/boards/boardSlice";
 import userReducer, {
+  fetchAddedMember,
+  fetchAddedMemberWorkspace,
   updateUserById,
   resetUser,
 } from "../features/user/userSlice";
@@ -102,6 +108,8 @@ export {
   removeMemberThanProject,
   resetTask,
   fetchUpdateTask,
+  fetchAssignTask,
+  fetchUnAssignTask,
   fetchCreateTask,
   fetchDeleteTask,
   fetchBoards,
@@ -115,6 +123,7 @@ export {
   deleteBoard,
   editBoardName,
   resetPostBoard,
+  resetBoard,
   setSelectedBoardId,
   setSelectedTaskId,
   fetchAllWorkSpaces,
@@ -127,4 +136,7 @@ export {
   updateUserById,
   resetUser,
   resetAllState,
+  fetchAddedMember,
+  fetchAddedMemberWorkspace,
+  setSelectedProjectSidebar
 };

@@ -22,6 +22,8 @@
     "axios": "^1.4.0",
     "emoji-picker-react": "^4.4.9",
     "fullcalendar": "^6.1.8",
+    "jalaali-js": "^1.2.6",
+    "node": "^18.16.1",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-hook-form": "^7.43.9",
@@ -34,6 +36,8 @@
     "yup": "^1.1.1"
   },
   "devDependencies": {
+    "@types/jalaali-js": "^1.1.1",
+    "@types/moment-jalaali": "^0.7.6",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",

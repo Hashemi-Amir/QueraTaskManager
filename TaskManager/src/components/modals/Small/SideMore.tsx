@@ -48,13 +48,13 @@ const SideMore = ({
   const [newModal, setNewModal] = useState("");
   const [editPosition, setEditPosition] = useState<EditBoxPosition>({});
   const [boardList, setBoardList] = useState([]);
-  const [newTaskStatus, setNewTaskStatus] = useState("select");
+  const [newTaskStatus, setNewTaskStatus] = useState("برد");
   const [selectedBoardId, setSelectedBoardId] = useState("");
 
   const { selectedProjectId, projects } = useAppSelector(
     (state) => state.boards
   );
- 
+
   const dispatch = useAppDispatch();
 
   // toggle all modals inside sideMore
@@ -81,22 +81,18 @@ const SideMore = ({
     }
     // set sidemore modals state
     setNewModal(modalName);
-    setNewTaskStatus("select");
+    setNewTaskStatus("برد");
   };
 
   const handleSelectBoardList = (boardId: string) => {
     setSelectedBoardId(boardId);
-    setNewTaskStatus("new");
+    setNewTaskStatus("تسک");
   };
+
   const handleAddNewTask = (data: (string | undefined)[]) => {
     data.push(selectedBoardId);
-    const [name, description, boardId] = [...data];
-    const formData = {
-      name,
-      description,
-      boardId,
-      deadline: "2023-05-16T12:52:24.483+00:00",
-    };
+    const [name, description, deadline, boardId] = [...data];
+    const formData = { name, description, deadline, boardId };
     dispatch(fetchCreateTask(formData));
     handleAllSideMoreModals("");
   };
@@ -129,11 +125,12 @@ const SideMore = ({
           {newModal === "تسک" &&
             createPortal(
               <Modal>
-                {newTaskStatus === "select" ? (
+                {newTaskStatus === "برد" ? (
                   <SelectBoard
-                    handleAllSideMoreModals={handleAllSideMoreModals}
-                    boardList={boardList}
-                    handleSelectBoardList={handleSelectBoardList}
+                    toggleModal={handleAllSideMoreModals}
+                    data={boardList}
+                    selectedHandle={handleSelectBoardList}
+                    status={newTaskStatus}
                   />
                 ) : (
                   <AddNewTask

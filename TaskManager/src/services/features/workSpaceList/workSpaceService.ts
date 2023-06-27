@@ -29,8 +29,7 @@ const updateWorkSpace = async (data: (string | undefined)[]) => {
     usernameOrId: username,
     image: "image url",
   };
-
-  const response = await AXIOS.patch(API_URL + id, formData);
+  const response = await AXIOS.patch(API_URL + id, formData);  
   return response.data;
 };
 
@@ -38,13 +37,11 @@ const addWorkSpaceMember = async (workID: (string | undefined)[]) => {
   const [workSpaceId, userNameOrId] = [...workID];
   const url = `${workSpaceId}/members/${userNameOrId}`;
   const response = await AXIOS.put(API_URL + url, "_");
-
   return response.data;
 };
 
 const removeWorkSpaceMember = async (workID: (string | undefined)[]) => {
   const [workSpaceId, userNameOrId] = [...workID];
-
   const url = `${workSpaceId}/members/${userNameOrId}`;
   const response = await AXIOS.delete(API_URL + url);
   return response.data;

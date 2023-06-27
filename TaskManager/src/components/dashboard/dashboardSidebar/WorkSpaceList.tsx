@@ -62,17 +62,11 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
             className="collapse group/title"
             key={_id}
             onClick={(event) => {
-              if (
-                Location.pathname === "/listview" ||
-                Location.pathname === "/"
-              ) {
-                const workSpaceIndex = stateProject.findIndex((projects) => {
-                  return projects.workSpaceId === _id;
-                });
-                if (workSpaceIndex < 0) dispatch(fetchProjects(_id));
-              } else {
-                event.stopPropagation();
-              }
+              const workSpaceIndex = stateProject.findIndex((projects) => {
+                return projects.workSpaceId === _id;
+              });
+              if (workSpaceIndex < 0) dispatch(fetchProjects(_id));
+      
               dispatch(setSelectedWorkSpaceId(_id));
               dispatch(setSelectedWorkSpaceHeader(name));
             }}
@@ -89,6 +83,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
                 onClick={(event) => {
                   event.stopPropagation();
                   handleItemClick(event, _id);
+                  dispatch(setSelectedWorkSpaceId(_id));
                 }}
               >
                 <BsThreeDots />
