@@ -17,9 +17,12 @@ const updateUserById = async (userData: FieldValues) => {
 };
 
 const fetchAddedMember = async (memberId:string | undefined) => {
-  // console.log(memberId);
   const response = await AXIOS.get(API_URL+ memberId)
-  // console.log(response);
+  return response.data
+}
+
+const fetchAddedMemberWorkspace = async (memberId:string | undefined) => {
+  const response = await AXIOS.get(API_URL+ memberId)
   return response.data
 }
 // getUserByUserNameOrId
@@ -27,7 +30,8 @@ const fetchAddedMember = async (memberId:string | undefined) => {
 
 const authServie = {
   updateUserById,
-  fetchAddedMember
+  fetchAddedMember,
+  fetchAddedMemberWorkspace
   // getUserByUserNameOrId,
 };
 

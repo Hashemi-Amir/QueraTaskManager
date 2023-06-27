@@ -15,6 +15,7 @@ import projectReducer, {
   editProjectName,
   addMemberToProject,
   removeMemberThanProject,
+  setSelectedProjectSidebar
 } from "../features/projects/projectSlice";
 import taskReducer,{
   resetTask,
@@ -41,6 +42,7 @@ import boardReducer, {
 } from "../features/boards/boardSlice";
 import userReducer, {
   fetchAddedMember,
+  fetchAddedMemberWorkspace,
   updateUserById,
   resetUser,
 } from "../features/user/userSlice";
@@ -131,4 +133,6 @@ export {
   resetUser,
   resetAllState,
   fetchAddedMember,
+  fetchAddedMemberWorkspace,
+  setSelectedProjectSidebar
 };

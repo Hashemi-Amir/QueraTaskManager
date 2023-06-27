@@ -3,13 +3,9 @@ import { BsThreeDots } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { deleteProject } from "../../../services/app/store";
 
-import {
-  setSelectedProjectId,
-} from "../../../services/features/boards/boardSlice";
-import { setSelectedProject } from "../../../services/features/projects/projectSlice";
-import {
-  fetchBoards
-} from "../../../services/app/store";
+import { setSelectedProjectId } from "../../../services/features/boards/boardSlice";
+import { setSelectedProject, setSelectedProjectSidebar } from "../../../services/features/projects/projectSlice";
+import { fetchBoards } from "../../../services/app/store";
 import { createPortal } from "react-dom";
 import SideMore from "../../modals/Small/SideMore";
 
@@ -17,18 +13,18 @@ type Projects = {
   projects: [];
 };
 
-
-
 function ProjectList({ projects }: Projects) {
   const dispatch = useAppDispatch();
   const { projects: projectState } = useAppSelector((state) => state.boards);
-
-  const [projectMore, setprojectMore] = useState<string | undefined>('');
+  const { selectedProjectSidebar } = useAppSelector((state) => state.projects);
+  const [isClicked, setIsClicked] = useState("");
+  const [projectMore, setprojectMore] = useState<string | undefined>("");
   const [morePosition, setMorePosition] = useState<object>({
     top: 0,
     left: 0,
   });
-
+  // setSelectedProjectSidebar
+  // const dispatch = useAppDispatch();
   // open or close modal toggle
   const handleItemClick = (
     e?: React.MouseEvent<HTMLElement, MouseEvent>,
@@ -40,21 +36,23 @@ function ProjectList({ projects }: Projects) {
       setMorePosition({ ...morePosition, top: top, left: left });
       setprojectMore(id);
     } else {
-      setprojectMore('');
+      setprojectMore("");
     }
   };
 
   // handle delete project
   const handleDeleteProject = () => {
     projectMore && dispatch(deleteProject(projectMore));
-    handleItemClick()
+    handleItemClick();
   };
 
   return (
     <>
       {projects.map(({ _id, name }) => (
         <div
-          className="pb-3 font-medium flex justify-between items-center cursor-pointer group/content"
+          className={`pb-3 font-medium flex justify-between items-center cursor-pointer group/content ${
+            selectedProjectSidebar === name ? "text-[#118c80] transition-all" : ""
+          }`}
           key={_id}
           onClick={() => {
             const projectIndex = projectState.findIndex((project) => {
@@ -63,13 +61,23 @@ function ProjectList({ projects }: Projects) {
             if (projectIndex < 0) dispatch(fetchBoards(_id));
             dispatch(setSelectedProjectId(_id));
             dispatch(setSelectedProject(name));
+            // isClicked === ""
+            //   ? setIsClicked(name)
+            //   : isClicked != name
+            //   ? setIsClicked(name)
+            //   : setIsClicked("");
+            selectedProjectSidebar === ""
+            ? dispatch(setSelectedProjectSidebar(name))
+            : selectedProjectSidebar != name
+            ? dispatch(setSelectedProjectSidebar(name))
+            : dispatch(setSelectedProjectSidebar(''));
           }}
         >
           {name}
           <span
             className=" left-2 p-3 cursor-pointer hidden group-hover/content:block z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-              handleItemClick(e , _id);
+              handleItemClick(e, _id);
             }}
           >
             <BsThreeDots />
