@@ -172,7 +172,7 @@ const tasksSlice = createSlice({
       .addCase(fetchUpdateTask.fulfilled, (state) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.message = "تسک با موفیت آپدیت شد";
+        state.message = "تسک با موفقیت آپدیت شد";
       })
 
       .addCase(fetchUpdateTask.rejected, (state, action) => {

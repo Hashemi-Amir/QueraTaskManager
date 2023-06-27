@@ -69,19 +69,18 @@ const TaskInfoHeaderLeft = ({
             </div>
           </div>
           {/* Deadline */}
-          <div className="h-full pr-7 ml-auto">
+          <div
+            onClick={() => handleCalendar(true)}
+            className="h-full pr-7 ml-auto cursor-pointer"
+          >
             <div className="flex gap-2">
               <span className="text-BBBBBB text-xs font-medium">ددلاین</span>
-              <BsCalendar3
-                onClick={() => handleCalendar(true)}
-                className="mb-1 cursor-pointer"
-              />
+              <BsCalendar3 className="mb-1 " />
             </div>
             <div className="text-1E1E1E text-base font-medium">
               {deadline
                 ? getPersianDateWithOutTime(getGregorianDate(deadline))
                 : "تعریف نشده"}
-              {/* {deadline} */}
             </div>
           </div>
         </div>
