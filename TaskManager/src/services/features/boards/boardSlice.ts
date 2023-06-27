@@ -4,6 +4,7 @@ import boardService from "./boardService";
 import { commentType } from "../../../components/dashboard/dashboardColumnView/TaskCard";
 import { fetchUpdateTask } from "../tasks/taskSlice";
 import { fetchCreateTask, fetchDeleteTask } from "../tasks/taskSlice";
+import { AxiosError } from "axios";
 
 type PositionProps = {
   id: string;
@@ -56,7 +57,6 @@ export type initialStateType = {
   selectedTaskId: string;
   selectedProjectId: string;
   projects: ProjectType[];
-  test: any;
   isLoadingPost: boolean;
   isSuccessPost: boolean;
   isErrorPost: boolean;
@@ -93,7 +93,6 @@ const initialState: initialStateType = {
   selectedTaskId: "",
   selectedProjectId: "",
   projects: [],
-  test: [],
   isLoadingPost: false,
   isSuccessPost: false,
   isErrorPost: false,
@@ -106,10 +105,12 @@ const fetchBoards = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       return await boardService.fetchBoards(id);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -119,10 +120,12 @@ const fetchChangeBoardPosition = createAsyncThunk(
   async ({ id, index }: PositionProps, thunkAPI) => {
     try {
       return await boardService.fetchChangeBoardPosition({ id, index });
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -132,10 +135,12 @@ const fetchChangeTaskPosition = createAsyncThunk(
   async ({ id, index }: PositionProps, thunkAPI) => {
     try {
       return await boardService.fetchChangeTaskPosition({ id, index });
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -154,10 +159,12 @@ const fetchChangeTaskBoard = createAsyncThunk(
   ) => {
     try {
       return await boardService.fetchChangeTaskBoard({ id, boardId });
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -168,10 +175,12 @@ const createBoard = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await boardService.createBoard(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -187,10 +196,12 @@ const addComment = createAsyncThunk(
   async (commentData: createCommentDataType, thunkAPI) => {
     try {
       return await boardService.addComment(commentData);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -201,10 +212,12 @@ const deleteComment = createAsyncThunk(
   async (commentId: string, thunkAPI) => {
     try {
       return await boardService.deleteComment(commentId);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -220,10 +233,12 @@ const updateComment = createAsyncThunk(
   async (commentData: updateCommentDataType, thunkAPI) => {
     try {
       return await boardService.updateComment(commentData);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -234,10 +249,12 @@ const deleteBoard = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       return await boardService.deleteBoard(id);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -248,10 +265,12 @@ const editBoardName = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await boardService.editBoardName(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );

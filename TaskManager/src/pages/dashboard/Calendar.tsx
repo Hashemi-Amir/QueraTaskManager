@@ -1,20 +1,27 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import dayGrid from "@fullcalendar/daygrid"
+import dayGrid from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import faLocale from "@fullcalendar/core/locales/fa";
-import "../../components/dashboard/dashboardCalendar/calendar.css";
-import { SiAddthis } from "react-icons/si";
 import { useEffect, useState } from "react";
-import {
-  setDate,
-  setRef,
-} from "../../services/features/calendar/calendarSlice";
+import { SiAddthis } from "react-icons/si";
 import { useAppDispatch } from "../../services/app/hook";
 import Modal from "../../layout/Modal";
 import AddTaskOnCalendar from "../../components/modals/Medium/AddTaskOnCalendar";
 import { createPortal } from "react-dom";
+import { VerboseFormattingArg } from "@fullcalendar/core/internal";
+import {
+  setDate,
+  setRef,
+} from "../../services/features/calendar/calendarSlice";
+import "../../components/dashboard/dashboardCalendar/calendar.css";
 
+type DayCellProps = {
+  date: {
+    marker: Date;
+  };
+  dayNumberText: string;
+};
 const Calendar = () => {
   const [todayDate, setTodayDate] = useState("");
   const [clickDate, setClickDate] = useState("");
@@ -28,7 +35,8 @@ const Calendar = () => {
   const handleNewTask = () => {
     setOpenModal(!openModal);
   };
-  const dayCellContent = (props: any) => {
+
+  const dayCellContent = (props: DayCellProps) => {
     return (
       <div className="w-full h-full px-1">
         <div className="flex justify-between items-center w-full">
@@ -49,17 +57,17 @@ const Calendar = () => {
       </div>
     );
   };
-  const titleFormat = (date: any) => {
-    return date.date.marker.toLocaleString("fa-IR", {
+
+  const titleFormat = ({ date }: VerboseFormattingArg) => {
+    return date.marker.toLocaleString("fa-IR", {
       dateStyle: "medium",
     });
   };
 
-
   return (
     <>
       <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin,dayGrid]}
+        plugins={[dayGridPlugin, interactionPlugin, dayGrid]}
         initialView="dayGridMonth"
         locale={faLocale}
         dayCellContent={dayCellContent}
@@ -81,7 +89,7 @@ const Calendar = () => {
         selectable={true}
         editable={true}
         fixedWeekCount={false}
-        firstDay = {6}
+        firstDay={6}
         titleFormat={titleFormat}
         dateClick={(arg) => {
           setClickDate(

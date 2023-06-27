@@ -5,6 +5,7 @@ import {
   deleteProject,
   editProjectName,
 } from "../projects/projectSlice";
+import { AxiosError } from "axios";
 
 export type ProjectProps = {
   _id: string;
@@ -58,10 +59,12 @@ const fetchAllWorkSpaces = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       return await WorkspaceService.fetchAllWorkSpaces();
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -71,10 +74,12 @@ const createWorkSpace = createAsyncThunk(
   async (nameWorkspace: string, thunkAPI) => {
     try {
       return await WorkspaceService.createWorkSpace(nameWorkspace);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -85,10 +90,12 @@ const deleteWorkSpace = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       return await WorkspaceService.deleteWorkSpace(id);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -99,10 +106,12 @@ const updateWorkSpace = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await WorkspaceService.updateWorkSpace(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -113,10 +122,12 @@ const addWorkSpaceMember = createAsyncThunk(
   async (workID: (string | undefined)[], thunkAPI) => {
     try {
       return await WorkspaceService.addWorkSpaceMember(workID);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -127,10 +138,12 @@ const removeWorkSpaceMember = createAsyncThunk(
   async (workID: (string | undefined)[], thunkAPI) => {
     try {
       return await WorkspaceService.removeWorkSpaceMember(workID);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authServie from "./authService";
 import { FieldValues } from "../../../pages/auth/Register";
+import { AxiosError } from "axios";
 
 type User = {
   _id: string;
@@ -10,7 +11,7 @@ type User = {
 };
 
 type initialStateType = {
-  authToken: any | null;
+  authToken: { accessToken: string; refreshToken: string } | null;
   user: User | null;
   isLoading: boolean;
   isError: boolean;
@@ -33,10 +34,12 @@ export const register = createAsyncThunk(
   async (userData: FieldValues, thunkAPI) => {
     try {
       return await authServie.register(userData);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -47,11 +50,13 @@ export const login = createAsyncThunk(
   async (userData: FieldValues, thunkAPI) => {
     try {
       return await authServie.login(userData);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
 
-      return thunkAPI.rejectWithValue(message);
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -62,11 +67,13 @@ export const forgot = createAsyncThunk(
   async (userEmail: FieldValues, thunkAPI) => {
     try {
       return await authServie.forgot(userEmail);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
 
-      return thunkAPI.rejectWithValue(message);
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );

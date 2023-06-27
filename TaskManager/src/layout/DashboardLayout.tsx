@@ -127,7 +127,7 @@ const DashboardLayout = () => {
     WraperClasses = "overflow-hidden mt-2 h-[calc(100%-14rem)]";
 
   return (
-    <div className="flex flex-row w-full max-h-screen overflow-hidden bg-FAFBFC">
+    <div className="flex flex-row w-full max-h-screen overflow-hidden bg-FAFBFC select-none">
       <SideBar />
       <div className="w-4/5 pr-4 pl-10 min-h-screen">
         {/* Header */}

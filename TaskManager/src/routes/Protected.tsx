@@ -1,6 +1,11 @@
 import { Navigate } from "react-router-dom";
 
-const Protected = ({ children, path }: any) => {
+type ProtectedProps = {
+  children: React.ReactNode;
+  path: string;
+};
+
+const Protected = ({ children, path }: ProtectedProps) => {
   const isLoggedIn = localStorage.getItem("authToken");
 
   if (!isLoggedIn) {

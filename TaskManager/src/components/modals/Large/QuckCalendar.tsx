@@ -30,8 +30,8 @@ const QuckCalendar = ({ handleCalendar }: QuckCalendarProps) => {
   const HeaderDate = "text-208D8E mr-3";
 
   const handleCal = (date: any) => {
-    let fDay = date[0].day;
-    let lDay = date[1]?.day;
+    const fDay = date[0].day;
+    const lDay = date[1]?.day;
     console.log(date[1]?.format('YYYY-MM-DDTHH:mm:ss'));
     
     setValue(date);

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AXIOS from "../utils/AXIOS";
 import ProjectsService from "./projectService";
+import { AxiosError } from "axios";
 
 export type ProjectsProps = {
   _id: string;
@@ -49,10 +50,12 @@ const fetchProjects = createAsyncThunk(
     try {
       const response = await AXIOS.get(`/api/projects/workspaces/${id}`);
       return await response.data;
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -63,10 +66,12 @@ const createProject = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await ProjectsService.createProject(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -77,10 +82,12 @@ const deleteProject = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       return await ProjectsService.deleteProject(id);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -91,10 +98,12 @@ const editProjectName = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await ProjectsService.editProjectName(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -105,10 +114,12 @@ const addMemberToProject = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await ProjectsService.addMemberToProject(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -119,10 +130,12 @@ const removeMemberThanProject = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await ProjectsService.removeMemberThanProject(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -274,8 +287,6 @@ const projectSlice = createSlice({
         state.workSpaces = [];
       })
 
-
-
       // add member to project
       .addCase(addMemberToProject.pending, (state) => {
         state.isLoadingPost = true;
@@ -285,18 +296,14 @@ const projectSlice = createSlice({
         state.isLoadingPost = false;
         state.isSuccessPost = true;
 
-        state.messagePost = 'کاربر به پروژه اضافه شد'
-        
+        state.messagePost = "کاربر به پروژه اضافه شد";
       })
       .addCase(addMemberToProject.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.error;
         state.workSpaces = [];
-      })
-
-
-      
+      });
   },
 });
 
