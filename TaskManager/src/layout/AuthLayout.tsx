@@ -22,7 +22,7 @@ const AuthLayout = () => {
   const centerFlex = "flex items-center";
 
   return (
-    <div className={`${centerFlex} flex-col justify-center w-screen h-screen`}>
+    <div className={`${centerFlex} flex-col justify-center w-screen h-screen select-none`}>
       <Outlet />
       <div
         className={`${centerFlex} w-5/6 h-13 absolute top-20 justify-between`}

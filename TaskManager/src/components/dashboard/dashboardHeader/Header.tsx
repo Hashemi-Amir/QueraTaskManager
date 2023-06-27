@@ -8,6 +8,10 @@ import SearchInput from "../../ui/SearchInput";
 import Date from "./Date";
 import Filter from "./Filter";
 import Share from "../../ui/Share";
+import { RxUpdate } from "react-icons/rx";
+import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { fetchBoards, fetchProjects } from "../../../services/app/store";
+import { resetBoards } from "../../../services/features/boards/boardSlice";
 
 type HeaderProps = {
   projectName: string;
@@ -15,6 +19,14 @@ type HeaderProps = {
 
 const Header = ({ projectName }: HeaderProps) => {
   const Location = useLocation();
+  const { selectedWorkSpaceId } = useAppSelector((state) => state.workSpaces);
+  const { selectedProjectId, isLoading: boardsIsLoading } = useAppSelector(
+    (state) => state.boards
+  );
+  const { isLoading: projectIsLoading } = useAppSelector(
+    (state) => state.projects
+  );
+  const dispatch = useAppDispatch();
   let date = false;
   const iconStyle = "w-5 h-5";
   const columnRef = useRef<HTMLAnchorElement>(null);
@@ -47,11 +59,28 @@ const Header = ({ projectName }: HeaderProps) => {
     }
   }, [Location.pathname]);
 
+  // update columnView or listView state when click update btn
+  const updateClickHandler = () => {
+    if (Location.pathname === "/listview" && selectedWorkSpaceId !== "") {
+      dispatch(fetchProjects(selectedWorkSpaceId));
+      dispatch(resetBoards());
+    }
+    if (Location.pathname === "/columnview" && selectedProjectId !== "")
+      dispatch(fetchBoards(selectedProjectId));
+  };
+
   return (
     <div className="sm:pt-1 xl:pt-4 flex-grow">
       <div className="flex items-center justify-between border-b">
         <div className="flex items-center pt-4">
-          <span className="text-xl font-semibold pl-4 pb-3 border-l-2 border-l-999999 ">
+          <span
+            className={`text-xl font-semibold pl-4 pb-3 ${
+              (Location.pathname === "/listview" && selectedWorkSpaceId) ||
+              (Location.pathname === "/columnview" && selectedProjectId)
+                ? "border-l-2 border-l-999999"
+                : ""
+            }`}
+          >
             {projectName}
           </span>
 
@@ -110,11 +139,26 @@ const Header = ({ projectName }: HeaderProps) => {
         </div>
         <Share />
       </div>
-      <div className="flex items-center font-medium py-4 gap-4 border-b ">
-        <span className="border-l-2 border-l-999999 pl-4">
-          <SearchInput placeHolder="جستجو بین تسک ها" />
-        </span>
-        {date ? <Date /> : <Filter filter="وضعیت" />}
+      <div className="flex items-center justify-between font-medium py-4 gap-4 border-b ">
+        <div className="flex items-center gap-4">
+          <span className="border-l-2 border-l-999999 pl-4">
+            <SearchInput placeHolder="جستجو بین تسک ها" />
+          </span>
+          {date ? <Date /> : <Filter filter="وضعیت" />}
+        </div>
+        {!Location.pathname.includes("calendarview") && (
+          <button
+            className="flex gap-1 items-center"
+            onClick={updateClickHandler}
+          >
+            <RxUpdate
+              className={
+                (projectIsLoading || boardsIsLoading) && "animate-spin"
+              }
+            />
+            <span>بروزرسانی</span>
+          </button>
+        )}
       </div>
     </div>
   );

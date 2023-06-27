@@ -1,6 +1,7 @@
+import { AnyAction } from "@reduxjs/toolkit";
 import { initialStateType } from "../boardSlice";
 
-const changePositionReducer = (state: initialStateType, action: any) => {
+const changePositionReducer = (state: initialStateType, action: AnyAction) => {
   const { source, destination, type } = action.payload;
   // Get the IDs of the columns where the dragged item came from and where it is going to.
   const start = source.droppableId;
@@ -19,7 +20,6 @@ const changePositionReducer = (state: initialStateType, action: any) => {
 
   // If the dragged item is a column, update the position of the affected board(s) within allBoards.
   if (type === "column") {
-    state.test = allBoards;
     const [reorderedBoard] = allBoards.splice(source.index, 1);
     allBoards.splice(destination.index, 0, reorderedBoard);
     activeProject.projectBoards = allBoards
@@ -46,7 +46,6 @@ const changePositionReducer = (state: initialStateType, action: any) => {
     const targetBoard = activeProject.projectBoards.find(
       ({ _id }) => _id === destination.droppableId
     );
-
     reorderedItem.board = destination.droppableId;
     if (!targetBoard) return;
 

@@ -5,7 +5,14 @@ import {
   deleteProject,
   editProjectName,
 } from "../projects/projectSlice";
-import { fetchAddedMemberWorkspace } from "../user/userSlice";
+import { AxiosError } from "axios";
+// import { fetchAddedMemberWorkspace } from "../user/userSlice";
+
+export type ProjectProps = {
+  _id: string;
+  boards: [];
+  name: string;
+}[];
 
 type MemberProps = {
   user: {
@@ -13,18 +20,14 @@ type MemberProps = {
   };
 };
 
-type ProjectProps = {
-  boards: any;
-  _id: string;
-};
 
 export type WorkSpacesProps = {
   _id: string;
   name: string;
   user: string;
+  projects: ProjectProps;
   members: MemberProps[];
-  projects: ProjectProps[];
-};
+}[];
 
 type initialStateType = {
   isLoading: boolean;
@@ -34,9 +37,9 @@ type initialStateType = {
   selectedSpace: string;
   selectedWorkSpaceId: string;
   selectedWorkSpaceHeader: string;
-  searchedWorkSpace: WorkSpacesProps[];
+  searchedWorkSpace: WorkSpacesProps;
+  workSpaces: WorkSpacesProps;
   addedMemberUserName: string | undefined;
-  workSpaces: WorkSpacesProps[];
   isLoadingPost: boolean;
   isSuccessPost: boolean;
   isErrorPost: boolean;
@@ -66,10 +69,12 @@ const fetchAllWorkSpaces = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       return await WorkspaceService.fetchAllWorkSpaces();
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -79,10 +84,12 @@ const createWorkSpace = createAsyncThunk(
   async (nameWorkspace: string, thunkAPI) => {
     try {
       return await WorkspaceService.createWorkSpace(nameWorkspace);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -93,10 +100,12 @@ const deleteWorkSpace = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       return await WorkspaceService.deleteWorkSpace(id);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -107,10 +116,12 @@ const updateWorkSpace = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await WorkspaceService.updateWorkSpace(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -121,10 +132,12 @@ const addWorkSpaceMember = createAsyncThunk(
   async (workID: (string | undefined)[], thunkAPI) => {
     try {
       return await WorkspaceService.addWorkSpaceMember(workID);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -135,10 +148,12 @@ const removeWorkSpaceMember = createAsyncThunk(
   async (workID: (string | undefined)[], thunkAPI) => {
     try {
       return await WorkspaceService.removeWorkSpaceMember(workID);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -340,22 +355,22 @@ const workSpacesSlice = createSlice({
       })
 
       // update member workspace
-      .addCase(fetchAddedMemberWorkspace.fulfilled, (state, action) => {
+      // .addCase(fetchAddedMemberWorkspace.fulfilled, (state, action) => {
 
-        const data = action.payload;
-        const memberObject = {
-          user: {
-            _id: data?._id,
-            username: data?.username,
-            email: data?.email,
-          },
-          role: "member",
-        };
-        const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === state.selectedWorkSpaceId);
-        // console.log(workSpaceIndex);
-        // state.workSpaces[workSpaceIndex].members.push(memberObject)
+      //   const data = action.payload;
+      //   const memberObject = {
+      //     user: {
+      //       _id: data?._id,
+      //       username: data?.username,
+      //       email: data?.email,
+      //     },
+      //     role: "member",
+      //   };
+      //   const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === state.selectedWorkSpaceId);
+      //   console.log(workSpaceIndex);
+      //   state.workSpaces[workSpaceIndex].members.push(memberObject)
 
-      });
+      // });
   },
 });
 

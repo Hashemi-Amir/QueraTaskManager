@@ -14,7 +14,7 @@ const ProfileLayout = () => {
 
   const Navigate = useNavigate();
   return (
-    <div className="w-screen h-screen flex ">
+    <div className="w-screen h-screen flex select-none">
       {/* SideBar */}
       <section className=" w-1/5 h-screen pt-10 border-l-[0.5px] border-[#AAAAAA]">
         <div className="w-[80%] flex flex-col mr-12">

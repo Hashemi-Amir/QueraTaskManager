@@ -3,17 +3,17 @@ import { BsThreeDots } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { deleteProject } from "../../../services/app/store";
 
-import { setSelectedProjectId } from "../../../services/features/boards/boardSlice";
 import {
-  setSelectedProject,
-  setSelectedProjectSidebar,
-} from "../../../services/features/projects/projectSlice";
+  resetBoards,
+  setSelectedProjectId,
+} from "../../../services/features/boards/boardSlice";
+import { setSelectedProject,setSelectedProjectSidebar } from "../../../services/features/projects/projectSlice";
 import { fetchBoards } from "../../../services/app/store";
 import { createPortal } from "react-dom";
 import SideMore from "../../modals/Small/SideMore";
 
-type Projects = {
-  projects: [];
+export type Projects = {
+  projects: { _id: string; name: string; boards: [] }[];
 };
 
 function ProjectList({ projects }: Projects) {
@@ -44,6 +44,9 @@ function ProjectList({ projects }: Projects) {
   const handleDeleteProject = () => {
     projectMore && dispatch(deleteProject(projectMore));
     handleItemClick();
+    dispatch(setSelectedProjectId(""));
+    dispatch(setSelectedProject(""));
+    dispatch(resetBoards());
   };
 
   return (
@@ -72,7 +75,7 @@ function ProjectList({ projects }: Projects) {
         >
           {name}
           <span
-            className=" left-2  cursor-pointer hidden group-hover/content:block z-10"
+            className=" left-2 cursor-pointer hidden group-hover/content:block z-10"
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
               handleItemClick(e, _id);
             }}

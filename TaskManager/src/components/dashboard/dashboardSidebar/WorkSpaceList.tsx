@@ -9,17 +9,12 @@ import {
   setSelectedWorkSpaceHeader,
   setSelectedWorkSpaceId,
 } from "../../../services/features/workSpaceList/workSpacesSlice";
-import { fetchProjects } from "../../../services/app/store";
+import { fetchProjects, resetProject } from "../../../services/app/store";
 import { useLocation } from "react-router-dom";
+import { workSpacesType } from "./SideBar";
 
-type WorkSpaceProps = {
-  workSpaces: {
-    _id: string;
-    name: string;
-    user: string;
-    members: [];
-    projects: [];
-  }[];
+export type WorkSpaceProps = {
+  workSpaces: workSpacesType;
 };
 
 const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
@@ -42,7 +37,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
     if (workspaceMore === "") {
       const top = `${e?.clientY}px`;
       const left = `${e?.clientX}px`;
-      setMorePosition({ ...morePosition, top: top, left: left });
+      setMorePosition({ ...morePosition, top, left });
       setWorkspaceMore(id);
     } else {
       setWorkspaceMore("");
@@ -53,6 +48,9 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
   const handleDeleteWorkSpace = () => {
     workspaceMore && dispatch(deleteWorkSpace(workspaceMore));
     setWorkspaceMore("");
+    dispatch(setSelectedWorkSpaceId(""));
+    dispatch(setSelectedWorkSpaceHeader(""));
+    dispatch(resetProject());
   };
   const colors = JSON.parse(localStorage.getItem("Colors") as string);
 
@@ -64,14 +62,11 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
             className="collapse group/title"
             key={_id}
             onClick={(event) => {
-
-                const workSpaceIndex = stateProject.findIndex((projects) => {
-                  return projects.workSpaceId === _id;
-                });
-                if (workSpaceIndex < 0) dispatch(fetchProjects(_id));
-              //  else {
-              //   event.stopPropagation();
-              // }
+              const workSpaceIndex = stateProject.findIndex((projects) => {
+                return projects.workSpaceId === _id;
+              });
+              if (workSpaceIndex < 0) dispatch(fetchProjects(_id));
+      
               dispatch(setSelectedWorkSpaceId(_id));
               dispatch(setSelectedWorkSpaceHeader(name));
             }}
@@ -84,27 +79,16 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
               </div>
 
               <div
-                className="absolute left-2 p-3 cursor-pointer hidden group-hover/title:block z-10"
+                className="absolute left-2 cursor-pointer hidden group-hover/title:block z-10"
                 onClick={(event) => {
                   event.stopPropagation();
                   handleItemClick(event, _id);
+                  dispatch(setSelectedWorkSpaceId(_id));
                 }}
               >
                 <BsThreeDots />
               </div>
             </div>
-
-            {workspaceMore &&
-              createPortal(
-                <SideMore
-                  sideMoreState="ورک اسپیس"
-                  morePosition={morePosition}
-                  handleDelete={handleDeleteWorkSpace}
-                  id={workspaceMore}
-                  handleItemClick={handleItemClick}
-                />,
-                document.body
-              )}
 
             <div className="collapse-content">
               <ProjectList projects={projects} />
@@ -112,6 +96,18 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
           </div>
         );
       })}
+
+      {workspaceMore &&
+        createPortal(
+          <SideMore
+            sideMoreState="ورک اسپیس"
+            morePosition={morePosition}
+            handleDelete={handleDeleteWorkSpace}
+            id={workspaceMore}
+            handleItemClick={handleItemClick}
+          />,
+          document.body
+        )}
     </div>
   );
 };

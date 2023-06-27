@@ -70,13 +70,11 @@ const createBoard = async (data: (string | undefined)[]) => {
   const [name, projectId] = [...data];
   const formData = { name, projectId };
   const response = await AXIOS.post(API_URL.board, formData);
-  console.log(response.data);
   return response.data;
 };
 
 const deleteBoard = async (id: string) => {
   const response = await AXIOS.delete(API_URL.board + id);
-  console.log(response.data);
   return response.data;
 };
 
@@ -84,7 +82,6 @@ const editBoardName = async (data: (string | undefined)[]) => {
   const [id, newName] = [...data];
   const formData = { name: newName };
   const response = await AXIOS.put(API_URL.board + id, formData);
-  console.log(response);
   return response.data;
 };
 

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import taskService from "./taskService";
+import { AxiosError } from "axios";
 
 export type createTask = {
   name: string | undefined;
@@ -36,10 +37,12 @@ const fetchCreateTask = createAsyncThunk(
   async (data: createTask, thunkAPI) => {
     try {
       return await taskService.fetchCreateTask(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -50,10 +53,12 @@ const fetchDeleteTask = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       return await taskService.fetchDeleteTask(id);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -70,10 +75,12 @@ const fetchUpdateTask = createAsyncThunk(
   async (taskinfo: taskinfoType, thunkAPI) => {
     try {
       return await taskService.fetchUpdateTask(taskinfo);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );

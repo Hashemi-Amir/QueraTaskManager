@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userService from "./userService";
 import { FieldValues } from "../../../pages/profile/PersonalInfo";
 import { logOut } from "../auth/authSlice";
+import { AxiosError } from "axios";
 
 type User = {
   _id: string;
@@ -40,10 +41,12 @@ export const updateUserById = createAsyncThunk(
   async (userData: FieldValues, thunkAPI) => {
     try {
       return await userService.updateUserById(userData);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -54,11 +57,12 @@ export const updateUserById = createAsyncThunk(
 //   async (userData: FieldValues, thunkAPI) => {
 //     try {
 //       return await userService.getUserByUserNameOrId(userData);
-//     } catch (error: any) {
+//     } catch (error: unknown) {
+// if (error instanceof AxiosError) {
 //       const message =
 //         error?.response?.data?.message || error.message || error.toString();
 //       return thunkAPI.rejectWithValue(message);
-//     }
+//     }}
 //   }
 // );
 

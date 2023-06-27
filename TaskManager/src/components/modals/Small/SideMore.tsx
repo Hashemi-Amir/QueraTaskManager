@@ -47,20 +47,21 @@ const SideMore = ({
     "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer";
   const [newModal, setNewModal] = useState("");
   const [editPosition, setEditPosition] = useState<EditBoxPosition>({});
-  const [boardList , setBoardList] = useState([])
-  const [newTaskStatus , setNewTaskStatus] = useState('برد')
-  const [selectedBoardId , setSelectedBoardId] = useState('')
+  const [boardList, setBoardList] = useState([]);
+  const [newTaskStatus, setNewTaskStatus] = useState("برد");
+  const [selectedBoardId, setSelectedBoardId] = useState("");
 
+  const { selectedProjectId, projects } = useAppSelector(
+    (state) => state.boards
+  );
 
-  const {selectedProjectId,projects} = useAppSelector(state => state.boards)
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   // toggle all modals inside sideMore
   const handleAllSideMoreModals = (
     modalName: string,
     event?: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
-    
     // set edit box position
     if (modalName === "ویرایش ورک اسپیس" || modalName === "ویرایش تسک") {
       const top = event?.clientY;
@@ -69,30 +70,33 @@ const SideMore = ({
       setEditPosition({ ...editPosition, top: top, left: resLeft });
     }
     // select board list handle
-    if(modalName === 'تسک'){
-      const projectIndex = projects.findIndex(workspace => workspace.projectId === selectedProjectId);
-      const projectsBoards = projects[projectIndex].projectBoards.map(board => board)
-      setBoardList(projectsBoards as never[])      
+    if (modalName === "تسک") {
+      const projectIndex = projects.findIndex(
+        (workspace) => workspace.projectId === selectedProjectId
+      );
+      const projectsBoards = projects[projectIndex].projectBoards.map(
+        (board) => board
+      );
+      setBoardList(projectsBoards as never[]);
     }
     // set sidemore modals state
     setNewModal(modalName);
-    setNewTaskStatus('برد')
+    setNewTaskStatus("برد");
   };
 
-  const handleSelectBoardList = (boardId:string) => {
-    setSelectedBoardId(boardId)
-    setNewTaskStatus('تسک')
+  const handleSelectBoardList = (boardId: string) => {
+    setSelectedBoardId(boardId);
+    setNewTaskStatus("تسک");
   };
 
-  const handleAddNewTask = (data:(string | undefined)[]) => {
-    data.push(selectedBoardId)
-    const [name , description ,deadline,boardId,] = [...data]
-    const formData = {name,description,deadline ,boardId}    
-    dispatch(fetchCreateTask(formData))
-    handleAllSideMoreModals('')
-    
-  }
-  
+  const handleAddNewTask = (data: (string | undefined)[]) => {
+    data.push(selectedBoardId);
+    const [name, description, deadline, boardId] = [...data];
+    const formData = { name, description, deadline, boardId };
+    dispatch(fetchCreateTask(formData));
+    handleAllSideMoreModals("");
+  };
+
   return (
     <>
       <ul
@@ -113,7 +117,6 @@ const SideMore = ({
                   handleAllSideMoreModals={handleAllSideMoreModals}
                   id={id}
                   handleItemClick={handleItemClick}
-                  
                 />
               </Modal>,
               document.body
@@ -122,21 +125,19 @@ const SideMore = ({
           {newModal === "تسک" &&
             createPortal(
               <Modal>
-                {
-                  newTaskStatus === 'برد' ? 
+                {newTaskStatus === "برد" ? (
                   <SelectBoard
                     toggleModal={handleAllSideMoreModals}
                     data={boardList}
                     selectedHandle={handleSelectBoardList}
                     status={newTaskStatus}
                   />
-                  :
-                  <AddNewTask 
-                    handleNewTaskModal={handleAllSideMoreModals} 
+                ) : (
+                  <AddNewTask
+                    handleNewTaskModal={handleAllSideMoreModals}
                     handleAddNewTask={handleAddNewTask}
                   />
-                }
-
+                )}
               </Modal>,
               document.body
             )}

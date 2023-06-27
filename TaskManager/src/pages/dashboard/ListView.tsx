@@ -8,7 +8,7 @@ const ListView = () => {
   const { isError, message, isSuccess, isLoading, workSpaces } = useAppSelector(
     (state) => state.projects
   );
-  const {projects,test} = useAppSelector((state) => state.boards);
+  const {projects} = useAppSelector((state) => state.boards);
   const selectedWorkSpaceId = useAppSelector(
     (state) => state.workSpaces.selectedWorkSpaceId
   );

@@ -23,7 +23,7 @@ const Board = ({
 }: BoardProps) => {
   const boardTasks = [...tasks];
   const sortedTasks = boardTasks.sort((a, b) => a.position - b.position);
-  // console.log(sortedTasks);
+
   return (
     <Draggable key={id} draggableId={id} index={index}>
       {(provided) => (
@@ -40,7 +40,7 @@ const Board = ({
           <StrictModeDroppable droppableId={id} type="task">
             {(provided) => (
               <div
-                className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-16"
+                className="min-w-[250px] h-fit max-h-[80vh] overflow-y-auto flex-shrink scrollbar-none pb-32"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >

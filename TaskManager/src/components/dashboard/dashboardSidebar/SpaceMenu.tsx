@@ -6,15 +6,10 @@ import {
   setSelectedWorkSpaceId,
 } from "../../../services/features/workSpaceList/workSpacesSlice";
 import { fetchProjects } from "../../../services/app/store";
+import { workSpacesType } from "./SideBar";
 
 type SpaceMenuProps = {
-  workSpaces: {
-    _id: string;
-    name: string;
-    user: string;
-    members: [];
-    projects: [];
-  }[];
+  workSpaces: workSpacesType
 };
 
 const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {

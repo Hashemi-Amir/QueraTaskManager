@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AXIOS from "../utils/AXIOS";
 import ProjectsService from "./projectService";
+import { AxiosError } from "axios";
 import { fetchAddedMember } from "../user/userSlice";
 
 export type ProjectsProps = {
@@ -15,7 +16,7 @@ type Projects = {
   projects: ProjectsProps[];
 };
 
-type initialStateType = {
+export type initialStateType = {
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -53,10 +54,12 @@ const fetchProjects = createAsyncThunk(
     try {
       const response = await AXIOS.get(`/api/projects/workspaces/${id}`);
       return await response.data;
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -67,10 +70,12 @@ const createProject = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await ProjectsService.createProject(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -81,10 +86,12 @@ const deleteProject = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       return await ProjectsService.deleteProject(id);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -95,10 +102,12 @@ const editProjectName = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await ProjectsService.editProjectName(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -109,10 +118,12 @@ const addMemberToProject = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await ProjectsService.addMemberToProject(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -123,10 +134,12 @@ const removeMemberThanProject = createAsyncThunk(
   async (data: (string | undefined)[], thunkAPI) => {
     try {
       return await ProjectsService.removeMemberThanProject(data);
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error.message || error.toString();
-      return thunkAPI.rejectWithValue(message);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
     }
   }
 );
@@ -170,8 +183,8 @@ const projectSlice = createSlice({
         state.isSuccess = true;
 
         const workSpaceId = action.meta.arg;
-        const workSpaceIndex = state.workSpaces.findIndex((item) => {
-          return item.workSpaceId === workSpaceId;
+        const workSpaceIndex = state.workSpaces.findIndex((workSpace) => {
+          return workSpace.workSpaceId === workSpaceId;
         });
         if (workSpaceIndex >= 0) {
           // workSpace exists, add the new board to its list of boards
@@ -309,7 +322,7 @@ const projectSlice = createSlice({
       .addCase(removeMemberThanProject.fulfilled, (state, action) => {
         const memberName = action.payload.username ;
         const data = action.payload;
-        let test: any[] = [];
+        const test: any[] = [];
         state.workSpaces.forEach((workspace) =>
           workspace.projects.forEach((project) => {
             if (project.name === state.selectedProject) {              
@@ -357,7 +370,7 @@ const projectSlice = createSlice({
           role: "member",
         };
 
-        let test: any[] = [];
+        const test: any[] = [];
         state.workSpaces.forEach((workspace) =>
           workspace.projects.forEach((project) => {
             if (project.name === state.selectedProject) {

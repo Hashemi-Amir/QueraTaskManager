@@ -11,7 +11,7 @@ const Date = () => {
 
 
   return (
-    <>
+    <div className="flex items-center gap-2">
       <button onClick={() => ref.today()}>امروز</button>
       <button title="سال بعد" onClick={() => ref.nextYear()}>
         <MdKeyboardDoubleArrowRight />
@@ -27,9 +27,8 @@ const Date = () => {
       </button>
       <div>
         {date}
-        {/* {ref.getDate().toLocaleDateString("fa-IR", { dateStyle: "medium" })} */}
       </div>
-    </>
+    </div>
   );
 };
 

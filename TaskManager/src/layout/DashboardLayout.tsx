@@ -1,4 +1,4 @@
-import { useLocation, Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/dashboard/dashboardHeader/Header";
 import SideBar from "../components/dashboard/dashboardSidebar/SideBar";
 import Button from "../components/ui/Button";
@@ -33,8 +33,9 @@ const DashboardLayout = () => {
     status: "ورک اسپیس",
     selectedId: "",
   });
-  const Location = useLocation();
   const dispatch = useAppDispatch();
+  const Location = useLocation();
+
   const { selectedProject } = useAppSelector((state) => state.projects);
   const { selectedWorkSpaceHeader } = useAppSelector(
     (state) => state.workSpaces
@@ -147,6 +148,8 @@ const DashboardLayout = () => {
     "border-t-71FDA9",
     "border-t-FFE605",
   ];
+
+
   localStorage.setItem("Colors", JSON.stringify(colors));
   localStorage.setItem("BorderColors", JSON.stringify(borderColors));
 
@@ -156,14 +159,14 @@ const DashboardLayout = () => {
   let WraperClasses = "";
   // Dynamically styling different view wrapers
   if (Location.pathname === "/columnview")
-    WraperClasses = `overflow-x-auto my-4 overflow-y-hidden flex ${commonStyle} `;
+    WraperClasses = `overflow-x-auto my-4 overflow-y-hidden flex ${commonStyle}  `;
   else if (Location.pathname === "/" || Location.pathname === "/listview")
     WraperClasses = `overflow-y-auto mt-4 flex ${commonStyle}`;
   else if (Location.pathname === "/calendarview")
     WraperClasses = "overflow-hidden mt-2 h-[calc(100%-14rem)]";
 
   return (
-    <div className="flex flex-row w-full max-h-screen overflow-hidden bg-FAFBFC">
+    <div className="flex flex-row w-full max-h-screen overflow-hidden bg-FAFBFC select-none">
       <SideBar />
       <div className="w-4/5 pr-4 pl-10 min-h-screen">
         {/* Header */}
@@ -171,7 +174,9 @@ const DashboardLayout = () => {
           projectName={
             Location.pathname === "/columnview"
               ? selectedProject
-              : selectedWorkSpaceHeader
+              : Location.pathname === "/listview"
+              ? selectedWorkSpaceHeader
+              : ""
           }
         />
         {/* Without Classes for calander view */}

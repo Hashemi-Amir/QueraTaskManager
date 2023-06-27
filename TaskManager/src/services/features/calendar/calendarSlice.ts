@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 type CalendarProps = {
   date: string;
-  ref: any;
+  ref: object;
 };
 
 const initialState: CalendarProps = {
