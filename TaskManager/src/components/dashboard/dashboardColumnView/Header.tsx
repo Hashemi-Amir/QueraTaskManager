@@ -45,13 +45,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
   const handleNewTaskModal = () => setNewTaskModal(!newTaskModal);
   const handleAddNewTask = (data: (string | undefined)[]) => {
     const [name, description, deadline] = [...data];
-
-    const formData = {
-      name,
-      description,
-      deadline,
-      boardId: id,
-    };
+    const formData = { name, description, boardId: id, deadline };
     dispatch(fetchCreateTask(formData));
     handleNewTaskModal();
   };

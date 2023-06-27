@@ -1,5 +1,3 @@
-//**********************
-
 import { useState } from "react";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
@@ -41,7 +39,6 @@ const QuckCalendar = ({
   const handleDeadline = (date: any) => {
     const deadlineShow = date?.format("YYYY/MM/DD");
     const valueDate = date?.format("YYYY-MM-DDTHH:mm:ss");
-
     // convert
     const englishNum =
       valueDate != undefined && persianToEnglishNumber(valueDate);

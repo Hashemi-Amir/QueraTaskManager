@@ -1,18 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import WorkspaceService from "./workSpaceService";
-import { createProject, deleteProject, editProjectName } from "../projects/projectSlice";
+import {
+  createProject,
+  deleteProject,
+  editProjectName,
+} from "../projects/projectSlice";
+import { fetchAddedMemberWorkspace } from "../user/userSlice";
 
+type MemberProps = {
+  user: {
+    username: string;
+  };
+};
 
 type ProjectProps = {
   boards: any;
-  _id : string;
-}
+  _id: string;
+};
 
 export type WorkSpacesProps = {
   _id: string;
   name: string;
   user: string;
-  members: [];
+  members: MemberProps[];
   projects: ProjectProps[];
 };
 
@@ -25,6 +35,7 @@ type initialStateType = {
   selectedWorkSpaceId: string;
   selectedWorkSpaceHeader: string;
   searchedWorkSpace: WorkSpacesProps[];
+  addedMemberUserName: string | undefined;
   workSpaces: WorkSpacesProps[];
   isLoadingPost: boolean;
   isSuccessPost: boolean;
@@ -40,6 +51,7 @@ export const initialState: initialStateType = {
   selectedSpace: "",
   selectedWorkSpaceId: "",
   selectedWorkSpaceHeader: "",
+  addedMemberUserName: "",
   searchedWorkSpace: [],
   workSpaces: [],
   isLoadingPost: false,
@@ -149,7 +161,6 @@ const workSpacesSlice = createSlice({
         (state.isErrorPost = false);
       state.messagePost = "";
     },
-
     setSelectedSpace: (state, action) => {
       state.selectedSpace = action.payload;
     },
@@ -244,10 +255,12 @@ const workSpacesSlice = createSlice({
         state.isSuccessPost = false;
       })
 
-      .addCase(addWorkSpaceMember.fulfilled, (state) => {
-        state.isLoadingPost = false;        
+      .addCase(addWorkSpaceMember.fulfilled, (state, action) => {
+        const memberName = action.meta.arg[1];
+        state.isLoadingPost = false;
         state.isSuccessPost = true;
-        state.messagePost = "کاربر با موفقیت اضافه شد";
+        state.addedMemberUserName = memberName;
+        state.messagePost = `کاربر ${memberName} به ورک اسپیس اضافه شد`;
       })
       .addCase(addWorkSpaceMember.rejected, (state, action) => {
         state.isLoadingPost = false;
@@ -261,10 +274,11 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = true;
       })
 
-      .addCase(removeWorkSpaceMember.fulfilled, (state) => {
+      .addCase(removeWorkSpaceMember.fulfilled, (state, action) => {
+        const memberName = action.payload.username;
         state.isErrorPost = false;
         state.isSuccessPost = true;
-        state.messagePost = "کاربر حذف شد";
+        state.messagePost = `کاربر ${memberName} حذف شد`;
       })
       .addCase(removeWorkSpaceMember.rejected, (state, action) => {
         state.isLoadingPost = false;
@@ -293,7 +307,7 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = false;
         const selectedWorkSpace = action.payload.workspace;
         // find workSpaceIndex
-        const workSpaceIndex:number = state.workSpaces.findIndex((item) => {
+        const workSpaceIndex: number = state.workSpaces.findIndex((item) => {
           return item._id === selectedWorkSpace;
         });
 
@@ -306,8 +320,6 @@ const workSpacesSlice = createSlice({
           });
         }
       })
-
-
 
       // update workspace by rename project
       .addCase(editProjectName.fulfilled, (state, action) => {
@@ -327,9 +339,23 @@ const workSpacesSlice = createSlice({
         });
       })
 
+      // update member workspace
+      .addCase(fetchAddedMemberWorkspace.fulfilled, (state, action) => {
 
+        const data = action.payload;
+        const memberObject = {
+          user: {
+            _id: data?._id,
+            username: data?.username,
+            email: data?.email,
+          },
+          role: "member",
+        };
+        const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === state.selectedWorkSpaceId);
+        // console.log(workSpaceIndex);
+        // state.workSpaces[workSpaceIndex].members.push(memberObject)
 
-
+      });
   },
 });
 

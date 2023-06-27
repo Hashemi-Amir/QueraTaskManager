@@ -1,19 +1,22 @@
 import Button from "../../ui/Button";
 import { FiLink } from "react-icons/fi";
 import avatar from "../../../assets/avatar.png";
-import { IoIosArrowDown } from "react-icons/io";
-import { useEffect, useState } from "react";
-import Permission from "../Small/Permission";
+import { useEffect, useRef, useState } from "react";
 import CloseIcon from "../../ui/Close";
+import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import {
   addMemberToProject,
   addWorkSpaceMember,
+  fetchAddedMember,
+  fetchAddedMemberWorkspace,
   fetchAllWorkSpaces,
   removeMemberThanProject,
   removeWorkSpaceMember,
 } from "../../../services/app/store";
 import { resetWorkspaces } from "../../../services/features/workSpaceList/workSpacesSlice";
+import { BsTrash } from "react-icons/bs";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 type Members = {
   user: {
@@ -28,40 +31,72 @@ type ShareModalProps = {
 };
 
 const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
-  const [permission, setPermission] = useState({
-    value: "دسترسی کامل",
-    modal: false,
-  });
-
   const [members, setMembers] = useState<Members[]>([]);
-  const [selectedMemberId, setSelectedMemberId] = useState<string>("");
+  const inputInvite = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
-  const { workSpaces: workMembers, isSuccessPost } = useAppSelector(
-    (state) => state.workSpaces
-  );
-  const { isSuccessPost: isSuccessProject, workSpaces } = useAppSelector(
-    (state) => state.projects
-  );
+  const {
+    workSpaces: workMembers,
+    isSuccessPost,
+    isLoadingPost,
+    addedMemberUserName:addedMemberWorkspace
+  } = useAppSelector((state) => state.workSpaces);
+  const {
+    isSuccessPost: isSuccessProject,
+    isLoadingPost:isLoadingProject,
+    workSpaces,
+    addedMemberUserName,
+  } = useAppSelector((state) => state.projects);
 
   useEffect(() => {
     if (isSuccessPost) {
-      dispatch(fetchAllWorkSpaces());
-      dispatch(resetWorkspaces());
-    }
-    if (isSuccessProject) {
-      dispatch(fetchAllWorkSpaces());
-      dispatch(resetWorkspaces());
+      dispatch(fetchAddedMemberWorkspace(addedMemberWorkspace));
+      // dispatch(fetchAllWorkSpaces());
+      // dispatch(resetWorkspaces());
     }
 
+    if (inputInvite.current?.value && isSuccessProject) {
+      dispatch(fetchAddedMember(addedMemberUserName));
+      inputInvite.current.value = "";
+    }
+    
     handleMembers();
-  }, [dispatch, workMembers, isSuccessPost, isSuccessProject]);
+  }, [
+    dispatch,
+    workMembers,
+    isSuccessPost,
+    isSuccessProject,
+    fetchAddedMember,
+    workSpaces,
+  ]);
 
+  // check has member
+  const checkHasMember = (memberName: string) => {
+    if (ModalTitle === "ورک اسپیس") {
+      const workspaceIndex = workMembers.findIndex(
+        (workspace) => workspace._id === id
+      );
+      const hasMember = workMembers[workspaceIndex].members.some(
+        (member) => member.user.username === memberName
+      );
+      return hasMember;
+    }
+    if (ModalTitle === "پروژه") {
+      const project = workSpaces.map((workSpace) =>
+        workSpace.projects.find((project) => project._id === id)
+      );
+
+      const hasMember = project[0]?.members.some(
+        (member) => member.user.username === memberName
+      );
+      return hasMember;
+    }
+  };
+
+  // handle and setMembers for map
   const handleMembers = () => {
     if (ModalTitle === "ورک اسپیس") {
       const filter = workMembers.filter((item) => item._id === id);
-      console.log(filter);
-
       if (filter[0]?.members) {
         const membersArray: Members[] = (filter[0] as any).members;
         setMembers(membersArray);
@@ -69,58 +104,48 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
     }
 
     if (ModalTitle === "پروژه") {
-      const projects = workMembers.map((workSpace) => workSpace.projects);
-      console.log(projects);
+      const projects = workSpaces.map((workSpace) => workSpace.projects);
+      const selectedProject: any = [];
+      projects.forEach((project) => {
+        project.forEach(
+          (item) => item._id === id && selectedProject.push(project)
+        );
+      });
+      
+      if(selectedProject.length > 0){
+        const projectMembers = selectedProject[0].find(
+          (project: { _id: string | undefined }) => project._id === id
+        );
+        setMembers(projectMembers.members);
+      }
 
-      // const selectedProject: any = [];
-      // projects.forEach((project) => {
-      //   console.log(project);
-
-      //   project.forEach(
-      //     (item) => item._id === id && selectedProject.push(project)
-      //   );
-      // });
-
-      // console.log(selectedProject);
-
-      // if(selectedProject[0]?.members){
-      //   const membersArray: Members[] = (selectedProject[0] as any).members;
-      //   console.log(membersArray);
-
-      //   setMembers(selectedProject[0])
-      // }
     }
-  };
-
-  // handle Permission modal
-  const handlePermission = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>
-  ) => {
-    const element = event.target;
-    setPermission({
-      ...permission,
-      value: (element as HTMLDivElement).innerHTML,
-      modal: false,
-    });
   };
 
   // Add member with called dispatch redux toolkit
   const handleAddMember = () => {
-    const inviteValue: string | undefined =
-      document.querySelector<HTMLInputElement>("#invite")?.value;
+    const inviteValue = inputInvite.current?.value;
     if (ModalTitle === "ورک اسپیس" && inviteValue?.trim()) {
       const workspaceIds: (string | undefined)[] = [id, inviteValue];
-      dispatch(addWorkSpaceMember(workspaceIds));
+      checkHasMember(inviteValue)
+        ? toast.error(`کاربر ${inviteValue} از قبل اضافه شده !`, { rtl: true })
+        : dispatch(addWorkSpaceMember(workspaceIds));
     }
 
     if (ModalTitle === "پروژه" && inviteValue?.trim()) {
       const projectsIds: (string | undefined)[] = [id, inviteValue];
-      dispatch(addMemberToProject(projectsIds));
+
+      if (checkHasMember(inviteValue)) {
+        toast.error(`کاربر ${inviteValue} از قبل اضافه شده !`, { rtl: true });
+        inputInvite.current && (inputInvite.current.value = "");
+      } else {
+        dispatch(addMemberToProject(projectsIds));
+      }
     }
   };
 
   // Remove member with called dispatch redux toolkit
-  const handleRemoveMember = () => {
+  const handleRemoveMember = (selectedMemberId: string) => {
     if (ModalTitle === "ورک اسپیس") {
       const workspaceIds = [id, selectedMemberId];
       dispatch(removeWorkSpaceMember(workspaceIds));
@@ -162,6 +187,7 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
                 placeholder="دعوت با نام کاربری"
                 name="invite"
                 id="invite"
+                ref={inputInvite}
                 className="w-4/5 h-10 p-3 bg-F0F1F3 rounded-tr-lg rounded-br-lg text-sm font-normal focus:outline-none"
               />
 
@@ -170,6 +196,7 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
                   value="ارسال"
                   className="rounded-tr-none rounded-br-none focus:outline-none"
                   onClick={handleAddMember}
+                  disabled={isLoadingPost || isLoadingProject}
                 />
               </div>
             </div>
@@ -187,72 +214,68 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
                 کپی لینک
               </div>
             </div>
-
-            {/* List of Members */}
-            <div className="mt-7 flex flex-col">
-              <h4 className="text-sm font-normal text-[#7D828C]">
-                اشتراک گزاشته شده با
-              </h4>
-              <ul>
-                <li className="w-full mt-5 flex justify-between items-center">
-                  <div className="flex items-center">
-                    <div className="w-9 h-9">
-                      <img
-                        src={avatar}
-                        alt="avatar"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <span className="text-[#1E1E1E] text-sm font-normal mr-2">
-                      من
-                    </span>
-                    <span className="w-28 mr-3 px-2 py-1 rounded-md flex items-center justify-center bg-A5E4F8 font-normal text-xs">
-                      workspace owner
-                    </span>
-                  </div>
-
-                  <div className="w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0]">
-                    دسترسی کامل
-                  </div>
-                </li>
-                {members &&
-                  members.map((item) => (
-                    <li
-                      key={item.user._id}
-                      onClick={() => setSelectedMemberId(item.user._id)}
-                      className="w-full mt-5"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <div className="w-9 h-9 flex justify-center items-center bg-F27474 rounded-full">
-                            SR
-                          </div>
-                          <span className="w-28 mr-7 px-2 py-1 rounded-md flex items-center justify-center font-normal text-sm">
-                            {item.user.email}
-                          </span>
-                        </div>
-
-                        <div
-                          className="relative w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer"
-                          onClick={() =>
-                            setPermission({ ...permission, modal: true })
-                          }
-                        >
-                          <span className="ml-4">{permission.value}</span>
-                          <IoIosArrowDown />
-                        </div>
-
-                        {permission.modal && (
-                          <Permission
-                            handlePermission={handlePermission}
-                            handleRemoveMember={handleRemoveMember}
-                          />
-                        )}
+            {(isLoadingPost || isLoadingProject)? (
+              <AiOutlineLoading3Quarters
+                size="2.8rem"
+                color="208D8E"
+                className="m-auto animate-spin"
+              />
+            ) : (
+              <div className="mt-7 flex flex-col">
+                <h4 className="text-sm font-normal text-[#7D828C]">
+                  اشتراک گزاشته شده با
+                </h4>
+                <ul>
+                  <li className="w-full mt-5 flex justify-between items-center">
+                    <div className="flex items-center">
+                      <div className="w-9 h-9">
+                        <img
+                          src={avatar}
+                          alt="avatar"
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                    </li>
-                  ))}
-              </ul>
-            </div>
+                      <span className="text-[#1E1E1E] text-sm font-normal mr-2">
+                        من
+                      </span>
+                      <span className="w-28 mr-3 px-2 py-1 rounded-md flex items-center justify-center bg-A5E4F8 font-normal text-xs">
+                        workspace owner
+                      </span>
+                    </div>
+
+                    <div className="w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0]">
+                      دسترسی کامل
+                    </div>
+                  </li>
+                  {members &&
+                    members.map((item) => (
+                      <li key={item.user._id} className="w-full mt-5">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <div className="w-9 h-9 flex justify-center items-center bg-F27474 rounded-full">
+                              SR
+                            </div>
+                            <span className="w-28 mr-7 px-2 py-1 rounded-md flex items-center justify-center font-normal text-sm">
+                              {item.user.email}
+                            </span>
+                          </div>
+
+                          <div
+                            className="relative w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer"
+                            onClick={() => {
+                              handleRemoveMember(item.user._id);
+                            }}
+                            
+                          >
+                            <span className="ml-4">حذف ممبر</span>
+                            <BsTrash />
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>

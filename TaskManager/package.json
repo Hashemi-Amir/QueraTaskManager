@@ -35,6 +35,8 @@
     "yup": "^1.1.1"
   },
   "devDependencies": {
+    "@types/jalaali-js": "^1.1.1",
+    "@types/moment-jalaali": "^0.7.6",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",

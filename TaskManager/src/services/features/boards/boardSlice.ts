@@ -306,6 +306,12 @@ const boardsSlice = createSlice({
       state.isErrorPost = false;
       state.messagePost = "";
     },
+    resetBoard: (state) => {
+      state.isLoading =false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.message = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -615,6 +621,7 @@ export const {
   setSelectedProjectId,
   changePosition,
   resetPostBoard,
+  resetBoard,
   setSelectedBoardId,
   setSelectedTaskId,
   resetComment,

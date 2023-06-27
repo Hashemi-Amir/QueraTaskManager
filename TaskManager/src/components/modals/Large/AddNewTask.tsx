@@ -15,7 +15,7 @@ type typePriority = {
 };
 
 type addNewTaskProps = {
-  handleNewTaskModal: (modalName: string) => void;
+  handleNewTaskModal: (modalName: boolean) => void;
   handleAddNewTask?: ((data: (string | undefined)[]) => void) | undefined;
   boardList?: object[] | undefined;
 };
@@ -68,7 +68,7 @@ const AddNewTask = ({
   return (
     <>
       <div className="modal-box overflow-visible opacity-100 z-30 py-9 px-11 rounded-2xl shadow-xl w-11/12 max-w-5xl min-w-[1000px]">
-        <form onSubmit={handleNewTaskButton}>
+        <div>
           <div className="flex flex-col">
             {/* task header */}
             <div className="w-full flex justify-between items-center">
@@ -86,7 +86,7 @@ const AddNewTask = ({
 
               <span
                 className="cursor-pointer text-[#BDBDBD]"
-                onClick={() => handleNewTaskModal("")}
+                onClick={() => handleNewTaskModal(false)}
               >
                 <CloseIcon />
               </span>
@@ -179,11 +179,11 @@ const AddNewTask = ({
               {/* create task button */}
 
               <div className="w-32 h-8">
-                <Button value="ساخت تسک" type="submit" />
+                <Button value="ساخت تسک" onClick={handleNewTaskButton} />
               </div>
             </div>
           </div>
-        </form>
+        </div>
         {/* modals on modals */}
         {calendar.modal &&
           createPortal(

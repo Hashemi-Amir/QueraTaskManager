@@ -24,14 +24,12 @@ const editProjectName = async (data: (string | undefined)[]) => {
 const addMemberToProject = async (data: (string | undefined)[]) => {  
   const [id, user] = [...data];
   const response = await AXIOS.put(`${API_URL}/${id}/members/${user}`);
-  console.log(response);
   return response.data;
 };
 
 const removeMemberThanProject = async (data: (string | undefined)[]) => {
   const [id, user] = [...data];
   const response = await AXIOS.delete(`${API_URL}/${id}/members/${user}`);
-  console.log(response.data);
   return response.data;
 };
 

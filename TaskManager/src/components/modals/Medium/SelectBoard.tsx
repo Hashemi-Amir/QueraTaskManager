@@ -1,44 +1,53 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../../ui/Button";
 import CloseIcon from "../../ui/Close";
 
-type boardList = {
+type dataList = {
   _id: string;
   name: string;
 };
 type SelectBoardProps = {
-  handleAllSideMoreModals: (modalName: string) => void;
-  boardList: boardList[];
-  handleSelectBoardList: (boardId: string) => void;
+  toggleModal: (modalName: boolean) => void;
+  data: dataList[];
+  selectedHandle: (id: string) => void;
+  status: string;
 };
 
 const SelectBoard = ({
-  handleAllSideMoreModals,
-  boardList,
-  handleSelectBoardList,
+  toggleModal,
+  data,
+  selectedHandle,
+  status,
 }: SelectBoardProps) => {
   const [boardId, setBoardId] = useState("");
+  const selectRef = useRef<any | null>(null);
+
   const handleSelectValue = (event: React.ChangeEvent<HTMLElement>) => {
     const element = event.target as HTMLInputElement;
+
     setBoardId(element.value);
   };
-  
+  useEffect(() => {
+    // console.log(data);
+  }, [status]);
 
   return (
-    <div className="modal-box w-3/4 max-w-lgl">
-      {boardList.length > 0 ? (
+    <div className="modal-box w-3/4 max-w-lgl min-w-[500px]">
+      {data.length > 0 ? (
         <div className="p-5 bg-white rounded-lg">
           {/* card header */}
           <div className="w-full flex justify-between items-center">
             <label
               htmlFor="my-modal-3"
               className="text-323232 cursor-pointer"
-              onClick={() => handleAllSideMoreModals("")}
+              onClick={() => toggleModal(false)}
             >
               <CloseIcon />
             </label>
 
-            <div className="font-semibold text-2xl text-black">انتخاب برد</div>
+            <div className="font-semibold text-2xl text-black">
+              انتخاب {status}
+            </div>
 
             <span></span>
           </div>
@@ -51,15 +60,18 @@ const SelectBoard = ({
                 dir="rtl"
                 onChange={handleSelectValue}
                 className="select select-accent w-full max-w-xs text-center"
+                id="sel"
+                defaultValue={boardId}
+                ref={selectRef}
               >
-                <option disabled selected>
-                  برد مورد نظرت رو انتخاب کن ;)
+                <option disabled value={boardId}>
+                  {status} مورد نظرت رو انتخاب کن ;)
                 </option>
-                {boardList &&
-                  boardList.map(board => {
+                {data &&
+                  data.map((item) => {
                     return (
-                      <option key={board._id} value={board._id}>
-                        {board.name}
+                      <option key={item._id} value={item._id}>
+                        {item.name}
                       </option>
                     );
                   })}
@@ -71,7 +83,8 @@ const SelectBoard = ({
               <Button
                 value={"ادامه"}
                 onClick={() => {
-                  boardId.trim() && handleSelectBoardList(boardId);
+                  const selectedValue = selectRef.current?.value;
+                  selectedValue && selectedHandle(selectedValue);
                 }}
               />
             </div>
@@ -83,7 +96,7 @@ const SelectBoard = ({
             <label
               htmlFor="my-modal-3"
               className="text-323232 cursor-pointer"
-              onClick={() => handleAllSideMoreModals("")}
+              onClick={() => toggleModal(false)}
             >
               <CloseIcon />
             </label>
@@ -93,7 +106,7 @@ const SelectBoard = ({
             <span></span>
           </div>
           <div className="font-semibold text-xl text-black text-center">
-            بردی وجود نداره ، یدونه بساز
+            {status} ای وجود نداره ، یدونه بساز
           </div>
         </>
       )}
