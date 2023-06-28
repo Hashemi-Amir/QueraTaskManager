@@ -37,7 +37,7 @@ const NewSpace = () => {
   useEffect(() => {
 
     // workSpace
-    if (isErrorPost) {
+    if (isErrorPost && messagePost != "") {
       toast.dismiss();
       toast.error(`${messagePost} ❗`);
       dispatch(resetPostWorkspace());

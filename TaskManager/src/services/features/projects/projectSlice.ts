@@ -231,7 +231,6 @@ const projectSlice = createSlice({
         state.isSuccessPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
-        state.workSpaces = [];
       })
 
       // Delete Project

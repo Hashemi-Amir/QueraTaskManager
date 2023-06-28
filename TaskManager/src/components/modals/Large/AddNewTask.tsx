@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { FiLink, FiFlag, FiUserPlus, FiEye } from "react-icons/fi";
-import { BsCalendar3, BsTags } from "react-icons/bs";
+import { BsCalendar3, BsTags, BsThreeDots } from "react-icons/bs";
 import Button from "../../ui/Button";
 import { createPortal } from "react-dom";
 import Tags from "../Small/Tags";
 import PriorityOptions from "../Small/PriorityOptions";
 import QuckCalendar from "./QuckCalendar";
 import CloseIcon from "../../ui/Close";
+import { useAppSelector } from "../../../services/app/hook";
 
 type typePriority = {
   modal: boolean;
@@ -34,7 +35,7 @@ const AddNewTask = ({
     style: "text-C1C1C1 border-C1C1C1",
     status: "",
   });
-
+  const { isLoading } = useAppSelector((state) => state.tasks);
   const handlePriority = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const element = e.target as HTMLElement;
     const style = element.getAttribute("data-style");
@@ -179,7 +180,13 @@ const AddNewTask = ({
               {/* create task button */}
 
               <div className="w-32 h-8">
-                <Button value="ساخت تسک" onClick={handleNewTaskButton} />
+                {isLoading ? (
+                  <button className="disabled:pointer-events-none  bg-208D8E hover:bg-[#1d7f80] focus:outline-none focus:ring-4 focus:ring-teal-300 transition-all w-full h-10 p-2.5 text-sm font-bold leading-4 flex justify-center items-center text-white rounded-md">
+                    <BsThreeDots className="animate-ping" />
+                  </button>
+                ) : (
+                  <Button value="ساخت تسک" onClick={handleNewTaskButton} />
+                )}
               </div>
             </div>
           </div>

@@ -14,6 +14,7 @@ type initialStateType = {
   isSuccess: boolean;
   isError: boolean;
   message: unknown;
+  
   taskAssignisLoading: boolean;
   taskAssignisSuccess: boolean;
   taskAssignisError: boolean;

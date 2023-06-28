@@ -71,7 +71,7 @@ const DashboardLayout = () => {
         setDataList({
           ...dataList,
           data: res.payload,
-          status: "برد",
+          status: "ستون",
         });
       } else {
         const selectedProject = projects.find(
@@ -80,11 +80,11 @@ const DashboardLayout = () => {
         setDataList({
           ...dataList,
           data: selectedProject?.projectBoards,
-          status: "برد",
+          status: "ستون",
         });
       }
     }
-    if (dataList.status === "برد") {
+    if (dataList.status === "ستون") {
       setDataList({ ...dataList, status: "تسک", selectedId: id });
     }
   };

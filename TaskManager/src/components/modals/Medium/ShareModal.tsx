@@ -37,7 +37,6 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
     workSpaces: workMembers,
     isSuccessPost,
     isLoadingPost,
-    isErrorPost,
     addedMemberUserName:addedMemberWorkspace
   } = useAppSelector((state) => state.workSpaces);
   const {
@@ -95,9 +94,7 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
   const handleMembers = () => {
     if (ModalTitle === "ورک اسپیس") {
       const filter = workMembers.filter((item) => item._id === id);
-      console.log(filter);
-      
-      if (filter[0]?.members) {
+      if (filter.length > 0) {
         const membersArray: Members[] = (filter[0] as any).members;
         setMembers(membersArray);
       }

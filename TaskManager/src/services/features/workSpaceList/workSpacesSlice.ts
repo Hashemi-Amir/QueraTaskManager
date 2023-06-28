@@ -222,7 +222,6 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
-        state.workSpaces = [];
       })
 
       // delete workSpace
@@ -241,7 +240,6 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
-        state.workSpaces = [];
       })
 
       // update workSpace
@@ -262,7 +260,6 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
-        state.workSpaces = [];
       })
 
       // add member to workSpace
@@ -279,11 +276,10 @@ const workSpacesSlice = createSlice({
         state.messagePost = `کاربر ${memberName} به ورک اسپیس اضافه شد`;
       })
       .addCase(addWorkSpaceMember.rejected, (state, action) => {
-        console.log('test 1');
+        state.isSuccessPost = false;
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
-        state.workSpaces = [];
       })
 
       // remove member than workSpace
@@ -305,7 +301,6 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
-        state.workSpaces = [];
       })
 
       // update workspace by create project
