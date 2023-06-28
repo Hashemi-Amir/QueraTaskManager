@@ -10,11 +10,9 @@ import {
   addWorkSpaceMember,
   fetchAddedMember,
   fetchAddedMemberWorkspace,
-  fetchAllWorkSpaces,
   removeMemberThanProject,
   removeWorkSpaceMember,
 } from "../../../services/app/store";
-import { resetWorkspaces } from "../../../services/features/workSpaceList/workSpacesSlice";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
@@ -39,6 +37,7 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
     workSpaces: workMembers,
     isSuccessPost,
     isLoadingPost,
+    isErrorPost,
     addedMemberUserName:addedMemberWorkspace
   } = useAppSelector((state) => state.workSpaces);
   const {
@@ -49,10 +48,9 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
   } = useAppSelector((state) => state.projects);
 
   useEffect(() => {
-    if (isSuccessPost) {
+    if (inputInvite.current?.value && isSuccessPost) {
       dispatch(fetchAddedMemberWorkspace(addedMemberWorkspace));
-      // dispatch(fetchAllWorkSpaces());
-      // dispatch(resetWorkspaces());
+      inputInvite.current.value = ""
     }
 
     if (inputInvite.current?.value && isSuccessProject) {
@@ -97,6 +95,8 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
   const handleMembers = () => {
     if (ModalTitle === "ورک اسپیس") {
       const filter = workMembers.filter((item) => item._id === id);
+      console.log(filter);
+      
       if (filter[0]?.members) {
         const membersArray: Members[] = (filter[0] as any).members;
         setMembers(membersArray);
@@ -127,9 +127,13 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
     const inviteValue = inputInvite.current?.value;
     if (ModalTitle === "ورک اسپیس" && inviteValue?.trim()) {
       const workspaceIds: (string | undefined)[] = [id, inviteValue];
-      checkHasMember(inviteValue)
-        ? toast.error(`کاربر ${inviteValue} از قبل اضافه شده !`, { rtl: true })
-        : dispatch(addWorkSpaceMember(workspaceIds));
+      if(checkHasMember(inviteValue)){
+        toast.error(`کاربر ${inviteValue} از قبل اضافه شده !`, { rtl: true }) ;
+        inputInvite.current && (inputInvite.current.value = "");
+      }else
+        dispatch(addWorkSpaceMember(workspaceIds));
+      
+      
     }
 
     if (ModalTitle === "پروژه" && inviteValue?.trim()) {

@@ -6,7 +6,7 @@ import {
   editProjectName,
 } from "../projects/projectSlice";
 import { AxiosError } from "axios";
-// import { fetchAddedMemberWorkspace } from "../user/userSlice";
+import { fetchAddedMemberWorkspace } from "../user/userSlice";
 
 export type ProjectProps = {
   _id: string;
@@ -17,6 +17,7 @@ export type ProjectProps = {
 type MemberProps = {
   user: {
     username: string;
+    _id : string;
   };
 };
 
@@ -278,6 +279,7 @@ const workSpacesSlice = createSlice({
         state.messagePost = `کاربر ${memberName} به ورک اسپیس اضافه شد`;
       })
       .addCase(addWorkSpaceMember.rejected, (state, action) => {
+        console.log('test 1');
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
@@ -291,8 +293,12 @@ const workSpacesSlice = createSlice({
 
       .addCase(removeWorkSpaceMember.fulfilled, (state, action) => {
         const memberName = action.payload.username;
+        const {workspaceId ,userId} = action.payload
+        const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === workspaceId);
+
         state.isErrorPost = false;
         state.isSuccessPost = true;
+        state.workSpaces[workSpaceIndex].members = state.workSpaces[workSpaceIndex].members.filter(member => member.user._id != userId);
         state.messagePost = `کاربر ${memberName} حذف شد`;
       })
       .addCase(removeWorkSpaceMember.rejected, (state, action) => {
@@ -355,22 +361,22 @@ const workSpacesSlice = createSlice({
       })
 
       // update member workspace
-      // .addCase(fetchAddedMemberWorkspace.fulfilled, (state, action) => {
+      .addCase(fetchAddedMemberWorkspace.fulfilled, (state, action) => {
 
-      //   const data = action.payload;
-      //   const memberObject = {
-      //     user: {
-      //       _id: data?._id,
-      //       username: data?.username,
-      //       email: data?.email,
-      //     },
-      //     role: "member",
-      //   };
-      //   const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === state.selectedWorkSpaceId);
-      //   console.log(workSpaceIndex);
-      //   state.workSpaces[workSpaceIndex].members.push(memberObject)
+        const data = action.payload;
+        const memberObject = {
+          user: {
+            _id: data?._id,
+            username: data?.username,
+            email: data?.email,
+          },
+          role: "member",
+        };
+        const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === state.selectedWorkSpaceId);
+        
+        state.workSpaces[workSpaceIndex].members.push(memberObject)
 
-      // });
+      })
   },
 });
 
