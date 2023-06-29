@@ -5,14 +5,14 @@ import Modal from "../../../layout/Modal";
 import NewWorkspace from "../../modals/Medium/NewWorkspace";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { toast } from "react-toastify";
-import { resetPostBoard, resetPostProject, resetPostWorkspace, resetTask } from "../../../services/app/store";
+import { fetchProjects, resetPostBoard, resetPostProject, resetPostWorkspace, resetProject, resetTask } from "../../../services/app/store";
 
 const NewSpace = () => {
   const [modalWorkSpace, setModalWorkSpace] = useState(false);
   const [workSpaceStep, setWorkSpaceStepe] = useState("ساختن ورک اسپیس جدید");
 
   const dispatch = useAppDispatch();
-  const { isErrorPost, isLoadingPost, isSuccessPost, messagePost } =
+  const { isErrorPost, isLoadingPost, isSuccessPost, messagePost , selectedWorkSpaceId } =
     useAppSelector((state) => state.workSpaces);
   const {
     isErrorPost: isErrorProject,
@@ -54,6 +54,8 @@ const NewSpace = () => {
       dispatch(resetPostProject());
     }
     if (isSuccessProject && messageProject != "") {
+      dispatch(fetchProjects(selectedWorkSpaceId))
+      dispatch(resetProject())
       toast.dismiss();
       toast.success(`${messageProject}`, { rtl: true });
       dispatch(resetPostProject());
