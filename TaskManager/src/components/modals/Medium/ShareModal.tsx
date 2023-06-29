@@ -202,7 +202,7 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
 
 
             <div className="w-full mt-7 flex justify-between items-center">
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <FiLink />
                 <span className="mr-3 text-sm font-normal text-[#1E1E1E]">
                   لینک خصوصی
@@ -211,7 +211,7 @@ const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
 
               <div className="w-20 h-6 px-3 py-1 text-xs flex items-center justify-center font-normal text-[#1E1E1E] rounded-md border border-[#E9EBF0] cursor-pointer">
                 کپی لینک
-              </div>
+              </div> */}
             </div>
             {isLoadingPost || isLoadingProject ? (
               <AiOutlineLoading3Quarters
