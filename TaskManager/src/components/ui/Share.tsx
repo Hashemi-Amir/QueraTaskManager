@@ -3,16 +3,17 @@ import { HiOutlineShare } from "react-icons/hi";
 import Modal from "../../layout/Modal";
 import ShareModal from "../modals/Medium/ShareModal";
 import { useState } from "react";
-import { useAppSelector } from "../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../services/app/hook";
 import CloseIcon from "./Close";
+import { toggleMediumModal } from "../../services/app/store";
 
 const Share = () => {
-  const [shareModal, setShareModal] = useState(false);
   const [projectId, setProjectId] = useState("");
-  const shareModalHandler = () => setShareModal(!shareModal);
   const { selectedProjectSidebar, workSpaces } = useAppSelector(
     (state) => state.projects
   );
+  const {medium} = useAppSelector(state => state.modals);
+  const dispatch = useAppDispatch(); 
   const findProjectId = () => {
     const workSpaceId: any = [];
     workSpaces.forEach((workSpace, indx) => {
@@ -38,7 +39,7 @@ const Share = () => {
         role="button"
         onClick={() => {
           findProjectId();
-          shareModalHandler();
+          dispatch(toggleMediumModal('shareModalHeader'));
         }}
       >
         <HiOutlineShare size="24" color="#BDBDBD" />
@@ -47,22 +48,21 @@ const Share = () => {
         </span>
       </div>
 
-      {shareModal &&
+      {medium === 'shareModalHeader'&&
         createPortal(
           <Modal>
             {selectedProjectSidebar != "" ? (
               <ShareModal
                 ModalTitle="پروژه"
-                shareModalHandler={shareModalHandler}
                 id={projectId}
               />
             ) : (
-              <div className="modal-box">
+              <div className="modal-box w-[500px]">
                 <div className="w-full flex justify-between items-center">
                   <label
                     htmlFor="my-modal-3"
                     className="text-323232 cursor-pointer"
-                    onClick={shareModalHandler}
+                    onClick={() => dispatch(toggleMediumModal(''))}
                   >
                     <CloseIcon />
                   </label>

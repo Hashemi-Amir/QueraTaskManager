@@ -3,7 +3,7 @@ import Header from "../components/dashboard/dashboardHeader/Header";
 import SideBar from "../components/dashboard/dashboardSidebar/SideBar";
 import Button from "../components/ui/Button";
 import { CgAddR } from "react-icons/cg";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { createPortal } from "react-dom";
 import Modal from "./Modal";
 import AddNewTask from "../components/modals/Large/AddNewTask";
@@ -13,21 +13,10 @@ import {
   fetchBoards,
   fetchCreateTask,
   resetBoard,
+  toggleMediumModal,
 } from "../services/app/store";
 
-// type BoardType = {
-//   _id: string;
-//   name: string;
-// };
-
-// type DataListState = {
-//   data: BoardType[];
-//   status: string;
-//   selectedId: string;
-// };
-
 const DashboardLayout = () => {
-  const [newTaskModal, setNewTaskModal] = useState(false);
   const [dataList, setDataList] = useState<any>({
     data: [],
     status: "ورک اسپیس",
@@ -35,21 +24,14 @@ const DashboardLayout = () => {
   });
   const dispatch = useAppDispatch();
   const Location = useLocation();
-
+  const {medium} = useAppSelector(state => state.modals)
   const { selectedProject } = useAppSelector((state) => state.projects);
   const { selectedWorkSpaceHeader } = useAppSelector(
     (state) => state.workSpaces
   );
 
-  const { projects, isSuccess } = useAppSelector((state) => state.boards);
+  const { projects } = useAppSelector((state) => state.boards);
   const { workSpaces } = useAppSelector((state) => state.workSpaces);
-  const { isSuccess: isSuccessTask } = useAppSelector((state) => state.tasks);
-
-  // handle modal new task and get boards
-  const handleNewTaskModal = (arg:boolean) => {
-    setNewTaskModal(arg);
-    setDataList({ data: workSpaces, status: "ورک اسپیس", selectedId: "" });
-  };
 
   // handle selected board id and modal step
   const handleSelectBoardList = async (id?: string | undefined) => {
@@ -99,22 +81,8 @@ const DashboardLayout = () => {
       boardId: dataList.selectedId,
     };
     dispatch(fetchCreateTask(formData));
-    // setNewTaskModal(false);
-    handleNewTaskModal(false)
-
   };
 
-  // useEffect(() => {
-  //   // if (dataList.status === "ورک اسپیس") {
-  //   //   setDataList({ ...dataList, data: workSpaces });
-  //   // }
-
-  //   if (isSuccessTask) {
-  //     // setNewTaskModal(false);
-  //     // setDataList({ data: workSpaces, status: "ورک اسپیس", selectedId: "" });
-  //     handleNewTaskModal(false)
-  //   }
-  // }, );
 
   const colors = [
     "bg-F92E8F",
@@ -188,7 +156,10 @@ const DashboardLayout = () => {
         <Button
           className="text-l px-2 py rounded-lg"
           value={"تسک جدید"}
-          onClick={() => handleNewTaskModal(true)}
+          onClick={() => {
+            setDataList({ data: workSpaces, status: "ورک اسپیس", selectedId: "" });
+            dispatch(toggleMediumModal('newTaskOnScreen'));
+          }}
         >
           <CgAddR
             size={20}
@@ -199,20 +170,19 @@ const DashboardLayout = () => {
       </div>
 
       {/* handle modal new task */}
-      {newTaskModal &&
+      {medium === 'newTaskOnScreen' &&
         createPortal(
           <Modal>
             {dataList.status === "تسک" ? (
               <AddNewTask
                 handleAddNewTask={handleDispatchNewTask}
-                handleNewTaskModal={handleNewTaskModal}
               />
             ) : (
               <SelectBoard
                 data={dataList.data}
                 selectedHandle={handleSelectBoardList}
                 status={dataList.status}
-                toggleModal={handleNewTaskModal}
+                
               />
             )}
           </Modal>,
