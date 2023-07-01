@@ -1,34 +1,29 @@
 import Input from "../../ui/Input";
 import Button from "../../ui/Button";
 import CloseIcon from "../../ui/Close";
+import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
-import { createProject } from "../../../services/app/store";
-
+import { createProject, toggleMediumModal } from "../../../services/app/store";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 type projectProps = {
-  handleAllSideMoreModals: (modalName:string) => void;
-  id? : string,
-  handleItemClick : () => void,
+  id?: string;
+  
 };
 
-const NewProject = ({ handleAllSideMoreModals , id ,handleItemClick}: projectProps) => {
-
+const NewProject = ({ id }: projectProps) => {
   const dispatch = useAppDispatch();
-  const {isLoadingPost} = useAppSelector(state => state.projects)
-  
-
+  const { isLoadingPost } = useAppSelector((state) => state.projects);
 
   const handleNewProject = () => {
-    const name = document.querySelector<HTMLInputElement>('#newProject')?.value
-    const formData:(string | undefined  | undefined)[] = [name , id]
-    if(name?.trim()){
-     dispatch(createProject(formData))
-     handleAllSideMoreModals('')
-      handleItemClick()
+    const name = document.querySelector<HTMLInputElement>("#newProject")?.value;
+    const formData: (string | undefined | undefined)[] = [name, id];
+    if (name?.trim()) {
+      dispatch(createProject(formData));
+    } else {
+      toast.warning("اسم پروژه یادت نره", { rtl: true });
     }
-    
-  }
-
+  };
 
   return (
     <div className="modal-box w-3/4 max-w-lgl min-w-[500px]">
@@ -38,7 +33,7 @@ const NewProject = ({ handleAllSideMoreModals , id ,handleItemClick}: projectPro
           <label
             htmlFor="my-modal-3"
             className="text-323232 cursor-pointer"
-            onClick={() => handleAllSideMoreModals('')}
+            onClick={() => dispatch(toggleMediumModal(""))}
           >
             <CloseIcon />
           </label>
@@ -51,23 +46,26 @@ const NewProject = ({ handleAllSideMoreModals , id ,handleItemClick}: projectPro
         </div>
 
         {/* card content */}
-        <div className="mt-11 w-full">
-          <Input
-            label="نام پروژه"
-            type="text"
-            id="newProject"
-            
+        {isLoadingPost ? (
+          <AiOutlineLoading3Quarters
+            size="2.8rem"
+            color="208D8E"
+            className="m-auto mt-3 animate-spin"
           />
+        ) : (
+          <div className="mt-11 w-full">
+            <Input label="نام پروژه" type="text" id="newProject" />
 
-          {/* Button  */}
-          <div className="mt-16">
-            <Button 
-              disabled={isLoadingPost}
-              value="ساختن پروژه جدید" 
-              onClick={handleNewProject}
-            />
+            {/* Button  */}
+            <div className="mt-16">
+              <Button
+                disabled={isLoadingPost}
+                value="ساختن پروژه جدید"
+                onClick={handleNewProject}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

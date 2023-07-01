@@ -12,6 +12,7 @@ import { RxUpdate } from "react-icons/rx";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { fetchBoards, fetchProjects } from "../../../services/app/store";
 import { resetBoards } from "../../../services/features/boards/boardSlice";
+import { setTheme } from "../../../services/features/user/userSlice";
 
 type HeaderProps = {
   projectName: string;
@@ -43,6 +44,7 @@ const Header = ({ projectName }: HeaderProps) => {
     htmlTag?.classList.toggle("dark");
     const newThemeStatus = themeStatus ? "Light" : "Dark";
     localStorage.setItem("Theme", newThemeStatus);
+    dispatch(setTheme(newThemeStatus))
   };
 
   if (Location.pathname === "/calendarview") date = true;
@@ -182,7 +184,7 @@ const Header = ({ projectName }: HeaderProps) => {
       </div>
       <div className="flex items-center justify-between font-medium py-4 gap-4 border-b dark:border-b-[rgb(241,177,39,0.5)]">
         <div className="flex items-center gap-4">
-          <span className="border-l-2 border-l-999999 pl-4">
+          <span className="border-l-2 border-l-999999 pl-4 dark:border-l-[rgb(241,177,39,0.5)]">
             <SearchInput placeHolder="جستجو بین تسک ها" />
           </span>
           {date ? <Date /> : <Filter filter="وضعیت" />}

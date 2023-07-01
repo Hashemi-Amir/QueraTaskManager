@@ -5,72 +5,91 @@ import Modal from "../../../layout/Modal";
 import NewWorkspace from "../../modals/Medium/NewWorkspace";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { toast } from "react-toastify";
-import { resetPostBoard, resetPostProject, resetPostWorkspace, resetTask } from "../../../services/app/store";
+import {
+  closeAllModals,
+  fetchProjects,
+  resetPostBoard,
+  resetPostProject,
+  resetPostWorkspace,
+  resetProject,
+  resetTask,
+  toggleMediumModal,
+} from "../../../services/app/store";
 
 const NewSpace = () => {
-  const [modalWorkSpace, setModalWorkSpace] = useState(false);
   const [workSpaceStep, setWorkSpaceStepe] = useState("ساختن ورک اسپیس جدید");
 
   const dispatch = useAppDispatch();
-  const { isErrorPost, isLoadingPost, isSuccessPost, messagePost } =
-    useAppSelector((state) => state.workSpaces);
+  const { medium } = useAppSelector((state) => state.modals);
+
+  const {
+    isErrorPost,
+    isLoadingPost,
+    isSuccessPost,
+    messagePost,
+    selectedWorkSpaceId,
+  } = useAppSelector((state) => state.workSpaces);
   const {
     isErrorPost: isErrorProject,
     isLoadingPost: isLoadingPorject,
     isSuccessPost: isSuccessProject,
     messagePost: messageProject,
-    
   } = useAppSelector((state) => state.projects);
   const {
-    isErrorPost : isErrorBoard,
-    isLoadingPost : isLoadingBoard,
-    isSuccessPost : isSuccessBoard,
-    messagePost : messageBoard,
-  } = useAppSelector((state => state.boards));
+    isErrorPost: isErrorBoard,
+    isLoadingPost: isLoadingBoard,
+    isSuccessPost: isSuccessBoard,
+    messagePost: messageBoard,
+  } = useAppSelector((state) => state.boards);
 
   const {
-    isError : isErrorTask,
-    isLoading : isLoadingTask,
-    isSuccess : isSuccessTask,
-    message : messageTask,
-  } = useAppSelector((state => state.tasks));
+    isError: isErrorTask,
+    isLoading: isLoadingTask,
+    isSuccess: isSuccessTask,
+    message: messageTask,
+  } = useAppSelector((state) => state.tasks);
   useEffect(() => {
-
     // workSpace
     if (isErrorPost) {
       toast.dismiss();
-      toast.error(`${messagePost} ❗`);
+      messagePost != "" && toast.error(`${messagePost} ❗`);
       dispatch(resetPostWorkspace());
     }
-    if (isSuccessPost && messagePost != "") {
+    if (isSuccessPost) {
       toast.dismiss();
-      toast.success(`${messagePost}`, { rtl: true });
+      messagePost != "" && toast.success(`${messagePost}`, { rtl: true });
       dispatch(resetPostWorkspace());
+      medium != "اشتراک ورک اسپیس" && dispatch(closeAllModals());
     }
     // project
     if (isErrorProject) {
       toast.dismiss();
-      toast.error(`${messageProject} ❗`);
+      messageProject != "" && toast.error(`${messageProject} ❗`);
       dispatch(resetPostProject());
     }
-    if (isSuccessProject && messageProject != "") {
+    if (isSuccessProject) {
+      dispatch(fetchProjects(selectedWorkSpaceId));
+      dispatch(resetProject());
       toast.dismiss();
-      toast.success(`${messageProject}`, { rtl: true });
+      messageProject != "" && toast.success(`${messageProject}`, { rtl: true });
       dispatch(resetPostProject());
+      medium !== "اشتراک تسک" && medium !== "shareModalHeader"
+        ? dispatch(closeAllModals())
+        : null;
     }
 
     // board
     if (isErrorBoard) {
       toast.dismiss();
-      toast.error(`${messageBoard} ❗`);
+      messageBoard != "" && toast.error(`${messageBoard} ❗`);
       dispatch(resetPostBoard());
     }
-    if (isSuccessBoard && messageBoard != "") {
+    if (isSuccessBoard) {
       toast.dismiss();
-      toast.success(`${messageBoard}`, { rtl: true });
+      messageBoard != "" && toast.success(`${messageBoard}`, { rtl: true });
       dispatch(resetPostBoard());
+      dispatch(closeAllModals());
     }
-
 
     // task
     if (isErrorTask) {
@@ -82,8 +101,8 @@ const NewSpace = () => {
       toast.dismiss();
       toast.success(`${messageTask}`, { rtl: true });
       dispatch(resetTask());
+      dispatch(closeAllModals());
     }
-
   }, [
     dispatch,
     isErrorPost,
@@ -101,30 +120,25 @@ const NewSpace = () => {
     messageTask,
     isSuccessTask,
     isLoadingTask,
-    isErrorTask
+    isErrorTask,
   ]);
-
-  
-  // new workspaace modal toggle
-  const handleModalWorkSpace = () => setModalWorkSpace(!modalWorkSpace);
   return (
     <>
       <button
         disabled={isLoadingPost}
-        className="flex justify-center items-center gap-1 py-3 rounded-md bg-D3D3D3 text-xs font-semibold dark:hover:bg-gradient-to-r from-118C80 to-4AB7D8 dark:bg-[#1E2124]"
-        onClick={handleModalWorkSpace}
+        className="flex justify-center items-center gap-1 py-3 rounded-md bg-D3D3D3 text-xs font-semibold dark:hover:bg-gradient-to-r from-[#f1b127] to-[#916a17] dark:bg-[#1E2124] dark:hover:text-black"
+        onClick={() => dispatch(toggleMediumModal("workspace"))}
       >
         <CgAddR className="w-4 h-4" />
         ساختن اسپیس جدید
       </button>
 
-      {modalWorkSpace &&
+      {medium === "workspace" &&
         createPortal(
           <Modal>
             <NewWorkspace
               workSpaceStep={workSpaceStep}
               setWorkSpaceStepe={setWorkSpaceStepe}
-              handleModalWorkSpace={handleModalWorkSpace}
             />
             ,
           </Modal>,
