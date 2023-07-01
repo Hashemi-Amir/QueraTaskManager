@@ -170,7 +170,6 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
           />
         )}
       </div>
-      
 
       {medium === id &&
         createPortal(
@@ -190,7 +189,6 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
           </Modal>,
           document.body
         )} */}
-
     </>
   );
 };

@@ -41,7 +41,7 @@ const TaskInfoBodyRight = ({
     }
   };
   return (
-    <div className="w-1/2 box-border overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white ml-[1px]">
+    <div className="w-1/2 box-border overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white ml-[1px] dark:scrollbar-track-[#15202b] dark:scrollbar-thumb-[#3f4148]">
       {/* TaskInfo Body Right Container */}
       <div className="mx-4 my-6 flex flex-col gap-5">
         {/* Tags */}
@@ -66,7 +66,7 @@ const TaskInfoBodyRight = ({
             suppressContentEditableWarning={true}
             contentEditable
             placeholder="عنوان تسک خود را اینجا ویرایش کنید"
-            className="font-semibold text-2xl text-1E1E1E mb-3 min-h-16 flex items-center p-2 focus:outline-none focus:border"
+            className="font-semibold text-2xl text-1E1E1E mb-3 min-h-16 flex items-center p-2 focus:outline-none focus:border dark:text-inherit"
           >
             {name}
           </h2>
@@ -74,7 +74,7 @@ const TaskInfoBodyRight = ({
             ref={descriptionRef}
             name="editTask"
             placeholder="تسک خود را اینجا ویرایش کنید"
-            className="w-full outline-none resize-none text-black text-base p-4 min-h-[150px] focus:min-h-[150px] rounded-sm hover:ring-[1px] hover:ring-C1C1C1 focus:ring-[1px] focus:ring-C1C1C1 focus:shadow-inner transition-all  scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white scrollbar-corner-transparent "
+            className="w-full outline-none resize-none text-black text-base p-4 min-h-[150px] focus:min-h-[150px] rounded-sm  border border-C1C1C1 focus:ring-0 focus:shadow-inner transition-all  scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white scrollbar-corner-transparent dark:text-inherit dark:bg-[#15202b] dark:scrollbar-track-[#15202b] dark:scrollbar-thumb-[#3f4148]"
             defaultValue={description}
             onChange={() => {
               true;
@@ -90,7 +90,7 @@ const TaskInfoBodyRight = ({
         {/* Attachments */}
         <div>
           {/* Add Attachments */}
-          <form className="text-208D8E  w-fit cursor-pointer">
+          <form className="text-208D8E dark:text-[#F1B127]  w-fit cursor-pointer">
             <label
               htmlFor="file"
               className="flex items-center gap-2 font-medium text-xs cursor-pointer"

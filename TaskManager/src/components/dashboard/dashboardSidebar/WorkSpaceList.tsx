@@ -17,9 +17,11 @@ import {
   resetProject,
   toggleSmallModal,
 } from "../../../services/app/store";
-import { resetBoards, setSelectedProjectId } from "../../../services/features/boards/boardSlice";
+import {
+  resetBoards,
+  setSelectedProjectId,
+} from "../../../services/features/boards/boardSlice";
 import { setSelectedProject } from "../../../services/features/projects/projectSlice";
-
 
 // import { useLocation } from "react-router-dom";
 import { workSpacesType } from "./SideBar";
@@ -102,7 +104,6 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
     const val = document.querySelector<HTMLInputElement>("#edit")?.value;
     const data = [val, id, user?.username];
     if (val?.trim()) {
-
       dispatch(setSelectedWorkSpaceHeader(val.trim()));
       dispatch(updateWorkSpace(data));
       dispatch(resetPostWorkspace());
@@ -110,7 +111,7 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
     }
   };
   return (
-    <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full ">
+    <div className="my-5 flex-1 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full dark:scrollbar-track-[#0f111a] dark:scrollbar-thumb-[#3f4148] ">
       {workSpaces?.map(({ name, _id, projects }, index) => {
         return (
           <>

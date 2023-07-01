@@ -16,8 +16,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Protected from "./routes/Protected";
 import PageNotFound from "./pages/PageNotFound";
+import { useAppSelector } from "./services/app/hook";
 
 function App() {
+  // const theme = localStorage.getItem("Theme")?.toLocaleLowerCase();
+  const { theme } = useAppSelector((state) => state.user);
+
   return (
     <>
       <Routes>
@@ -89,7 +93,10 @@ function App() {
         </Route>
         <Route path="*" element={<PageNotFound />}></Route>
       </Routes>
-      <ToastContainer />
+      <ToastContainer
+        toastStyle={{ backgroundColor: `${theme === "Dark" && "#15202b"}` }}
+        theme={`${theme === "Dark" ? "dark" : "colored"}`}
+      />
     </>
   );
 }

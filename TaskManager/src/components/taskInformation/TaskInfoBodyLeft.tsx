@@ -67,8 +67,6 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
     }
   }, [editingCommentId]);
 
-  // ******************************************************************************** //
-
   const {
     addCommentIsError,
     addCommentIsLoading,
@@ -144,7 +142,7 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
   ]);
 
   return (
-    <div className="w-1/2 box-border overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white mb-11">
+    <div className="w-1/2 box-border overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white mb-11 dark:scrollbar-track-[#15202b] dark:scrollbar-thumb-[#3f4148]">
       {/* TaskInfo Body Left Container */}
       <div className="mx-4 my-6 flex flex-col gap-5 ">
         {/* History of The Task */}
@@ -154,9 +152,9 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
             {/* History Action */}
             <div className="flex items-center justify-start gap-1">
               {/* User */}
-              <b className="text-208D8E text-base">شما</b>
+              <b className="text-208D8E text-base dark:text-[#F1B127]">شما</b>
               {/* Action */}
-              <span className="font-normal text-base text-black">
+              <span className="font-normal text-base text-black dark:text-inherit">
                 این تسک را ساختید
               </span>
             </div>
@@ -168,9 +166,9 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
             {/* History Action */}
             <div className="flex items-center justify-start gap-1">
               {/* User */}
-              <b className="text-208D8E text-base">سعید</b>
+              <b className="text-208D8E text-base dark:text-[#F1B127]">سعید</b>
               {/* Action */}
-              <span className="font-normal text-base text-black">
+              <span className="font-normal text-base text-black dark:text-inherit">
                 این تسک را از ToDo به Done برد
               </span>
             </div>
@@ -185,7 +183,7 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
               <li key={comment._id} className="chat chat-start">
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full ">
-                    <span className="bg-red-300 w-full h-full flex items-center justify-center">
+                    <span className="bg-red-300 dark:bg-[#0f111a] dark:text-[#f7f7f9] w-full h-full flex items-center justify-center">
                       {comment.user.username.substring(0, 2)}
                     </span>
                   </div>
@@ -248,7 +246,7 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
                         <div className="absolute -bottom-[3px] -left-[3px] flex gap-1">
                           <button
                             contentEditable="false"
-                            className="  text-white px-2 py-1  text-[11px] rounded bg-F84747 hover:bg-[#df4040] focus:outline-none focus:ring-2 focus:ring-red-400 transition-all"
+                            className="btn btn-xs bg-[#ff3333] border-none hover:bg-[#ff1a1a]"
                             onClick={() => {
                               handleCommentCancel();
                             }}
@@ -257,7 +255,7 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
                           </button>
                           <button
                             contentEditable="false"
-                            className=" text-white px-2 py-1  text-[11px] rounded bg-208D8E hover:bg-[#1d7f80] focus:outline-none focus:ring-2 focus:ring-teal-300 transition-all"
+                            className="btn btn-xs bg-208D8E hover:bg-[#1d7f80] focus:outline-none text-white dark:bg-[#F1B127] dark:text-[#0F111A] dark:focus:ring-[#f9e0a9] border-none dark:hover:bg-[#d99f23]"
                             onClick={() => editCommentHandler()}
                           >
                             ثبت
@@ -276,7 +274,7 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
           )}
           {addCommentIsLoading && (
             <li className="mx-auto">
-              <span className="loading loading-bars loading-lg text-208D8E"></span>
+              <span className="loading loading-bars loading-lg text-208D8E dark:text-[#f1b127]"></span>
             </li>
           )}
         </ul>
@@ -286,7 +284,7 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
       {confirmationModaIsOpen &&
         createPortal(
           <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 z-40">
-            <div className="alert alert-warning fixed top-1/2 left-[37%]  z-50  w-[36%] h-16 bg-white">
+            <div className="alert alert-warning fixed top-1/2 left-[37%]  z-50  w-[36%] h-16 bg-white dark:text-[#f7f7f9] dark:bg-[#1e2124]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="stroke-warning shrink-0 h-6 w-6"
@@ -305,7 +303,7 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
               <div>
                 <button
                   onClick={() => setConfirmationModaIsOpen(false)}
-                  className="btn btn-sm"
+                  className="btn btn-sm bg-[#ff3333]  border-none hover:bg-[#ff1a1a]"
                 >
                   خیر
                 </button>
@@ -314,7 +312,7 @@ const TaskInfoBodyLeft = ({ comments, taskId }: TaskInfoBodyLeftType) => {
                     deleteCommentHandler(deletingCommentId);
                     setConfirmationModaIsOpen(false);
                   }}
-                  className="btn btn-sm bg-208D8E hover:bg-[#1d7f80] focus:outline-none text-white"
+                  className="btn btn-sm bg-208D8E hover:bg-[#1d7f80] focus:outline-none text-white dark:bg-[#F1B127] dark:text-[#0F111A] dark:focus:ring-[#f9e0a9] border-none dark:hover:bg-[#d99f23]"
                 >
                   بله
                 </button>

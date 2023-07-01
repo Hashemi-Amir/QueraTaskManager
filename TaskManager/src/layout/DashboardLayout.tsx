@@ -102,7 +102,6 @@ const DashboardLayout = () => {
     "bg-2E7FF9",
     "bg-C074D1",
     "bg-71FDA9",
-    "bg-FFE605",
     "bg-F92E8F",
     "bg-118C80",
     "bg-2E7FF9",
@@ -116,20 +115,18 @@ const DashboardLayout = () => {
     "border-t-2E7FF9",
     "border-t-C074D1",
     "border-t-71FDA9",
-    "border-t-FFE605",
     "border-t-F92E8F",
     "border-t-118C80",
     "border-t-2E7FF9",
     "border-t-C074D1",
     "border-t-71FDA9",
-    "border-t-FFE605",
   ];
 
   localStorage.setItem("Colors", JSON.stringify(colors));
   localStorage.setItem("BorderColors", JSON.stringify(borderColors));
 
   const commonStyle =
-    "max-w-[85vw] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full scrollbar-track-white gap-5 h-[calc(100%-12rem)]";
+    "max-w-[85vw] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full scrollbar-track-white gap-5 h-[calc(100%-12rem)] dark:scrollbar-track-[#0f111a] dark:scrollbar-thumb-[#3f4148]";
 
   let WraperClasses = "";
   // Dynamically styling different view wrapers
