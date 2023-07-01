@@ -74,8 +74,8 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
   };
 
   return (
-    <div className="modal-box z-50 w-3/4 max-w-lgl min-w-[500px]">
-      <div className="p-5 bg-white rounded-lg">
+    <div className="modal-box  z-50 w-3/4 max-w-lgl min-w-[500px] dark: bg-[#0F111A]">
+      <div className="p-5  rounded-lg">
         {/* card header */}
         <div className="w-full flex justify-between items-center">
           <label

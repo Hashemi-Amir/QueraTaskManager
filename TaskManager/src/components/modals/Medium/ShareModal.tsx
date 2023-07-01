@@ -1,6 +1,5 @@
 import Button from "../../ui/Button";
 import { FiLink } from "react-icons/fi";
-import avatar from "../../../assets/avatar.png";
 import { useEffect, useRef, useState } from "react";
 import CloseIcon from "../../ui/Close";
 import { toast } from "react-toastify";
@@ -21,6 +20,7 @@ type Members = {
   user: {
     _id: string;
     email: string;
+    username : string
   };
 };
 type ShareModalProps = {
@@ -123,6 +123,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
   // Add member with called dispatch redux toolkit
   const handleAddMember = () => {
     const inviteValue = inputInvite.current?.value;
+    !inputInvite.current?.value.trim() && toast.warning('اسم ممبر یادت نره !',{rtl:true})
     if (ModalTitle === "ورک اسپیس" && inviteValue?.trim()) {
       const workspaceIds: (string | undefined)[] = [id, inviteValue];
       checkHasMember(inviteValue)
@@ -154,20 +155,19 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
   };
 
   return (
-    <div className="modal-box overflow-visible w-3/4 z-50  min-w-[500px]">
-      {/* modal content */}
-      <div className="p-5 bg-white rounded-lg">
+    <div className="modal-box overflow-visible w-3/4 z-50  min-w-[500px] dark:bg-[#15202B] ">
+      <div className="p-5  rounded-lg">
         {/* card header */}
         <div className="w-full flex justify-between items-center">
           <label
             htmlFor="my-modal-3"
-            className="text-323232 cursor-pointer"
+            className="text-323232 cursor-pointer dark:text-[#F7F9F9]"
             onClick={() => dispatch(toggleMediumModal(''))}
           >
             <CloseIcon />
           </label>
 
-          <div className="font-semibold text-2xl text-black">
+          <div className="font-semibold text-2xl text-black dark:text-[#F7F9F9]">
             {`به اشتراک گذاری ${ModalTitle}`}
           </div>
 
@@ -185,7 +185,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
                 name="invite"
                 id="invite"
                 ref={inputInvite}
-                className="w-4/5 h-10 p-3 bg-F0F1F3 rounded-tr-lg rounded-br-lg text-sm font-normal focus:outline-none"
+                className="w-4/5 h-10 p-3 bg-F0F1F3 rounded-tr-lg rounded-br-lg text-sm font-normal focus:outline-none dark:bg-[#1E2124] dark:text-[#F7F9F9] border border-[#F7F9F9] border-l-0 dark:autofill:shadow-[inset_0_0_0px_1000px_#626466]"
               />
 
               <div className="w-24">
@@ -198,66 +198,46 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
               </div>
             </div>
 
-            <div className="w-full mt-7 flex justify-between items-center">
-              <div className="flex items-center">
+            <div className="w-full mt-7 flex justify-between items-center ">
+              <div className="flex items-center dark:text-[#F7F9F9]" >
                 <FiLink />
-                <span className="mr-3 text-sm font-normal text-[#1E1E1E]">
+                <span className="mr-3 text-sm font-normal text-[#1E1E1E] dark:text-[#F7F9F9]">
                   لینک خصوصی
                 </span>
               </div>
 
-              <div className="w-20 h-6 px-3 py-1 text-xs flex items-center justify-center font-normal text-[#1E1E1E] rounded-md border border-[#E9EBF0] cursor-pointer">
+              <div className="w-20 h-6 px-3 py-1 text-xs flex items-center justify-center font-normal text-[#1E1E1E] rounded-md border border-[#E9EBF0] cursor-pointer dark:text-[#F7F9F9]">
                 کپی لینک
               </div>
             </div>
             {isLoadingPost || isLoadingProject ? (
               <AiOutlineLoading3Quarters
                 size="2.8rem"
-                color="208D8E"
-                className="m-auto animate-spin"
+                className="m-auto animate-spin text-208D8E dark:text-[#F1B127]"
               />
             ) : (
               <div className="mt-7 flex flex-col">
-                <h4 className="text-sm font-normal text-[#7D828C]">
+                {members.length > 0 && <h4 className="text-sm font-normal text-[#7D828C]">
                   اشتراک گزاشته شده با
-                </h4>
-                <ul>
-                  <li className="w-full mt-5 flex justify-between items-center">
-                    <div className="flex items-center">
-                      <div className="w-9 h-9">
-                        <img
-                          src={avatar}
-                          alt="avatar"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <span className="text-[#1E1E1E] text-sm font-normal mr-2">
-                        من
-                      </span>
-                      <span className="w-28 mr-3 px-2 py-1 rounded-md flex items-center justify-center bg-A5E4F8 font-normal text-xs">
-                        workspace owner
-                      </span>
-                    </div>
+                </h4>}
+                <ul className="max-h-40 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white">
 
-                    <div className="w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0]">
-                      دسترسی کامل
-                    </div>
-                  </li>
+                  
                   {members &&
                     members.map((item) => (
-                      <li key={item.user._id} className="w-full mt-5">
+                      <li key={item.user._id} className="w-full mt-5 dark:text-[#F7F9F9]">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <div className="w-9 h-9 flex justify-center items-center bg-F27474 rounded-full">
-                              SR
+                            <div className="w-9 h-9 flex justify-center items-center text-white bg-F27474 rounded-full dark:bg-[#F1B127] dark:text-[#0F111A]">
+                              {item.user.username.substring(0,2)}
                             </div>
-                            <span className="w-28 mr-7 px-2 py-1 rounded-md flex items-center justify-center font-normal text-sm">
+                            <span className="w-28 mr-7 px-2 py-1 rounded-md flex items-center justify-center font-normal truncate">
                               {item.user.email}
                             </span>
                           </div>
 
                           <div
-                            className="relative w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer"
+                            className="relative w-26 rounded-md py-1 ml-3 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer"
                             onClick={() => {
                               handleRemoveMember(item.user._id);
                             }}

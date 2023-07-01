@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { BsThreeDots, BsPlus } from "react-icons/bs";
 import Modal from "../../../layout/Modal";
@@ -10,7 +10,6 @@ import {
   editBoardName,
   fetchCreateTask,
   toggleMediumModal,
-  toggleSmallModal,
   toggleXSmallModal,
 } from "../../../services/app/store";
 import { MorePosition } from "../dashboardSidebar/ProjectList";
@@ -28,11 +27,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
     top: 0,
     left: 0,
   });
-  document.body.onclick = () => {
-    if (xSmall !== "") {
-      dispatch(toggleXSmallModal(""));
-    }
-  };
+
   const dispatch = useAppDispatch();
   const { medium, xSmall } = useAppSelector((state) => state.modals);
   const [editMood, setEditMood] = useState("");
@@ -113,7 +108,8 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
           <div className="flex items-center justify-around ">
             <input
               type="text"
-              className="w-2/3 h-3/4 focus:outline-none text-sm px-1"
+              className="w-2/3 h-3/4 focus:outline-none text-sm px-1 dark:bg-transparent"
+              autoComplete="off"
               placeholder="نام ستون جدید"
               id="editBoardName"
             />
@@ -124,7 +120,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
               لغو
             </button>
             <button
-              className="bg-208D8E text-white rounded-md p-2 mr-3 focus:outline-none text-xs"
+              className="text-208D8E mr-3 focus:outline-none text-sm dark:text-[#F1B127]"
               onClick={handleNewBoard}
             >
               تایید
@@ -161,17 +157,16 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
             )}
           </>
         )}
-        {xSmall === id && (
+      </div>
+
+      {/* {xSmall === id && (
           <BoardMore
             position={boardModal}
             handleDeleteBoard={handleDeleteBoard}
             id={id}
             handleEditMood={handleEditMood}
           />
-        )}
-      </div>
-      
-
+        )} */}
       {medium === id &&
         createPortal(
           <Modal>
@@ -179,18 +174,18 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
           </Modal>,
           document.body
         )}
-      {/* {small === id &&
+      {xSmall === id &&
         createPortal(
           <Modal className="!bg-transparent">
             <BoardMore
               position={boardModal}
               handleDeleteBoard={handleDeleteBoard}
               id={id}
+              handleEditMood={handleEditMood}
             />
           </Modal>,
           document.body
-        )} */}
-
+        )}
     </>
   );
 };

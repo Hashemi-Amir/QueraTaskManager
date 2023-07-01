@@ -219,3 +219,63 @@ background-color: #4BECE2 !important;
 .rmdp-ym .rmdp-today span{
 border: none !important;
 }
+
+
+
+/* dark them*/
+
+.bg-dark{
+    background-color:#15202B !important;
+    color:#F7F9F9 !important;
+}
+
+.bg-dark .rmdp-header-values{
+    color:#F7F9F9 !important;
+}
+.bg-dark i{
+    border-color: #F1B127 !important;
+}
+.bg-dark .rmdp-left:hover {
+    background-color: transparent !important;
+    border: #F1B127 1px solid !important;
+}
+
+.bg-dark .rmdp-right:hover {
+    background-color: transparent !important;
+    border: #F1B127 1px solid !important;
+}
+
+
+.bg-dark .rmdp-year-picker{
+    background-color: #15202B !important;
+}
+
+
+.bg-dark .rmdp-month-picker{
+    background-color: #15202B !important;
+}
+
+.bg-dark .rmdp-day.rmdp-selected span:not(.highlight) {
+    background-color: #F1B127 !important;
+    color: #15202B !important;
+    box-shadow: 0 0 3px var(--rmdp-shadow-teal);
+}
+
+.bg-dark .rmdp-day:not(.rmdp-day-hidden) span:hover {
+    background-color: transparent !important;
+    color: white !important;
+}
+.bg-dark .rmdp-day.rmdp-today span{
+    color: white !important;
+}
+
+.bg-dark .rmdp-day.rmdp-selected:not(.rmdp-disabled):not(.rmdp-day-hidden) span:hover {
+    background-color: #F1B127 !important;
+    color: #15202B !important;
+    transition: none !important;
+}
+
+.bg-dark .rmdp-day.rmdp-today span {
+    border: 1px solid #F1B127 !important;
+
+}

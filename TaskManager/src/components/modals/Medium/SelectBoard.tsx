@@ -33,20 +33,20 @@ const SelectBoard = ({
   }, [status]);
 
   return (
-    <div className="modal-box w-3/4 max-w-lgl min-w-[500px]">
+    <div className="modal-box w-3/4 max-w-lgl min-w-[500px] dark:bg-[#15202B]">
       {data.length > 0 ? (
-        <div className="p-5 bg-white rounded-lg">
+        <div className="p-5  rounded-lg">
           {/* card header */}
           <div className="w-full flex justify-between items-center">
             <label
               htmlFor="my-modal-3"
-              className="text-323232 cursor-pointer"
+              className="text-323232 cursor-pointer dark:text-[#F7F9F9]"
               onClick={() => dispatch(toggleMediumModal('')) }
             >
               <CloseIcon />
             </label>
 
-            <div className="font-semibold text-2xl text-black">
+            <div className="font-semibold text-2xl text-black dark:text-[#F7F9F9]">
               انتخاب {status}
             </div>
 
@@ -60,7 +60,7 @@ const SelectBoard = ({
               <select
                 dir="rtl"
                 onChange={handleSelectValue}
-                className="select select-accent w-full max-w-xs text-center"
+                className="select select-accent w-full max-w-xs text-center dark:bg-[#1E2124] dark:border-[#F1B127] dark:text-[#F7F9F9] dark:focus:outline-none"
                 id="sel"
                 defaultValue={boardId}
                 ref={selectRef}
