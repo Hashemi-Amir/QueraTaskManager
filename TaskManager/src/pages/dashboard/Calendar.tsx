@@ -38,7 +38,7 @@ const Calendar = () => {
 
   const dayCellContent = (props: DayCellProps) => {
     return (
-      <div className="w-full h-full px-1">
+      <div className="w-full h-full px-1 ">
         <div className="flex justify-between items-center w-full">
           <button
             onClick={handleNewTask}

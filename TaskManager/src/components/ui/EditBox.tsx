@@ -1,12 +1,19 @@
 import { useAppDispatch, useAppSelector } from "../../services/app/hook";
-import { editBoardName, editProjectName, resetPostProject, resetPostWorkspace, updateWorkSpace } from "../../services/app/store";
+import {
+  editBoardName,
+  editProjectName,
+  resetPostProject,
+  resetPostWorkspace,
+  updateWorkSpace,
+} from "../../services/app/store";
+import { setSelectedProject } from "../../services/features/projects/projectSlice";
+import { setSelectedWorkSpaceHeader } from "../../services/features/workSpaceList/workSpacesSlice";
 import Button from "./Button";
 
-
 type EditBoxPosition = {
-  top?: number,
-  left?: number
-}
+  top?: number;
+  left?: number;
+};
 
 type HandleDeleteProjectType = (
   e?: React.MouseEvent<HTMLElement, MouseEvent>,
@@ -21,8 +28,6 @@ type EditBoxProps = {
   handleItemClick: HandleDeleteProjectType;
 };
 
-
-
 const EditBox = ({
   status,
   editPosition,
@@ -31,35 +36,33 @@ const EditBox = ({
 }: EditBoxProps) => {
   const dispatch = useAppDispatch();
 
-
-
   // get username and send to updateWorkSpace
-  const user = useAppSelector(state => state.auth.user)
-
-  
+  const user = useAppSelector((state) => state.auth.user);
 
   const handleEdit = () => {
     const val = document.querySelector<HTMLInputElement>("#edit")?.value;
-    
-    const data = [val, id ,user?.username];
-    
+
+    const data = [val, id, user?.username];
+
     if (status === "workspace" && val?.trim()) {
       dispatch(updateWorkSpace(data));
       dispatch(resetPostWorkspace());
+      dispatch(setSelectedWorkSpaceHeader(val.trim()));
       handleItemClick();
     }
 
-    if(status === 'project'  && val?.trim()){
-      const data = [id  , val]
+    if (status === "project" && val?.trim()) {
+      const data = [id, val];
       dispatch(editProjectName(data));
       dispatch(resetPostProject());
+      dispatch(setSelectedProject(val.trim()));
       handleItemClick();
     }
 
-    if(status === 'board'  && val?.trim()){
-      const data = [id  , val]
-      dispatch(editBoardName(data))
-      handleItemClick()
+    if (status === "board" && val?.trim()) {
+      const data = [id, val];
+      dispatch(editBoardName(data));
+      handleItemClick();
     }
   };
   return (

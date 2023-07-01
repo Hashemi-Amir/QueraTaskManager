@@ -65,7 +65,7 @@ const TaskCard = ({
     board,
     deadline,
     borderColor,
-    title,
+    title
   };
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -92,13 +92,13 @@ const TaskCard = ({
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            className={`border w-[250px] rounded p-3 bg-white text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3`}
+            className={`border w-[250px] rounded p-3 bg-white text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3 dark:bg-[#15202B] dark:text-[#F7F9F9] dark:border-[#F1B127] dark:shadow-[0px_5px_7px_rgba(255,255,255,0.15)]`}
             onMouseOver={() => handleCardHover(true)}
             onMouseLeave={() => handleCardHover(false)}
             onClick={() => setIsOpen(true)}
           >
             <div className="flex justify-between items-baseline mb-2">
-              <div className="h-4 font-medium leading-4 text-right text-534D60 text-[10px]">
+              <div className="h-4 font-medium leading-4 text-right text-534D60 text-[10px] dark:text-inherit">
                 {name}
               </div>
               <Link className="w-fit" to="/personalinfo">
@@ -111,7 +111,7 @@ const TaskCard = ({
               </Link>
             </div>
             <div className="flex items-center justify-start mb-5 gap-1">
-              <div className="font-medium text-xs text-0E0E0E leading-4 text-right">
+              <div className="font-medium text-xs text-0E0E0E leading-4 text-right dark:text-inherit">
                 {description}
               </div>
               <div className="text-xs text-BDC0C6 ">
@@ -123,10 +123,7 @@ const TaskCard = ({
                 <FiFlag />
               </span>
               <div className="text-343434">
-                {/* {getPersianDate(deadline)
-                  .split(" ")
-                  .slice(0, 2)
-                  .join(" ") || ""} */}
+         
                 ۲۵ مهر
               </div>
               <span className="text-BDC0C6">
@@ -142,7 +139,7 @@ const TaskCard = ({
               </span>
               <div className="text-BDC0C6">۲۳/۲</div>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 dark:text-[#1E2124]">
               <span className="bg-BFFDE3 text-[10px] p-1 rounded-l-2xl">
                 درس
               </span>

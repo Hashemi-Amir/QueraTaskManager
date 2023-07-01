@@ -47,7 +47,7 @@ const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {
     <select
       value={selectedValue} // Use the selected value state variable
       onChange={handleSelectChange}
-      className="p-2 bg-white outline-none focus:ring-1 focus:ring-208D8E blur:ring-none rounded-md mt-7 w-full font-semibold"
+      className="p-2 bg-white outline-none focus:ring-1 focus:ring-208D8E blur:ring-none rounded-md mt-7 w-full font-semibold dark:bg-[#1E2124] dark:focus:ring-[#F1B127]"
     >
       <option className="text-323232 font-semibold">ورک اسپیس‌ها</option>
       {workSpaces.map(({ _id, name }) => (

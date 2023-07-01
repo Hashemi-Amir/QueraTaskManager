@@ -111,7 +111,7 @@ const NewSpace = () => {
     <>
       <button
         disabled={isLoadingPost}
-        className="flex justify-center items-center gap-1 py-3 rounded-md bg-D3D3D3 text-xs font-semibold hover:bg-gradient-to-r from-118C80 to-4AB7D8"
+        className="flex justify-center items-center gap-1 py-3 rounded-md bg-D3D3D3 text-xs font-semibold dark:hover:bg-gradient-to-r from-118C80 to-4AB7D8 dark:bg-[#1E2124]"
         onClick={handleModalWorkSpace}
       >
         <CgAddR className="w-4 h-4" />

@@ -10,8 +10,9 @@ import {
   setSelectedWorkSpaceId,
 } from "../../../services/features/workSpaceList/workSpacesSlice";
 import { fetchProjects, resetProject } from "../../../services/app/store";
-import { useLocation } from "react-router-dom";
 import { workSpacesType } from "./SideBar";
+import { resetBoards, setSelectedProjectId } from "../../../services/features/boards/boardSlice";
+import { setSelectedProject } from "../../../services/features/projects/projectSlice";
 
 export type WorkSpaceProps = {
   workSpaces: workSpacesType;
@@ -19,7 +20,6 @@ export type WorkSpaceProps = {
 
 const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
   const dispatch = useAppDispatch();
-  const Location = useLocation();
   const { workSpaces: stateProject } = useAppSelector(
     (state) => state.projects
   );
@@ -51,6 +51,9 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
     dispatch(setSelectedWorkSpaceId(""));
     dispatch(setSelectedWorkSpaceHeader(""));
     dispatch(resetProject());
+    dispatch(setSelectedProjectId(""));
+    dispatch(setSelectedProject(""));
+    dispatch(resetBoards());
   };
   const colors = JSON.parse(localStorage.getItem("Colors") as string);
 
@@ -61,12 +64,12 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
           <div
             className="collapse group/title"
             key={_id}
-            onClick={(event) => {
+            onClick={() => {
               const workSpaceIndex = stateProject.findIndex((projects) => {
                 return projects.workSpaceId === _id;
               });
               if (workSpaceIndex < 0) dispatch(fetchProjects(_id));
-      
+
               dispatch(setSelectedWorkSpaceId(_id));
               dispatch(setSelectedWorkSpaceHeader(name));
             }}

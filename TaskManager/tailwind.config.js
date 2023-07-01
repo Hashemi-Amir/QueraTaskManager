@@ -11,6 +11,7 @@ export default {
     rtl: true,
     darkTheme: false,
   },
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -37,11 +38,11 @@ export default {
         BDC0C6: "#BDC0C6",
         AAAAAA: "#AAAAAA",
         "8A8989": "#8A8989",
-        818181: "#818181",
+        "818181": "#818181",
         "5F6C7C": "#5F6C7C",
-        486774: "#486774",
+        "486774": "#486774",
         "46494D": "#46494D",
-        323232: "#323232",
+        "323232": "#323232",
         F3C567: "#F3C567",
         EAF562: "#EAF562",
         FFE605: "#FFE605",

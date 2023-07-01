@@ -46,10 +46,17 @@ const DashboardLayout = () => {
   const { isSuccess: isSuccessTask } = useAppSelector((state) => state.tasks);
 
   // handle modal new task and get boards
-  const handleNewTaskModal = (arg:boolean) => {
+  const handleNewTaskModal = (arg: boolean) => {
     setNewTaskModal(arg);
     setDataList({ data: workSpaces, status: "ورک اسپیس", selectedId: "" });
   };
+  // Check localStorage and set theme
+  useEffect(() => {
+    const htmlTag = document.querySelector("html");
+    localStorage.getItem("Theme") === "Dark"
+      ? htmlTag?.classList.add("dark")
+      : htmlTag?.classList.remove("dark");
+  }, []);
 
   // handle selected board id and modal step
   const handleSelectBoardList = async (id?: string | undefined) => {
@@ -66,8 +73,8 @@ const DashboardLayout = () => {
         (project) => project.projectId === id
       );
       if (projectIndex < 0) {
-        const res = await dispatch(fetchBoards(id || ''));
-        dispatch(resetBoard())
+        const res = await dispatch(fetchBoards(id || ""));
+        dispatch(resetBoard());
         setDataList({
           ...dataList,
           data: res.payload,
@@ -100,8 +107,7 @@ const DashboardLayout = () => {
     };
     dispatch(fetchCreateTask(formData));
     // setNewTaskModal(false);
-    handleNewTaskModal(false)
-
+    handleNewTaskModal(false);
   };
 
   // useEffect(() => {
@@ -149,7 +155,6 @@ const DashboardLayout = () => {
     "border-t-FFE605",
   ];
 
-
   localStorage.setItem("Colors", JSON.stringify(colors));
   localStorage.setItem("BorderColors", JSON.stringify(borderColors));
 
@@ -166,7 +171,7 @@ const DashboardLayout = () => {
     WraperClasses = "overflow-hidden mt-2 h-[calc(100%-14rem)]";
 
   return (
-    <div className="flex flex-row w-full max-h-screen overflow-hidden bg-FAFBFC select-none">
+    <div className="flex flex-row w-full max-h-screen overflow-hidden bg-FAFBFC select-none dark:bg-[#0F111A] dark:text-white">
       <SideBar />
       <div className="w-4/5 pr-4 pl-10 min-h-screen">
         {/* Header */}

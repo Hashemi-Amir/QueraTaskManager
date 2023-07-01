@@ -31,14 +31,14 @@ const SearchInput = ({ placeHolder, extraClass }: SearchInputProps) => {
 
   return (
     <div
-      className={`flex items-center bg-gray-50 gap-2 text-323232 ${extraClass}`}
+      className={`flex items-center bg-gray-50 gap-2 text-323232 ${extraClass}  dark:bg-[#1E2124] dark:text-[#F7F9F9] dark:border dark:border-[#F1B127] dark:rounded dark:px-2`}
     >
-      <BiSearch />
+      <BiSearch/>
       <input
         onChange={(e) => setQuery(e.target.value)}
         type="text"
         placeholder={placeHolder}
-        className="p-2 w-full h-full text-xs bg-gray-50 outline-none rounded-md"
+        className="p-2 w-full h-full text-xs bg-gray-50 outline-none rounded-md dark:bg-[#1E2124] dark:text-[#F7F9F9]"
       />
     </div>
   );

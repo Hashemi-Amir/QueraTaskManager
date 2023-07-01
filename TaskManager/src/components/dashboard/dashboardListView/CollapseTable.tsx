@@ -28,7 +28,7 @@ const CollapseTable = ({ tasks, color }: StatusProjects) => {
           <tbody>
             {tasks.map(({ _id, name,description }) => (
               <tr key={_id} className="text-sm">
-                <th className="flex items-center mr-16 py-6">
+                <th className="flex items-center mr-16 py-6 w-36">
                   <span className={`w-4 h-4 ${color} rounded-sm ml-2 `}></span>
                   {name}
                 </th>
