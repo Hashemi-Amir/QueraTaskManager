@@ -50,12 +50,12 @@ const Register = () => {
     }
   }, [isSuccess, isError, message, isLoading, Navigate, dispatch]);
 
-  const onSubmit = ({ username, email, password }: FieldValues) => {
+  const onSubmit = (data: FieldValues) => {
     dispatch(
       registerUser({
-        username: typeof username === "string" ? username.toLowerCase() : "",
-        email,
-        password,
+        username: data.username,
+        email: data.email,
+        password: data.password,
       })
     );
   };

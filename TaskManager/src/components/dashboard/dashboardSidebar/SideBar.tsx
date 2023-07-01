@@ -52,7 +52,7 @@ const SideBar = () => {
 
   return (
     <div className="flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA dark:border-[rgb(241,177,39,0.5)]">
-      <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-118C80 to-4AB7D8 dark:from-[#f1b127] dark:to-[#f8d893]">
+      <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-118C80 to-4AB7D8 dark:from-[#58afa6] dark:to-[#80cde4]">
         کوئرا تسک منیجر
       </h1>
       <SpaceMenu workSpaces={workSpaces || []} />

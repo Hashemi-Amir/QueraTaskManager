@@ -3,17 +3,16 @@ import { HiOutlineShare } from "react-icons/hi";
 import Modal from "../../layout/Modal";
 import ShareModal from "../modals/Medium/ShareModal";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../services/app/hook";
+import { useAppSelector } from "../../services/app/hook";
 import CloseIcon from "./Close";
-import { toggleMediumModal } from "../../services/app/store";
 
 const Share = () => {
+  const [shareModal, setShareModal] = useState(false);
   const [projectId, setProjectId] = useState("");
+  const shareModalHandler = () => setShareModal(!shareModal);
   const { selectedProjectSidebar, workSpaces } = useAppSelector(
     (state) => state.projects
   );
-  const {medium} = useAppSelector(state => state.modals);
-  const dispatch = useAppDispatch(); 
   const findProjectId = () => {
     const workSpaceId: any = [];
     workSpaces.forEach((workSpace, indx) => {
@@ -39,30 +38,31 @@ const Share = () => {
         role="button"
         onClick={() => {
           findProjectId();
-          dispatch(toggleMediumModal('shareModalHeader'));
+          shareModalHandler();
         }}
       >
         <HiOutlineShare size="24" color="#BDBDBD" />
-        <span className="text-base font-dana font-medium text-1E1E1E dark:text-[#F7F9F9]">
+        <span className="text-base font-dana font-medium text-1E1E1E">
           اشتراک گذاری
         </span>
       </div>
 
-      {medium === 'shareModalHeader'&&
+      {shareModal &&
         createPortal(
           <Modal>
             {selectedProjectSidebar != "" ? (
               <ShareModal
                 ModalTitle="پروژه"
+                shareModalHandler={shareModalHandler}
                 id={projectId}
               />
             ) : (
-              <div className="modal-box w-[500px]">
+              <div className="modal-box">
                 <div className="w-full flex justify-between items-center">
                   <label
                     htmlFor="my-modal-3"
                     className="text-323232 cursor-pointer"
-                    onClick={() => dispatch(toggleMediumModal(''))}
+                    onClick={shareModalHandler}
                   >
                     <CloseIcon />
                   </label>

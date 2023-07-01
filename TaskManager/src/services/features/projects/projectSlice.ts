@@ -212,37 +212,13 @@ const projectSlice = createSlice({
         state.isSuccessPost = false;
       })
       .addCase(createProject.fulfilled, (state, action) => {
-        // const data = action.payload;
-        // const cop = [...data]
-        // const act = action.payload.members;
-        // delete act[0].role
-        // delete data[0].members
-        // const memberNewFormat ={
-        //   role : 'owner',
-        //   user : act[0]
-        // }
-        
-      //  delete cop[0].members
-        
-      // data[].members
-      // const newData = cop.map(item => item.members.)
-      // console.log(newData);
-      
-      // data.forEach(obj => delete obj.members);
-      // const newData = data.map(item =>  {
-      //   item.members = memberNewFormat
-      //   return item
-      // })
-      // console.log(data);
-      // console.log(memberNewFormat);
-        
         state.isLoadingPost = false;
         // find index workSpace
         const workSpaceId = action.meta.arg[1];
         const workSpaceIndex = state.workSpaces.findIndex((workSpace) => {
           return workSpace.workSpaceId === workSpaceId;
         });
-        
+
         // push project in workSpace
         workSpaceIndex !== -1 &&
           state.workSpaces[workSpaceIndex].projects.push(action.payload);
@@ -255,6 +231,7 @@ const projectSlice = createSlice({
         state.isSuccessPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
+        state.workSpaces = [];
       })
 
       // Delete Project
@@ -283,6 +260,7 @@ const projectSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
+        state.workSpaces = [];
       })
 
       // edit project name
@@ -313,6 +291,7 @@ const projectSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
+        state.workSpaces = [];
       })
 
       // add member to project
@@ -332,6 +311,7 @@ const projectSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
+        state.workSpaces = [];
       })
 
       // remove member than project
@@ -347,8 +327,6 @@ const projectSlice = createSlice({
           workspace.projects.forEach((project) => {
             if (project.name === state.selectedProject) {              
               test.push(project);
-  
-              
             }
           })
         );
@@ -377,6 +355,7 @@ const projectSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.error;
+        state.workSpaces = [];
       })
 
       // update member project

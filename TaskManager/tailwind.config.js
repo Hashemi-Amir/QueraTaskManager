@@ -5,7 +5,6 @@ export default {
   plugins: [
     require("daisyui"),
     require("tailwind-scrollbar")({ nocompatible: true }),
-    require('autoprefixer'),
   ],
   daisyui: {
     themes: true,

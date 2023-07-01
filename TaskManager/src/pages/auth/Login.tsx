@@ -105,7 +105,7 @@ const Login = () => {
         <div className="mb-7 mt-5">
           <Link
             to={"/forgot"}
-            className="text-208D8E font-semibold text-xs md:text-sm dark:text-[#F1B127]"
+            className="text-208D8E font-semibold text-xs md:text-sm"
           >
             رمز عبور را فراموش کرده‌ای؟
           </Link>
@@ -124,7 +124,7 @@ const Login = () => {
         </div>
         <div className="text-center text-base mt-5">
           <span>ثبت نام نکرده‌ای؟</span>
-          <Link to={"/register"} className="font-bold text-208D8E mr-2  dark:text-[#F1B127]">
+          <Link to={"/register"} className="font-bold text-208D8E mr-2">
             ثبت نام
           </Link>
         </div>

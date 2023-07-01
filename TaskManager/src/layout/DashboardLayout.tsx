@@ -13,11 +13,21 @@ import {
   fetchBoards,
   fetchCreateTask,
   resetBoard,
-  toggleMediumModal,
 } from "../services/app/store";
-import { setTheme } from "../services/features/user/userSlice";
+
+// type BoardType = {
+//   _id: string;
+//   name: string;
+// };
+
+// type DataListState = {
+//   data: BoardType[];
+//   status: string;
+//   selectedId: string;
+// };
 
 const DashboardLayout = () => {
+  const [newTaskModal, setNewTaskModal] = useState(false);
   const [dataList, setDataList] = useState<any>({
     data: [],
     status: "ورک اسپیس",
@@ -25,25 +35,27 @@ const DashboardLayout = () => {
   });
   const dispatch = useAppDispatch();
   const Location = useLocation();
-  const { medium } = useAppSelector((state) => state.modals);
+
   const { selectedProject } = useAppSelector((state) => state.projects);
   const { selectedWorkSpaceHeader } = useAppSelector(
     (state) => state.workSpaces
   );
 
-  const { projects } = useAppSelector((state) => state.boards);
+  const { projects, isSuccess } = useAppSelector((state) => state.boards);
   const { workSpaces } = useAppSelector((state) => state.workSpaces);
+  const { isSuccess: isSuccessTask } = useAppSelector((state) => state.tasks);
 
+  // handle modal new task and get boards
+  const handleNewTaskModal = (arg: boolean) => {
+    setNewTaskModal(arg);
+    setDataList({ data: workSpaces, status: "ورک اسپیس", selectedId: "" });
+  };
   // Check localStorage and set theme
   useEffect(() => {
     const htmlTag = document.querySelector("html");
     localStorage.getItem("Theme") === "Dark"
       ? htmlTag?.classList.add("dark")
       : htmlTag?.classList.remove("dark");
-
-    localStorage.getItem("Theme") === "Dark"
-      ? dispatch(setTheme("Dark"))
-      : dispatch(setTheme("Light"));
   }, []);
 
   // handle selected board id and modal step
@@ -66,7 +78,7 @@ const DashboardLayout = () => {
         setDataList({
           ...dataList,
           data: res.payload,
-          status: "ستون",
+          status: "برد",
         });
       } else {
         const selectedProject = projects.find(
@@ -75,11 +87,11 @@ const DashboardLayout = () => {
         setDataList({
           ...dataList,
           data: selectedProject?.projectBoards,
-          status: "ستون",
+          status: "برد",
         });
       }
     }
-    if (dataList.status === "ستون") {
+    if (dataList.status === "برد") {
       setDataList({ ...dataList, status: "تسک", selectedId: id });
     }
   };
@@ -94,16 +106,32 @@ const DashboardLayout = () => {
       boardId: dataList.selectedId,
     };
     dispatch(fetchCreateTask(formData));
+    // setNewTaskModal(false);
+    handleNewTaskModal(false);
   };
+
+  // useEffect(() => {
+  //   // if (dataList.status === "ورک اسپیس") {
+  //   //   setDataList({ ...dataList, data: workSpaces });
+  //   // }
+
+  //   if (isSuccessTask) {
+  //     // setNewTaskModal(false);
+  //     // setDataList({ data: workSpaces, status: "ورک اسپیس", selectedId: "" });
+  //     handleNewTaskModal(false)
+  //   }
+  // }, );
 
   const colors = [
     "bg-F92E8F",
+    "bg-F1A25C",
     "bg-118C80",
     "bg-2E7FF9",
     "bg-C074D1",
     "bg-71FDA9",
     "bg-FFE605",
     "bg-F92E8F",
+    "bg-F1A25C",
     "bg-118C80",
     "bg-2E7FF9",
     "bg-C074D1",
@@ -112,12 +140,14 @@ const DashboardLayout = () => {
   ];
   const borderColors = [
     "border-t-F92E8F",
+    "border-t-F1A25C",
     "border-t-118C80",
     "border-t-2E7FF9",
     "border-t-C074D1",
     "border-t-71FDA9",
     "border-t-FFE605",
     "border-t-F92E8F",
+    "border-t-F1A25C",
     "border-t-118C80",
     "border-t-2E7FF9",
     "border-t-C074D1",
@@ -163,33 +193,31 @@ const DashboardLayout = () => {
         <Button
           className="text-l px-2 py rounded-lg"
           value={"تسک جدید"}
-          onClick={() => {
-            setDataList({
-              data: workSpaces,
-              status: "ورک اسپیس",
-              selectedId: "",
-            });
-            dispatch(toggleMediumModal("newTaskOnScreen"));
-          }}
+          onClick={() => handleNewTaskModal(true)}
         >
           <CgAddR
             size={20}
-            className="ml-2 rounded-md mb-[1px] dark:text-[#0F111A]"
+            color="white"
+            className="ml-2 rounded-md mb-[1px]"
           />
         </Button>
       </div>
 
       {/* handle modal new task */}
-      {medium === "newTaskOnScreen" &&
+      {newTaskModal &&
         createPortal(
           <Modal>
             {dataList.status === "تسک" ? (
-              <AddNewTask handleAddNewTask={handleDispatchNewTask} />
+              <AddNewTask
+                handleAddNewTask={handleDispatchNewTask}
+                handleNewTaskModal={handleNewTaskModal}
+              />
             ) : (
               <SelectBoard
                 data={dataList.data}
                 selectedHandle={handleSelectBoardList}
                 status={dataList.status}
+                toggleModal={handleNewTaskModal}
               />
             )}
           </Modal>,

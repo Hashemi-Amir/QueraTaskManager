@@ -2,11 +2,11 @@ import { useState } from "react";
 import { CiTextAlignRight } from "react-icons/ci";
 import ProfileButton from "../../ui/ProfileButton";
 import { FiCheckCircle, FiFlag } from "react-icons/fi";
-import { BsThreeDots, BsTrash } from "react-icons/bs";
+import { BsTrash } from "react-icons/bs";
 import { Draggable } from "react-beautiful-dnd";
 import TaskInfo from "../../taskInformation/TaskInfo";
 import { createPortal } from "react-dom";
-import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { useAppDispatch } from "../../../services/app/hook";
 import { fetchDeleteTask } from "../../../services/app/store";
 import { Link } from "react-router-dom";
 
@@ -74,7 +74,6 @@ const TaskCard = ({
     setIsOpen(false);
   };
 
-  const {isLoading} = useAppSelector(state => state.tasks)
   const dispatch = useAppDispatch();
   const handleCardHover = (isHovering: boolean) => {
     setIsExpanded(isHovering);
@@ -156,20 +155,11 @@ const TaskCard = ({
               <div className="hover:text-208D8E hover:scale-110">
                 <FiCheckCircle />
               </div>
-              {isLoading ? 
-                (
-                  <BsThreeDots
-                    color='208D8E'
-                    className="animate-ping" 
-                  />
-                ) : 
-                (
-                  <div className="hover:scale-110" onClick={handleDeleteTask}>
-                  <BsTrash />
-                  </div>
-                )
-              }
+              <div className="hover:scale-110" onClick={handleDeleteTask}>
+                <BsTrash />
 
+                {/* {colMoreModal && <ColMore />} */}
+              </div>
             </div>
           </div>
         )}

@@ -6,7 +6,7 @@ import {
   editProjectName,
 } from "../projects/projectSlice";
 import { AxiosError } from "axios";
-import { fetchAddedMemberWorkspace } from "../user/userSlice";
+// import { fetchAddedMemberWorkspace } from "../user/userSlice";
 
 export type ProjectProps = {
   _id: string;
@@ -17,7 +17,6 @@ export type ProjectProps = {
 type MemberProps = {
   user: {
     username: string;
-    _id : string;
   };
 };
 
@@ -222,6 +221,7 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
+        state.workSpaces = [];
       })
 
       // delete workSpace
@@ -240,6 +240,7 @@ const workSpacesSlice = createSlice({
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
+        state.workSpaces = [];
       })
 
       // update workSpace
@@ -252,14 +253,15 @@ const workSpacesSlice = createSlice({
         state.isSuccessPost = true;
         state.workSpaces = state.workSpaces.map((item) => {
           return item._id === action.payload._id
-          ? { ...item, name: action.payload.name }
-          : item;
+            ? { ...item, name: action.payload.name }
+            : item;
         });
       })
       .addCase(updateWorkSpace.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
+        state.workSpaces = [];
       })
 
       // add member to workSpace
@@ -276,10 +278,10 @@ const workSpacesSlice = createSlice({
         state.messagePost = `کاربر ${memberName} به ورک اسپیس اضافه شد`;
       })
       .addCase(addWorkSpaceMember.rejected, (state, action) => {
-        state.isSuccessPost = false;
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
+        state.workSpaces = [];
       })
 
       // remove member than workSpace
@@ -289,18 +291,15 @@ const workSpacesSlice = createSlice({
 
       .addCase(removeWorkSpaceMember.fulfilled, (state, action) => {
         const memberName = action.payload.username;
-        const {workspaceId ,userId} = action.payload
-        const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === workspaceId);
-
         state.isErrorPost = false;
         state.isSuccessPost = true;
-        state.workSpaces[workSpaceIndex].members = state.workSpaces[workSpaceIndex].members.filter(member => member.user._id != userId);
         state.messagePost = `کاربر ${memberName} حذف شد`;
       })
       .addCase(removeWorkSpaceMember.rejected, (state, action) => {
         state.isLoadingPost = false;
         state.isErrorPost = true;
         state.messagePost = action.payload;
+        state.workSpaces = [];
       })
 
       // update workspace by create project
@@ -356,22 +355,22 @@ const workSpacesSlice = createSlice({
       })
 
       // update member workspace
-      .addCase(fetchAddedMemberWorkspace.fulfilled, (state, action) => {
+      // .addCase(fetchAddedMemberWorkspace.fulfilled, (state, action) => {
 
-        const data = action.payload;
-        const memberObject = {
-          user: {
-            _id: data?._id,
-            username: data?.username,
-            email: data?.email,
-          },
-          role: "member",
-        };
-        const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === state.selectedWorkSpaceId);
-        
-        state.workSpaces[workSpaceIndex].members.push(memberObject)
+      //   const data = action.payload;
+      //   const memberObject = {
+      //     user: {
+      //       _id: data?._id,
+      //       username: data?.username,
+      //       email: data?.email,
+      //     },
+      //     role: "member",
+      //   };
+      //   const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === state.selectedWorkSpaceId);
+      //   console.log(workSpaceIndex);
+      //   state.workSpaces[workSpaceIndex].members.push(memberObject)
 
-      })
+      // });
   },
 });
 

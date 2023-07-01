@@ -1,54 +1,55 @@
 import { useState } from "react";
 import { FiLink, FiFlag, FiUserPlus, FiEye } from "react-icons/fi";
-import { BsCalendar3, BsTags, BsThreeDots } from "react-icons/bs";
+import { BsCalendar3, BsTags } from "react-icons/bs";
 import Button from "../../ui/Button";
 import { createPortal } from "react-dom";
-// import PriorityOptions from "../Small/PriorityOptions";
+import Tags from "../Small/Tags";
+import PriorityOptions from "../Small/PriorityOptions";
 import QuckCalendar from "./QuckCalendar";
-import { toast } from "react-toastify";      
 import CloseIcon from "../../ui/Close";
-import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
-import { toggleMediumModal } from "../../../services/app/store";
 
-// type typePriority = {
-//   modal: boolean;
-//   style: string | null;
-//   status: string;
-// };
+type typePriority = {
+  modal: boolean;
+  style: string | null;
+  status: string;
+};
 
 type addNewTaskProps = {
+  handleNewTaskModal: (modalName: boolean) => void;
   handleAddNewTask?: ((data: (string | undefined)[]) => void) | undefined;
   boardList?: object[] | undefined;
 };
 
 const AddNewTask = ({
+  handleNewTaskModal,
   handleAddNewTask,
 }: addNewTaskProps) => {
   const [calendar, setCalendar] = useState({
     modal: false,
     value: "",
   });
-  const [isValues , setIsValues] = useState(false)
-  // const [priority, setPriority] = useState<typePriority>({
-  //   modal: false,
-  //   style: "text-C1C1C1 border-C1C1C1",
-  //   status: "",
-  // });
-  const dispatch = useAppDispatch();
-  const { isLoading } = useAppSelector((state) => state.tasks);
-  // const handlePriority = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-  //   const element = e.target as HTMLElement;
-  //   const style = element.getAttribute("data-style");
+  const [tags, setTags] = useState(false);
+  const [priority, setPriority] = useState<typePriority>({
+    modal: false,
+    style: "text-C1C1C1 border-C1C1C1",
+    status: "",
+  });
 
-  //   const status = element.innerText != "حذف اولویت" ? element.innerText : "";
-  //   setPriority({ ...priority, style: style, modal: false, status });
-  // };
+  const handlePriority = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const element = e.target as HTMLElement;
+    const style = element.getAttribute("data-style");
+
+    const status = element.innerText != "حذف اولویت" ? element.innerText : "";
+    setPriority({ ...priority, style: style, modal: false, status });
+  };
 
   const handleCalendar = (modalState: boolean, value?: string) => {
     setCalendar({ ...calendar, modal: modalState, value: value! });
   };
 
-  const showTime = calendar.value ? calendar.value.substring(8,10) : ''
+  const handleTagsModal = () => {
+    setTags(!tags);
+  };
 
   const handleNewTaskButton = () => {
     const taskDisc =
@@ -59,9 +60,6 @@ const AddNewTask = ({
 
     if ((taskDisc && taskTitle && calendar.value)?.trim()) {
       handleAddNewTask && handleAddNewTask(data);
-    }else{
-      setIsValues(true);
-      toast.warning('جاهایی که لازمه پر کن',{rtl:true})
     }
   };
 
@@ -69,14 +67,13 @@ const AddNewTask = ({
 
   return (
     <>
-      <div  className="modal-box overflow-visible opacity-100 z-30 py-9 px-11 rounded-2xl shadow-xl w-11/12 max-w-5xl min-w-[1000px]">
+      <div className="modal-box overflow-visible opacity-100 z-30 py-9 px-11 rounded-2xl shadow-xl w-11/12 max-w-5xl min-w-[1000px]">
         <div>
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             {/* task header */}
             <div className="w-full flex justify-between items-center">
-              <div className="flex flex-col items-start ">
-                <div className="flex items-center">
-                <div className={`h-4 w-4 mr-3 rounded-sm ${isValues ? 'bg-FB0606' : 'bg-D3D3D3'} `}></div>
+              <div className="flex items-center">
+                <div className={`h-4 w-4 mr-3 rounded-sm bg-D3D3D3`}></div>
                 <input
                   type="text"
                   id="taskTitle"
@@ -85,14 +82,11 @@ const AddNewTask = ({
                   className="mr-3 text-2xl text-black font-medium focus:outline-none"
                   required
                 />
-                </div>
-
-              {/* <p>error validation</p> */}
-
               </div>
+
               <span
                 className="cursor-pointer text-[#BDBDBD]"
-                onClick={() => dispatch(toggleMediumModal(''))}
+                onClick={() => handleNewTaskModal(false)}
               >
                 <CloseIcon />
               </span>
@@ -120,7 +114,7 @@ const AddNewTask = ({
                 name="descTask"
                 id="descTask"
                 placeholder="توضیحاتی برای تسک بنویسید"
-                className={`w-full h-full  ${isValues ? 'border border-FB0606' : 'border'} text-base font-normal rounded-xl p-5 resize-none focus:outline-none`}
+                className=" w-full h-full border text-base font-normal rounded-xl p-5 resize-none focus:outline-none"
               ></textarea>
             </div>
 
@@ -148,35 +142,29 @@ const AddNewTask = ({
               <ul className="w-72 relative flex items-center justify-between">
                 {/* priority */}
                 <li
-                  className={`${listOfIcons} `}
-                  // onClick={() => setPriority({ ...priority, modal: true })}
+                  className={` w-12 h-12 text-xl rounded-full border-2 border-dashed flex justify-center items-center cursor-pointer ${priority.style}`}
+                  onClick={() => setPriority({ ...priority, modal: true })}
                 >
                   <span>
                     <FiFlag />
                   </span>
                 </li>
-                {/* ${priority.style} */}
-                {/* {priority.modal && (
+                {priority.modal && (
                   <PriorityOptions handlePriority={handlePriority} />
-                )} */}
+                )}
 
                 {/* calendar */}
                 <li
-                  className={`${listOfIcons} ${showTime != '' && "!text-208D8E !border-208D8E"} ${isValues ? 'border-FB0606 text-FB0606':'border-C1C1C1'}`}
+                  className={listOfIcons}
                   onClick={() => handleCalendar(true)}
-                > 
-                  {
-                    calendar.value === '' ? 
-                    (<BsCalendar3 />) :
-                    (showTime)
-                  }
-                  
+                >
+                  <BsCalendar3 />
                 </li>
 
-                <li className={listOfIcons} >
+                <li className={listOfIcons} onClick={handleTagsModal}>
                   <BsTags />
                 </li>
-                
+                {tags && <Tags handleTagsModal={handleTagsModal} />}
 
                 <li
                   className={`w-12 h-12 text-[#C1C1C1] -z-10 rounded-full border-2 flex justify-center items-center cursor-pointer border-none relative text-6xl`}
@@ -191,13 +179,7 @@ const AddNewTask = ({
               {/* create task button */}
 
               <div className="w-32 h-8">
-                {isLoading ? (
-                  <button className="disabled:pointer-events-none  bg-208D8E hover:bg-[#1d7f80] focus:outline-none focus:ring-4 focus:ring-teal-300 transition-all w-full h-10 p-2.5 text-sm font-bold leading-4 flex justify-center items-center text-white rounded-md">
-                    <BsThreeDots className="animate-ping" />
-                  </button>
-                ) : (
-                  <Button value="ساخت تسک" onClick={handleNewTaskButton} />
-                )}
+                <Button value="ساخت تسک" onClick={handleNewTaskButton} />
               </div>
             </div>
           </div>

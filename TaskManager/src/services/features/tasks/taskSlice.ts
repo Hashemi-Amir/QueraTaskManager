@@ -14,7 +14,6 @@ type initialStateType = {
   isSuccess: boolean;
   isError: boolean;
   message: unknown;
-  
   taskAssignisLoading: boolean;
   taskAssignisSuccess: boolean;
   taskAssignisError: boolean;
@@ -96,12 +95,10 @@ const fetchAssignTask = createAsyncThunk(
   async (assignInfo: assignInfoType, thunkAPI) => {
     try {
       return await taskService.fetchAssignTask(assignInfo);
-    } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        const message =
-          error?.response?.data?.message || error.message || error.toString();
-        return thunkAPI.rejectWithValue(message);
-      }
+    } catch (error: any) {
+      const message: string =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
@@ -115,12 +112,10 @@ const fetchUnAssignTask = createAsyncThunk(
   async (unAssignInfo: unAssignInfoType, thunkAPI) => {
     try {
       return await taskService.fetchUnAssignTask(unAssignInfo);
-    } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        const message =
-          error?.response?.data?.message || error.message || error.toString();
-        return thunkAPI.rejectWithValue(message);
-      }
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
 );
@@ -184,7 +179,7 @@ const tasksSlice = createSlice({
       .addCase(fetchUpdateTask.fulfilled, (state) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.message = "تسک با موفقیت آپدیت شد";
+        state.message = "تسک با موفیت آپدیت شد";
       })
 
       .addCase(fetchUpdateTask.rejected, (state, action) => {

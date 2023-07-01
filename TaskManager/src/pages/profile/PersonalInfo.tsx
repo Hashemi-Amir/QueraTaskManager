@@ -56,8 +56,8 @@ const PersonalInfo = () => {
   const errorInputStyle = "border-FB0606";
 
   return (
-    <div className="w-96  mr-14 dark:text-[#F7F9F9]">
-      <h3 className="text-1E1E1E text-2xl font-bold mb-9 dark:text-inherit">اطلاعات فردی</h3>
+    <div className="w-96  mr-14">
+      <h3 className="text-1E1E1E text-2xl font-bold mb-9">اطلاعات فردی</h3>
       <div className="flex flex-col">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
           {/* User Prof img */}
@@ -67,7 +67,7 @@ const PersonalInfo = () => {
             </span>
             <div className="flex flex-col justify-center gap-3 ">
               <label
-                className=" border border-208D8E rounded-lg p-2 cursor-pointer grid place-content-center text-xl text-208D8E dark:border-[#F1B127] dark:text-[#F1B127]"
+                className=" border border-208D8E rounded-lg p-2 cursor-pointer grid place-content-center text-xl text-208D8E"
                 htmlFor="img"
               >
                 ویرایش تصویر پروفایل

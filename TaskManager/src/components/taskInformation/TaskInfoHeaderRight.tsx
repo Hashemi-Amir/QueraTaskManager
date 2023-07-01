@@ -31,22 +31,21 @@ const TaskInfoHeaderRight = ({
         <div className="h-9 flex items-center gap-7">
           {/* Status Changer */}
           <div
-            className={`flex rounded-sm group hover:${shadowColor} transition-all`}
+            className={`flex rounded-sm hover:${shadowColor} transition-all`}
           >
             <button
-              className={`w-28 h-8 text-white bg-${btnColor} p-1 justify-center truncate group-hover:rounded-s-md  group-hover:scale-110 transition-all`}
+              className={`w-28 h-8 text-white bg-${btnColor} p-1 justify-center truncate`}
             >
               {title}
             </button>
-            <button
-              className={`mr-[2px] text-white bg-${btnColor} group-hover:scale-110 group-hover:rounded-e-md transition-all`}
-            >
+            <button className={` mr-[2px] text-white bg-${btnColor}`}>
               <RiArrowLeftSLine size="24"></RiArrowLeftSLine>
             </button>
           </div>
           {/* Set To Complete */}
           <BsCheckSquare role="button" size="32" color="#BDBDBD" />
 
+          {/* ******************************************************** */}
           {/* Assign task */}
           <ul dir="ltr" className="flex -space-x-2 ">
             <li onClick={() => setTaskAssignModal(true)}>
@@ -57,6 +56,7 @@ const TaskInfoHeaderRight = ({
 
             {taskAssigns.map((user, index) => (
               <li key={user._id} className="w-8 cursor-pointer ">
+                {/* <img className="rounded-full" draggable={false} src={avatar} /> */}
                 <div
                   className={`${colors[index]} w-full h-full rounded-full flex items-center justify-center pt-1 text-white`}
                 >
@@ -72,6 +72,8 @@ const TaskInfoHeaderRight = ({
               setTaskAssignModal={setTaskAssignModal}
             />
           )}
+
+          {/* ******************************************************** */}
 
           {/* Priority Flag */}
           <DashedBorderCard classes="border-FB0606">

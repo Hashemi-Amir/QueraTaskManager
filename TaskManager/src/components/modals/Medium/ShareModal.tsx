@@ -10,10 +10,11 @@ import {
   addWorkSpaceMember,
   fetchAddedMember,
   fetchAddedMemberWorkspace,
+  fetchAllWorkSpaces,
   removeMemberThanProject,
   removeWorkSpaceMember,
-  toggleMediumModal,
 } from "../../../services/app/store";
+import { resetWorkspaces } from "../../../services/features/workSpaceList/workSpacesSlice";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
@@ -25,10 +26,11 @@ type Members = {
 };
 type ShareModalProps = {
   ModalTitle: string;
+  shareModalHandler: (modalName: string) => void;
   id?: string;
 };
 
-const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
+const ShareModal = ({ ModalTitle, shareModalHandler, id }: ShareModalProps) => {
   const [members, setMembers] = useState<Members[]>([]);
   const inputInvite = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
@@ -37,26 +39,27 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
     workSpaces: workMembers,
     isSuccessPost,
     isLoadingPost,
-    addedMemberUserName: addedMemberWorkspace,
+    addedMemberUserName:addedMemberWorkspace
   } = useAppSelector((state) => state.workSpaces);
   const {
     isSuccessPost: isSuccessProject,
-    isLoadingPost: isLoadingProject,
+    isLoadingPost:isLoadingProject,
     workSpaces,
     addedMemberUserName,
   } = useAppSelector((state) => state.projects);
 
   useEffect(() => {
-    if (inputInvite.current?.value && isSuccessPost) {
+    if (isSuccessPost) {
       dispatch(fetchAddedMemberWorkspace(addedMemberWorkspace));
-      inputInvite.current.value = "";
+      // dispatch(fetchAllWorkSpaces());
+      // dispatch(resetWorkspaces());
     }
 
     if (inputInvite.current?.value && isSuccessProject) {
       dispatch(fetchAddedMember(addedMemberUserName));
       inputInvite.current.value = "";
     }
-
+    
     handleMembers();
   }, [
     dispatch,
@@ -82,12 +85,11 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
       const project = workSpaces.map((workSpace) =>
         workSpace.projects.find((project) => project._id === id)
       );
-      project.some(project => project?.members)
+
       const hasMember = project[0]?.members.some(
         (member) => member.user.username === memberName
       );
       return hasMember;
-
     }
   };
 
@@ -95,7 +97,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
   const handleMembers = () => {
     if (ModalTitle === "ورک اسپیس") {
       const filter = workMembers.filter((item) => item._id === id);
-      if (filter.length > 0) {
+      if (filter[0]?.members) {
         const membersArray: Members[] = (filter[0] as any).members;
         setMembers(membersArray);
       }
@@ -109,14 +111,14 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
           (item) => item._id === id && selectedProject.push(project)
         );
       });
-
-      if (selectedProject.length > 0) {
+      
+      if(selectedProject.length > 0){
         const projectMembers = selectedProject[0].find(
           (project: { _id: string | undefined }) => project._id === id
         );
-
-        setMembers(projectMembers.members)
+        setMembers(projectMembers.members);
       }
+
     }
   };
 
@@ -133,9 +135,12 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
     if (ModalTitle === "پروژه" && inviteValue?.trim()) {
       const projectsIds: (string | undefined)[] = [id, inviteValue];
 
-      checkHasMember(inviteValue)
-        ? toast.error(`کاربر ${inviteValue} از قبل اضافه شده !`, { rtl: true })
-        : dispatch(addMemberToProject(projectsIds));
+      if (checkHasMember(inviteValue)) {
+        toast.error(`کاربر ${inviteValue} از قبل اضافه شده !`, { rtl: true });
+        inputInvite.current && (inputInvite.current.value = "");
+      } else {
+        dispatch(addMemberToProject(projectsIds));
+      }
     }
   };
 
@@ -143,12 +148,10 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
   const handleRemoveMember = (selectedMemberId: string) => {
     if (ModalTitle === "ورک اسپیس") {
       const workspaceIds = [id, selectedMemberId];
-      inputInvite.current?.value && (inputInvite.current.value = "");
       dispatch(removeWorkSpaceMember(workspaceIds));
     }
     if (ModalTitle === "پروژه") {
       const projectsIds: (string | undefined)[] = [id, selectedMemberId];
-      inputInvite.current?.value && (inputInvite.current.value = "");
       dispatch(removeMemberThanProject(projectsIds));
     }
   };
@@ -162,7 +165,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
           <label
             htmlFor="my-modal-3"
             className="text-323232 cursor-pointer"
-            onClick={() => dispatch(toggleMediumModal(''))}
+            onClick={() => shareModalHandler("")}
           >
             <CloseIcon />
           </label>
@@ -198,6 +201,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
               </div>
             </div>
 
+            {/* Special Link */}
             <div className="w-full mt-7 flex justify-between items-center">
               <div className="flex items-center">
                 <FiLink />
@@ -210,7 +214,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
                 کپی لینک
               </div>
             </div>
-            {isLoadingPost || isLoadingProject ? (
+            {(isLoadingPost || isLoadingProject)? (
               <AiOutlineLoading3Quarters
                 size="2.8rem"
                 color="208D8E"
@@ -261,6 +265,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
                             onClick={() => {
                               handleRemoveMember(item.user._id);
                             }}
+                            
                           >
                             <span className="ml-4">حذف ممبر</span>
                             <BsTrash />

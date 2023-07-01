@@ -1,33 +1,14 @@
-import { useState } from "react";
 import Button from "../../components/ui/Button";
 import { MdOutlineDone } from "react-icons/md";
-import { setTheme } from "../../services/features/user/userSlice";
-import { useAppDispatch } from "../../services/app/hook";
 
 const ProfileSettings = () => {
-  const dispatch = useAppDispatch();
-  const [themeStatus, setThemeStatus] = useState(
-    localStorage.getItem("Theme") === "Dark"
-  );
-  const handleDarkMode = () => {
-    setThemeStatus(!themeStatus);
-    const htmlTag = document.querySelector("html");
-    htmlTag?.classList.toggle("dark");
-    const newThemeStatus = themeStatus ? "Light" : "Dark";
-    localStorage.setItem("Theme", newThemeStatus);
-
-    dispatch(setTheme(newThemeStatus));
-  };
-
   return (
-    <div className="w-80 mr-14 dark:text-[#F7F9F9]">
-      <h3 className="text-1E1E1E text-2xl font-bold mb-9 dark:text-inherit">
-        تنظیمات
-      </h3>
+    <div className="w-80 mr-14">
+      <h3 className="text-1E1E1E text-2xl font-bold mb-9">تنظیمات</h3>
       <div className="flex flex-col gap-12">
         {/* themes */}
         <div>
-          <span className="text-sm font-normal block text-black mb-2 dark:text-inherit">
+          <span className="text-sm font-normal block text-black mb-2">
             انتخاب تم
           </span>
           <ul className="flex gap-3 items-center">
@@ -48,12 +29,9 @@ const ProfileSettings = () => {
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
-            onChange={handleDarkMode}
             className="rotate-180 toggle toggle-lg toggle-accent"
           />
-          <span className="font-normal text-sm text-black dark:text-inherit">
-            حالت شب
-          </span>
+          <span className="font-normal text-sm text-black">حالت شب</span>
         </div>
 
         {/* Submit Changes Button */}

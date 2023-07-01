@@ -5,15 +5,7 @@ import {
   createAction,
 } from "@reduxjs/toolkit";
 import calendarReducer from "../features/calendar/calendarSlice";
-
 import authReducer from "../features/auth/authSlice";
-import modalReducer , {
-  closeAllModals,
-  toggleLargeModal,
-  toggleMediumModal,
-  toggleSmallModal,
-  toggleXSmallModal
-} from '../features/modals/modalSlice';
 import projectReducer, {
   fetchProjects,
   resetProject,
@@ -75,7 +67,6 @@ const appReducer = combineReducers({
   boards: boardReducer,
   user: userReducer,
   tasks: taskReducer,
-  modals : modalReducer
 });
 
 // Define the rootReducer, which is responsible for handling resetting the state of the entire application
@@ -147,10 +138,5 @@ export {
   resetAllState,
   fetchAddedMember,
   fetchAddedMemberWorkspace,
-  setSelectedProjectSidebar,
-  closeAllModals,
-  toggleLargeModal,
-  toggleMediumModal,
-  toggleSmallModal,
-  toggleXSmallModal
+  setSelectedProjectSidebar
 };

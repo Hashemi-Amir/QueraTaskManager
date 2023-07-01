@@ -3,24 +3,23 @@ import { RiUserReceivedLine, RiUserSettingsLine } from "react-icons/ri";
 import { RiUserFollowLine } from "react-icons/ri";
 import Button from "../components/ui/Button";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../services/app/hook";
 
 const ProfileLayout = () => {
-  const { theme } = useAppSelector((state) => state.user);
+  // Styling the active NavLink in the sidebar
   const NavLinkStyle = ({ isActive }: { isActive: boolean }) => {
     return {
-      background: isActive ? (theme === "Light" ? "#b1e6e6" : "#15202B") : "",
+      background: isActive ? "#b1e6e6" : "",
     };
   };
 
   const Navigate = useNavigate();
   return (
-    <div className="w-screen h-screen flex select-none dark:bg-[#0F111A] dark:text-[#F7F9F9]">
+    <div className="w-screen h-screen flex select-none">
       {/* SideBar */}
-      <section className=" w-1/5 h-screen pt-10 border-l-[0.5px] border-[#AAAAAA] dark:border-l-[rgb(241,177,39,0.5)]">
+      <section className=" w-1/5 h-screen pt-10 border-l-[0.5px] border-[#AAAAAA]">
         <div className="w-[80%] flex flex-col mr-12">
           {/* Header */}
-          <h2 className="text-3xl font-extrabold bg-gradient-to-r from-[#118C80] to-[#4AB7D8] bg-clip-text text-transparent dark:from-[#f1b127] dark:to-[#f8d893]">
+          <h2 className="text-3xl font-extrabold bg-gradient-to-r from-[#118C80] to-[#4AB7D8] bg-clip-text text-transparent">
             کوئرا تسک منیجر
           </h2>
           {/* Back Button */}
@@ -38,14 +37,11 @@ const ProfileLayout = () => {
             <li>
               <NavLink
                 style={NavLinkStyle}
-                className="flex gap-3 cursor-pointer px-[10px] py-1 rounded hover:bg-[#c5ffff] transition-all dark:hover:bg-[#2c3640]"
+                className="flex gap-3 cursor-pointer px-[10px] py-1 rounded hover:bg-[#c5ffff] transition-all"
                 to={"/personalinfo"}
               >
-                <RiUserReceivedLine
-                  size={24}
-                  className="text-[#323232] dark:text-inherit"
-                />
-                <span className="font-medium text-xl text-1E1E1E dark:text-inherit">
+                <RiUserReceivedLine size={24} fill="#323232" />
+                <span className="font-medium text-xl text-1E1E1E">
                   اطلاعات فردی
                 </span>
               </NavLink>
@@ -54,13 +50,10 @@ const ProfileLayout = () => {
               <NavLink
                 style={NavLinkStyle}
                 to={"/accountinfo"}
-                className="flex gap-3 cursor-pointer px-[10px] py-1 rounded hover:bg-[#c5ffff] transition-all dark:hover:bg-[#2c3640]"
+                className="flex gap-3 cursor-pointer px-[10px] py-1 rounded hover:bg-[#c5ffff] transition-all"
               >
-                <RiUserFollowLine
-                  size={24}
-                  className="text-[#323232] dark:text-inherit"
-                />
-                <span className="font-medium text-xl text-1E1E1E dark:text-inherit">
+                <RiUserFollowLine size={24} fill="#323232" />
+                <span className="font-medium text-xl text-1E1E1E">
                   اطلاعات حساب
                 </span>
               </NavLink>
@@ -69,15 +62,10 @@ const ProfileLayout = () => {
               <NavLink
                 to={"/profsettings"}
                 style={NavLinkStyle}
-                className="flex gap-3 cursor-pointer px-[10px] py-1 rounded hover:bg-[#c5ffff] transition-all dark:hover:bg-[#2c3640]"
+                className="flex gap-3 cursor-pointer px-[10px] py-1 rounded hover:bg-[#c5ffff] transition-all"
               >
-                <RiUserSettingsLine
-                  size={24}
-                  className="text-[#323232] dark:text-inherit"
-                />
-                <span className="font-medium text-xl text-1E1E1E dark:text-inherit">
-                  تنظیمات
-                </span>
+                <RiUserSettingsLine size={24} fill="#323232" />
+                <span className="font-medium text-xl text-1E1E1E">تنظیمات</span>
               </NavLink>
             </li>
           </ul>

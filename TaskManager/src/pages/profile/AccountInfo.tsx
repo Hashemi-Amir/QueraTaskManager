@@ -22,8 +22,8 @@ const AccountInfo = () => {
   const errorInputStyle = "border-FB0606";
 
   return (
-    <div className="w-96 mr-14 dark:text-[#F7F9F9]">
-      <h3 className="text-1E1E1E text-2xl font-bold mb-9 dark:text-inherit">اطلاعات حساب</h3>
+    <div className="w-96 mr-14">
+      <h3 className="text-1E1E1E text-2xl font-bold mb-9">اطلاعات حساب</h3>
       <div className="flex flex-col">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
           {/* User Credentials */}
@@ -52,7 +52,7 @@ const AccountInfo = () => {
               />
               <button
                 type="button"
-                className="absolute top-8 left-0 w-24 focus:ring-2 focus:ring-teal-300 transition-all h-10 p-2.5 text-sm font-bold leading-4 flex justify-center items-center text-white rounded-l-md bg-208D8E dark:bg-[#F1B127] dark:text-[#0F111A] dark:focus:ring-[#f9e0a9]"
+                className="absolute top-8 left-0 w-24 hover:bg-[#1d7f80] focus:ring-2 focus:ring-teal-300 transition-all h-10 p-2.5 text-sm font-bold leading-4 flex justify-center items-center text-white rounded-l-md bg-208D8E"
               >
                 احراز هویت
               </button>

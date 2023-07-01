@@ -9,21 +9,31 @@ import Modal from "../../../layout/Modal";
 import NewProject from "../Medium/NewProject";
 import ShareModal from "../Medium/ShareModal";
 import AddNewTask from "../Large/AddNewTask";
+import EditBox from "../../ui/EditBox";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import SelectBoard from "../Medium/SelectBoard";
-import {
-  fetchCreateTask,
-  toggleMediumModal,
-  toggleSmallModal,
-} from "../../../services/app/store";
-import { MorePosition } from "../../dashboard/dashboardSidebar/ProjectList";
+import { fetchCreateTask } from "../../../services/app/store";
 
+type morePosition = {
+  top?: number;
+  left?: number;
+};
+type HandleDeleteProjectType = (
+  e?: React.MouseEvent<HTMLElement, MouseEvent>,
+  name?: string,
+  id?: string
+) => void;
 type SideMoreProps = {
   sideMoreState: string;
-  morePosition: MorePosition;
+  morePosition: morePosition;
   handleDelete?: () => void;
   id?: string;
-  handleEditMood: (toggle: string | undefined) => void;
+  handleItemClick: HandleDeleteProjectType;
+};
+
+type EditBoxPosition = {
+  top?: number;
+  left?: number;
 };
 
 const SideMore = ({
@@ -31,11 +41,12 @@ const SideMore = ({
   morePosition,
   handleDelete,
   id,
-  handleEditMood,
+  handleItemClick,
 }: SideMoreProps) => {
   const liStyle =
     "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer";
-
+  const [newModal, setNewModal] = useState("");
+  const [editPosition, setEditPosition] = useState<EditBoxPosition>({});
   const [boardList, setBoardList] = useState([]);
   const [newTaskStatus, setNewTaskStatus] = useState("برد");
   const [selectedBoardId, setSelectedBoardId] = useState("");
@@ -45,18 +56,34 @@ const SideMore = ({
   );
 
   const dispatch = useAppDispatch();
-  const { medium } = useAppSelector((state) => state.modals);
 
-  const newTaskState = () => {
-    const projectIndex = projects.findIndex(
-      (workspace) => workspace.projectId === selectedProjectId
-    );
-    const projectsBoards = projects[projectIndex].projectBoards.map(
-      (board) => board
-    );
-    setBoardList(projectsBoards as never[]);
+  // toggle all modals inside sideMore
+  const handleAllSideMoreModals = (
+    modalName: string,
+    event?: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
+    // set edit box position
+    if (modalName === "ویرایش ورک اسپیس" || modalName === "ویرایش تسک") {
+      const top = event?.clientY;
+      const left = event?.clientX;
+      const resLeft = left && left - 200;
+      setEditPosition({ ...editPosition, top: top, left: resLeft });
+    }
+    // select board list handle
+    if (modalName === "تسک") {
+      const projectIndex = projects.findIndex(
+        (workspace) => workspace.projectId === selectedProjectId
+      );
+      const projectsBoards = projects[projectIndex].projectBoards.map(
+        (board) => board
+      );
+      setBoardList(projectsBoards as never[]);
+    }
+    // set sidemore modals state
+    setNewModal(modalName);
     setNewTaskStatus("برد");
   };
+
   const handleSelectBoardList = (boardId: string) => {
     setSelectedBoardId(boardId);
     setNewTaskStatus("تسک");
@@ -67,57 +94,59 @@ const SideMore = ({
     const [name, description, deadline, boardId] = [...data];
     const formData = { name, description, deadline, boardId };
     dispatch(fetchCreateTask(formData));
+    handleAllSideMoreModals("");
   };
+
   return (
     <>
       <ul
         style={{ top: morePosition.top, left: morePosition.left }}
-        className={`absolute mt-3 z-50 w-52 bg-white shadow-lg p-3 rounded-lg`}
+        className="absolute mt-3 z-50 w-52 bg-white shadow-lg p-3 rounded-lg"
       >
-        {/* add task or project */}
         <li className="w-full flex items-center text-sm font-normal  mt-3 cursor-pointer">
           <span className="ml-4 text-xl">
             <AiOutlinePlus />
           </span>
-          <span
-            onClick={() => {
-              sideMoreState === "تسک" && newTaskState();
-              dispatch(toggleMediumModal(sideMoreState));
-            }}
-          >
+          <span onClick={() => handleAllSideMoreModals(sideMoreState)}>
             ساختن {sideMoreState === "تسک" ? "تسک" : "پروژه"} جدید
           </span>
-          {medium === "ورک اسپیس" &&
+          {newModal === "ورک اسپیس" &&
             createPortal(
               <Modal>
-                <NewProject id={id} />
+                <NewProject
+                  handleAllSideMoreModals={handleAllSideMoreModals}
+                  id={id}
+                  handleItemClick={handleItemClick}
+                />
               </Modal>,
               document.body
             )}
 
-          {medium === "تسک" &&
+          {newModal === "تسک" &&
             createPortal(
               <Modal>
                 {newTaskStatus === "برد" ? (
                   <SelectBoard
+                    toggleModal={handleAllSideMoreModals}
                     data={boardList}
                     selectedHandle={handleSelectBoardList}
                     status={newTaskStatus}
                   />
                 ) : (
-                  <AddNewTask handleAddNewTask={handleAddNewTask} />
+                  <AddNewTask
+                    handleNewTaskModal={handleAllSideMoreModals}
+                    handleAddNewTask={handleAddNewTask}
+                  />
                 )}
               </Modal>,
               document.body
             )}
         </li>
-        {/* edit name task or project */}
         <li
           className={liStyle}
-          onClick={() => {
-            dispatch(toggleSmallModal(""));
-            handleEditMood(id);
-          }}
+          onClick={(event) =>
+            handleAllSideMoreModals(`ویرایش ${sideMoreState}`, event)
+          }
         >
           <span className="ml-4 text-xl">
             <SlNote />
@@ -126,7 +155,27 @@ const SideMore = ({
             ویرایش نام {sideMoreState === "تسک" ? "پروژه" : "ورک اسپیس"}
           </span>
         </li>
-        {/* copy Link */}
+        {newModal === `ویرایش ورک اسپیس` &&
+          createPortal(
+            <EditBox
+              status={"workspace"}
+              editPosition={editPosition}
+              id={id}
+              handleItemClick={handleItemClick}
+            />,
+            document.body
+          )}
+        {newModal === `ویرایش تسک` &&
+          createPortal(
+            <EditBox
+              status={"project"}
+              editPosition={editPosition}
+              id={id}
+              handleItemClick={handleItemClick}
+            />,
+            document.body
+          )}
+
         <li className={liStyle}>
           <span className="ml-4 text-xl">
             <AiOutlineLink />
@@ -140,10 +189,9 @@ const SideMore = ({
           <span>حذف</span>
         </li>
 
-        {/* share workspace or project */}
         <li
           className="w-full relative flex  items-center mt-4"
-          onClick={() => dispatch(toggleMediumModal(`اشتراک ${sideMoreState}`))}
+          onClick={() => handleAllSideMoreModals(`اشتراک ${sideMoreState}`)}
         >
           <span className="absolute right-5 text-2xl text-white ">
             <BiShareAlt />
@@ -153,17 +201,25 @@ const SideMore = ({
             className="hover:bg-208D8E hover:text-white"
           />
         </li>
-        {medium === "اشتراک ورک اسپیس" &&
+        {newModal === "اشتراک ورک اسپیس" &&
           createPortal(
             <Modal>
-              <ShareModal ModalTitle="ورک اسپیس" id={id} />
+              <ShareModal
+                ModalTitle="ورک اسپیس"
+                shareModalHandler={handleAllSideMoreModals}
+                id={id}
+              />
             </Modal>,
             document.body
           )}
-        {medium === "اشتراک تسک" &&
+        {newModal === "اشتراک تسک" &&
           createPortal(
             <Modal>
-              <ShareModal ModalTitle="پروژه" id={id} />
+              <ShareModal
+                ModalTitle="پروژه"
+                shareModalHandler={handleAllSideMoreModals}
+                id={id}
+              />
             </Modal>,
             document.body
           )}

@@ -16,20 +16,23 @@ const updateUserById = async (userData: FieldValues) => {
   return response.data;
 };
 
-const fetchAddedMember = async (memberId: string | undefined) => {
-  const response = await AXIOS.get(API_URL + memberId);
-  return response.data;
-};
+const fetchAddedMember = async (memberId:string | undefined) => {
+  const response = await AXIOS.get(API_URL+ memberId)
+  return response.data
+}
 
-const fetchAddedMemberWorkspace = async (memberId: string | undefined) => {
-  const response = await AXIOS.get(API_URL + memberId);
-  return response.data;
-};
+const fetchAddedMemberWorkspace = async (memberId:string | undefined) => {
+  const response = await AXIOS.get(API_URL+ memberId)
+  return response.data
+}
+// getUserByUserNameOrId
+// const getUserByUserNameOrId = (idOrUsername) => {};
 
 const authServie = {
   updateUserById,
   fetchAddedMember,
-  fetchAddedMemberWorkspace,
+  fetchAddedMemberWorkspace
+  // getUserByUserNameOrId,
 };
 
 export default authServie;

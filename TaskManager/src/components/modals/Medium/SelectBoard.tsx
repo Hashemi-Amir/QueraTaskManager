@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "../../ui/Button";
 import CloseIcon from "../../ui/Close";
-import { useAppDispatch } from "../../../services/app/hook";
-import { toggleMediumModal } from "../../../services/app/store";
 
 type dataList = {
   _id: string;
   name: string;
 };
 type SelectBoardProps = {
+  toggleModal: (modalName: boolean) => void;
   data: dataList[];
   selectedHandle: (id: string) => void;
   status: string;
 };
 
 const SelectBoard = ({
+  toggleModal,
   data,
   selectedHandle,
   status,
@@ -22,7 +22,6 @@ const SelectBoard = ({
   const [boardId, setBoardId] = useState("");
   const selectRef = useRef<any | null>(null);
 
-  const dispatch = useAppDispatch()
   const handleSelectValue = (event: React.ChangeEvent<HTMLElement>) => {
     const element = event.target as HTMLInputElement;
 
@@ -41,7 +40,7 @@ const SelectBoard = ({
             <label
               htmlFor="my-modal-3"
               className="text-323232 cursor-pointer"
-              onClick={() => dispatch(toggleMediumModal('')) }
+              onClick={() => toggleModal(false)}
             >
               <CloseIcon />
             </label>
@@ -93,11 +92,11 @@ const SelectBoard = ({
         </div>
       ) : (
         <>
-          <div className="w-full flex  justify-between items-center">
+          <div className="w-full flex justify-between items-center">
             <label
               htmlFor="my-modal-3"
               className="text-323232 cursor-pointer"
-              onClick={() => dispatch(toggleMediumModal(''))}
+              onClick={() => toggleModal(false)}
             >
               <CloseIcon />
             </label>
