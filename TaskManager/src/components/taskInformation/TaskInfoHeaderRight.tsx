@@ -79,9 +79,9 @@ const TaskInfoHeaderRight = ({
           </DashedBorderCard>
         </div>
         {/* Share */}
-        <div>
+        <button>
           <Share />
-        </div>
+        </button>
       </div>
     </div>
   );

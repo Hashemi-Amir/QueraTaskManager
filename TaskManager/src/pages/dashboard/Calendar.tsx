@@ -5,7 +5,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import faLocale from "@fullcalendar/core/locales/fa";
 import { useEffect, useState } from "react";
 import { SiAddthis } from "react-icons/si";
-import { useAppDispatch } from "../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../services/app/hook";
 import Modal from "../../layout/Modal";
 import AddTaskOnCalendar from "../../components/modals/Medium/AddTaskOnCalendar";
 import { createPortal } from "react-dom";
@@ -26,11 +26,18 @@ const Calendar = () => {
   const [todayDate, setTodayDate] = useState("");
   const [clickDate, setClickDate] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const { theme } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    const calendarCell = document.querySelector(".fc-scrollgrid");
+    if (theme === "Dark") {
+      calendarCell?.classList.add("bg-[#15202B]");
+    } else {
+      calendarCell?.classList.remove("bg-[#15202B]");
+    }
     dispatch(setDate(todayDate));
-  }, [dispatch, todayDate]);
+  }, [dispatch, theme, todayDate]);
 
   const handleNewTask = () => {
     setOpenModal(!openModal);
@@ -46,9 +53,8 @@ const Calendar = () => {
           >
             <SiAddthis
               size="1.8rem"
-              color="#208D8E"
               className={
-                "border-208D8E p-[1.5px] border-[4px] rounded-md text-center"
+                "border-208D8E p-[1.5px] border-[4px] rounded-md text-center text-208D8E dark:text-[#F1B127] dark:border-[#F1B127]"
               }
             />
           </button>

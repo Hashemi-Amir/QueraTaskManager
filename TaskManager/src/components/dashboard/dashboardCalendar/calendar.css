@@ -9,10 +9,3 @@
     display: grid !important;
     width: 100%;
 }
-
-/* @media (prefers-color-scheme: dark) {
-    .fc-daygrid-day-frame {
-      background-color: #000;
-      color: #fff;
-    }
- } */

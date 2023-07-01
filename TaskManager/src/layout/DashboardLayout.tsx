@@ -102,13 +102,11 @@ const DashboardLayout = () => {
     "bg-2E7FF9",
     "bg-C074D1",
     "bg-71FDA9",
-    "bg-FFE605",
     "bg-F92E8F",
     "bg-118C80",
     "bg-2E7FF9",
     "bg-C074D1",
     "bg-71FDA9",
-    "bg-FFE605",
   ];
   const borderColors = [
     "border-t-F92E8F",
@@ -116,13 +114,11 @@ const DashboardLayout = () => {
     "border-t-2E7FF9",
     "border-t-C074D1",
     "border-t-71FDA9",
-    "border-t-FFE605",
     "border-t-F92E8F",
     "border-t-118C80",
     "border-t-2E7FF9",
     "border-t-C074D1",
     "border-t-71FDA9",
-    "border-t-FFE605",
   ];
 
   localStorage.setItem("Colors", JSON.stringify(colors));

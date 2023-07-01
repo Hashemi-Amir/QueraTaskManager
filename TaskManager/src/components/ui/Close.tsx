@@ -7,7 +7,7 @@ interface CloseIconProps {
 const CloseIcon = ({ classes }: CloseIconProps) => {
   return (
     <CgClose
-      className={`hover:rotate-90 hover:text-FB0606 transition-all cursor-pointer ${classes}`}
+      className={`hover:rotate-90 hover:text-FB0606 transition-all cursor-pointer dark:text-[#F7F9F9] dark:hover:text-FB0606 ${classes}`}
     ></CgClose>
   );
 };

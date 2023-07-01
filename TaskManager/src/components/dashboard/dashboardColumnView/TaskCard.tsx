@@ -9,6 +9,8 @@ import { createPortal } from "react-dom";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { fetchDeleteTask } from "../../../services/app/store";
 import { Link } from "react-router-dom";
+import { getPersianDateWithOutTime } from "../../taskInformation/getPersianDate";
+import getGregorianDate from "../../taskInformation/getGregorianDate";
 
 export type taskAssignsType = {
   _id: string;
@@ -65,7 +67,7 @@ const TaskCard = ({
     board,
     deadline,
     borderColor,
-    title
+    title,
   };
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -74,7 +76,7 @@ const TaskCard = ({
     setIsOpen(false);
   };
 
-  const {isLoading} = useAppSelector(state => state.tasks)
+  const { isLoading } = useAppSelector((state) => state.tasks);
   const dispatch = useAppDispatch();
   const handleCardHover = (isHovering: boolean) => {
     setIsExpanded(isHovering);
@@ -99,7 +101,7 @@ const TaskCard = ({
             onClick={() => setIsOpen(true)}
           >
             <div className="flex justify-between items-baseline mb-2">
-              <div className="h-4 font-medium leading-4 text-right text-534D60 text-[10px] dark:text-inherit">
+              <div className="h-4 font-medium leading-4 text-right text-534D60 text-xs dark:text-inherit">
                 {name}
               </div>
               <Link className="w-fit" to="/personalinfo">
@@ -112,7 +114,7 @@ const TaskCard = ({
               </Link>
             </div>
             <div className="flex items-center justify-start mb-5 gap-1">
-              <div className="font-medium text-xs text-0E0E0E leading-4 text-right dark:text-inherit">
+              <div className="text-[11px] text-0E0E0E leading-4 text-right dark:text-inherit truncate">
                 {description}
               </div>
               <div className="text-xs text-BDC0C6 ">
@@ -124,8 +126,9 @@ const TaskCard = ({
                 <FiFlag />
               </span>
               <div className="text-343434">
-         
-                ۲۵ مهر
+                {deadline
+                  ? getPersianDateWithOutTime(getGregorianDate(deadline))
+                  : "تعریف نشده"}
               </div>
               <span className="text-BDC0C6">
                 <div className="form-control">
@@ -156,20 +159,13 @@ const TaskCard = ({
               <div className="hover:text-208D8E hover:scale-110">
                 <FiCheckCircle />
               </div>
-              {isLoading ? 
-                (
-                  <BsThreeDots
-                    color='208D8E'
-                    className="animate-ping" 
-                  />
-                ) : 
-                (
-                  <div className="hover:scale-110" onClick={handleDeleteTask}>
+              {isLoading ? (
+                <BsThreeDots color="208D8E" className="animate-ping" />
+              ) : (
+                <div className="hover:scale-110" onClick={handleDeleteTask}>
                   <BsTrash />
-                  </div>
-                )
-              }
-
+                </div>
+              )}
             </div>
           </div>
         )}

@@ -23,7 +23,7 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
     id: 0,
   });
   const [workspaceName, setWorkSpaceName] = useState("");
-  const fontList = "text-sm font-semibold text-black";
+  const fontList = "text-sm font-semibold text-black dark:text-inherit";
   const liStyle = "w-full flex justify-between items-center";
   const dataColor = [
     { id: 1, color: "bg-[#84C6A1]" },
@@ -74,8 +74,8 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
   };
 
   return (
-    <div className="modal-box z-50 w-3/4 max-w-lgl min-w-[500px]">
-      <div className="p-5 bg-white rounded-lg">
+    <div className="modal-box z-50 w-3/4 max-w-lgl min-w-[500px] dark:bg-[#15202B]">
+      <div className="p-5 rounded-lg">
         {/* card header */}
         <div className="w-full flex justify-between items-center">
           <label
@@ -86,14 +86,14 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
             <CloseIcon />
           </label>
 
-          <div className="font-semibold text-2xl text-black">
+          <div className="font-semibold text-2xl text-black dark:text-[#F7F9F9]">
             {workSpaceStep}
           </div>
           {/* back page */}
           {workSpaceStep === "انتخاب رنگ ورک اسپیس" ||
           workSpaceStep === "مرور اطلاعات" ? (
             <div
-              className="cursor-pointer"
+              className="cursor-pointer dark:text-[#F7F9F9]"
               onClick={() => {
                 workSpaceStep === "انتخاب رنگ ورک اسپیس"
                   ? setWorkSpaceStepe("ساختن ورک اسپیس جدید")
@@ -115,7 +115,7 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
             className="m-auto mt-3 animate-spin"
           />
         ) : (
-          <div className="mt-11 w-full">
+          <div className="mt-11 w-full dark:text-[#F7F9F9]">
             {workSpaceStep === "ساختن ورک اسپیس جدید" ? (
               <Input label="نام ورک اسپیس" type="text" id="newWork" />
             ) : workSpaceStep === "انتخاب رنگ ورک اسپیس" ? (
@@ -130,11 +130,11 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
                   </div>
 
                   {/* list of colors */}
-                  <div className="mr-9 flex flex-col">
-                    <span className="text-sm text-black">رنگ ورک اسپیس</span>
+                  <div className="mr-9 flex flex-col dark:text-[#F7F9F9]">
+                    <span className="text-sm text-black dark:text-inherit">رنگ ورک اسپیس</span>
                     <ul className="mt-5  h-10 flex justify-start content-between flex-wrap">
                       <li
-                        className="h-4 w-4 mr-3 rounded-sm hover:cursor-pointer text-black"
+                        className="h-4 w-4 mr-3 rounded-sm hover:cursor-pointer text-black dark:text-inherit"
                         onClick={() => {
                           setSelectedColor({
                             ...selectedColor,
@@ -160,7 +160,7 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
             ) : (
               <>
                 {/* Browsing info */}
-                <ul className="w-full px-3 py-6 flex flex-col border rounded-lg ">
+                <ul className="w-full px-3 py-6 flex flex-col border rounded-lg dark:text-[#F7F9F9]">
                   {/* workspace name */}
                   <li className={liStyle}>
                     <span className={fontList}>نام ورک اسپیس</span>
