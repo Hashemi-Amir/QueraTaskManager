@@ -519,7 +519,7 @@ const boardsSlice = createSlice({
 
         state.projects[index].projectBoards.push(action.payload);
         state.isSuccessPost = true;
-        state.messagePost = "برد ساخته شد :)";
+        state.messagePost = "ستون ساخته شد :)";
       })
       .addCase(createBoard.rejected, (state, action) => {
         state.isLoadingPost = false;
@@ -544,7 +544,7 @@ const boardsSlice = createSlice({
           index
         ].projectBoards.filter((board) => board._id != action.payload._id);
         state.isSuccessPost = true;
-        state.messagePost = "برد حذف شد";
+        state.messagePost = "ستون حذف شد";
       })
       .addCase(deleteBoard.rejected, (state, action) => {
         state.isLoadingPost = false;

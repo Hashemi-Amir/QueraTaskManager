@@ -38,7 +38,7 @@ const TaskAssign = ({ setTaskAssignModal, taskAssigns }: TaskAssignType) => {
       dispatch(resetTask());
     }
     if (taskAssignisError) {
-      toast.success(taskAssignmessage);
+      toast.error(taskAssignmessage);
       dispatch(resetTask());
     }
   }, [
@@ -54,7 +54,7 @@ const TaskAssign = ({ setTaskAssignModal, taskAssigns }: TaskAssignType) => {
       dispatch(
         fetchAssignTask({
           taskId: selectedTaskId,
-          usernameOrId: inputRef.current.value,
+          usernameOrId: inputRef.current.value.toLocaleLowerCase(),
         })
       );
       inputRef.current.value = "";
