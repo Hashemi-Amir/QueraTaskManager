@@ -34,7 +34,7 @@ const SideMore = ({
   handleEditMood,
 }: SideMoreProps) => {
   const liStyle =
-    "w-full flex items-center text-sm font-normal  mt-3 cursor-pointer";
+    "w-full flex items-center text-sm font-normal text-323232  mt-3 cursor-pointer dark:text-[#F7F9F9]";
 
   const [boardList, setBoardList] = useState([]);
   const [newTaskStatus, setNewTaskStatus] = useState("برد");
@@ -72,10 +72,10 @@ const SideMore = ({
     <>
       <ul
         style={{ top: morePosition.top, left: morePosition.left }}
-        className={`absolute mt-3 z-50 w-52 bg-white shadow-lg p-3 rounded-lg`}
+        className={`absolute mt-3 z-50 w-52 bg-white shadow-lg p-3 rounded-lg dark:bg-[#15202B]`}
       >
         {/* add task or project */}
-        <li className="w-full flex items-center text-sm font-normal  mt-3 cursor-pointer">
+        <li className="w-full flex items-center text-323232 text-sm font-normal  mt-3 cursor-pointer dark:text-[#F7F9F9]">
           <span className="ml-4 text-xl">
             <AiOutlinePlus />
           </span>
@@ -133,7 +133,10 @@ const SideMore = ({
           </span>
           <span>کپی لینک</span>
         </li>
-        <li className={`${liStyle} text-9F0000`} onClick={handleDelete}>
+        <li
+          className={`${liStyle} text-9F0000 dark:text-[#5AC5BA]`}
+          onClick={handleDelete}
+        >
           <span className="ml-4 text-xl">
             <BsTrash />
           </span>
@@ -145,7 +148,7 @@ const SideMore = ({
           className="w-full relative flex  items-center mt-4"
           onClick={() => dispatch(toggleMediumModal(`اشتراک ${sideMoreState}`))}
         >
-          <span className="absolute right-5 text-2xl text-white ">
+          <span className="absolute right-5 text-2xl text-white dark:text-[#0F111A] ">
             <BiShareAlt />
           </span>
           <Button

@@ -5,7 +5,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import faLocale from "@fullcalendar/core/locales/fa";
 import { useEffect, useState } from "react";
 import { SiAddthis } from "react-icons/si";
-import { useAppDispatch } from "../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../services/app/hook";
 import Modal from "../../layout/Modal";
 import AddTaskOnCalendar from "../../components/modals/Medium/AddTaskOnCalendar";
 import { createPortal } from "react-dom";
@@ -15,6 +15,7 @@ import {
   setRef,
 } from "../../services/features/calendar/calendarSlice";
 import "../../components/dashboard/dashboardCalendar/calendar.css";
+import { toggleMediumModal } from "../../services/app/store";
 
 type DayCellProps = {
   date: {
@@ -25,23 +26,21 @@ type DayCellProps = {
 const Calendar = () => {
   const [todayDate, setTodayDate] = useState("");
   const [clickDate, setClickDate] = useState("");
-  const [openModal, setOpenModal] = useState(false);
   const dispatch = useAppDispatch();
+  const {medium} = useAppSelector(state => state.modals)
 
   useEffect(() => {
     dispatch(setDate(todayDate));
   }, [dispatch, todayDate]);
 
-  const handleNewTask = () => {
-    setOpenModal(!openModal);
-  };
+
 
   const dayCellContent = (props: DayCellProps) => {
     return (
       <div className="w-full h-full px-1 ">
         <div className="flex justify-between items-center w-full">
           <button
-            onClick={handleNewTask}
+            onClick={() => dispatch(toggleMediumModal('taskOnCalendar'))}
             className="rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible m-1 transition-all ease-linear"
           >
             <SiAddthis
@@ -101,11 +100,10 @@ const Calendar = () => {
         }}
       />
 
-      {openModal &&
+      {medium === 'taskOnCalendar' &&
         createPortal(
           <Modal>
             <AddTaskOnCalendar
-              handleNewTask={handleNewTask}
               clickDate={clickDate}
             />
           </Modal>,

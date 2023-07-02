@@ -15,9 +15,9 @@ const Modal = ({ children, className }: modalProps) => {
   return (
     <div
       onClick={handleOnModals}
-      className={`modal opacity-100 visible z-50 pointer-events-auto flex justify-center items-center select-none  ${className}`}
+      className={`modal opacity-100 visible z-50 pointer-events-auto flex justify-center items-center select-none  ${className} `}
     >
-      <div  onClick={(e) => e.stopPropagation()}>{children}</div>
+      <div onClick={(e) => e.stopPropagation()}>{children}</div>
     </div>
   );
 };

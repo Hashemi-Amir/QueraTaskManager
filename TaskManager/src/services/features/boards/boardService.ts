@@ -1,6 +1,10 @@
 import AXIOS from "../utils/AXIOS";
 import { createCommentDataType, updateCommentDataType } from "./boardSlice";
-const API_URL = { comment: "/api/comments/", board: "/api/board/",task: "/api/task/" };
+const API_URL = {
+  comment: "/api/comments/",
+  board: "/api/board/",
+  task: "/api/task/",
+};
 
 type PositionProps = {
   id: string;
@@ -37,14 +41,11 @@ const fetchChangeTaskBoard = async ({
   return await response.data;
 };
 
-
-
 // َAdd a comment and get it from Api
 const addComment = async (commentData: createCommentDataType) => {
   const response = await AXIOS.post(API_URL.comment, commentData);
   if (response.data) {
     const commentId = response.data._id;
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
     const getComment = await AXIOS.get(API_URL.comment + commentId);
     return getComment.data;
   }

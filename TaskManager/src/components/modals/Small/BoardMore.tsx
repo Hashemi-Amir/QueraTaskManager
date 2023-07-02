@@ -1,49 +1,38 @@
-import { createPortal } from "react-dom";
 import { BsTrash } from "react-icons/bs";
 import { SlNote } from "react-icons/sl";
-import EditBox from "../../ui/EditBox";
-import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
+import { useAppDispatch } from "../../../services/app/hook";
 import { toggleXSmallModal } from "../../../services/app/store";
-import Modal from "../../../layout/Modal";
 import { MorePosition } from "../../dashboard/dashboardSidebar/ProjectList";
 
 type BoardMoreProps = {
-  position : MorePosition;
+  position: MorePosition;
   handleDeleteBoard: () => void;
   id: string;
-  handleEditMood : (arg:string)=> void
+  handleEditMood: (arg: string) => void;
 };
 
-const BoardMore = ({ position, handleDeleteBoard, id ,handleEditMood}: BoardMoreProps) => {
+const BoardMore = ({
+  position,
+  handleDeleteBoard,
+  id,
+  handleEditMood,
+}: BoardMoreProps) => {
   const liStyle =
-    "flex items-center cursor-pointer mt-3 text-sm text-[#1E1E1E] font-normal";
+    "flex items-center cursor-pointer mt-3 text-sm text-[#1E1E1E] font-normal dark:text-[#F7F9F9]";
 
   const dispatch = useAppDispatch();
-  const { xSmall } = useAppSelector((state) => state.modals);
-  const [editBox, setEditBox] = useState({
-    position: { top: 0, left: 0 },
-  });
 
-  const handleEditBox = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    const pos: { top: number; left: number } = {
-      top: e?.clientY || 0,
-      left: e?.clientX || 0,
-    };
-    setEditBox({ ...editBox, position: pos });
-  };
   return (
     <>
       <ul
-        // style={{ top: position.top, left: position.left }}
-        className="absolute top-7  w-40 mt-1 left-2 rounded-lg p-3 z-50 bg-white shadow-lg"
+        style={{ top: position.top, left: position.left }}
+        className="absolute top-7  w-40 mt-1 left-2 rounded-lg p-3 z-50 bg-white shadow-lg dark:bg-[#15202B]"
       >
         <li
           className={liStyle}
-          onClick={(e) => {
-            // handleEditBox(e);
-            // dispatch(toggleXSmallModal("boardMore"));
-            handleEditMood(id)
+          onClick={() => {
+            handleEditMood(id);
+            dispatch(toggleXSmallModal(""));
           }}
         >
           <span className="text-sm">
@@ -59,14 +48,6 @@ const BoardMore = ({ position, handleDeleteBoard, id ,handleEditMood}: BoardMore
           <p className="mr-2">حذف ستون</p>
         </li>
       </ul>
-
-      {xSmall === "boardMore" &&
-        createPortal(
-          <Modal className="!bg-transparent">
-            <EditBox id={id} status="board" editPosition={editBox.position} />
-          </Modal>,
-          document.body
-        )}
     </>
   );
 };
