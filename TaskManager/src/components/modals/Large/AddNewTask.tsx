@@ -35,6 +35,7 @@ const AddNewTask = ({ handleAddNewTask }: addNewTaskProps) => {
     const calendarEl = document.querySelector<HTMLInputElement>("#calendar");
     const data = [taskTitle, taskDisc, calendar.value];
 
+
     if (!taskTitle?.value.trim()) {
       taskTitle?.classList.add("border-b");
       taskTitle?.classList.add("border-red-500");
