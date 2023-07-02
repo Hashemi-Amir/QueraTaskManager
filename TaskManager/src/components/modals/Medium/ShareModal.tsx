@@ -219,10 +219,10 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
               <div className="mt-7 flex flex-col">
                 {members.length > 0 && (
                   <h4 className="text-sm font-normal text-[#7D828C]">
-                    اشتراک گزاشته شده با
+                    اشتراک گذاشته شده با
                   </h4>
                 )}
-                <ul className="max-h-40 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white">
+                <ul className="max-h-40 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white dark:scrollbar-track-[#15202b] dark:scrollbar-thumb-[#3f4148]">
                   {members &&
                     members.map((item) => (
                       <li
