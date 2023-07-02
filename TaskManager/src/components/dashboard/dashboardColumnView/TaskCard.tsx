@@ -69,8 +69,10 @@ const TaskCard = ({
     borderColor,
     title,
   };
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { searchedTaskValue } = useAppSelector((state) => state.boards);
 
   const handleCloseTaskInfo = () => {
     setIsOpen(false);
@@ -89,13 +91,18 @@ const TaskCard = ({
 
   return (
     <>
-      <Draggable key={_id} draggableId={_id} index={position}>
+      <Draggable
+        key={_id}
+        draggableId={_id}
+        index={position}
+        isDragDisabled={searchedTaskValue !== ""}
+      >
         {(provided) => (
           <div
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            className={`border w-[250px] rounded p-3 bg-white text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3 dark:bg-[#15202B] dark:text-[#F7F9F9] dark:border-[#F1B127] dark:shadow-[0px_5px_7px_rgba(255,255,255,0.15)]`}
+            className={`border w-[250px] rounded p-3 cursor-pointer bg-white text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3 dark:bg-[#15202B] dark:text-[#F7F9F9] dark:border-[#F1B127] dark:shadow-[0px_5px_7px_rgba(255,255,255,0.15)]`}
             onMouseOver={() => handleCardHover(true)}
             onMouseLeave={() => handleCardHover(false)}
             onClick={() => setIsOpen(true)}
@@ -156,13 +163,16 @@ const TaskCard = ({
         ${isExpanded ? "h-9 mt-5 pt-4" : "h-[0px] opacity-0 mt-0 pt-0"}
         `}
             >
-              <div className="hover:text-208D8E hover:scale-110">
+              <div className="hover:text-208D8E hover:scale-110 cursor-pointer">
                 <FiCheckCircle />
               </div>
               {isLoading ? (
                 <BsThreeDots color="208D8E" className="animate-ping" />
               ) : (
-                <div className="hover:scale-110" onClick={handleDeleteTask}>
+                <div
+                  className="hover:scale-110 cursor-pointer"
+                  onClick={handleDeleteTask}
+                >
                   <BsTrash />
                 </div>
               )}

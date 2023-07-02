@@ -28,12 +28,12 @@ const TaskInfo = ({ handleCloseTaskInfo, taskInfo }: TaskInfoProps) => {
     borderColor,
     title,
   } = taskInfo;
-
+  console.log('render TaskIfo');
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(setSelectedBoardId(board));
     dispatch(setSelectedTaskId(_id));
-  }, [dispatch, board, _id]);
+  }, [ board, _id]);
 
   return (
     <TaskInfoCard>

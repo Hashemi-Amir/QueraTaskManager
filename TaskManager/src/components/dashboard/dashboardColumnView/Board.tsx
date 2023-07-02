@@ -3,6 +3,7 @@ import Header from "../dashboardColumnView/Header";
 import TaskCard from "./TaskCard";
 import { Task } from "../../../services/features/boards/boardSlice";
 import { StrictModeDroppable } from "../../ui/StrictModeDroppable";
+import { useAppSelector } from "../../../services/app/hook";
 
 type BoardProps = {
   title: string;
@@ -21,11 +22,17 @@ const Board = ({
   id,
   index,
 }: BoardProps) => {
+  const { searchedTaskValue } = useAppSelector((state) => state.boards);
   const boardTasks = [...tasks];
   const sortedTasks = boardTasks.sort((a, b) => a.position - b.position);
 
   return (
-    <Draggable key={id} draggableId={id} index={index}>
+    <Draggable
+      key={id}
+      draggableId={id}
+      index={index}
+      isDragDisabled={searchedTaskValue !== ""}
+    >
       {(provided) => (
         <div {...provided.draggableProps} ref={provided.innerRef}>
           {/* Sticky Header */}

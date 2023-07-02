@@ -21,7 +21,7 @@ const Input = ({ label, id, register, className, ...rest }: InputProps) => {
           {...rest}
           id={id}
           {...register?.(id)}
-          className={`w-full border border-AAAAAA h-10 rounded-md px-3 py-2 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:bg-[#1E2124] dark:autofill:shadow-[inset_0_0_0px_1000px_#626466]  ${className}`}
+          className={`w-full border border-AAAAAA h-10 rounded-md px-3 py-2 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:bg-[#1E2124] dark:autofill:shadow-[inset_0_0_0px_1000px_#626466] dark:text-[#F7F9F9]  ${className}`}
         />
       </div>
     </div>

@@ -22,12 +22,16 @@ const ColumnView = () => {
     isLoading,
     isSuccess,
     projects,
+    searchedTask,
+    searchedTaskValue,
     selectedProjectId,
   } = useAppSelector((state) => state.boards);
 
   const projectBoards = [
-    ...(projects.find((project) => project.projectId === selectedProjectId)
-      ?.projectBoards ?? []),
+    ...(searchedTaskValue
+      ? searchedTask
+      : projects.find((project) => project.projectId === selectedProjectId)
+          ?.projectBoards ?? []),
   ].sort((b, a) => a.position - b.position);
 
   // modal
@@ -161,11 +165,11 @@ const ColumnView = () => {
                 <div className="absolute w-full h-full flex justify-center items-center z-0">
                   هیچ اطلاعاتی جهت نمایش وجود ندارد ☹️
                 </div>
-                {newBoard}
+                {!searchedTaskValue && newBoard}
               </>
             ) : (
               <>
-                {newBoard}
+                {!searchedTaskValue && newBoard}
                 {projectBoards?.map(({ _id, name, tasks }, index) => (
                   <Board
                     key={_id}

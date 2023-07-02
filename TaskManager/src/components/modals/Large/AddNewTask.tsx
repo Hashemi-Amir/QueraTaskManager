@@ -33,8 +33,7 @@ const AddNewTask = ({ handleAddNewTask }: addNewTaskProps) => {
     const taskDisc = document.querySelector<HTMLTextAreaElement>("#descTask");
     const taskTitle = document.querySelector<HTMLInputElement>("#taskTitle");
     const calendarEl = document.querySelector<HTMLInputElement>("#calendar");
-    const data = [taskTitle, taskDisc, calendar.value];
-
+    // const data = [taskTitle, taskDisc, calendar.value];
 
     if (!taskTitle?.value.trim()) {
       taskTitle?.classList.add("border-b");
@@ -63,7 +62,12 @@ const AddNewTask = ({ handleAddNewTask }: addNewTaskProps) => {
     }
 
     if ((taskDisc?.value && taskTitle?.value && calendar.value)?.trim()) {
-      handleAddNewTask && handleAddNewTask(data);
+      const sanitizedValues = [
+        taskTitle?.value,
+        taskDisc?.value,
+        calendar.value,
+      ].map((value) => (value ? value : undefined));
+      handleAddNewTask && handleAddNewTask(sanitizedValues);
     } else {
       toast.warning("جاهایی که لازمه پر کن", { rtl: true });
     }

@@ -52,7 +52,7 @@ const NewProject = ({ id }: projectProps) => {
           />
         ) : (
           <div className="mt-11 w-full">
-            <Input label="نام پروژه" type="text" id="newProject" />
+            <Input label="نام پروژه" type="text" id="newProject"/>
 
             {/* Button  */}
             <div className="mt-16">

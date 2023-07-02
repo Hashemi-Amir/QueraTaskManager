@@ -55,7 +55,7 @@ const SideBar = () => {
         کوئرا تسک منیجر
       </h1>
       <SpaceMenu workSpaces={workSpaces || []} />
-      <SearchInput placeHolder="جستجو کنید" extraClass="my-3" />
+      <SearchInput placeHolder="جستجو کنید" extraClass="my-3" type="sideBar" />
       <NewSpace />
       {isLoading && (
         <AiOutlineLoading3Quarters

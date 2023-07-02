@@ -115,13 +115,13 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
         return (
           <div key={_id}>
             {editMood === _id ? (
-              <div className="flex px-1 w-full" >
+              <div className="flex px-1 w-full">
                 <input
                   type="text"
                   id="edit"
                   placeholder="نام جدید"
                   autoComplete="off"
-                  className="w-3/4 font-medium  border border-AAAAAA h-10 rounded-tr-md rounded-br-md px-3 py-2 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:text-sm"
+                  className="w-3/4 font-medium  border border-AAAAAA h-10 rounded-tr-md rounded-br-md px-3 py-2 focus:outline-none placeholder:text-sm dark:bg-[#1E2124] dark:text-[#f7f7f9]"
                 />
                 <Button
                   value="لغو"
