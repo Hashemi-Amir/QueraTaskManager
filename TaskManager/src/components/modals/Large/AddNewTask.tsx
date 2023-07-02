@@ -63,8 +63,8 @@ const AddNewTask = ({ handleAddNewTask }: addNewTaskProps) => {
 
     if ((taskDisc?.value && taskTitle?.value && calendar.value)?.trim()) {
       const sanitizedValues = [
-        taskDisc?.value,
         taskTitle?.value,
+        taskDisc?.value,
         calendar.value,
       ].map((value) => (value ? value : undefined));
       handleAddNewTask && handleAddNewTask(sanitizedValues);
