@@ -17,10 +17,9 @@ export type ProjectProps = {
 type MemberProps = {
   user: {
     username: string;
-    _id : string;
+    _id: string;
   };
 };
-
 
 export type WorkSpacesProps = {
   _id: string;
@@ -252,8 +251,8 @@ const workSpacesSlice = createSlice({
         state.isSuccessPost = true;
         state.workSpaces = state.workSpaces.map((item) => {
           return item._id === action.payload._id
-          ? { ...item, name: action.payload.name }
-          : item;
+            ? { ...item, name: action.payload.name }
+            : item;
         });
       })
       .addCase(updateWorkSpace.rejected, (state, action) => {
@@ -289,12 +288,16 @@ const workSpacesSlice = createSlice({
 
       .addCase(removeWorkSpaceMember.fulfilled, (state, action) => {
         const memberName = action.payload.username;
-        const {workspaceId ,userId} = action.payload
-        const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === workspaceId);
+        const { workspaceId, userId } = action.payload;
+        const workSpaceIndex = state.workSpaces.findIndex(
+          (workspace) => workspace._id === workspaceId
+        );
 
         state.isErrorPost = false;
         state.isSuccessPost = true;
-        state.workSpaces[workSpaceIndex].members = state.workSpaces[workSpaceIndex].members.filter(member => member.user._id != userId);
+        state.workSpaces[workSpaceIndex].members = state.workSpaces[
+          workSpaceIndex
+        ].members.filter((member) => member.user._id != userId);
         state.messagePost = `کاربر ${memberName} حذف شد`;
       })
       .addCase(removeWorkSpaceMember.rejected, (state, action) => {
@@ -357,7 +360,6 @@ const workSpacesSlice = createSlice({
 
       // update member workspace
       .addCase(fetchAddedMemberWorkspace.fulfilled, (state, action) => {
-
         const data = action.payload;
         const memberObject = {
           user: {
@@ -367,11 +369,12 @@ const workSpacesSlice = createSlice({
           },
           role: "member",
         };
-        const workSpaceIndex = state.workSpaces.findIndex(workspace => workspace._id === state.selectedWorkSpaceId);
-        
-        state.workSpaces[workSpaceIndex].members.push(memberObject)
+        const workSpaceIndex = state.workSpaces.findIndex(
+          (workspace) => workspace._id === state.selectedWorkSpaceId
+        );
 
-      })
+        state.workSpaces[workSpaceIndex].members.push(memberObject);
+      });
   },
 });
 

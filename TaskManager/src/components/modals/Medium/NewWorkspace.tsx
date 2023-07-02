@@ -81,7 +81,7 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
           <label
             htmlFor="my-modal-3"
             className="text-323232 cursor-pointer"
-            onClick={() => dispatch(toggleMediumModal(''))}
+            onClick={() => dispatch(toggleMediumModal(""))}
           >
             <CloseIcon />
           </label>

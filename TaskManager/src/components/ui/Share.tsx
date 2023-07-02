@@ -54,11 +54,11 @@ const Share = () => {
             {selectedProjectSidebar != "" ? (
               <ShareModal ModalTitle="پروژه" id={projectId} />
             ) : (
-              <div className="modal-box w-[500px]">
-                <div className="w-full flex justify-between items-center">
+              <div className="modal-box w-[500px] dark:bg-[#15202B]">
+                <div className="w-full flex justify-between items-center ">
                   <label
                     htmlFor="my-modal-3"
-                    className="text-323232 cursor-pointer"
+                    className="text-323232 cursor-pointer dark:text-[#F7F9F9]"
                     onClick={() => dispatch(toggleMediumModal(""))}
                   >
                     <CloseIcon />
@@ -68,7 +68,7 @@ const Share = () => {
 
                   <span></span>
                 </div>
-                <div className="font-semibold text-xl text-black text-center">
+                <div className="font-semibold text-xl text-black text-center dark:text-[#F7F9F9]">
                   پروژه ای انتخاب نشده ، یکی انتخاب کن
                 </div>
               </div>

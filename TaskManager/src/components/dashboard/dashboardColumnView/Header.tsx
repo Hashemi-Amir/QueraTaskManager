@@ -10,7 +10,6 @@ import {
   editBoardName,
   fetchCreateTask,
   toggleMediumModal,
-  toggleSmallModal,
   toggleXSmallModal,
 } from "../../../services/app/store";
 import { MorePosition } from "../dashboardSidebar/ProjectList";
@@ -28,11 +27,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
     top: 0,
     left: 0,
   });
-  document.body.onclick = () => {
-    if (xSmall !== "") {
-      dispatch(toggleXSmallModal(""));
-    }
-  };
+
   const dispatch = useAppDispatch();
   const { medium, xSmall } = useAppSelector((state) => state.modals);
   const [editMood, setEditMood] = useState("");
@@ -60,29 +55,29 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
     setBoardModal({ ...boardModal, top, left, clientX, clientY });
   };
 
-  // useEffect(() => {
-  //   const handleWindowResize = () => {
-  //     const { clientX, clientY } = boardModal;
+  useEffect(() => {
+    const handleWindowResize = () => {
+      const { clientX, clientY } = boardModal;
 
-  //     // Calculate the new top position based on the updated window height
-  //     const windowHeight = window.innerHeight;
-  //     const top = clientY && `${Math.min(clientY, windowHeight )}px`;
+      // Calculate the new top position based on the updated window height
+      const windowHeight = window.innerHeight;
+      const top = clientY && `${Math.min(clientY, windowHeight)}px`;
 
-  //     // Calculate the new left position based on the updated window width
-  //     const windowWidth = window.innerWidth;
-  //     const left = clientX && `${Math.min(clientX, windowWidth )}px`;
+      // Calculate the new left position based on the updated window width
+      const windowWidth = window.innerWidth;
+      const left = clientX && `${Math.min(clientX, windowWidth)}px`;
 
-  //     setBoardModal({ ...boardModal, top, left });
-  //   };
+      setBoardModal({ ...boardModal, top, left });
+    };
 
-  //   // Add the resize event listener
-  //   window.addEventListener("resize", handleWindowResize);
+    // Add the resize event listener
+    window.addEventListener("resize", handleWindowResize);
 
-  //   // Clean up the event listener on component unmount
-  //   return () => {
-  //     window.removeEventListener("resize", handleWindowResize);
-  //   };
-  // }, [boardModal]);
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, [boardModal]);
 
   // handle delete board with dispatch
   const handleDeleteBoard = () => {
@@ -105,7 +100,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
   return (
     <>
       <div
-        className={`flex items-center justify-between w-[250px] bg-white sticky top-0 h-10 rounded px-3 py-2 mb-5 border border-t-2 text-1E1E1E  text-ellipsis whitespace-nowrap overflow-x-auto scrollbar-none ${borderColor} shadow-[0px_2px_8px_rgba(0,0,0,0.18)] dark:bg-[#111a22] dark:text-[#F7F9F9] dark:border-x-[#F1B127] dark:border-b-[#F1B127] dark:shadow-[0px_3px_10px_rgba(255,255,255,0.15)]`}
+        className={`flex items-center justify-between w-[250px] bg-white sticky top-0 h-10 rounded px-3 py-2 mb-5 border border-t-2 text-1E1E1E  text-ellipsis whitespace-nowrap overflow-x-hidden overflow-y-hidden scrollbar-none ${borderColor} shadow-[0px_2px_8px_rgba(0,0,0,0.18)] dark:bg-[#111a22] dark:text-[#F7F9F9] dark:border-x-[#F1B127] dark:border-b-[#F1B127] dark:shadow-[0px_3px_10px_rgba(255,255,255,0.15)]`}
         onMouseOver={() => handleCardHover(true)}
         onMouseLeave={() => handleCardHover(false)}
       >
@@ -113,7 +108,8 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
           <div className="flex items-center justify-around ">
             <input
               type="text"
-              className="w-2/3 h-3/4 focus:outline-none text-sm px-1"
+              className="w-2/3 h-3/4 focus:outline-none text-sm px-1 dark:bg-transparent"
+              autoComplete="off"
               placeholder="نام ستون جدید"
               id="editBoardName"
             />
@@ -124,7 +120,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
               لغو
             </button>
             <button
-              className="bg-208D8E text-white rounded-md p-2 mr-3 focus:outline-none text-xs"
+              className="text-208D8E mr-3 focus:outline-none text-sm dark:text-[#F1B127]"
               onClick={handleNewBoard}
             >
               تایید
@@ -139,7 +135,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
               </div>
             </div>
             {isHovered && (
-              <div className="flex items-center gap-1 pr-3">
+              <div className="flex items-center gap-1 pr-3 absolute dark:bg-[#111a22] px-2 left-0 ">
                 <span
                   className="relative hover:scale-110"
                   onClick={(e) => {
@@ -161,14 +157,6 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
             )}
           </>
         )}
-        {xSmall === id && (
-          <BoardMore
-            position={boardModal}
-            handleDeleteBoard={handleDeleteBoard}
-            id={id}
-            handleEditMood={handleEditMood}
-          />
-        )}
       </div>
 
       {medium === id &&
@@ -178,17 +166,18 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
           </Modal>,
           document.body
         )}
-      {/* {small === id &&
+      {xSmall === id &&
         createPortal(
           <Modal className="!bg-transparent">
             <BoardMore
               position={boardModal}
               handleDeleteBoard={handleDeleteBoard}
               id={id}
+              handleEditMood={handleEditMood}
             />
           </Modal>,
           document.body
-        )} */}
+        )}
     </>
   );
 };

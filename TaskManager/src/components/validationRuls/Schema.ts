@@ -99,6 +99,10 @@ const personalInfo = yup.object().shape({
   //   .required(errorMessage.required)
   //   .matches(/^[0-9]{11}$/, errorMessage.invalidPhoneNum),
 });
+const newTask = yup.object().shape({
+  taskTitle: yup.string().required(errorMessage.required),
+  descTask: yup.string().required(errorMessage.required),
+});
 
 const Schema = {
   register,
@@ -106,6 +110,7 @@ const Schema = {
   forgot,
   login,
   personalInfo,
+  newTask
 };
 
 export default Schema;
