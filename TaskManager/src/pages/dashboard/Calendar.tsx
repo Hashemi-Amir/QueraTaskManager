@@ -31,7 +31,7 @@ const Calendar = () => {
 
   useEffect(() => {
     const calendarCell = document.querySelector(".fc-scrollgrid");
-    if (theme === "Dark") {
+    if (theme === "dark") {
       calendarCell?.classList.add("bg-[#15202B]");
     } else {
       calendarCell?.classList.remove("bg-[#15202B]");

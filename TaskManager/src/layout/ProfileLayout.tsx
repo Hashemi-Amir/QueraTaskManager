@@ -9,7 +9,7 @@ const ProfileLayout = () => {
   const { theme } = useAppSelector((state) => state.user);
   const NavLinkStyle = ({ isActive }: { isActive: boolean }) => {
     return {
-      background: isActive ? (theme === "Light" ? "#b1e6e6" : "#15202B") : "",
+      background: isActive ? (theme === "dark" ? "#15202B" : "#b1e6e6") : "",
     };
   };
 

@@ -16,8 +16,27 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Protected from "./routes/Protected";
 import PageNotFound from "./pages/PageNotFound";
+import { useAppDispatch, useAppSelector } from "./services/app/hook";
+import { useEffect } from "react";
+import { setTheme } from "./services/features/user/userSlice";
 
 function App() {
+  const dispatch = useAppDispatch();
+  const { theme } = useAppSelector((state) => state.user);
+  useEffect(() => {
+    const htmlTag = document.querySelector("html");
+    const isDarkSet = localStorage.theme === "dark";
+    const isThemeStored = "theme" in localStorage;
+    const isDarkPrefered = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    const themeStatus =
+      isDarkSet || (!isThemeStored && isDarkPrefered) ? "dark" : "light";
+    htmlTag?.classList.toggle("dark", themeStatus === "dark");
+    localStorage.setItem("theme", themeStatus);
+    dispatch(setTheme(themeStatus));
+  }, [dispatch]);
+
   return (
     <>
       <Routes>
@@ -89,7 +108,10 @@ function App() {
         </Route>
         <Route path="*" element={<PageNotFound />}></Route>
       </Routes>
-      <ToastContainer />
+      <ToastContainer
+        toastStyle={{ backgroundColor: `${theme === "dark" && "#15202b"}` }}
+        theme={`${theme === "dark" ? "dark" : "colored"}`}
+      />
     </>
   );
 }

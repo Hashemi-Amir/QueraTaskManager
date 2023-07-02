@@ -34,17 +34,15 @@ const Header = ({ projectName }: HeaderProps) => {
   const listRef = useRef<HTMLAnchorElement>(null);
   const calendarRef = useRef<HTMLAnchorElement>(null);
   const marker = useRef<HTMLDivElement>(null);
-  const [themeStatus, setThemeStatus] = useState(
-    localStorage.getItem("Theme") === "Dark"
-  );
-
+  const { theme } = useAppSelector((state) => state.user);
+  const [themeStatus, setThemeStatus] = useState(theme === "dark");
   const handleDarkMode = () => {
-    setThemeStatus(!themeStatus);
+    const newThemeStatus = theme === "dark" ? "light" : "dark";
+    setThemeStatus(newThemeStatus === "dark");
     const htmlTag = document.querySelector("html");
     htmlTag?.classList.toggle("dark");
-    const newThemeStatus = themeStatus ? "Light" : "Dark";
-    localStorage.setItem("Theme", newThemeStatus);
-    dispatch(setTheme(newThemeStatus))
+    localStorage.setItem("theme", newThemeStatus);
+    dispatch(setTheme(newThemeStatus));
   };
 
   if (Location.pathname === "/calendarview") date = true;

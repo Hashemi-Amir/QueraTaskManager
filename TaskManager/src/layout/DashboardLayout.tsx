@@ -3,7 +3,7 @@ import Header from "../components/dashboard/dashboardHeader/Header";
 import SideBar from "../components/dashboard/dashboardSidebar/SideBar";
 import Button from "../components/ui/Button";
 import { CgAddR } from "react-icons/cg";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { createPortal } from "react-dom";
 import Modal from "./Modal";
 import AddNewTask from "../components/modals/Large/AddNewTask";
@@ -15,7 +15,6 @@ import {
   resetBoard,
   toggleMediumModal,
 } from "../services/app/store";
-import { setTheme } from "../services/features/user/userSlice";
 
 const DashboardLayout = () => {
   const [dataList, setDataList] = useState<any>({
@@ -34,17 +33,7 @@ const DashboardLayout = () => {
   const { projects } = useAppSelector((state) => state.boards);
   const { workSpaces } = useAppSelector((state) => state.workSpaces);
 
-  // Check localStorage and set theme
-  useEffect(() => {
-    const htmlTag = document.querySelector("html");
-    localStorage.getItem("Theme") === "Dark"
-      ? htmlTag?.classList.add("dark")
-      : htmlTag?.classList.remove("dark");
-
-    localStorage.getItem("Theme") === "Dark"
-      ? dispatch(setTheme("Dark"))
-      : dispatch(setTheme("Light"));
-  }, []);
+ 
 
   // handle selected board id and modal step
   const handleSelectBoardList = async (id?: string | undefined) => {
@@ -125,7 +114,7 @@ const DashboardLayout = () => {
   localStorage.setItem("BorderColors", JSON.stringify(borderColors));
 
   const commonStyle =
-    "max-w-[85vw] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full scrollbar-track-white gap-5 h-[calc(100%-12rem)]";
+    "max-w-[85vw] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full scrollbar-track-white gap-5 h-[calc(100%-12rem)] dark:scrollbar-track-[#0f111a] dark:scrollbar-thumb-[#3f4148]";
 
   let WraperClasses = "";
   // Dynamically styling different view wrapers

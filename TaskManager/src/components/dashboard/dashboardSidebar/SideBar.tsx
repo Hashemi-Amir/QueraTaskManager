@@ -16,7 +16,6 @@ export type workSpacesType = {
   _id: string;
   name: string;
   user: string;
-  members: [];
   projects: ProjectProps;
 }[];
 

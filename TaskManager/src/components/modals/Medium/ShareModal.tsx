@@ -82,12 +82,11 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
       const project = workSpaces.map((workSpace) =>
         workSpace.projects.find((project) => project._id === id)
       );
-      project.some(project => project?.members)
+      project.some((project) => project?.members);
       const hasMember = project[0]?.members.some(
         (member) => member.user.username === memberName
       );
       return hasMember;
-
     }
   };
 
@@ -115,7 +114,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
           (project: { _id: string | undefined }) => project._id === id
         );
 
-        setMembers(projectMembers.members)
+        setMembers(projectMembers.members);
       }
     }
   };
@@ -162,7 +161,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
           <label
             htmlFor="my-modal-3"
             className="text-323232 cursor-pointer"
-            onClick={() => dispatch(toggleMediumModal(''))}
+            onClick={() => dispatch(toggleMediumModal(""))}
           >
             <CloseIcon />
           </label>

@@ -2,20 +2,18 @@ import { useState } from "react";
 import Button from "../../components/ui/Button";
 import { MdOutlineDone } from "react-icons/md";
 import { setTheme } from "../../services/features/user/userSlice";
-import { useAppDispatch } from "../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../services/app/hook";
 
 const ProfileSettings = () => {
   const dispatch = useAppDispatch();
-  const [themeStatus, setThemeStatus] = useState(
-    localStorage.getItem("Theme") === "Dark"
-  );
+  const { theme } = useAppSelector((state) => state.user);
+  const [themeStatus, setThemeStatus] = useState(theme === "dark");
   const handleDarkMode = () => {
-    setThemeStatus(!themeStatus);
+    const newThemeStatus = theme === "dark" ? "light" : "dark";
+    setThemeStatus(newThemeStatus === "dark");
     const htmlTag = document.querySelector("html");
     htmlTag?.classList.toggle("dark");
-    const newThemeStatus = themeStatus ? "Light" : "Dark";
-    localStorage.setItem("Theme", newThemeStatus);
-
+    localStorage.setItem("theme", newThemeStatus);
     dispatch(setTheme(newThemeStatus));
   };
 
@@ -49,6 +47,7 @@ const ProfileSettings = () => {
           <input
             type="checkbox"
             onChange={handleDarkMode}
+            checked={themeStatus}
             className="rotate-180 toggle toggle-lg toggle-accent"
           />
           <span className="font-normal text-sm text-black dark:text-inherit">

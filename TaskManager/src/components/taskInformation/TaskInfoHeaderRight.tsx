@@ -2,10 +2,10 @@ import { RiArrowLeftSLine, RiUserAddLine } from "react-icons/ri";
 import DashedBorderCard from "../ui/DashedBorderCard";
 import { BsCheckSquare } from "react-icons/bs";
 import { FiFlag } from "react-icons/fi";
-import Share from "../ui/Share";
 import { taskAssignsType } from "../dashboard/dashboardColumnView/TaskCard";
 import TaskAssign from "./taskAssign";
 import { useState } from "react";
+import { HiOutlineShare } from "react-icons/hi";
 
 export type TaskInfoHeaderRightType = {
   taskAssigns: taskAssignsType[];
@@ -54,16 +54,26 @@ const TaskInfoHeaderRight = ({
                 <RiUserAddLine color="#C1C1C1" size="20"></RiUserAddLine>
               </DashedBorderCard>
             </li>
-
-            {taskAssigns.map((user, index) => (
-              <li key={user._id} className="w-8 cursor-pointer ">
-                <div
-                  className={`${colors[index]} w-full h-full rounded-full flex items-center justify-center pt-1 text-white`}
-                >
-                  {user.username.substring(0, 2)}
+            <>
+              {[...taskAssigns].slice(0, 3).map((user, index) => (
+                <li key={user._id} className="w-8 h-8 cursor-pointer ">
+                  <div
+                    className={`${colors[index]} w-full h-full rounded-full flex items-center justify-center pt-1 text-white`}
+                  >
+                    {user.username.substring(0, 2)}
+                  </div>
+                </li>
+              ))}
+              {taskAssigns.length > 3 && (
+                <div className="w-8 h-8 cursor-pointer ">
+                  <div
+                    className={`bg-[#0A111B] w-full h-full rounded-full flex items-center justify-center pt-1 text-white`}
+                  >
+                    +{taskAssigns.length - 3}
+                  </div>
                 </div>
-              </li>
-            ))}
+              )}
+            </>
           </ul>
 
           {taskAssignModal && (
@@ -79,9 +89,17 @@ const TaskInfoHeaderRight = ({
           </DashedBorderCard>
         </div>
         {/* Share */}
-        <button>
-          <Share />
-        </button>
+        <div>
+          <div
+            className="flex items-center justify-center gap-1 "
+            role="button"
+          >
+            <HiOutlineShare size="24" color="#BDBDBD" />
+            <span className="text-base font-dana font-medium text-1E1E1E dark:text-[#F7F9F9]">
+              اشتراک گذاری
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

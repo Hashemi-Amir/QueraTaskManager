@@ -106,9 +106,9 @@ function ProjectList({ projects }: Projects) {
   return (
     <>
       {projects.map(({ _id, name }) => (
-        <>
+        <div key={_id}>
           {editMood === _id ? (
-            <div className="flex px-1 py-3 w-full">
+            <div className="flex px-1 py-3 w-full" >
               <input
                 type="text"
                 id="edit"
@@ -161,7 +161,7 @@ function ProjectList({ projects }: Projects) {
               </span>
             </div>
           )}
-        </>
+        </div>
       ))}
 
       {small === projectId &&

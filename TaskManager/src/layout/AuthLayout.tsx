@@ -5,10 +5,10 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 const AuthLayout = () => {
   const Navigate = useNavigate();
   const Location = useLocation();
-  const themeStatus = localStorage.getItem("Theme");
+  const themeStatus = localStorage.getItem("theme");
   useEffect(() => {
     const htmlTag = document.querySelector("html");
-    themeStatus === "Dark"
+    themeStatus === "dark"
       ? htmlTag?.classList.add("dark")
       : htmlTag?.classList.remove("dark");
   }, []);

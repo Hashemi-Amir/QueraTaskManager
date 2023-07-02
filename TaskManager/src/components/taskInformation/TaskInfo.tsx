@@ -37,9 +37,9 @@ const TaskInfo = ({ handleCloseTaskInfo, taskInfo }: TaskInfoProps) => {
 
   return (
     <TaskInfoCard>
-      <div className="w-full h-full divide-y divide-F4F4F4 ">
+      <div className="w-full h-full divide-y divide-F4F4F4 dark:divide-[#57585f] dark:text-[#f7f9f9] ">
         {/* TaskInfo Header */}
-        <section className="w-full  h-1/4 flex divide-x divide-F4F4F4 divide-x-reverse ">
+        <section className="w-full  h-1/4 flex divide-x divide-F4F4F4 dark:divide-[#57585f] divide-x-reverse ">
           <TaskInfoHeaderRight
             borderColor={borderColor}
             taskAssigns={taskAssigns}
@@ -57,7 +57,7 @@ const TaskInfo = ({ handleCloseTaskInfo, taskInfo }: TaskInfoProps) => {
         {/* ************************************************************ */}
 
         {/* TaskInfo Body */}
-        <section className="w-full h-3/4 flex divide-x divide-F4F4F4 divide-x-reverse">
+        <section className="w-full h-3/4 flex divide-x divide-F4F4F4 dark:divide-[#57585f] divide-x-reverse">
           <TaskInfoBodyRight
             description={description}
             name={name}
