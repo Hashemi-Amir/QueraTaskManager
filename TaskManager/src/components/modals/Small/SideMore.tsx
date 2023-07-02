@@ -133,7 +133,10 @@ const SideMore = ({
           </span>
           <span>کپی لینک</span>
         </li>
-        <li className={`${liStyle} text-9F0000 dark:text-[#5AC5BA]`} onClick={handleDelete}>
+        <li
+          className={`${liStyle} text-9F0000 dark:text-[#5AC5BA]`}
+          onClick={handleDelete}
+        >
           <span className="ml-4 text-xl">
             <BsTrash />
           </span>

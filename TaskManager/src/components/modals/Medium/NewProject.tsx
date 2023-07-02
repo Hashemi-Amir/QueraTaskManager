@@ -8,7 +8,6 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 type projectProps = {
   id?: string;
-  
 };
 
 const NewProject = ({ id }: projectProps) => {

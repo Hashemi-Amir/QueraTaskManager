@@ -17,7 +17,7 @@ const AddTaskOnCalendar = ({ clickDate }: AddTaskOnCalendar) => {
         <label
           htmlFor="my-modal-3"
           className="cursor-pointer text-black dark:text-[#F7F9F9]"
-          onClick={() => dispatch(toggleMediumModal(''))}
+          onClick={() => dispatch(toggleMediumModal(""))}
         >
           <CloseIcon />
         </label>

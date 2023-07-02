@@ -3,7 +3,7 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { Calendar } from "react-multi-date-picker";
 import "react-multi-date-picker/styles/colors/teal.css";
-import "react-multi-date-picker/styles/backgrounds/bg-dark.css"
+import "react-multi-date-picker/styles/backgrounds/bg-dark.css";
 import { BsCalendar4 } from "react-icons/bs";
 import "./customCalendar.css";
 import { useAppSelector } from "../../../services/app/hook";
@@ -22,7 +22,7 @@ const QuckCalendar = ({
     showDeadline: "",
     value: "",
   });
-  const {theme} = useAppSelector(state => state.user)
+  const { theme } = useAppSelector((state) => state.user);
   // custom weekDays name
   const weekDays = [
     "شنبه",
@@ -81,7 +81,7 @@ const QuckCalendar = ({
               weekDays={weekDays}
               headerOrder={["MONTH_YEAR", "LEFT_BUTTON", "RIGHT_BUTTON"]}
               monthYearSeparator=" "
-              className={theme === 'Dark' ? 'bg-dark teal' : `teal`}
+              className={theme === "Dark" ? "bg-dark teal" : `teal`}
               multiple={false}
               calendar={persian}
               locale={persian_fa}

@@ -14,22 +14,16 @@ type SelectBoardProps = {
   status: string;
 };
 
-const SelectBoard = ({
-  data,
-  selectedHandle,
-  status,
-}: SelectBoardProps) => {
+const SelectBoard = ({ data, selectedHandle, status }: SelectBoardProps) => {
   const [boardId, setBoardId] = useState("");
   const selectRef = useRef<any | null>(null);
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const handleSelectValue = (event: React.ChangeEvent<HTMLElement>) => {
     const element = event.target as HTMLInputElement;
-
     setBoardId(element.value);
   };
   useEffect(() => {
-    // console.log(data);
   }, [status]);
 
   return (
@@ -41,7 +35,7 @@ const SelectBoard = ({
             <label
               htmlFor="my-modal-3"
               className="text-323232 cursor-pointer dark:text-[#F7F9F9]"
-              onClick={() => dispatch(toggleMediumModal('')) }
+              onClick={() => dispatch(toggleMediumModal(""))}
             >
               <CloseIcon />
             </label>
@@ -97,7 +91,7 @@ const SelectBoard = ({
             <label
               htmlFor="my-modal-3"
               className="text-323232 cursor-pointer"
-              onClick={() => dispatch(toggleMediumModal(''))}
+              onClick={() => dispatch(toggleMediumModal(""))}
             >
               <CloseIcon />
             </label>

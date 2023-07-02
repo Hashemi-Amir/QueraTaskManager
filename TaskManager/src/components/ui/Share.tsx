@@ -12,8 +12,8 @@ const Share = () => {
   const { selectedProjectSidebar, workSpaces } = useAppSelector(
     (state) => state.projects
   );
-  const {medium} = useAppSelector(state => state.modals);
-  const dispatch = useAppDispatch(); 
+  const { medium } = useAppSelector((state) => state.modals);
+  const dispatch = useAppDispatch();
   const findProjectId = () => {
     const workSpaceId: any = [];
     workSpaces.forEach((workSpace, indx) => {
@@ -39,7 +39,7 @@ const Share = () => {
         role="button"
         onClick={() => {
           findProjectId();
-          dispatch(toggleMediumModal('shareModalHeader'));
+          dispatch(toggleMediumModal("shareModalHeader"));
         }}
       >
         <HiOutlineShare size="24" color="#BDBDBD" />
@@ -48,21 +48,18 @@ const Share = () => {
         </span>
       </div>
 
-      {medium === 'shareModalHeader'&&
+      {medium === "shareModalHeader" &&
         createPortal(
           <Modal>
             {selectedProjectSidebar != "" ? (
-              <ShareModal
-                ModalTitle="پروژه"
-                id={projectId}
-              />
+              <ShareModal ModalTitle="پروژه" id={projectId} />
             ) : (
               <div className="modal-box w-[500px]">
                 <div className="w-full flex justify-between items-center">
                   <label
                     htmlFor="my-modal-3"
                     className="text-323232 cursor-pointer"
-                    onClick={() => dispatch(toggleMediumModal(''))}
+                    onClick={() => dispatch(toggleMediumModal(""))}
                   >
                     <CloseIcon />
                   </label>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { BsThreeDots, BsPlus } from "react-icons/bs";
 import Modal from "../../../layout/Modal";
@@ -55,29 +55,29 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
     setBoardModal({ ...boardModal, top, left, clientX, clientY });
   };
 
-  // useEffect(() => {
-  //   const handleWindowResize = () => {
-  //     const { clientX, clientY } = boardModal;
+  useEffect(() => {
+    const handleWindowResize = () => {
+      const { clientX, clientY } = boardModal;
 
-  //     // Calculate the new top position based on the updated window height
-  //     const windowHeight = window.innerHeight;
-  //     const top = clientY && `${Math.min(clientY, windowHeight )}px`;
+      // Calculate the new top position based on the updated window height
+      const windowHeight = window.innerHeight;
+      const top = clientY && `${Math.min(clientY, windowHeight)}px`;
 
-  //     // Calculate the new left position based on the updated window width
-  //     const windowWidth = window.innerWidth;
-  //     const left = clientX && `${Math.min(clientX, windowWidth )}px`;
+      // Calculate the new left position based on the updated window width
+      const windowWidth = window.innerWidth;
+      const left = clientX && `${Math.min(clientX, windowWidth)}px`;
 
-  //     setBoardModal({ ...boardModal, top, left });
-  //   };
+      setBoardModal({ ...boardModal, top, left });
+    };
 
-  //   // Add the resize event listener
-  //   window.addEventListener("resize", handleWindowResize);
+    // Add the resize event listener
+    window.addEventListener("resize", handleWindowResize);
 
-  //   // Clean up the event listener on component unmount
-  //   return () => {
-  //     window.removeEventListener("resize", handleWindowResize);
-  //   };
-  // }, [boardModal]);
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, [boardModal]);
 
   // handle delete board with dispatch
   const handleDeleteBoard = () => {
@@ -159,14 +159,6 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
         )}
       </div>
 
-      {/* {xSmall === id && (
-          <BoardMore
-            position={boardModal}
-            handleDeleteBoard={handleDeleteBoard}
-            id={id}
-            handleEditMood={handleEditMood}
-          />
-        )} */}
       {medium === id &&
         createPortal(
           <Modal>

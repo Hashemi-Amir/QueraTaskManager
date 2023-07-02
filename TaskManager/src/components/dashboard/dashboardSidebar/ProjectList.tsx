@@ -140,7 +140,7 @@ function ProjectList({ projects }: Projects) {
                   return project.projectId === _id;
                 });
                 if (projectIndex < 0) dispatch(fetchBoards(_id));
-                dispatch(setSelectedProjectSidebar(name))
+                dispatch(setSelectedProjectSidebar(name));
                 dispatch(setSelectedProjectId(_id));
                 dispatch(setSelectedProject(name));
               }}

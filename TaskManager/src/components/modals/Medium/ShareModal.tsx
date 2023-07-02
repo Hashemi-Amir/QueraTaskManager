@@ -20,7 +20,7 @@ type Members = {
   user: {
     _id: string;
     email: string;
-    username : string
+    username: string;
   };
 };
 type ShareModalProps = {
@@ -82,12 +82,11 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
       const project = workSpaces.map((workSpace) =>
         workSpace.projects.find((project) => project._id === id)
       );
-      project.some(project => project?.members)
+      project.some((project) => project?.members);
       const hasMember = project[0]?.members.some(
         (member) => member.user.username === memberName
       );
       return hasMember;
-
     }
   };
 
@@ -115,7 +114,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
           (project: { _id: string | undefined }) => project._id === id
         );
 
-        setMembers(projectMembers.members)
+        setMembers(projectMembers.members);
       }
     }
   };
@@ -123,7 +122,8 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
   // Add member with called dispatch redux toolkit
   const handleAddMember = () => {
     const inviteValue = inputInvite.current?.value;
-    !inputInvite.current?.value.trim() && toast.warning('اسم ممبر یادت نره !',{rtl:true})
+    !inputInvite.current?.value.trim() &&
+      toast.warning("اسم ممبر یادت نره !", { rtl: true });
     if (ModalTitle === "ورک اسپیس" && inviteValue?.trim()) {
       const workspaceIds: (string | undefined)[] = [id, inviteValue];
       checkHasMember(inviteValue)
@@ -162,7 +162,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
           <label
             htmlFor="my-modal-3"
             className="text-323232 cursor-pointer dark:text-[#F7F9F9]"
-            onClick={() => dispatch(toggleMediumModal(''))}
+            onClick={() => dispatch(toggleMediumModal(""))}
           >
             <CloseIcon />
           </label>
@@ -199,7 +199,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
             </div>
 
             <div className="w-full mt-7 flex justify-between items-center ">
-              <div className="flex items-center dark:text-[#F7F9F9]" >
+              <div className="flex items-center dark:text-[#F7F9F9]">
                 <FiLink />
                 <span className="mr-3 text-sm font-normal text-[#1E1E1E] dark:text-[#F7F9F9]">
                   لینک خصوصی
@@ -217,19 +217,22 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
               />
             ) : (
               <div className="mt-7 flex flex-col">
-                {members.length > 0 && <h4 className="text-sm font-normal text-[#7D828C]">
-                  اشتراک گزاشته شده با
-                </h4>}
+                {members.length > 0 && (
+                  <h4 className="text-sm font-normal text-[#7D828C]">
+                    اشتراک گزاشته شده با
+                  </h4>
+                )}
                 <ul className="max-h-40 overflow-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-thumb-rounded-full scrollbar-track-white">
-
-                  
                   {members &&
                     members.map((item) => (
-                      <li key={item.user._id} className="w-full mt-5 dark:text-[#F7F9F9]">
+                      <li
+                        key={item.user._id}
+                        className="w-full mt-5 dark:text-[#F7F9F9]"
+                      >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
                             <div className="w-9 h-9 flex justify-center items-center text-white bg-F27474 rounded-full dark:bg-[#F1B127] dark:text-[#0F111A]">
-                              {item.user.username.substring(0,2)}
+                              {item.user.username.substring(0, 2)}
                             </div>
                             <span className="w-28 mr-7 px-2 py-1 rounded-md flex items-center justify-center font-normal truncate">
                               {item.user.email}
