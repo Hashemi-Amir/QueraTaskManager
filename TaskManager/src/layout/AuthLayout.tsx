@@ -55,7 +55,9 @@ const AuthLayout = () => {
             clipPath: "polygon(0 40%, 100% 0, 100% 100%, 0 100%)",
             background: `linear-gradient(269.55deg, ${
               themeStatus === "dark" ? "#0F2027" : "#06846F"
-            } 0.35%, ${themeStatus === "d ark" ? "#2C5364" : "#54BEE8"} 103.4%) `,
+            } 0.35%, ${
+              themeStatus === "dark" ? "#2C5364" : "#54BEE8"
+            } 103.4%) `,
           }}
         ></div>
       </div>

@@ -95,7 +95,8 @@ const QuckCalendar = ({
                 htmlFor="my-modal"
                 onClick={() => handleCalendar(false, deadline.value)}
                 className={`w-full h-10 p-2.5 text-sm font-bold leading-4 cursor-pointer flex justify-center items-center text-white rounded-md ${
-                  submitChangesHandler && "bg-red-500"
+                  submitChangesHandler &&
+                  "bg-[#ff3333] dark:bg-[#ff3333]  dark:text-[#0F111A]"
                 } bg-208D8E dark:bg-[#F1B127] dark:text-[#0F111A]`}
               >
                 بستن
@@ -110,7 +111,7 @@ const QuckCalendar = ({
                     if (deadline && deadline.value)
                       submitChangesHandler(deadline.value);
                   }}
-                  className="w-full h-10 p-2.5 text-sm font-bold leading-4 cursor-pointer flex justify-center items-center text-white rounded-md bg-208D8E"
+                  className="w-full h-10 p-2.5 text-sm font-bold leading-4 cursor-pointer flex justify-center items-center text-white rounded-md bg-208D8E dark:bg-[#F1B127] dark:text-[#0F111A]"
                 >
                   ثبت
                 </label>

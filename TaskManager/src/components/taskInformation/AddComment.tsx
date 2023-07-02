@@ -10,14 +10,14 @@ import { BsEmojiSmile } from "react-icons/bs";
 import Button from "../ui/Button";
 import { useEffect, useRef, useState } from "react";
 import { addComment } from "../../services/app/store";
-import { useAppDispatch } from "../../services/app/hook";
+import { useAppDispatch, useAppSelector } from "../../services/app/hook";
 
 type AddCommentProps = {
   taskId: string;
 };
 
 const AddComment = ({ taskId }: AddCommentProps) => {
-  const theme = localStorage.getItem("Theme")?.toLocaleLowerCase();
+  const { theme } = useAppSelector((state) => state.user);
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const [showEmojis, setShowEmojis] = useState(false);
   const textAreRef = useRef<HTMLTextAreaElement>(null);
