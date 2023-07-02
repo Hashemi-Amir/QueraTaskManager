@@ -28,6 +28,7 @@ const TaskInfoBodyRight = ({
       (descriptionRef.current?.value !== description ||
         nameRef.current?.textContent !== name) &&
       descriptionRef.current &&
+      descriptionRef.current.value &&
       nameRef.current?.textContent
     ) {
       dispatch(
@@ -63,6 +64,7 @@ const TaskInfoBodyRight = ({
         <div>
           <h2
             ref={nameRef}
+            role="input"
             suppressContentEditableWarning={true}
             contentEditable
             placeholder="عنوان تسک خود را اینجا ویرایش کنید"
