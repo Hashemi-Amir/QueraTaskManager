@@ -113,12 +113,13 @@ function ProjectList({ projects }: Projects) {
                 type="text"
                 id="edit"
                 placeholder="نام جدید"
+                autoComplete="off"
                 className="w-3/4 text-sm border border-AAAAAA h-10 rounded-tr-md rounded-br-md px-3 py-2 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
               />
               <Button
                 value="لغو"
                 onClick={() => setEditMood("")}
-                className="!w-1/4 text-xs rounded-none bg-[#f92e8f] hover:!bg-[#f92e8f] focus:ring-2 focus:!ring-red-500 z-30"
+                className="!w-1/4 text-xs rounded-none bg-[#f92e8f] placeholder:text-xs hover:!bg-[#f92e8f] focus:!ring-0 dark:bg-[#f92e8f]"
               />
               <Button
                 value="ویرایش"
@@ -139,11 +140,7 @@ function ProjectList({ projects }: Projects) {
                   return project.projectId === _id;
                 });
                 if (projectIndex < 0) dispatch(fetchBoards(_id));
-                selectedProjectSidebar === ""
-                ? dispatch(setSelectedProjectSidebar(name))
-                : selectedProjectSidebar != name
-                ? dispatch(setSelectedProjectSidebar(name))
-                : dispatch(setSelectedProjectSidebar(""));
+                dispatch(setSelectedProjectSidebar(name));
                 dispatch(setSelectedProjectId(_id));
                 dispatch(setSelectedProject(name));
               }}

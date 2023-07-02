@@ -333,7 +333,7 @@ const boardsSlice = createSlice({
       state.messagePost = "";
     },
     resetBoard: (state) => {
-      state.isLoading =false;
+      state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
       state.message = "";
@@ -426,7 +426,6 @@ const boardsSlice = createSlice({
       .addCase(deleteComment.fulfilled, (state, action) => {
         state.deleteCommentIsLoading = false;
         state.deleteCommentIsSuccess = true;
-        console.log(action);
 
         const curCommentArr = state.projects
           .find((project) => project.projectId === state.selectedProjectId)

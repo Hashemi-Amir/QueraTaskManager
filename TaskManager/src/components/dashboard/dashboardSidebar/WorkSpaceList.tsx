@@ -10,7 +10,7 @@ import {
   setSelectedWorkSpaceHeader,
   setSelectedWorkSpaceId,
   updateWorkSpace,
-  updateWorkSpaceName,
+  // updateWorkSpaceName,
 } from "../../../services/features/workSpaceList/workSpacesSlice";
 import {
   fetchProjects,
@@ -121,17 +121,18 @@ const WorkSpaceList = ({ workSpaces }: WorkSpaceProps) => {
                   type="text"
                   id="edit"
                   placeholder="نام جدید"
-                  className="w-3/4 font-medium border border-AAAAAA h-10 rounded-tr-md rounded-br-md px-3 py-2 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                  autoComplete="off"
+                  className="w-3/4 font-medium  border border-AAAAAA h-10 rounded-tr-md rounded-br-md px-3 py-2 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 placeholder:text-sm"
                 />
                 <Button
                   value="لغو"
                   onClick={() => setEditMood("")}
-                  className="!w-1/4 font-medium rounded-none bg-[#f92e8f] hover:!bg-[#f92e8f] focus:!ring-red-500 z-30"
+                  className="!w-1/4 font-medium rounded-none bg-[#f92e8f] hover:!bg-[#f92e8f] focus:!ring-0 dark:bg-[#f92e8f]"
                 />
                 <Button
                   value="ویرایش"
                   onClick={() => handleEdit(_id)}
-                  className="!w-1/4 font-medium  rounded-tr-none rounded-br-none "
+                  className="!w-1/4 font-medium  rounded-tr-none rounded-br-none focus:!ring-0"
                 />
               </div>
             ) : (

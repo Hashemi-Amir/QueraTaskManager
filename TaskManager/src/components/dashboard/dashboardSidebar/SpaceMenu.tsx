@@ -9,7 +9,7 @@ import { fetchProjects } from "../../../services/app/store";
 import { workSpacesType } from "./SideBar";
 
 type SpaceMenuProps = {
-  workSpaces: workSpacesType
+  workSpaces: workSpacesType;
 };
 
 const SpaceMenu = ({ workSpaces }: SpaceMenuProps) => {

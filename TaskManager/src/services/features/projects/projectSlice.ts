@@ -27,7 +27,7 @@ export type initialStateType = {
   isErrorPost: boolean;
   messagePost: unknown;
   addedMemberUserName: string | undefined;
-  selectedProjectSidebar : string;
+  selectedProjectSidebar: string;
   selectedProject: string;
   workSpaces: Projects[];
 };
@@ -42,7 +42,7 @@ const initialState: initialStateType = {
   isSuccessPost: false,
   isErrorPost: false,
   messagePost: "",
-  selectedProjectSidebar : '',
+  selectedProjectSidebar: "",
   selectedProject: "",
   addedMemberUserName: "",
   workSpaces: [],
@@ -154,8 +154,8 @@ const projectSlice = createSlice({
     setSelectedProject: (state, action) => {
       state.selectedProject = action.payload;
     },
-    setSelectedProjectSidebar : (state , action) => {
-      state.selectedProjectSidebar = action.payload
+    setSelectedProjectSidebar: (state, action) => {
+      state.selectedProjectSidebar = action.payload;
     },
     resetProject: (state) => {
       state.isLoading = false;
@@ -212,37 +212,13 @@ const projectSlice = createSlice({
         state.isSuccessPost = false;
       })
       .addCase(createProject.fulfilled, (state, action) => {
-        // const data = action.payload;
-        // const cop = [...data]
-        // const act = action.payload.members;
-        // delete act[0].role
-        // delete data[0].members
-        // const memberNewFormat ={
-        //   role : 'owner',
-        //   user : act[0]
-        // }
-        
-      //  delete cop[0].members
-        
-      // data[].members
-      // const newData = cop.map(item => item.members.)
-      // console.log(newData);
-      
-      // data.forEach(obj => delete obj.members);
-      // const newData = data.map(item =>  {
-      //   item.members = memberNewFormat
-      //   return item
-      // })
-      // console.log(data);
-      // console.log(memberNewFormat);
-        
         state.isLoadingPost = false;
         // find index workSpace
         const workSpaceId = action.meta.arg[1];
         const workSpaceIndex = state.workSpaces.findIndex((workSpace) => {
           return workSpace.workSpaceId === workSpaceId;
         });
-        
+
         // push project in workSpace
         workSpaceIndex !== -1 &&
           state.workSpaces[workSpaceIndex].projects.push(action.payload);
@@ -340,38 +316,34 @@ const projectSlice = createSlice({
         state.isSuccessPost = false;
       })
       .addCase(removeMemberThanProject.fulfilled, (state, action) => {
-        const memberName = action.payload.username ;
+        const memberName = action.payload.username;
         const data = action.payload;
         const test: any[] = [];
         state.workSpaces.forEach((workspace) =>
           workspace.projects.forEach((project) => {
-            if (project.name === state.selectedProject) {              
+            if (project.name === state.selectedProject) {
               test.push(project);
-  
-              
             }
           })
         );
-        
+
         const workspaceId = test[0].workspace;
         const projectId = test[0]._id;
         const workspaceIndex = state.workSpaces.findIndex(
           (workspace) => workspace.workSpaceId === workspaceId
         );
-        
+
         const projectIndex = state.workSpaces[
           workspaceIndex
         ].projects.findIndex((project) => project._id === projectId);
-        
-        state.workSpaces[workspaceIndex].projects[projectIndex].members = state.workSpaces[workspaceIndex].projects[projectIndex].members.filter(member => member.user.username != data.username)
-        // const st = state.workSpaces[workspaceIndex].projects[projectIndex].members.filter(member => member.user.username != data.username)
-        // const selectedProject = state.workSpaces.forEach
-        // console.log(st);
-        
-        // state.workSpaces.map(workspace => workspace.projects.find(project => project._id === data.projectId)?.members.filter(member => member.user.username != data.username))
+
+        state.workSpaces[workspaceIndex].projects[projectIndex].members =
+          state.workSpaces[workspaceIndex].projects[
+            projectIndex
+          ].members.filter((member) => member.user.username != data.username);
         state.isLoadingPost = false;
         state.isSuccessPost = true;
-        state.messagePost =  `کاربر ${memberName} حذف شد`;
+        state.messagePost = `کاربر ${memberName} حذف شد`;
       })
       .addCase(removeMemberThanProject.rejected, (state, action) => {
         state.isLoadingPost = false;
@@ -417,8 +389,13 @@ const projectSlice = createSlice({
 });
 
 export default projectSlice.reducer;
-export const { setId, resetProject, resetPostProject, setSelectedProject ,setSelectedProjectSidebar} =
-  projectSlice.actions;
+export const {
+  setId,
+  resetProject,
+  resetPostProject,
+  setSelectedProject,
+  setSelectedProjectSidebar,
+} = projectSlice.actions;
 export {
   fetchProjects,
   createProject,

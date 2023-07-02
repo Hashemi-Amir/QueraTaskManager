@@ -57,7 +57,7 @@ const ColumnView = () => {
         <div className="flex items-center justify-around">
           <input
             type="text"
-            className="w-2/3 h-3/4 focus:outline-none text-sm px-1"
+            className="w-2/3 h-3/4 focus:outline-none text-sm px-1 dark:bg-transparent"
             placeholder="نام ستون جدید"
             id="newBoardName"
           />
@@ -68,7 +68,7 @@ const ColumnView = () => {
             لغو
           </button>
           <button
-            className="bg-208D8E text-white rounded-md p-2 mr-3 focus:outline-none text-xs"
+            className="text-208D8E mr-3 focus:outline-none text-sm dark:text-[#F1B127]"
             onClick={handleNewBoard}
           >
             تایید

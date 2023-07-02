@@ -30,8 +30,6 @@ const fetchUnAssignTask = async (unAssignInfo: unAssignInfoType) => {
 
 const fetchCreateTask = async (data: createTask) => {
   const response = await AXIOS.post(API_URL, data);
-  console.log(response.data);
-    
   return response.data;
 };
 
