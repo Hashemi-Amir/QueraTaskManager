@@ -11,6 +11,7 @@ import { fetchDeleteTask } from "../../../services/app/store";
 import { Link } from "react-router-dom";
 import { getPersianDateWithOutTime } from "../../taskInformation/getPersianDate";
 import getGregorianDate from "../../taskInformation/getGregorianDate";
+import Confirm from "../../ui/Confirm";
 
 export type taskAssignsType = {
   _id: string;
@@ -71,7 +72,7 @@ const TaskCard = ({
   };
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [confirm, setConfirm] = useState(false);
   const handleCloseTaskInfo = () => {
     setIsOpen(false);
   };
@@ -97,7 +98,7 @@ const TaskCard = ({
             ref={provided.innerRef}
             className={`border w-[250px] rounded p-3 bg-white text-1E1E1E shadow-[0px_6px_8px_rgba(0,0,0,0.14)] mb-3 dark:bg-[#15202B] dark:text-[#F7F9F9] dark:border-[#F1B127] dark:shadow-[0px_5px_7px_rgba(255,255,255,0.15)]`}
             onMouseOver={() => handleCardHover(true)}
-            onMouseLeave={() => handleCardHover(false)}
+            onMouseLeave={() => !confirm && handleCardHover(false)}
             onClick={() => setIsOpen(true)}
           >
             <div className="flex justify-between items-baseline mb-2">
@@ -153,21 +154,52 @@ const TaskCard = ({
             </div>
             <div
               className={` overflow-hidden justify-between flex border-t  transition-all duration-500 
-        ${isExpanded ? "h-9 mt-5 pt-4" : "h-[0px] opacity-0 mt-0 pt-0"}
-        `}
+              ${isExpanded ? "h-9 mt-5 pt-4" : "h-[0px] opacity-0 mt-0 pt-0"}
+              `}
             >
-              <div className="hover:text-208D8E hover:scale-110 cursor-pointer">
-                <FiCheckCircle />
-              </div>
-              {isLoading ? (
-                <BsThreeDots color="208D8E" className="animate-ping" />
+              {confirm ? (
+                // <div className="flex items-center justify-around ">
+                //   <p className="text-sm px-1 dark:bg-transparent">از حذف تسک مطمئنی ؟</p>
+                //   <button
+                //     className="focus:outline-none  mr-3 text-sm"
+                //     onClick={(e) => {
+                //         e.stopPropagation()
+                //         setConfirm(false)
+                //     }}
+                //   >
+                //     لغو
+                //   </button>
+                //   <button
+                //     className="text-208D8E mr-3 focus:outline-none text-sm dark:text-[#F1B127]"
+                //     onClick={handleDeleteTask}
+                //   >
+                //     تایید
+                //   </button>
+                // </div>
+                <Confirm 
+                status="تسک" 
+                cancel={setConfirm}
+                accept={handleDeleteTask}
+                />
               ) : (
-                <div
-                  className="hover:scale-110 cursor-pointer"
-                  onClick={handleDeleteTask}
-                >
-                  <BsTrash />
-                </div>
+                <>
+                  <div className="hover:text-208D8E hover:scale-110 cursor-pointer">
+                    <FiCheckCircle />
+                  </div>
+                  {isLoading ? (
+                    <BsThreeDots color="208D8E" className="animate-ping" />
+                  ) : (
+                    <div
+                      className="hover:scale-110 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                         setConfirm(true)
+                        }}
+                    >
+                      <BsTrash />
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>

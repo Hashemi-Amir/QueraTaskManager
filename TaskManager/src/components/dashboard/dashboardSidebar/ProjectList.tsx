@@ -124,7 +124,7 @@ function ProjectList({ projects }: Projects) {
               <Button
                 value="ویرایش"
                 onClick={() => handleEdit(_id)}
-                className="!w-1/4 text-xs rounded-tr-none rounded-br-none "
+                className="!w-1/4 text-xs rounded-tr-none rounded-br-none focus:!ring-0"
               />
             </div>
           ) : (
