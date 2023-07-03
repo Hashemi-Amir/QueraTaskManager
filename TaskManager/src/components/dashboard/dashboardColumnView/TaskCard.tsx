@@ -156,13 +156,16 @@ const TaskCard = ({
         ${isExpanded ? "h-9 mt-5 pt-4" : "h-[0px] opacity-0 mt-0 pt-0"}
         `}
             >
-              <div className="hover:text-208D8E hover:scale-110">
+              <div className="hover:text-208D8E hover:scale-110 cursor-pointer">
                 <FiCheckCircle />
               </div>
               {isLoading ? (
                 <BsThreeDots color="208D8E" className="animate-ping" />
               ) : (
-                <div className="hover:scale-110" onClick={handleDeleteTask}>
+                <div
+                  className="hover:scale-110 cursor-pointer"
+                  onClick={handleDeleteTask}
+                >
                   <BsTrash />
                 </div>
               )}

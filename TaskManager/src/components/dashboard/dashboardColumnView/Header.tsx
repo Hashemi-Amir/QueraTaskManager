@@ -135,7 +135,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
               </div>
             </div>
             {isHovered && (
-              <div className="flex items-center gap-1 pr-3 absolute dark:bg-[#111a22] px-2 left-0 ">
+              <div className="flex items-center gap-1 pr-3 absolute dark:bg-[#111a22] px-2 left-0 cursor-pointer ">
                 <span
                   className="relative hover:scale-110"
                   onClick={(e) => {
