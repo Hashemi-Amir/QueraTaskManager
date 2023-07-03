@@ -37,7 +37,7 @@ const SideMore = ({
     "w-full flex items-center text-sm font-normal text-323232   mt-3 cursor-pointer dark:text-[#F7F9F9]";
 
   const [boardList, setBoardList] = useState([]);
-  const [newTaskStatus, setNewTaskStatus] = useState("برد");
+  const [newTaskStatus, setNewTaskStatus] = useState("ستون");
   const [selectedBoardId, setSelectedBoardId] = useState("");
   const [confirm, setConfirm] = useState(false);
   const { selectedProjectId, projects } = useAppSelector(
@@ -55,7 +55,7 @@ const SideMore = ({
       (board) => board
     );
     setBoardList(projectsBoards as never[]);
-    setNewTaskStatus("برد");
+    setNewTaskStatus("ستون");
   };
   const handleSelectBoardList = (boardId: string) => {
     setSelectedBoardId(boardId);
@@ -98,7 +98,7 @@ const SideMore = ({
           {medium === "تسک" &&
             createPortal(
               <Modal>
-                {newTaskStatus === "برد" ? (
+                {newTaskStatus === "ستون" ? (
                   <SelectBoard
                     data={boardList}
                     selectedHandle={handleSelectBoardList}

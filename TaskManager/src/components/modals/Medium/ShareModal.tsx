@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import {
   addMemberToProject,
   addWorkSpaceMember,
-  fetchAddedMember,
   fetchAddedMemberWorkspace,
   removeMemberThanProject,
   removeWorkSpaceMember,
@@ -44,17 +43,11 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
     isSuccessPost: isSuccessProject,
     isLoadingPost: isLoadingProject,
     workSpaces,
-    addedMemberUserName,
   } = useAppSelector((state) => state.projects);
 
   useEffect(() => {
     if (inputInvite.current?.value && isSuccessPost) {
       dispatch(fetchAddedMemberWorkspace(addedMemberWorkspace));
-      inputInvite.current.value = "";
-    }
-
-    if (inputInvite.current?.value && isSuccessProject) {
-      dispatch(fetchAddedMember(addedMemberUserName));
       inputInvite.current.value = "";
     }
 
@@ -64,7 +57,6 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
     workMembers,
     isSuccessPost,
     isSuccessProject,
-    fetchAddedMember,
     workSpaces,
   ]);
 
@@ -269,7 +261,6 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
                             <div
                               className="relative w-26 rounded-md py-1 ml-3 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer"
                               onClick={() => {
-                                // handleRemoveMember(item.user._id);
                                 setConfirm(item.user._id);
                               }}
                             >

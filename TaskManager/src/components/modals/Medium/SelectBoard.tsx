@@ -23,8 +23,7 @@ const SelectBoard = ({ data, selectedHandle, status }: SelectBoardProps) => {
     const element = event.target as HTMLInputElement;
     setBoardId(element.value);
   };
-  useEffect(() => {
-  }, [status]);
+  useEffect(() => {}, [status]);
 
   return (
     <div className="modal-box w-3/4 max-w-lgl min-w-[500px] dark:bg-[#15202B]">
@@ -101,7 +100,9 @@ const SelectBoard = ({ data, selectedHandle, status }: SelectBoardProps) => {
             <span></span>
           </div>
           <div className="font-semibold text-xl text-black text-center dark:text-[#F7F9F9]">
-            {status} ای وجود نداره ، یدونه بساز
+            {status === "پروژه"
+              ? `${status} ای وجود نداره ، یدونه بساز`
+              : `${status}ی وجود نداره ، یدونه بساز`}
           </div>
         </>
       )}

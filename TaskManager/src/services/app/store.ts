@@ -51,7 +51,6 @@ import boardReducer, {
   resetBoard
 } from "../features/boards/boardSlice";
 import userReducer, {
-  fetchAddedMember,
   fetchAddedMemberWorkspace,
   updateUserById,
   resetUser,
@@ -145,7 +144,6 @@ export {
   updateUserById,
   resetUser,
   resetAllState,
-  fetchAddedMember,
   fetchAddedMemberWorkspace,
   setSelectedProjectSidebar,
   closeAllModals,
