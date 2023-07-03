@@ -252,6 +252,23 @@ const updateComment = createAsyncThunk(
   }
 );
 
+
+// fetch select Board
+export const fetchSelectBoard = createAsyncThunk(
+  "Boards/fetchSelectBoard",
+  async (id: string, thunkAPI) => {
+    try {
+      return await boardService.fetchSelectBoard(id);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const message =
+          error?.response?.data?.message || error.message || error.toString();
+        return thunkAPI.rejectWithValue(message);
+      }
+    }
+  }
+)
+
 // delete Board
 const deleteBoard = createAsyncThunk(
   "Boards/deleteBoard",

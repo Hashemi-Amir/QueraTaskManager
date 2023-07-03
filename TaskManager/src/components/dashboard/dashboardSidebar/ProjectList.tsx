@@ -91,6 +91,9 @@ function ProjectList({ projects }: Projects) {
     dispatch(setSelectedProjectId(""));
     dispatch(setSelectedProject(""));
     dispatch(resetBoards());
+
+    console.log('test');
+    
   };
 
   const handleEdit = (id: string) => {

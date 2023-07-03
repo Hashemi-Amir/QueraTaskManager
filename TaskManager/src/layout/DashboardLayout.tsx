@@ -10,9 +10,8 @@ import AddNewTask from "../components/modals/Large/AddNewTask";
 import { useAppDispatch, useAppSelector } from "../services/app/hook";
 import SelectBoard from "../components/modals/Medium/SelectBoard";
 import {
-  fetchBoards,
   fetchCreateTask,
-  resetBoard,
+  fetchSelectBoard,
   toggleMediumModal,
 } from "../services/app/store";
 
@@ -50,8 +49,7 @@ const DashboardLayout = () => {
         (project) => project.projectId === id
       );
       if (projectIndex < 0) {
-        const res = await dispatch(fetchBoards(id || ""));
-        dispatch(resetBoard());
+        const res = await dispatch(fetchSelectBoard(id || ""));
         setDataList({
           ...dataList,
           data: res.payload,

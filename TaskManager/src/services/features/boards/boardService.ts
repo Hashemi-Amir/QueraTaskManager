@@ -86,6 +86,11 @@ const editBoardName = async (data: (string | undefined)[]) => {
   return response.data;
 };
 
+const fetchSelectBoard = async (id:string) => {
+  const response = await AXIOS.get(API_URL.board + id);
+  return await response.data;
+}
+
 const boardService = {
   createBoard,
   deleteBoard,
@@ -97,6 +102,7 @@ const boardService = {
   fetchChangeBoardPosition,
   fetchChangeTaskBoard,
   fetchChangeTaskPosition,
+  fetchSelectBoard
 };
 
 export default boardService;

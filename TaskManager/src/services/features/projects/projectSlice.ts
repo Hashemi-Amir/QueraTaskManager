@@ -301,7 +301,7 @@ const projectSlice = createSlice({
         state.isLoadingPost = false;
         state.isSuccessPost = true;
         state.addedMemberUserName = memberName;
-        state.messagePost = `کاربر ${memberName} به پروژه اضافه شد`;
+      state.messagePost = `کاربر ${memberName} به پروژه اضافه شد`;
       })
       .addCase(addMemberToProject.rejected, (state, action) => {
         state.isSuccessPost = false;

@@ -70,8 +70,11 @@ const NewSpace = () => {
     }
     if (isSuccessProject) {
       messageProject === "پروژه حذف شد " && dispatch(setSelectedProjectSidebar(''))
-      dispatch(fetchProjects(selectedWorkSpaceId));
-      dispatch(resetProject());
+      if(messageProject !== "پروژه حذف شد " && messageProject != ''){
+        dispatch(fetchProjects(selectedWorkSpaceId));
+        dispatch(resetProject());
+      }
+
       toast.dismiss();
       messageProject != "" && toast.success(`${messageProject}`, { rtl: true });
       dispatch(resetPostProject());

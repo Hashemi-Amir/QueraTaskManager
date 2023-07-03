@@ -23,7 +23,7 @@ import projectReducer, {
   editProjectName,
   addMemberToProject,
   removeMemberThanProject,
-  setSelectedProjectSidebar
+  setSelectedProjectSidebar,
 } from "../features/projects/projectSlice";
 import taskReducer, {
   resetTask,
@@ -39,6 +39,7 @@ import boardReducer, {
   fetchChangeBoardPosition,
   fetchChangeTaskPosition,
   fetchChangeTaskBoard,
+  fetchSelectBoard,
   addComment,
   deleteComment,
   updateComment,
@@ -150,5 +151,6 @@ export {
   toggleLargeModal,
   toggleMediumModal,
   toggleSmallModal,
-  toggleXSmallModal
+  toggleXSmallModal,
+  fetchSelectBoard,
 };
