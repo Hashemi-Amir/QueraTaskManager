@@ -113,7 +113,7 @@ const AddComment = ({ taskId }: AddCommentProps) => {
                 theme={theme === "dark" ? Theme.DARK : Theme.LIGHT}
                 skinTonesDisabled
                 onEmojiClick={pickEmoji}
-                emojiStyle={EmojiStyle.GOOGLE}
+                emojiStyle={EmojiStyle.NATIVE}
                 lazyLoadEmojis
               />
             </div>
