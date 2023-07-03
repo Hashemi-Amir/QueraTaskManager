@@ -156,11 +156,11 @@ const ColumnView = () => {
               </div>
             ) : isError ? (
               <div className="absolute w-full h-full flex justify-center items-center z-0 text-FB0606">{`${message}`}</div>
-            ) : !isSuccess ? (
+            ) : !isSuccess || !selectedProjectId ? (
               <div className="absolute w-full h-full flex justify-center items-center z-0">
                 پروژه‌ای را جهت نمایش اطلاعات انتخاب کنید 😃
               </div>
-            ) : !projectBoards?.length ? (
+            ) : !projectBoards?.length  ? (
               <>
                 <div className="absolute w-full h-full flex justify-center items-center z-0">
                   هیچ اطلاعاتی جهت نمایش وجود ندارد ☹️

@@ -46,7 +46,7 @@ function ProjectList({ projects }: Projects) {
 
   const handleItemClick = (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
     // Get the client's screen dimensions
-    const { clientX, clientY } = e!;
+    const { clientX, clientY } = e || { clientX: 0, clientY: 0 };
 
     // Calculate the new top position based on the client's Y-coordinate and window height
     const windowHeight = window.innerHeight;

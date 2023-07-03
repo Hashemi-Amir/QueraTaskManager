@@ -185,7 +185,7 @@ const workSpacesSlice = createSlice({
     setSelectedWorkSpaceHeader: (state, action) => {
       state.selectedWorkSpaceHeader = action.payload;
     },
-    searchedWorkSpace: (state, action) => {
+    setSearchedWorkSpace: (state, action) => {
       state.searchedWorkSpace = action.payload;
     },
   },
@@ -385,7 +385,7 @@ export const {
   setSelectedSpace,
   setSelectedWorkSpaceId,
   setSelectedWorkSpaceHeader,
-  searchedWorkSpace,
+  setSearchedWorkSpace,
 } = workSpacesSlice.actions;
 export {
   fetchAllWorkSpaces,

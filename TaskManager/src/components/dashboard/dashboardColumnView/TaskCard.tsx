@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { CiTextAlignRight } from "react-icons/ci";
-import ProfileButton from "../../ui/ProfileButton";
-import { FiCheckCircle, FiFlag } from "react-icons/fi";
+import { FiCheckCircle } from "react-icons/fi";
 import { BsThreeDots, BsTrash } from "react-icons/bs";
+import { FaCommentDots } from "react-icons/fa";
 import { Draggable } from "react-beautiful-dnd";
 import TaskInfo from "../../taskInformation/TaskInfo";
 import { createPortal } from "react-dom";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { fetchDeleteTask } from "../../../services/app/store";
-import { Link } from "react-router-dom";
 import { getPersianDateWithOutTime } from "../../taskInformation/getPersianDate";
 import getGregorianDate from "../../taskInformation/getGregorianDate";
+import { TbCalendarTime } from "react-icons/tb";
 
 export type taskAssignsType = {
   _id: string;
@@ -69,10 +69,10 @@ const TaskCard = ({
     borderColor,
     title,
   };
-
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { searchedTaskValue } = useAppSelector((state) => state.boards);
+  const colors = JSON.parse(localStorage.getItem("Colors") as string);
 
   const handleCloseTaskInfo = () => {
     setIsOpen(false);
@@ -107,20 +107,44 @@ const TaskCard = ({
             onMouseLeave={() => handleCardHover(false)}
             onClick={() => setIsOpen(true)}
           >
-            <div className="flex justify-between items-baseline mb-2">
+            <div className="flex justify-between items-baseline mb-4">
               <div className="h-4 font-medium leading-4 text-right text-534D60 text-xs dark:text-inherit">
                 {name}
               </div>
-              <Link className="w-fit" to="/personalinfo">
-                <ProfileButton
-                  className={`w-6 h-6 pt-[3px] text-[10px] ${
-                    isExpanded ? "visible" : "invisible"
-                  }
+              <div
+                dir="ltr"
+                className={`flex justify-end -space-x-3 transition-opacity delay-100 ${
+                  isExpanded ? "visible opacity-100" : "invisible opacity-0"
+                }
             `}
-                />
-              </Link>
+              >
+                {taskAssigns.length ? (
+                  <>
+                    {[...taskAssigns].slice(0, 2).map((member, index) => (
+                      <div className="w-6 h-6 text-xs" key={member._id}>
+                        <div
+                          className={`${colors[index]} w-full h-full rounded-full flex items-center justify-center pt-1 text-white border dark:border-[#0F111A]`}
+                        >
+                          {member.username.substring(0, 2)}
+                        </div>
+                      </div>
+                    ))}
+                    {taskAssigns.length > 2 && (
+                      <div className="w-6 h-6 text-xs ">
+                        <div
+                          className={`bg-323232 w-full h-full rounded-full flex items-center justify-center pt-1 text-white border-2 dark:border-[#0F111A]`}
+                        >
+                          +{taskAssigns.length - 2}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  "‌‌‌‌‌‌"
+                )}
+              </div>
             </div>
-            <div className="flex items-center justify-start mb-5 gap-1">
+            <div className="flex items-center justify-start mb-3 gap-1">
               <div className="text-[11px] text-0E0E0E leading-4 text-right dark:text-inherit truncate">
                 {description}
               </div>
@@ -128,16 +152,16 @@ const TaskCard = ({
                 <CiTextAlignRight />
               </div>
             </div>
-            <div className="flex justify-start items-center pb-5 text-[10px] gap-1">
+            <div className="flex justify-start items-center pb-6 pt-2 text-[10px] gap-1">
               <span className="text-FB0606">
-                <FiFlag />
+                <TbCalendarTime size="0.9rem" />
               </span>
-              <div className="text-343434">
+              <div className="text-343434 text-xs mt-1">
                 {deadline
                   ? getPersianDateWithOutTime(getGregorianDate(deadline))
                   : "تعریف نشده"}
               </div>
-              <span className="text-BDC0C6">
+              {/* <span className="text-BDC0C6">
                 <div className="form-control">
                   <label className="cursor-pointer label">
                     <input
@@ -147,16 +171,21 @@ const TaskCard = ({
                     />
                   </label>
                 </div>
-              </span>
-              <div className="text-BDC0C6">۲۳/۲</div>
+              </span> */}
             </div>
-            <div className="flex gap-3 dark:text-[#1E2124]">
-              <span className="bg-BFFDE3 text-[10px] p-1 rounded-l-2xl">
-                درس
-              </span>
-              <span className="bg-EEDFF6 text-[10px] p-1 rounded-l-2xl">
-                پروژه
-              </span>
+            <div className="flex justify-between dark:text-[#1E2124]">
+              <div className="flex items-center gap-3">
+                <span className="bg-BFFDE3 text-[10px] p-1 rounded-l-2xl dark:opacity-60">
+                  درس
+                </span>
+                <span className="bg-EEDFF6 text-[10px] p-1 rounded-l-2xl dark:opacity-60">
+                  پروژه
+                </span>
+              </div>
+              <div className="text-BDC0C6 flex items-center gap-1">
+                <span className="text-xs mt-[5px]">{comments.length}</span>
+                <FaCommentDots className={"dark:opacity-60"} />
+              </div>
             </div>
             <div
               className={` overflow-hidden justify-between flex border-t  transition-all duration-500 
