@@ -183,7 +183,7 @@ const Header = ({ projectName }: HeaderProps) => {
       <div className="flex items-center justify-between font-medium py-4 gap-4 border-b dark:border-b-[rgb(241,177,39,0.5)]">
         <div className="flex items-center gap-4">
           <span className="border-l-2 border-l-999999 pl-4 dark:border-l-[rgb(241,177,39,0.5)]">
-            <SearchInput placeHolder="جستجو بین تسک ها" />
+            <SearchInput placeHolder="جستجو بین تسک ها" type="header" />
           </span>
           {date ? <Date /> : <Filter filter="وضعیت" />}
         </div>

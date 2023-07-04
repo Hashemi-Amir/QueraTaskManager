@@ -3,7 +3,7 @@ import { FiLink, FiFlag, FiUserPlus, FiEye } from "react-icons/fi";
 import { BsCalendar3, BsTags, BsThreeDots } from "react-icons/bs";
 import Button from "../../ui/Button";
 import { createPortal } from "react-dom";
-import QuckCalendar from "./QuckCalendar";
+import QuckCalendar from "./QuickCalendar";
 import { toast } from "react-toastify";
 import CloseIcon from "../../ui/Close";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
@@ -24,7 +24,7 @@ const AddNewTask = ({ handleAddNewTask }: addNewTaskProps) => {
   const { isLoading } = useAppSelector((state) => state.tasks);
 
   const handleCalendar = (modalState: boolean, value?: string) => {
-    setCalendar({ ...calendar, modal: modalState, value: value! });
+    setCalendar({ ...calendar, modal: modalState, value: value ?? "" });
   };
 
   const showTime = calendar.value ? calendar.value.substring(8, 10) : "";
@@ -69,7 +69,7 @@ const AddNewTask = ({ handleAddNewTask }: addNewTaskProps) => {
       ].map((value) => (value ? value : undefined));
       handleAddNewTask && handleAddNewTask(sanitizedValues);
     } else {
-      toast.warning("جاهایی که لازمه پر کن", { rtl: true });
+      toast.warning("بخش‌های لازم را وارد کنید", { rtl: true });
     }
   };
 
@@ -97,8 +97,6 @@ const AddNewTask = ({ handleAddNewTask }: addNewTaskProps) => {
                     required
                   />
                 </div>
-
-                {/* <p>error validation</p> */}
               </div>
               <span
                 className="cursor-pointer text-[#BDBDBD] dark:text-[#F7F9F9]"

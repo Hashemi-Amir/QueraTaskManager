@@ -41,7 +41,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
   // toggle board modal and set modal position
   const handleBoardModal = (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
     // Get the client's screen dimensions
-    const { clientX, clientY } = e!;
+    const { clientX, clientY } = e || { clientX: 0, clientY: 0 };
 
     // Calculate the new top position based on the client's Y-coordinate and window height
     const windowHeight = window.innerHeight;
@@ -130,7 +130,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
           <>
             <div className="flex items-center gap-2">
               <div>{title}</div>
-              <div className="flex justify-center items-center h-4 w-3 p-1 rounded-full bg-F4F4F4 text-[10px] leading-5 dark:bg-[#f4f4f5] text-[#15202B]">
+              <div className="flex justify-center items-center h-4 w-4 rounded-full bg-F4F4F4 text-[10px] pt-1 dark:bg-[#f4f4f5] text-[#15202B]">
                 {number}
               </div>
             </div>

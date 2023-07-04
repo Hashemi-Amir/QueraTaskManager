@@ -33,7 +33,7 @@ const initialState: initialStateType = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  theme: localStorage.getItem("Theme") as string,
+  theme: localStorage.getItem("theme") as string,
   message: "",
 };
 

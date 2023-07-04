@@ -11,7 +11,7 @@ const AuthLayout = () => {
     themeStatus === "dark"
       ? htmlTag?.classList.add("dark")
       : htmlTag?.classList.remove("dark");
-  }, []);
+  }, [themeStatus]);
   // Getting the right message to show to the user based on the current route
   const signUpMessage =
     Location.pathname === "/login" || Location.pathname === "/"

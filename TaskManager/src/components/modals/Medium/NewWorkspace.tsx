@@ -53,7 +53,7 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
   const { isLoadingPost } = useAppSelector((state) => state.workSpaces);
   const user = useAppSelector((state) => state.auth.user);
   const username = user?.username.substring(0, 2);
-  const handleCheckBoxColor = (data: any): any => {
+  const handleCheckBoxColor = (data: { color: 'string'; id: number }) => {
     setSelectedColor({ ...selectedColor, color: data.color, id: data.id });
   };
 
@@ -69,7 +69,7 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
       dispatch(createWorkSpace(workspaceName));
       setWorkSpaceStepe("ساختن ورک اسپیس جدید");
     } else {
-      toast.warning("اسم ورک اسپیس یادت نره ", { rtl: true });
+      toast.warning("نام ورک اسپیس را وارد کنید", { rtl: true });
     }
   };
 
@@ -117,7 +117,11 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
         ) : (
           <div className="mt-11 w-full dark:text-[#F7F9F9]">
             {workSpaceStep === "ساختن ورک اسپیس جدید" ? (
-              <Input label="نام ورک اسپیس" type="text" id="newWork" />
+              <Input
+                label="نام ورک اسپیس"
+                type="text"
+                id="newWork"
+              />
             ) : workSpaceStep === "انتخاب رنگ ورک اسپیس" ? (
               <>
                 {/* select color */}
@@ -131,7 +135,9 @@ const NewWorkspace = ({ workSpaceStep, setWorkSpaceStepe }: workspaceProps) => {
 
                   {/* list of colors */}
                   <div className="mr-9 flex flex-col dark:text-[#F7F9F9]">
-                    <span className="text-sm text-black dark:text-inherit">رنگ ورک اسپیس</span>
+                    <span className="text-sm text-black dark:text-inherit">
+                      رنگ ورک اسپیس
+                    </span>
                     <ul className="mt-5  h-10 flex justify-start content-between flex-wrap">
                       <li
                         className="h-4 w-4 mr-3 rounded-sm hover:cursor-pointer text-black dark:text-inherit"

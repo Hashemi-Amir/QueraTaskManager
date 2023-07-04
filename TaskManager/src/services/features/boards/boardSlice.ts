@@ -65,6 +65,8 @@ export type initialStateType = {
   selectedBoardId: string;
   selectedTaskId: string;
   selectedProjectId: string;
+  searchedTaskValue: string;
+  searchedTask: [];
   projects: ProjectType[];
   isLoadingPost: boolean;
   isSuccessPost: boolean;
@@ -97,10 +99,11 @@ const initialState: initialStateType = {
   deleteCommentIsSuccess: false,
   deleteCommentIsError: false,
   deleteCommentMessage: "",
-
   selectedBoardId: "",
   selectedTaskId: "",
   selectedProjectId: "",
+  searchedTaskValue: "",
+  searchedTask: [],
   projects: [],
   isLoadingPost: false,
   isSuccessPost: false,
@@ -316,6 +319,12 @@ const boardsSlice = createSlice({
     },
     setSelectedTaskId: (state, action) => {
       state.selectedTaskId = action.payload;
+    },
+    setSearchedTask: (state, action) => {
+      state.searchedTask = action.payload;
+    },
+    setSearchedTaskValue: (state, action) => {
+      state.searchedTaskValue = action.payload;
     },
     resetBoards: (state) => {
       state.isError = false;
@@ -668,6 +677,8 @@ export {
   editBoardName,
 };
 export const {
+  setSearchedTaskValue,
+  setSearchedTask,
   changePosition,
   setSelectedProjectId,
   resetBoard,

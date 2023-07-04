@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import authServie from "./authService";
+import authService from "./authService";
 import { FieldValues } from "../../../pages/auth/Register";
 import { AxiosError } from "axios";
 
@@ -33,7 +33,7 @@ export const register = createAsyncThunk(
   "Auth/register",
   async (userData: FieldValues, thunkAPI) => {
     try {
-      return await authServie.register(userData);
+      return await authService.register(userData);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         const message =
@@ -49,7 +49,7 @@ export const login = createAsyncThunk(
   "Auth/login",
   async (userData: FieldValues, thunkAPI) => {
     try {
-      return await authServie.login(userData);
+      return await authService.login(userData);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         const message =
@@ -66,7 +66,7 @@ export const forgot = createAsyncThunk(
   "Auth/forget-password",
   async (userEmail: FieldValues, thunkAPI) => {
     try {
-      return await authServie.forgot(userEmail);
+      return await authService.forgot(userEmail);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         const message =

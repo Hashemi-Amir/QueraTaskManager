@@ -36,10 +36,10 @@ const forgot = async (userEmail: FieldValues) => {
   return response.data;
 };
 
-const authServie = {
+const authService = {
   register,
   login,
   forgot,
 };
 
-export default authServie;
+export default authService;

@@ -142,7 +142,7 @@ const SideMore = ({
           {confirm ? (
             <div className="flex items-center justify-around border p-2 rounded-md ">
               <p className="text-xs text-black dark:text-[#F7F9F9] ">
-                از حذف {sideMoreState === 'تسک' ? 'پروژه' : 'ورک اسپیس'} مطمئنی ؟
+                از حذف {sideMoreState === 'تسک' ? 'پروژه' : 'ورک اسپیس'} مطمئنید؟
               </p>
               <button
                 className="focus:outline-none mr-2 text-xs"
@@ -151,13 +151,13 @@ const SideMore = ({
                   setConfirm(false);
                 }}
               >
-                لغو
+                خیر
               </button>
               <button
                 className="text-208D8E mr-2 focus:outline-none text-xs dark:text-[#F1B127]"
                 onClick={handleDelete}
               >
-                تایید
+                بله
               </button>
             </div>
           ) : (

@@ -52,13 +52,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
     }
 
     handleMembers();
-  }, [
-    dispatch,
-    workMembers,
-    isSuccessPost,
-    isSuccessProject,
-    workSpaces,
-  ]);
+  }, [dispatch, workMembers, isSuccessPost, isSuccessProject, workSpaces]);
 
   // check has member
   const checkHasMember = (memberName: string) => {
@@ -223,9 +217,9 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
                         className="w-full mt-5 dark:text-[#F7F9F9]"
                       >
                         {confirm === item.user._id ? (
-                          <div className="flex items-center justify-between mx-2 border p-2 rounded-md text-base">
+                          <div className="flex items-center justify-between  border p-2 rounded-md text-base">
                             <p className=" text-black dark:text-[#F7F9F9] ">
-                              از حذف کاربر مطمئنی ؟
+                              از حذف کاربر مطمئن هستید؟
                             </p>
                             <div>
                               <button
@@ -235,7 +229,7 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
                                   setConfirm("");
                                 }}
                               >
-                                لغو
+                                خیر
                               </button>
                               <button
                                 className="text-208D8E mr-2 focus:outline-none  dark:text-[#F1B127]"
@@ -243,28 +237,28 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
                                   handleRemoveMember(item.user._id)
                                 }
                               >
-                                تایید
+                                بله
                               </button>
                             </div>
                           </div>
                         ) : (
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
-                              <div className="w-9 h-9 flex justify-center items-center text-white bg-F27474 rounded-full dark:bg-[#F1B127] dark:text-[#0F111A]">
+                              <div className="w-8 h-8 text-sm flex justify-center items-center text-white bg-F27474 rounded-full dark:bg-[#F1B127] dark:text-[#0F111A]">
                                 {item.user.username.substring(0, 2)}
                               </div>
-                              <span className="w-28 mr-7 px-2 py-1 rounded-md flex items-center justify-center font-normal truncate">
+                              <span className="w-fit mr-2 px-2 py-1 rounded-md flex items-center justify-center font-normal truncate">
                                 {item.user.email}
                               </span>
                             </div>
 
                             <div
-                              className="relative w-26 rounded-md py-1 ml-3 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer"
+                              className="relative w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer hover:text-red-500 hover:border-red-500 transition-all"
                               onClick={() => {
                                 setConfirm(item.user._id);
                               }}
                             >
-                              <span className="ml-4">حذف ممبر</span>
+                              <span className="ml-4 ">حذف ممبر</span>
                               <BsTrash />
                             </div>
                           </div>

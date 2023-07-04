@@ -10,7 +10,9 @@ import { fetchAllWorkSpaces, resetAllState } from "../../../services/app/store";
 import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import { useEffect } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { ProjectProps } from "../../../services/features/workSpaceList/workSpacesSlice";
+import {
+  ProjectProps,
+} from "../../../services/features/workSpaceList/workSpacesSlice";
 
 export type workSpacesType = {
   _id: string;
@@ -49,13 +51,18 @@ const SideBar = () => {
     ? workSpaces
     : [];
 
+
   return (
     <div className="flex flex-col w-1/5 h-screen py-10 pr-12 pl-4 border-l border-#AAAAAA dark:border-[rgb(241,177,39,0.5)]">
       <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-118C80 to-4AB7D8 dark:from-[#f1b127] dark:to-[#f8d893]">
         کوئرا تسک منیجر
       </h1>
       <SpaceMenu workSpaces={workSpaces || []} />
-      <SearchInput placeHolder="جستجو کنید" extraClass="my-3" />
+      <SearchInput
+        placeHolder="جستجو کنید"
+        extraClass="my-3"
+        type="sideBar"
+      />
       <NewSpace />
       {isLoading && (
         <AiOutlineLoading3Quarters
