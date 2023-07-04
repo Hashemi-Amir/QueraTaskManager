@@ -29,12 +29,12 @@ const CollapseTable = ({ tasks, color }: StatusProjects) => {
           <tbody>
             {tasks.map(({ _id, name, description, taskAssigns, deadline }) => (
               <tr key={_id} className="text-sm">
-                <th className="flex items-center mr-16 py-6 w-52">
+                <th className="flex items-center mr-16 py-6 w-72">
                   <span className={`w-4 h-4 ${color} rounded-sm ml-2 `}></span>
                   {name}
                 </th>
                 <th>
-                  <div dir="ltr" className="flex justify-end -space-x-3">
+                  <div dir="ltr" className="flex justify-end -space-x-3 w-20">
                     {taskAssigns.length ? (
                       <>
                         {[...taskAssigns].slice(0, 3).map((member, index) => (

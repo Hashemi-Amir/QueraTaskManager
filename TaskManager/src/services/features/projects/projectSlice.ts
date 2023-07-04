@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AXIOS from "../utils/AXIOS";
 import ProjectsService from "./projectService";
 import { AxiosError } from "axios";
-import { fetchAddedMember } from "../user/userSlice";
+// import { fetchAddedMember } from "../user/userSlice";
 
 export type ProjectsProps = {
   _id: string;
@@ -301,7 +301,7 @@ const projectSlice = createSlice({
         state.isLoadingPost = false;
         state.isSuccessPost = true;
         state.addedMemberUserName = memberName;
-        state.messagePost = `کاربر ${memberName} به پروژه اضافه شد`;
+      state.messagePost = `کاربر ${memberName} به پروژه اضافه شد`;
       })
       .addCase(addMemberToProject.rejected, (state, action) => {
         state.isSuccessPost = false;
@@ -351,40 +351,7 @@ const projectSlice = createSlice({
         state.messagePost = action.error;
       })
 
-      // update member project
-      .addCase(fetchAddedMember.fulfilled, (state, action) => {
-        const data = action.payload;
-        const memberObject = {
-          user: {
-            _id: data?._id,
-            username: data?.username,
-            email: data?.email,
-          },
-          role: "member",
-        };
 
-        const test: any[] = [];
-        state.workSpaces.forEach((workspace) =>
-          workspace.projects.forEach((project) => {
-            if (project.name === state.selectedProject) {
-              test.push(project);
-            }
-          })
-        );
-        const workspaceId = test[0].workspace;
-        const projectId = test[0]._id;
-
-        const workspaceIndex = state.workSpaces.findIndex(
-          (workspace) => workspace.workSpaceId === workspaceId
-        );
-        const projectIndex = state.workSpaces[
-          workspaceIndex
-        ].projects.findIndex((project) => project._id === projectId);
-
-        state.workSpaces[workspaceIndex].projects[projectIndex].members.push(
-          memberObject
-        );
-      });
   },
 });
 

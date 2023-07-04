@@ -23,7 +23,7 @@ import projectReducer, {
   editProjectName,
   addMemberToProject,
   removeMemberThanProject,
-  setSelectedProjectSidebar
+  setSelectedProjectSidebar,
 } from "../features/projects/projectSlice";
 import taskReducer, {
   resetTask,
@@ -39,6 +39,7 @@ import boardReducer, {
   fetchChangeBoardPosition,
   fetchChangeTaskPosition,
   fetchChangeTaskBoard,
+  fetchSelectBoard,
   addComment,
   deleteComment,
   updateComment,
@@ -51,7 +52,6 @@ import boardReducer, {
   resetBoard
 } from "../features/boards/boardSlice";
 import userReducer, {
-  fetchAddedMember,
   fetchAddedMemberWorkspace,
   updateUserById,
   resetUser,
@@ -145,12 +145,12 @@ export {
   updateUserById,
   resetUser,
   resetAllState,
-  fetchAddedMember,
   fetchAddedMemberWorkspace,
   setSelectedProjectSidebar,
   closeAllModals,
   toggleLargeModal,
   toggleMediumModal,
   toggleSmallModal,
-  toggleXSmallModal
+  toggleXSmallModal,
+  fetchSelectBoard,
 };

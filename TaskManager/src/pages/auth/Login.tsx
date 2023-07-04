@@ -69,7 +69,8 @@ const Login = () => {
   const onSubmit = (data: FieldValues) => {
     dispatch(
       loginUser({
-        emailOrUsername: data.email,
+        emailOrUsername:
+        typeof data.email === "string" && data.email.toLowerCase(),
         password: data.password,
       })
     );
@@ -124,7 +125,10 @@ const Login = () => {
         </div>
         <div className="text-center text-base mt-5">
           <span>ثبت نام نکرده‌ای؟</span>
-          <Link to={"/register"} className="font-bold text-208D8E mr-2  dark:text-[#F1B127]">
+          <Link
+            to={"/register"}
+            className="font-bold text-208D8E mr-2  dark:text-[#F1B127]"
+          >
             ثبت نام
           </Link>
         </div>

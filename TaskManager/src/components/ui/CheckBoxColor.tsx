@@ -11,12 +11,12 @@ const CheckBoxColor = ({
   handleCheckBoxColor,
   selectedColor,
 }: CheckBoxColorProps) => {
-  let active = data.id === selectedColor.id ? "scale-150" : "";
+  const active = data.id === selectedColor.id ? "scale-150" : "";
   return (
     <li
       className={`h-4 w-4 mr-3 list-none rounded-sm hover:cursor-pointer ${data.color} ${active}`}
       id={data.id}
-      onClick={() => handleCheckBoxColor!(data)}
+      onClick={() => handleCheckBoxColor?.(data)}
     >
       {data.id === selectedColor.id && <AiOutlineCheck />}
     </li>

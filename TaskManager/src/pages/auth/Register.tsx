@@ -54,7 +54,7 @@ const Register = () => {
     dispatch(
       registerUser({
         username: typeof username === "string" ? username.toLowerCase() : "",
-        email,
+        email: typeof email === "string" ? email.toLowerCase() : "",
         password,
       })
     );

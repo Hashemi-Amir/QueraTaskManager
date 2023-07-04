@@ -3,7 +3,7 @@ import Watchers from "../ui/Watchers";
 import CloseIcon from "../ui/Close";
 import { BsCalendar3 } from "react-icons/bs";
 import { createPortal } from "react-dom";
-import QuckCalendar from "../modals/Large/QuckCalendar";
+import QuckCalendar from "../modals/Large/QuickCalendar";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../services/app/hook";
 import { fetchUpdateTask } from "../../services/app/store";

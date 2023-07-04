@@ -41,7 +41,7 @@ const Header = ({ title, number, borderColor, id }: HeaderProps) => {
   // toggle board modal and set modal position
   const handleBoardModal = (e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
     // Get the client's screen dimensions
-    const { clientX, clientY } = e!;
+    const { clientX, clientY } = e || { clientX: 0, clientY: 0 };
 
     // Calculate the new top position based on the client's Y-coordinate and window height
     const windowHeight = window.innerHeight;

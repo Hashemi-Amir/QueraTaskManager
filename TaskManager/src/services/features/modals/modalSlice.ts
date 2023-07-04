@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
-
-
 export type initialStateType = {
     large : boolean | string,
     medium : boolean | string,

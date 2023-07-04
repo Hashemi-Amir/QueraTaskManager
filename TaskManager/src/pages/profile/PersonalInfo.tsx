@@ -47,7 +47,7 @@ const PersonalInfo = () => {
       updateUserById({
         firstname: data.firstName,
         lastname: data.lastName,
-        email: data.email,
+        email: typeof data.email === "string" && data.email.toLowerCase(),
       })
     );
   };
@@ -57,7 +57,9 @@ const PersonalInfo = () => {
 
   return (
     <div className="w-96  mr-14 dark:text-[#F7F9F9]">
-      <h3 className="text-1E1E1E text-2xl font-bold mb-9 dark:text-inherit">اطلاعات فردی</h3>
+      <h3 className="text-1E1E1E text-2xl font-bold mb-9 dark:text-inherit">
+        اطلاعات فردی
+      </h3>
       <div className="flex flex-col">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
           {/* User Prof img */}

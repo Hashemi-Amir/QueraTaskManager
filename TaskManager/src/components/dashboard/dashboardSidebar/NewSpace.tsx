@@ -13,6 +13,7 @@ import {
   resetPostWorkspace,
   resetProject,
   resetTask,
+  setSelectedProjectSidebar,
   toggleMediumModal,
 } from "../../../services/app/store";
 
@@ -68,14 +69,19 @@ const NewSpace = () => {
       dispatch(resetPostProject());
     }
     if (isSuccessProject) {
-      dispatch(fetchProjects(selectedWorkSpaceId));
-      dispatch(resetProject());
+      messageProject === "پروژه حذف شد " && dispatch(setSelectedProjectSidebar(''))
+      if(messageProject !== "پروژه حذف شد " && messageProject != ''){
+        dispatch(fetchProjects(selectedWorkSpaceId));
+        dispatch(resetProject());
+      }
+
       toast.dismiss();
       messageProject != "" && toast.success(`${messageProject}`, { rtl: true });
       dispatch(resetPostProject());
       medium !== "اشتراک تسک" && medium !== "shareModalHeader"
         ? dispatch(closeAllModals())
         : null;
+      
     }
 
     // board

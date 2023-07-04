@@ -20,7 +20,7 @@ const NewProject = ({ id }: projectProps) => {
     if (name?.trim()) {
       dispatch(createProject(formData));
     } else {
-      toast.warning("اسم پروژه یادت نره", { rtl: true });
+      toast.warning("نام پروژه را وارد کنید", { rtl: true });
     }
   };
 
