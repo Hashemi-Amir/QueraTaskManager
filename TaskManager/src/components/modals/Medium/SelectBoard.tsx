@@ -23,11 +23,10 @@ const SelectBoard = ({ data, selectedHandle, status }: SelectBoardProps) => {
     const element = event.target as HTMLInputElement;
     setBoardId(element.value);
   };
-  useEffect(() => {
-  }, [status]);
+  useEffect(() => {true}, [status]);
 
   return (
-    <div className="modal-box w-3/4 max-w-lgl min-w-[500px] dark:bg-[#15202B]">
+    <div className="modal-box w-[400px] dark:bg-[#15202B]">
       {data.length > 0 ? (
         <div className="p-5  rounded-lg">
           {/* card header */}
@@ -54,18 +53,18 @@ const SelectBoard = ({ data, selectedHandle, status }: SelectBoardProps) => {
               <select
                 dir="rtl"
                 onChange={handleSelectValue}
-                className="select select-accent w-full max-w-xs text-center dark:bg-[#1E2124] dark:border-[#F1B127] dark:text-[#F7F9F9] dark:focus:outline-none"
+                className="select select-accent w-full text-center dark:bg-[#1E2124] dark:border-[#F1B127] dark:text-[#F7F9F9] dark:focus:outline-none"
                 id="sel"
                 defaultValue={boardId}
                 ref={selectRef}
               >
                 <option disabled value={boardId}>
-                  {status} مورد نظرت رو انتخاب کن ;)
+                  {status} مورد نظر را انتخاب کنید
                 </option>
                 {data &&
                   data.map((item) => {
                     return (
-                      <option key={item._id} value={item._id}>
+                      <option key={item._id} value={item._id} >
                         {item.name}
                       </option>
                     );
@@ -101,7 +100,9 @@ const SelectBoard = ({ data, selectedHandle, status }: SelectBoardProps) => {
             <span></span>
           </div>
           <div className="font-semibold text-xl text-black text-center dark:text-[#F7F9F9]">
-            {status} ای وجود نداره ، یدونه بساز
+            {status === "پروژه"
+              ? `${status} ای وجود نداره ، یدونه بساز`
+              : `${status}ی وجود نداره ، یدونه بساز`}
           </div>
         </>
       )}

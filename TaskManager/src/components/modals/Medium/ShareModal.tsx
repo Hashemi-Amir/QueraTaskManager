@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "../../../services/app/hook";
 import {
   addMemberToProject,
   addWorkSpaceMember,
-  fetchAddedMember,
   fetchAddedMemberWorkspace,
   removeMemberThanProject,
   removeWorkSpaceMember,
@@ -30,6 +29,7 @@ type ShareModalProps = {
 
 const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
   const [members, setMembers] = useState<Members[]>([]);
+  const [confirm, setConfirm] = useState("");
   const inputInvite = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
@@ -43,7 +43,6 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
     isSuccessPost: isSuccessProject,
     isLoadingPost: isLoadingProject,
     workSpaces,
-    addedMemberUserName,
   } = useAppSelector((state) => state.projects);
 
   useEffect(() => {
@@ -52,20 +51,8 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
       inputInvite.current.value = "";
     }
 
-    if (inputInvite.current?.value && isSuccessProject) {
-      dispatch(fetchAddedMember(addedMemberUserName));
-      inputInvite.current.value = "";
-    }
-
     handleMembers();
-  }, [
-    dispatch,
-    workMembers,
-    isSuccessPost,
-    isSuccessProject,
-    fetchAddedMember,
-    workSpaces,
-  ]);
+  }, [dispatch, workMembers, isSuccessPost, isSuccessProject, workSpaces]);
 
   // check has member
   const checkHasMember = (memberName: string) => {
@@ -229,26 +216,53 @@ const ShareModal = ({ ModalTitle, id }: ShareModalProps) => {
                         key={item.user._id}
                         className="w-full mt-5 dark:text-[#F7F9F9]"
                       >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <div className="w-9 h-9 flex justify-center items-center text-white bg-F27474 rounded-full dark:bg-[#F1B127] dark:text-[#0F111A]">
-                              {item.user.username.substring(0, 2)}
+                        {confirm === item.user._id ? (
+                          <div className="flex items-center justify-between  border p-2 rounded-md text-base">
+                            <p className=" text-black dark:text-[#F7F9F9] ">
+                              از حذف کاربر مطمئن هستید؟
+                            </p>
+                            <div>
+                              <button
+                                className="focus:outline-none ml-6 "
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setConfirm("");
+                                }}
+                              >
+                                خیر
+                              </button>
+                              <button
+                                className="text-208D8E mr-2 focus:outline-none  dark:text-[#F1B127]"
+                                onClick={() =>
+                                  handleRemoveMember(item.user._id)
+                                }
+                              >
+                                بله
+                              </button>
                             </div>
-                            <span className="w-28 mr-7 px-2 py-1 rounded-md flex items-center justify-center font-normal truncate">
-                              {item.user.email}
-                            </span>
                           </div>
+                        ) : (
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                              <div className="w-8 h-8 text-sm flex justify-center items-center text-white bg-F27474 rounded-full dark:bg-[#F1B127] dark:text-[#0F111A]">
+                                {item.user.username.substring(0, 2)}
+                              </div>
+                              <span className="w-fit mr-2 px-2 py-1 rounded-md flex items-center justify-center font-normal truncate">
+                                {item.user.email}
+                              </span>
+                            </div>
 
-                          <div
-                            className="relative w-26 rounded-md py-1 ml-3 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer"
-                            onClick={() => {
-                              handleRemoveMember(item.user._id);
-                            }}
-                          >
-                            <span className="ml-4">حذف ممبر</span>
-                            <BsTrash />
+                            <div
+                              className="relative w-26 rounded-md py-1 px-2 text-sm flex items-center justify-center font-normal border border-[#E9EBF0] cursor-pointer hover:text-red-500 hover:border-red-500 transition-all"
+                              onClick={() => {
+                                setConfirm(item.user._id);
+                              }}
+                            >
+                              <span className="ml-4 ">حذف ممبر</span>
+                              <BsTrash />
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </li>
                     ))}
                 </ul>
