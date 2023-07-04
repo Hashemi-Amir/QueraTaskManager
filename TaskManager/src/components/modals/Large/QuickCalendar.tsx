@@ -8,15 +8,15 @@ import { BsCalendar4 } from "react-icons/bs";
 import "./customCalendar.css";
 import { useAppSelector } from "../../../services/app/hook";
 
-type QuckCalendarProps = {
+type QuickCalendarProps = {
   handleCalendar: (modalState: boolean, value?: any) => void;
   submitChangesHandler?: (deadline: string) => void;
 };
 
-const QuckCalendar = ({
+const QuickCalendar = ({
   handleCalendar,
   submitChangesHandler,
-}: QuckCalendarProps) => {
+}: QuickCalendarProps) => {
   const [value, setValue] = useState(null);
   const [deadline, setDeadline] = useState({
     showDeadline: "",
@@ -50,7 +50,7 @@ const QuckCalendar = ({
 
   // convert persian selected number to english
   const persianToEnglishNumber = (number: any) => {
-    return number.replace(/[\u06F0-\u06F9]/g, function (digit: any) {
+    return number.replace(/[\u06F0-\u06F9]/g, function (digit: string) {
       return String.fromCharCode(digit.charCodeAt(0) - 1728);
     });
   };
@@ -124,4 +124,4 @@ const QuckCalendar = ({
   );
 };
 
-export default QuckCalendar;
+export default QuickCalendar;
