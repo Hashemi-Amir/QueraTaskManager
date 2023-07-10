@@ -8,11 +8,11 @@ const ListView = () => {
   const { isError, message, isSuccess, isLoading, workSpaces } = useAppSelector(
     (state) => state.projects
   );
-  const {projects} = useAppSelector((state) => state.boards);
+  const { projects } = useAppSelector((state) => state.boards);
   const selectedWorkSpaceId = useAppSelector(
     (state) => state.workSpaces.selectedWorkSpaceId
   );
-  
+
   const dispatch = useAppDispatch();
 
   const colors = JSON.parse(localStorage.getItem("Colors") || "[]");
@@ -67,7 +67,9 @@ const ListView = () => {
           >
             {projects
               .find((project) => project.projectId === _id)
-              ?.projectBoards.map(({ name, tasks, _id }, index) => (
+              ?.projectBoards.slice() // Create a copy of the array
+              .sort((a, b) => a.position - b.position) // Sort the copied array
+              .map(({ name, tasks, _id }, index) => (
                 <Collapsible
                   key={_id}
                   title={name}
