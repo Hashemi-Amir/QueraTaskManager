@@ -1,7 +1,7 @@
 import axios from "axios";
 import { FieldValues } from "../../../pages/auth/Register";
 
-const API_URL = "http://localhost:3000/api/auth/";
+const API_URL = "https://quera-task-server.vercel.app/api/auth/";
 
 // Regiter user
 const register = async (userData: FieldValues) => {
