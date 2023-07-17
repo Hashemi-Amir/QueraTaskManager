@@ -11,17 +11,17 @@ Task Manager is a project management tool that helps teams and individuals stay 
 ## How to Use
 1- Sign up or log in to access the Task Manager platform.<br>
 2- Create a workspace for your team or personal projects.<br>
-3- Inside the workspace, create a new project by providing relevant details.<br>
+3- Create a new project inside the workspace by providing relevant details.<br>
 4- Once a project is created, you can further segment it by creating different boards based on stages or categories.<br>
 5- Start adding task cards to each board by specifying the necessary information such as task description, due date, and assignees.<br>
 6- Use the drag-and-drop functionality to move task cards between boards as they progress.<br>
 7- Collaborate with team members by assigning tasks and adding comments to task cards.<br>
-8- Regularly update task statuses and mark them as complete when finished.<br>
+8- Regularly update tasks, edit task information, and delete them when finished.<br>
 9- Track overall project progress using the visual representation provided by boards.<br>
-We hope that Task Manager will greatly assist you and your team in managing tasks effectively and staying organized. Happy task management!
+We hope that Task Manager will significantly assist you and your team in managing tasks effectively and staying organized. Happy task management!
 
-## [Live demo](https://quera-task-manager.onrender.com/)
-* Use a vpn, otherwise you will not be able to work with the app properly
+## [Live demo](https://quera-task-manager.vercel.app/)
+* Use a VPN, otherwise you will not be able to work with the app properly
 * If you have no time to explore every feature of the app use this account <br>
 email: `user@gmail.com` <br>
 password: `User1234@`
